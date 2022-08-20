@@ -68,6 +68,12 @@ const Player = ({ src }) => {
    }, [src]);
 
    useEffect(() => {
+      if (audio && src) {
+         setPlaying(true);
+      }
+   }, [audio]);
+
+   useEffect(() => {
       playing ? audio?.play() : audio?.pause();
    }, [playing]);
 

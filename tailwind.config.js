@@ -11,6 +11,7 @@ module.exports = {
             "hover-1": "hsla(0,0%,100%,0.1)",
          },
          textColor: {
+            primary: "rgb(20, 184, 166)",
             secondary: "hsla(0,0%,100%,0.5)",
          },
       },

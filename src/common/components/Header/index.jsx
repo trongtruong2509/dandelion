@@ -1,11 +1,12 @@
 import React from "react";
 import { MdEast, MdSearch, MdSettings, MdUpload, MdWest } from "react-icons/md";
+import { Link } from "react-router-dom";
 
 import avatar from "./../../../assets/default_avatar.png";
 
 const Header = () => {
    return (
-      <div className="w-full bg-transparent flex justify-between items-center py-4">
+      <div className="w-full bg-dark-4 flex justify-between items-center py-4">
          <div className="flex gap-8 justify-center items-center">
             <div className="flex gap-4 justify-center items-center">
                <button>
@@ -25,9 +26,12 @@ const Header = () => {
             </div>
          </div>
          <div className="flex gap-3 justify-center items-center">
-            <div className="w-10 h-10 rounded-full bg-hover-1 flex text-white justify-center items-center">
+            <Link
+               className="w-10 h-10 rounded-full bg-hover-1 flex text-white justify-center items-center cursor-pointer"
+               to="/upload"
+            >
                <MdUpload className="text-xl" />
-            </div>
+            </Link>
             <div className="w-10 h-10 rounded-full bg-hover-1 flex text-white justify-center items-center">
                <MdSettings className="text-xl" />
             </div>

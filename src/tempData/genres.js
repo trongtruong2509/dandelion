@@ -1,0 +1,16 @@
+export const genres = [
+   "Rap",
+   "Hip-Hop",
+   "Ballad",
+   "Jazz",
+   "US-UK",
+   "K-pop",
+   "V-pop",
+   "Trữ Tình & Bolero",
+   "EDM",
+   "Lofi",
+   "R&B",
+   "OST",
+   "Acoustic",
+   "Indie",
+];
