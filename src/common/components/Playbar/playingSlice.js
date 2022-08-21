@@ -13,10 +13,10 @@ export const playingSlice = createSlice({
       },
 
       play: (state) => {
-         // state.value += 1;
+         // state.value.play = true;
       },
       pause: (state) => {
-         // state.value -= 1;
+         // state.value.play = false;
       },
       remove: (state, action) => {
          state.value += action.payload;

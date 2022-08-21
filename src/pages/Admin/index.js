@@ -6,7 +6,7 @@ import PlayerQueue from "../../common/components/PlayerQueue";
 import Sidebar from "../../common/components/Sidebar";
 import UploadComponent from "./UploadComponent";
 
-const Upload = () => {
+const Admin = () => {
    return (
       <div className="flex ">
          <Sidebar />
@@ -17,4 +17,4 @@ const Upload = () => {
    );
 };
 
-export default Upload;
+export default Admin;

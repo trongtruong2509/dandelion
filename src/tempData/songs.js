@@ -1,8 +1,9 @@
 export const songs = [
    {
+      id: "1",
       title: "Sau Tất Cả",
       artists: "ERIK",
-      audio: "https://data2.chiasenhac.com/stream2/1612/4/1611927-88c14728/128/Sau%20Tat%20Ca%20-%20Erik.mp3",
+      audio: "https://firebasestorage.googleapis.com/v0/b/dandelion-6b7ff.appspot.com/o/Songs%2FSau%20Tat%20Ca%20-%20Erik.m4a?alt=media&token=26d4a1ec-03e3-408d-b688-687185cef6eb",
       time: "03:55",
       liked: false,
       thumbnail:
@@ -10,9 +11,10 @@ export const songs = [
       album: "Sau Tất Cả (EP)",
    },
    {
+      id: "2",
       title: "Phía Sau Một Cô Gái",
       artists: "SOOBIN",
-      audio: "https://data01.chiasenhac.com/downloads/1730/4/1729694-a4afea05/128/Phia%20Sau%20Mot%20Co%20Gai%20-%20Soobin%20Hoang%20Son.mp3",
+      audio: "https://firebasestorage.googleapis.com/v0/b/dandelion-6b7ff.appspot.com/o/Songs%2FPhia%20Sau%20Mot%20Co%20Gai%20-%20Soobin%20Hoang%20Son.m4a?alt=media&token=082943ed-dee7-4345-9e1e-b258f381c560",
       time: "04:30",
       liked: false,
       thumbnail:
@@ -20,9 +22,10 @@ export const songs = [
       album: "Phía Sau Một Cô Gái",
    },
    {
+      id: "3",
       title: "Anh Cứ Đi Đi",
       artists: "Hari Won",
-      audio: "https://data3.chiasenhac.com/downloads/1761/4/1760555-88dc3535/32/Anh%20Cu%20Di%20Di%20-%20Hari%20Won.m4a",
+      audio: "https://firebasestorage.googleapis.com/v0/b/dandelion-6b7ff.appspot.com/o/Songs%2FAnh%20Cu%20Di%20Di%20-%20Hari%20Won.m4a?alt=media&token=e1148dbd-5519-492e-85f0-e4ef5a0bce42",
       time: "04:11",
       liked: false,
       thumbnail:
@@ -30,9 +33,10 @@ export const songs = [
       album: "Anh Cứ Đi Đi (Single)",
    },
    {
+      id: "4",
       title: "Sau Tất Cả",
       artists: "ERIK",
-      audio: "https://data2.chiasenhac.com/stream2/1612/4/1611927-88c14728/128/Sau%20Tat%20Ca%20-%20Erik.mp3",
+      audio: "https://firebasestorage.googleapis.com/v0/b/dandelion-6b7ff.appspot.com/o/Songs%2FSau%20Tat%20Ca%20-%20Erik.m4a?alt=media&token=26d4a1ec-03e3-408d-b688-687185cef6eb",
       time: "03:55",
       liked: false,
       thumbnail:
@@ -40,9 +44,10 @@ export const songs = [
       album: "Sau Tất Cả (EP)",
    },
    {
+      id: "5",
       title: "Phía Sau Một Cô Gái",
       artists: "SOOBIN",
-      audio: "https://data01.chiasenhac.com/downloads/1730/4/1729694-a4afea05/128/Phia%20Sau%20Mot%20Co%20Gai%20-%20Soobin%20Hoang%20Son.mp3",
+      audio: "https://firebasestorage.googleapis.com/v0/b/dandelion-6b7ff.appspot.com/o/Songs%2FPhia%20Sau%20Mot%20Co%20Gai%20-%20Soobin%20Hoang%20Son.m4a?alt=media&token=082943ed-dee7-4345-9e1e-b258f381c560",
       time: "04:30",
       liked: false,
       thumbnail:
@@ -50,9 +55,10 @@ export const songs = [
       album: "Phía Sau Một Cô Gái",
    },
    {
+      id: "6",
       title: "Anh Cứ Đi Đi",
       artists: "Hari Won",
-      audio: "https://data3.chiasenhac.com/downloads/1761/4/1760555-88dc3535/32/Anh%20Cu%20Di%20Di%20-%20Hari%20Won.m4a",
+      audio: "https://firebasestorage.googleapis.com/v0/b/dandelion-6b7ff.appspot.com/o/Songs%2FAnh%20Cu%20Di%20Di%20-%20Hari%20Won.m4a?alt=media&token=e1148dbd-5519-492e-85f0-e4ef5a0bce42",
       time: "04:11",
       liked: false,
       thumbnail:
@@ -60,9 +66,10 @@ export const songs = [
       album: "Anh Cứ Đi Đi (Single)",
    },
    {
+      id: "7",
       title: "Sau Tất Cả",
       artists: "ERIK",
-      audio: "https://data2.chiasenhac.com/stream2/1612/4/1611927-88c14728/128/Sau%20Tat%20Ca%20-%20Erik.mp3",
+      audio: "https://firebasestorage.googleapis.com/v0/b/dandelion-6b7ff.appspot.com/o/Songs%2FSau%20Tat%20Ca%20-%20Erik.m4a?alt=media&token=26d4a1ec-03e3-408d-b688-687185cef6eb",
       time: "03:55",
       liked: false,
       thumbnail:
@@ -70,9 +77,10 @@ export const songs = [
       album: "Sau Tất Cả (EP)",
    },
    {
+      id: "8",
       title: "Phía Sau Một Cô Gái",
       artists: "SOOBIN",
-      audio: "https://data01.chiasenhac.com/downloads/1730/4/1729694-a4afea05/128/Phia%20Sau%20Mot%20Co%20Gai%20-%20Soobin%20Hoang%20Son.mp3",
+      audio: "https://firebasestorage.googleapis.com/v0/b/dandelion-6b7ff.appspot.com/o/Songs%2FPhia%20Sau%20Mot%20Co%20Gai%20-%20Soobin%20Hoang%20Son.m4a?alt=media&token=082943ed-dee7-4345-9e1e-b258f381c560",
       time: "04:30",
       liked: false,
       thumbnail:
@@ -80,9 +88,10 @@ export const songs = [
       album: "Phía Sau Một Cô Gái",
    },
    {
+      id: "9",
       title: "Anh Cứ Đi Đi",
       artists: "Hari Won",
-      audio: "https://data3.chiasenhac.com/downloads/1761/4/1760555-88dc3535/32/Anh%20Cu%20Di%20Di%20-%20Hari%20Won.m4a",
+      audio: "https://firebasestorage.googleapis.com/v0/b/dandelion-6b7ff.appspot.com/o/Songs%2FAnh%20Cu%20Di%20Di%20-%20Hari%20Won.m4a?alt=media&token=e1148dbd-5519-492e-85f0-e4ef5a0bce42",
       time: "04:11",
       liked: false,
       thumbnail:
@@ -90,9 +99,10 @@ export const songs = [
       album: "Anh Cứ Đi Đi (Single)",
    },
    {
+      id: "10",
       title: "Sau Tất Cả",
       artists: "ERIK",
-      audio: "https://data2.chiasenhac.com/stream2/1612/4/1611927-88c14728/128/Sau%20Tat%20Ca%20-%20Erik.mp3",
+      audio: "https://firebasestorage.googleapis.com/v0/b/dandelion-6b7ff.appspot.com/o/Songs%2FSau%20Tat%20Ca%20-%20Erik.m4a?alt=media&token=26d4a1ec-03e3-408d-b688-687185cef6eb",
       time: "03:55",
       liked: false,
       thumbnail:
@@ -100,9 +110,10 @@ export const songs = [
       album: "Sau Tất Cả (EP)",
    },
    {
+      id: "11",
       title: "Phía Sau Một Cô Gái",
       artists: "SOOBIN",
-      audio: "https://data01.chiasenhac.com/downloads/1730/4/1729694-a4afea05/128/Phia%20Sau%20Mot%20Co%20Gai%20-%20Soobin%20Hoang%20Son.mp3",
+      audio: "https://firebasestorage.googleapis.com/v0/b/dandelion-6b7ff.appspot.com/o/Songs%2FPhia%20Sau%20Mot%20Co%20Gai%20-%20Soobin%20Hoang%20Son.m4a?alt=media&token=082943ed-dee7-4345-9e1e-b258f381c560",
       time: "04:30",
       liked: false,
       thumbnail:
@@ -110,9 +121,10 @@ export const songs = [
       album: "Phía Sau Một Cô Gái",
    },
    {
+      id: "12",
       title: "Anh Cứ Đi Đi",
       artists: "Hari Won",
-      audio: "https://data3.chiasenhac.com/downloads/1761/4/1760555-88dc3535/32/Anh%20Cu%20Di%20Di%20-%20Hari%20Won.m4a",
+      audio: "https://firebasestorage.googleapis.com/v0/b/dandelion-6b7ff.appspot.com/o/Songs%2FAnh%20Cu%20Di%20Di%20-%20Hari%20Won.m4a?alt=media&token=e1148dbd-5519-492e-85f0-e4ef5a0bce42",
       time: "04:11",
       liked: false,
       thumbnail:
@@ -120,9 +132,10 @@ export const songs = [
       album: "Anh Cứ Đi Đi (Single)",
    },
    {
+      id: "13",
       title: "Phía Sau Một Cô Gái",
       artists: "SOOBIN",
-      audio: "https://data01.chiasenhac.com/downloads/1730/4/1729694-a4afea05/128/Phia%20Sau%20Mot%20Co%20Gai%20-%20Soobin%20Hoang%20Son.mp3",
+      audio: "https://firebasestorage.googleapis.com/v0/b/dandelion-6b7ff.appspot.com/o/Songs%2FPhia%20Sau%20Mot%20Co%20Gai%20-%20Soobin%20Hoang%20Son.m4a?alt=media&token=082943ed-dee7-4345-9e1e-b258f381c560",
       time: "04:30",
       liked: false,
       thumbnail:
@@ -130,9 +143,10 @@ export const songs = [
       album: "Phía Sau Một Cô Gái",
    },
    {
+      id: "14",
       title: "Anh Cứ Đi Đi",
       artists: "Hari Won",
-      audio: "https://data3.chiasenhac.com/downloads/1761/4/1760555-88dc3535/32/Anh%20Cu%20Di%20Di%20-%20Hari%20Won.m4a",
+      audio: "https://firebasestorage.googleapis.com/v0/b/dandelion-6b7ff.appspot.com/o/Songs%2FAnh%20Cu%20Di%20Di%20-%20Hari%20Won.m4a?alt=media&token=e1148dbd-5519-492e-85f0-e4ef5a0bce42",
       time: "04:11",
       liked: false,
       thumbnail:
@@ -140,9 +154,10 @@ export const songs = [
       album: "Anh Cứ Đi Đi (Single)",
    },
    {
+      id: "15",
       title: "Phía Sau Một Cô Gái",
       artists: "SOOBIN",
-      audio: "https://data01.chiasenhac.com/downloads/1730/4/1729694-a4afea05/128/Phia%20Sau%20Mot%20Co%20Gai%20-%20Soobin%20Hoang%20Son.mp3",
+      audio: "https://firebasestorage.googleapis.com/v0/b/dandelion-6b7ff.appspot.com/o/Songs%2FPhia%20Sau%20Mot%20Co%20Gai%20-%20Soobin%20Hoang%20Son.m4a?alt=media&token=082943ed-dee7-4345-9e1e-b258f381c560",
       time: "04:30",
       liked: false,
       thumbnail:
@@ -150,9 +165,10 @@ export const songs = [
       album: "Phía Sau Một Cô Gái",
    },
    {
+      id: "16",
       title: "Anh Cứ Đi Đi",
       artists: "Hari Won",
-      audio: "https://data3.chiasenhac.com/downloads/1761/4/1760555-88dc3535/32/Anh%20Cu%20Di%20Di%20-%20Hari%20Won.m4a",
+      audio: "https://firebasestorage.googleapis.com/v0/b/dandelion-6b7ff.appspot.com/o/Songs%2FAnh%20Cu%20Di%20Di%20-%20Hari%20Won.m4a?alt=media&token=e1148dbd-5519-492e-85f0-e4ef5a0bce42",
       time: "04:11",
       liked: false,
       thumbnail:
@@ -160,9 +176,10 @@ export const songs = [
       album: "Anh Cứ Đi Đi (Single)",
    },
    {
+      id: "17",
       title: "Phía Sau Một Cô Gái",
       artists: "SOOBIN",
-      audio: "https://data01.chiasenhac.com/downloads/1730/4/1729694-a4afea05/128/Phia%20Sau%20Mot%20Co%20Gai%20-%20Soobin%20Hoang%20Son.mp3",
+      audio: "https://firebasestorage.googleapis.com/v0/b/dandelion-6b7ff.appspot.com/o/Songs%2FPhia%20Sau%20Mot%20Co%20Gai%20-%20Soobin%20Hoang%20Son.m4a?alt=media&token=082943ed-dee7-4345-9e1e-b258f381c560",
       time: "04:30",
       liked: false,
       thumbnail:
@@ -170,9 +187,10 @@ export const songs = [
       album: "Phía Sau Một Cô Gái",
    },
    {
+      id: "18",
       title: "Anh Cứ Đi Đi",
       artists: "Hari Won",
-      audio: "https://data3.chiasenhac.com/downloads/1761/4/1760555-88dc3535/32/Anh%20Cu%20Di%20Di%20-%20Hari%20Won.m4a",
+      audio: "https://firebasestorage.googleapis.com/v0/b/dandelion-6b7ff.appspot.com/o/Songs%2FAnh%20Cu%20Di%20Di%20-%20Hari%20Won.m4a?alt=media&token=e1148dbd-5519-492e-85f0-e4ef5a0bce42",
       time: "04:11",
       liked: false,
       thumbnail:
@@ -180,9 +198,10 @@ export const songs = [
       album: "Anh Cứ Đi Đi (Single)",
    },
    {
+      id: "19",
       title: "Phía Sau Một Cô Gái",
       artists: "SOOBIN",
-      audio: "https://data01.chiasenhac.com/downloads/1730/4/1729694-a4afea05/128/Phia%20Sau%20Mot%20Co%20Gai%20-%20Soobin%20Hoang%20Son.mp3",
+      audio: "https://firebasestorage.googleapis.com/v0/b/dandelion-6b7ff.appspot.com/o/Songs%2FPhia%20Sau%20Mot%20Co%20Gai%20-%20Soobin%20Hoang%20Son.m4a?alt=media&token=082943ed-dee7-4345-9e1e-b258f381c560",
       time: "04:30",
       liked: false,
       thumbnail:
@@ -190,9 +209,10 @@ export const songs = [
       album: "Phía Sau Một Cô Gái",
    },
    {
+      id: "20",
       title: "Anh Cứ Đi Đi",
       artists: "Hari Won",
-      audio: "https://data3.chiasenhac.com/downloads/1761/4/1760555-88dc3535/32/Anh%20Cu%20Di%20Di%20-%20Hari%20Won.m4a",
+      audio: "https://firebasestorage.googleapis.com/v0/b/dandelion-6b7ff.appspot.com/o/Songs%2FAnh%20Cu%20Di%20Di%20-%20Hari%20Won.m4a?alt=media&token=e1148dbd-5519-492e-85f0-e4ef5a0bce42",
       time: "04:11",
       liked: false,
       thumbnail:
@@ -200,13 +220,3 @@ export const songs = [
       album: "Anh Cứ Đi Đi (Single)",
    },
 ];
-
-export const playlist = {
-   title: "Sample playlist",
-   createdBy: "Trong Truong",
-   thumbnail: "",
-   public: true,
-   preface: "This is freface for playlist",
-   shuffle: true,
-   songs: songs,
-};

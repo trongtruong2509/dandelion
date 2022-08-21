@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import { playlist } from "../../../tempData/playlistData";
+import { playlists } from "../../../tempData/playlists";
 import PlaylistItem from "./PlaylistItem";
 import { update } from "./../Playbar/playingSlice";
 import AlbumDefault from "./../../../assets/album_default.png";
@@ -16,16 +16,20 @@ const Playlist = () => {
             <div className="w-60">
                <img
                   className="w-60 h-60 rounded-md object-cover"
-                  src={playlist.thumbnail ? playlist.thumbnail : AlbumDefault}
+                  src={
+                     playlists[1].thumbnail
+                        ? playlists[1].thumbnail
+                        : AlbumDefault
+                  }
                   alt="Album Thumbnail"
                />
                <h1 className="text-2xl font-semibold text-center mt-4">
-                  {playlist.title}
+                  {playlists[1].title}
                </h1>
                <p className="text-xs mt-1 text-secondary text-center">
                   Created by{" "}
                   <span className="text-white font-semibold cursor-pointer hover:text-primary">
-                     {playlist.createdBy}
+                     {playlists[1].createdBy}
                   </span>
                </p>
             </div>
@@ -41,7 +45,7 @@ const Playlist = () => {
                </p>
             </div>
 
-            {playlist?.songs?.map((song, index) => (
+            {playlists[1]?.songs?.map((song, index) => (
                <PlaylistItem
                   info={song}
                   onClick={() => dispatch(update(song))}

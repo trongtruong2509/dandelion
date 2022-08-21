@@ -1,58 +1,22 @@
 // import { doc, setDoc } from "firebase/firestore";
 import { firestore } from "../../firebase.config";
-import { collection, doc, setDoc } from "firebase/firestore";
+import { collection, doc, getDoc, setDoc } from "firebase/firestore";
 
-export const addSongInfo = async (info) => {
-   await setDoc(doc(firestore, "Songs", `${Date.now()}`), info, {
+export const addNewDoc = async (collection, id = `${Date.now()}`, info) => {
+   await setDoc(doc(firestore, collection, id), info, {
       merge: true,
    });
 };
 
-const test = async () => {
-   const citiesRef = collection(firestore, "cities");
+export const getDocById = async (collection, id) => {
+   const ref = doc(firestore, collection, id);
 
-   console.log("test firebase api");
+   try {
+      const doc = await getDoc(ref);
 
-   await setDoc(doc(citiesRef, "SF"), {
-      name: "San Francisco",
-      state: "CA",
-      country: "USA",
-      capital: false,
-      population: 860000,
-      regions: ["west_coast", "norcal"],
-   });
-   await setDoc(doc(citiesRef, "LA"), {
-      name: "Los Angeles",
-      state: "CA",
-      country: "USA",
-      capital: false,
-      population: 3900000,
-      regions: ["west_coast", "socal"],
-   });
-   await setDoc(doc(citiesRef, "DC"), {
-      name: "Washington, D.C.",
-      state: null,
-      country: "USA",
-      capital: true,
-      population: 680000,
-      regions: ["east_coast"],
-   });
-   await setDoc(doc(citiesRef, "TOK"), {
-      name: "Tokyo",
-      state: null,
-      country: "Japan",
-      capital: true,
-      population: 9000000,
-      regions: ["kanto", "honshu"],
-   });
-   await setDoc(doc(citiesRef, "BJ"), {
-      name: "Beijing",
-      state: null,
-      country: "China",
-      capital: true,
-      population: 21500000,
-      regions: ["jingjinji", "hebei"],
-   });
+      return doc.data();
+   } catch (error) {
+      console.log(error);
+      return null;
+   }
 };
-
-// test();

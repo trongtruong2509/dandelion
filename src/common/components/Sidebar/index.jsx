@@ -27,17 +27,17 @@ const Sidebar = () => {
                   isActive ? navActive : navInactive
                }
             >
-               <MdOutlineLibraryMusic className="text-2xl" />
-               Home
+               <MdOutlineAlbum className="text-2xl" />
+               Explore
             </NavLink>
             <NavLink
-               to="/123"
+               to="/mymusic"
                className={({ isActive }) =>
                   isActive ? navActive : navInactive
                }
             >
-               <MdOutlineAlbum className="text-2xl" />
-               Explore
+               <MdOutlineLibraryMusic className="text-2xl" />
+               My Music
             </NavLink>
             <NavLink
                to="/123"

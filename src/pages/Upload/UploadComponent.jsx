@@ -9,7 +9,7 @@ import _ from "lodash";
 
 import extractAudio from "../../common/utils/extractAudio";
 import { update } from "./../../common/components/Playbar/playingSlice";
-import { addSongInfo } from "../../common/utils/firebaseApi";
+import { addNewDoc } from "../../common/utils/firebaseApi";
 
 const override = {
    display: "block",
@@ -115,7 +115,7 @@ const UploadComponent = () => {
          }
 
          setTimeout(() => {
-            addSongInfo(uploadSong);
+            addNewDoc("Songs", uploadSong);
             setLoading(false);
             clearFields();
          }, 1000);
