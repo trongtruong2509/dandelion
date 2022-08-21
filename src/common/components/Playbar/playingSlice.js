@@ -15,13 +15,13 @@ export const playingSlice = createSlice({
       play: (state) => {
          console.log("dispatch play");
          state.value.playing = true;
-         console.log(state.value.playing);
+         // console.log(state.value.playing);
       },
       pause: (state) => {
          console.log("dispatch pause");
          state.value.playing = false;
          // state.value = { info: state.value.info, playing: false };
-         console.log(state.value.playing);
+         // console.log(state.value.playing);
       },
       remove: (state, action) => {
          state.value += action.payload;

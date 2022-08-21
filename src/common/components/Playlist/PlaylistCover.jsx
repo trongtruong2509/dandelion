@@ -1,7 +1,10 @@
 import React from "react";
 import { FaPlay } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const PlaylistCover = ({ playlist }) => {
+   const navigate = useNavigate();
+
    return (
       <div className="w-56 h-auto text-white">
          <div className="group relative overflow-hidden">
@@ -14,7 +17,9 @@ const PlaylistCover = ({ playlist }) => {
                className="absolute top-0 left-0 w-56 h-56
                         hidden group-hover:flex justify-center items-center text-white bg-overlay-2"
             >
-               <button>
+               <button
+                  onClick={() => navigate(playlist.link, { replace: true })}
+               >
                   <FaPlay className="text-3xl cursor-pointer" />
                </button>
             </div>

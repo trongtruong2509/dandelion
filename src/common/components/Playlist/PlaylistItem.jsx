@@ -14,7 +14,6 @@ const PlaylistItem = ({ info }) => {
 
    const playSong = () => {
       if (current) {
-         console.log("playingSong?.playing");
          playingSong?.playing ? dispatch(pause()) : dispatch(play());
       } else {
          dispatch(update({ info, playing: true }));

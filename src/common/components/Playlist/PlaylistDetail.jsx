@@ -1,14 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import { playlists } from "../../../tempData/playlists";
 import PlaylistItem from "./PlaylistItem";
-import { update } from "./../Playbar/playingSlice";
+import { update } from "../Playbar/playingSlice";
 import AlbumDefault from "./../../../assets/album_default.png";
 
-const Playlist = () => {
-   const currentPlaying = useSelector((state) => state.playing.value);
+import { playlists } from "../../../tempData/playlists";
+import { songs } from "../../../tempData/songs";
+
+const PlaylistDetail = ({ id }) => {
+   // const currentPlaying = useSelector((state) => state.playing.value);
    const dispatch = useDispatch();
+
+   const [playlist, setPlaylist] = useState(null);
+   const [playSongs, setPlaySongs] = useState([]);
+
+   useEffect(() => {
+      const currentPlaylist = playlists.find((p) => p.id === id);
+      setPlaylist(currentPlaylist);
+
+      const playlistSongs = [];
+
+      for (const id of currentPlaylist.songs) {
+         playlistSongs.push(songs.find((s) => s.id === id));
+      }
+
+      setPlaySongs(playlistSongs);
+   }, [id]);
 
    return (
       <div className="w-full h-full bg-transparent mt-20 relative flex">
@@ -16,20 +34,16 @@ const Playlist = () => {
             <div className="w-60">
                <img
                   className="w-60 h-60 rounded-md object-cover"
-                  src={
-                     playlists[1].thumbnail
-                        ? playlists[1].thumbnail
-                        : AlbumDefault
-                  }
+                  src={playlist?.thumbnail ? playlist?.thumbnail : AlbumDefault}
                   alt="Album Thumbnail"
                />
                <h1 className="text-2xl font-semibold text-center mt-4">
-                  {playlists[1].title}
+                  {playlist?.title}
                </h1>
                <p className="text-xs mt-1 text-secondary text-center">
                   Created by{" "}
                   <span className="text-white font-semibold cursor-pointer hover:text-primary">
-                     {playlists[1].createdBy}
+                     {playlist?.createdBy}
                   </span>
                </p>
             </div>
@@ -45,7 +59,7 @@ const Playlist = () => {
                </p>
             </div>
 
-            {playlists[1]?.songs?.map((song, index) => (
+            {playSongs?.map((song, index) => (
                <PlaylistItem
                   info={song}
                   onClick={() => dispatch(update(song))}
@@ -57,4 +71,4 @@ const Playlist = () => {
    );
 };
 
-export default Playlist;
+export default PlaylistDetail;

@@ -3,13 +3,13 @@ import MainContainer from "../../common/components/MainContainer";
 import Playbar from "../../common/components/Playbar";
 import PlayerQueue from "../../common/components/PlayerQueue";
 import Sidebar from "../../common/components/Sidebar";
-import Playlist from "../../common/components/Playlist";
+import PlaylistDetail from "../../common/components/Playlist/PlaylistDetail";
 
 const Home = () => {
    return (
       <div className="flex ">
          <Sidebar />
-         <MainContainer children={<Playlist />} />
+         <MainContainer children={<PlaylistDetail />} />
          <PlayerQueue />
          <Playbar />
       </div>

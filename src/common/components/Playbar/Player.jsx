@@ -31,16 +31,6 @@ const Player = () => {
 
    const fmtMSS = (s) => new Date(1000 * s).toISOString().substr(15, 4);
 
-   // const triggerPlay = () => {
-   //    setPlaying(true);
-   //    dispatch(play());
-   // };
-
-   // const triggerPause = () => {
-   //    setPlaying(false);
-   //    dispatch(pause());
-   // };
-
    useEffect(() => {
       const _audio = new Audio(currentSong?.info?.audio);
       _audio.currentTime = 0;
@@ -70,7 +60,7 @@ const Player = () => {
 
       setAudio(_audio);
       setSlider(0);
-      setPlaying(false);
+      // setPlaying(false);
 
       return () => {
          _audio.pause();
@@ -81,11 +71,17 @@ const Player = () => {
       };
    }, [currentSong?.info]);
 
+   // start playing audio when audio src has been changed
    useEffect(() => {
       if (audio && currentSong?.info?.audio) {
          setPlaying(true);
       }
    }, [audio]);
+
+   // update current state base on redux global state
+   useEffect(() => {
+      setPlaying(currentSong?.playing);
+   }, [currentSong?.playing]);
 
    // update audio play/pause and update redux state
    useEffect(() => {
@@ -102,12 +98,7 @@ const Player = () => {
             dispatch(pause());
          }
       }
-   }, [playing]);
-
-   // update current state base on redux global state
-   useEffect(() => {
-      setPlaying(currentSong?.playing);
-   }, [currentSong?.playing]);
+   }, [playing, audio]);
 
    useEffect(() => {
       if (audio) {
