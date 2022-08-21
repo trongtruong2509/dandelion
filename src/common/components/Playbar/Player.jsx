@@ -7,11 +7,15 @@ import {
    MdOutlineReplay,
    MdOutlineShuffle,
 } from "react-icons/md";
+import { useSelector, useDispatch } from "react-redux";
 
 import { Progress } from "./Progress";
-import useAudio from "../../hooks/useAudio";
+import { play, pause, update } from "../Playbar/playingSlice";
 
-const Player = ({ src }) => {
+const Player = () => {
+   const currentSong = useSelector((state) => state.playing.value);
+   const dispatch = useDispatch();
+
    const [audio, setAudio] = useState(null);
    const [playing, setPlaying] = useState(false);
    // const [hasEnded, setHasEnded] = useState(false);
@@ -27,8 +31,18 @@ const Player = ({ src }) => {
 
    const fmtMSS = (s) => new Date(1000 * s).toISOString().substr(15, 4);
 
+   // const triggerPlay = () => {
+   //    setPlaying(true);
+   //    dispatch(play());
+   // };
+
+   // const triggerPause = () => {
+   //    setPlaying(false);
+   //    dispatch(pause());
+   // };
+
    useEffect(() => {
-      const _audio = new Audio(src);
+      const _audio = new Audio(currentSong?.info?.audio);
       _audio.currentTime = 0;
 
       const setAudioData = () => {
@@ -65,17 +79,35 @@ const Player = ({ src }) => {
          _audio.removeEventListener("volumechange", setAudioVolume);
          _audio.removeEventListener("ended", setAudioEnd);
       };
-   }, [src]);
+   }, [currentSong?.info]);
 
    useEffect(() => {
-      if (audio && src) {
+      if (audio && currentSong?.info?.audio) {
          setPlaying(true);
       }
    }, [audio]);
 
+   // update audio play/pause and update redux state
    useEffect(() => {
-      playing ? audio?.play() : audio?.pause();
+      if (playing) {
+         audio?.play();
+
+         if (!currentSong?.playing) {
+            dispatch(play());
+         }
+      } else {
+         audio?.pause();
+
+         if (currentSong?.playing) {
+            dispatch(pause());
+         }
+      }
    }, [playing]);
+
+   // update current state base on redux global state
+   useEffect(() => {
+      setPlaying(currentSong?.playing);
+   }, [currentSong?.playing]);
 
    useEffect(() => {
       if (audio) {

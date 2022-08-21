@@ -9,7 +9,9 @@ import SongOptions from "../SongOptions";
 import sample from "./../../../assets/sampleImage.png";
 
 const Playbar = () => {
-   const currentSong = useSelector((state) => state.playing.value);
+   const currentSong = useSelector((state) => state.playing.value)?.info;
+
+   // console.log(currentSong);
 
    return (
       <div
@@ -34,10 +36,9 @@ const Playbar = () => {
                      </p>
                   </div>
                </div>
-               {/* <SongInfo info={currentSong} size_medium={true} /> */}
                <SongOptions />
             </div>
-            <Player src={currentSong?.audio} />
+            <Player />
          </div>
       </div>
    );

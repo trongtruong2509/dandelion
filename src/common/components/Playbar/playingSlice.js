@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-   value: null,
+   value: { info: null, playing: false },
 };
 
 export const playingSlice = createSlice({
@@ -13,10 +13,15 @@ export const playingSlice = createSlice({
       },
 
       play: (state) => {
-         // state.value.play = true;
+         console.log("dispatch play");
+         state.value.playing = true;
+         console.log(state.value.playing);
       },
       pause: (state) => {
-         // state.value.play = false;
+         console.log("dispatch pause");
+         state.value.playing = false;
+         // state.value = { info: state.value.info, playing: false };
+         console.log(state.value.playing);
       },
       remove: (state, action) => {
          state.value += action.payload;

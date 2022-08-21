@@ -3,7 +3,7 @@ export const songs = [
       id: "1",
       title: "Sau Tất Cả",
       artists: "ERIK",
-      audio: "https://firebasestorage.googleapis.com/v0/b/dandelion-6b7ff.appspot.com/o/Songs%2FSau%20Tat%20Ca%20-%20Erik.m4a?alt=media&token=26d4a1ec-03e3-408d-b688-687185cef6eb",
+      audio: "https://vnso-zn-23-tf-mp3-320s1-zmp3.zmdcdn.me/bf0ee5ca7b8e92d0cb9f/7777401948758686887?authen=exp=1661263534~acl=/bf0ee5ca7b8e92d0cb9f/*~hmac=96885902e93fb04a237bc4c4b6d98e93&fs=MTY2MTA5MDmUsICzNDE1MHx3ZWJWNnwxMDEzNjA4OTYyfDExMy4xNzMdUngMTEzLjIzMA",
       time: "03:55",
       liked: false,
       thumbnail:
@@ -25,7 +25,7 @@ export const songs = [
       id: "3",
       title: "Anh Cứ Đi Đi",
       artists: "Hari Won",
-      audio: "https://firebasestorage.googleapis.com/v0/b/dandelion-6b7ff.appspot.com/o/Songs%2FAnh%20Cu%20Di%20Di%20-%20Hari%20Won.m4a?alt=media&token=e1148dbd-5519-492e-85f0-e4ef5a0bce42",
+      audio: "https://data3.chiasenhac.com/downloads/1761/0/1760555-88dc3535/32/Anh%20Cu%20Di%20Di%20-%20Hari%20Won.m4a",
       time: "04:11",
       liked: false,
       thumbnail:
@@ -36,7 +36,7 @@ export const songs = [
       id: "4",
       title: "Sau Tất Cả",
       artists: "ERIK",
-      audio: "https://firebasestorage.googleapis.com/v0/b/dandelion-6b7ff.appspot.com/o/Songs%2FSau%20Tat%20Ca%20-%20Erik.m4a?alt=media&token=26d4a1ec-03e3-408d-b688-687185cef6eb",
+      audio: "https://vnso-zn-23-tf-mp3-320s1-zmp3.zmdcdn.me/bf0ee5ca7b8e92d0cb9f/7777401948758686887?authen=exp=1661263534~acl=/bf0ee5ca7b8e92d0cb9f/*~hmac=96885902e93fb04a237bc4c4b6d98e93&fs=MTY2MTA5MDmUsICzNDE1MHx3ZWJWNnwxMDEzNjA4OTYyfDExMy4xNzMdUngMTEzLjIzMA",
       time: "03:55",
       liked: false,
       thumbnail:
@@ -58,7 +58,7 @@ export const songs = [
       id: "6",
       title: "Anh Cứ Đi Đi",
       artists: "Hari Won",
-      audio: "https://firebasestorage.googleapis.com/v0/b/dandelion-6b7ff.appspot.com/o/Songs%2FAnh%20Cu%20Di%20Di%20-%20Hari%20Won.m4a?alt=media&token=e1148dbd-5519-492e-85f0-e4ef5a0bce42",
+      audio: "https://data3.chiasenhac.com/downloads/1761/0/1760555-88dc3535/32/Anh%20Cu%20Di%20Di%20-%20Hari%20Won.m4a",
       time: "04:11",
       liked: false,
       thumbnail:
@@ -69,7 +69,7 @@ export const songs = [
       id: "7",
       title: "Sau Tất Cả",
       artists: "ERIK",
-      audio: "https://firebasestorage.googleapis.com/v0/b/dandelion-6b7ff.appspot.com/o/Songs%2FSau%20Tat%20Ca%20-%20Erik.m4a?alt=media&token=26d4a1ec-03e3-408d-b688-687185cef6eb",
+      audio: "https://vnso-zn-23-tf-mp3-320s1-zmp3.zmdcdn.me/bf0ee5ca7b8e92d0cb9f/7777401948758686887?authen=exp=1661263534~acl=/bf0ee5ca7b8e92d0cb9f/*~hmac=96885902e93fb04a237bc4c4b6d98e93&fs=MTY2MTA5MDmUsICzNDE1MHx3ZWJWNnwxMDEzNjA4OTYyfDExMy4xNzMdUngMTEzLjIzMA",
       time: "03:55",
       liked: false,
       thumbnail:
@@ -91,7 +91,7 @@ export const songs = [
       id: "9",
       title: "Anh Cứ Đi Đi",
       artists: "Hari Won",
-      audio: "https://firebasestorage.googleapis.com/v0/b/dandelion-6b7ff.appspot.com/o/Songs%2FAnh%20Cu%20Di%20Di%20-%20Hari%20Won.m4a?alt=media&token=e1148dbd-5519-492e-85f0-e4ef5a0bce42",
+      audio: "https://data3.chiasenhac.com/downloads/1761/0/1760555-88dc3535/32/Anh%20Cu%20Di%20Di%20-%20Hari%20Won.m4a",
       time: "04:11",
       liked: false,
       thumbnail:
@@ -102,7 +102,7 @@ export const songs = [
       id: "10",
       title: "Sau Tất Cả",
       artists: "ERIK",
-      audio: "https://firebasestorage.googleapis.com/v0/b/dandelion-6b7ff.appspot.com/o/Songs%2FSau%20Tat%20Ca%20-%20Erik.m4a?alt=media&token=26d4a1ec-03e3-408d-b688-687185cef6eb",
+      audio: "https://vnso-zn-23-tf-mp3-320s1-zmp3.zmdcdn.me/bf0ee5ca7b8e92d0cb9f/7777401948758686887?authen=exp=1661263534~acl=/bf0ee5ca7b8e92d0cb9f/*~hmac=96885902e93fb04a237bc4c4b6d98e93&fs=MTY2MTA5MDmUsICzNDE1MHx3ZWJWNnwxMDEzNjA4OTYyfDExMy4xNzMdUngMTEzLjIzMA",
       time: "03:55",
       liked: false,
       thumbnail:
@@ -124,7 +124,7 @@ export const songs = [
       id: "12",
       title: "Anh Cứ Đi Đi",
       artists: "Hari Won",
-      audio: "https://firebasestorage.googleapis.com/v0/b/dandelion-6b7ff.appspot.com/o/Songs%2FAnh%20Cu%20Di%20Di%20-%20Hari%20Won.m4a?alt=media&token=e1148dbd-5519-492e-85f0-e4ef5a0bce42",
+      audio: "https://data3.chiasenhac.com/downloads/1761/0/1760555-88dc3535/32/Anh%20Cu%20Di%20Di%20-%20Hari%20Won.m4a",
       time: "04:11",
       liked: false,
       thumbnail:
@@ -146,7 +146,7 @@ export const songs = [
       id: "14",
       title: "Anh Cứ Đi Đi",
       artists: "Hari Won",
-      audio: "https://firebasestorage.googleapis.com/v0/b/dandelion-6b7ff.appspot.com/o/Songs%2FAnh%20Cu%20Di%20Di%20-%20Hari%20Won.m4a?alt=media&token=e1148dbd-5519-492e-85f0-e4ef5a0bce42",
+      audio: "https://data3.chiasenhac.com/downloads/1761/0/1760555-88dc3535/32/Anh%20Cu%20Di%20Di%20-%20Hari%20Won.m4a",
       time: "04:11",
       liked: false,
       thumbnail:
@@ -168,7 +168,7 @@ export const songs = [
       id: "16",
       title: "Anh Cứ Đi Đi",
       artists: "Hari Won",
-      audio: "https://firebasestorage.googleapis.com/v0/b/dandelion-6b7ff.appspot.com/o/Songs%2FAnh%20Cu%20Di%20Di%20-%20Hari%20Won.m4a?alt=media&token=e1148dbd-5519-492e-85f0-e4ef5a0bce42",
+      audio: "https://data3.chiasenhac.com/downloads/1761/0/1760555-88dc3535/32/Anh%20Cu%20Di%20Di%20-%20Hari%20Won.m4a",
       time: "04:11",
       liked: false,
       thumbnail:
@@ -190,7 +190,7 @@ export const songs = [
       id: "18",
       title: "Anh Cứ Đi Đi",
       artists: "Hari Won",
-      audio: "https://firebasestorage.googleapis.com/v0/b/dandelion-6b7ff.appspot.com/o/Songs%2FAnh%20Cu%20Di%20Di%20-%20Hari%20Won.m4a?alt=media&token=e1148dbd-5519-492e-85f0-e4ef5a0bce42",
+      audio: "https://data3.chiasenhac.com/downloads/1761/0/1760555-88dc3535/32/Anh%20Cu%20Di%20Di%20-%20Hari%20Won.m4a",
       time: "04:11",
       liked: false,
       thumbnail:
@@ -212,7 +212,7 @@ export const songs = [
       id: "20",
       title: "Anh Cứ Đi Đi",
       artists: "Hari Won",
-      audio: "https://firebasestorage.googleapis.com/v0/b/dandelion-6b7ff.appspot.com/o/Songs%2FAnh%20Cu%20Di%20Di%20-%20Hari%20Won.m4a?alt=media&token=e1148dbd-5519-492e-85f0-e4ef5a0bce42",
+      audio: "https://data3.chiasenhac.com/downloads/1761/0/1760555-88dc3535/32/Anh%20Cu%20Di%20Di%20-%20Hari%20Won.m4a",
       time: "04:11",
       liked: false,
       thumbnail:
