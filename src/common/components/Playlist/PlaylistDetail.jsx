@@ -7,6 +7,7 @@ import AlbumDefault from "./../../../assets/album_default.png";
 
 import { playlists } from "../../../tempData/playlists";
 import { songs } from "../../../tempData/songs";
+import { getDocInList } from "../../utils/firebaseApi";
 
 const PlaylistDetail = ({ id }) => {
    // const currentPlaying = useSelector((state) => state.playing.value);
@@ -19,14 +20,25 @@ const PlaylistDetail = ({ id }) => {
       const currentPlaylist = playlists.find((p) => p.id === id);
       setPlaylist(currentPlaylist);
 
-      const playlistSongs = [];
-
-      for (const id of currentPlaylist.songs) {
-         playlistSongs.push(songs.find((s) => s.id === id));
-      }
-
-      setPlaySongs(playlistSongs);
+      getDocInList("Songs", currentPlaylist.songs).then((result) => {
+         setPlaySongs(result);
+      });
    }, [id]);
+
+   useEffect(() => {
+      console.log(playSongs.length);
+
+      if (playSongs.length > 0) {
+         if (playlist.shuffle) {
+            //@todo: twist the array before dispatch to currentplaying state
+            console.log(playSongs[0]);
+            dispatch(update({ info: playSongs[0], playing: true }));
+         } else {
+            console.log("elwhlrhwlrhwrlh");
+            dispatch(update({ info: playSongs[0], playing: true }));
+         }
+      }
+   }, [playSongs]);
 
    return (
       <div className="w-full h-full bg-transparent mt-20 relative flex">

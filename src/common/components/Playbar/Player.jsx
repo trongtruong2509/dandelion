@@ -10,7 +10,7 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 
 import { Progress } from "./Progress";
-import { play, pause, update } from "../Playbar/playingSlice";
+import { play, pause } from "../Playbar/playingSlice";
 
 const Player = () => {
    const currentSong = useSelector((state) => state.playing.value);
@@ -26,8 +26,8 @@ const Player = () => {
 
    const [slider, setSlider] = useState(0);
    const [drag, setDrag] = useState(0);
-   // const [shuffled, setShuffled] = useState(false);
-   // const [looped, setLooped] = useState(false);
+   const [shuffled, setShuffled] = useState(false);
+   const [looped, setLooped] = useState(false);
 
    const fmtMSS = (s) => new Date(1000 * s).toISOString().substr(15, 4);
 
@@ -50,7 +50,9 @@ const Player = () => {
 
       const setAudioVolume = () => setVolume(_audio.volume);
 
-      const setAudioEnd = () => setEnd((end += 1));
+      const setAudioEnd = () => {
+         setEnd((end += 1));
+      };
 
       // events on audio object
       _audio.addEventListener("loadeddata", setAudioData);
@@ -61,6 +63,7 @@ const Player = () => {
       setAudio(_audio);
       setSlider(0);
       // setPlaying(false);
+      _audio.pause();
 
       return () => {
          _audio.pause();
@@ -73,6 +76,7 @@ const Player = () => {
 
    // start playing audio when audio src has been changed
    useEffect(() => {
+      console.log(audio);
       if (audio && currentSong?.info?.audio) {
          setPlaying(true);
       }
@@ -108,6 +112,19 @@ const Player = () => {
       }
    }, [drag]);
 
+   useEffect(() => {
+      if (audio) {
+         setPlaying(false);
+
+         if (looped) {
+            setTimeout(() => {
+               console.log("trigger play again");
+               setPlaying(true);
+            }, 500);
+         }
+      }
+   }, [end]);
+
    return (
       <div
          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 
@@ -134,7 +151,12 @@ const Player = () => {
                <MdOutlineSkipNext className="text-3xl" />
             </button>
 
-            <button className="p-2 hover:bg-hover-1 rounded-full">
+            <button
+               className={`p-2 hover:bg-hover-1 rounded-full ${
+                  looped ? "opacity-100" : "opacity-50"
+               }`}
+               onClick={() => setLooped(!looped)}
+            >
                <MdOutlineReplay />
             </button>
          </div>

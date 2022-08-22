@@ -39,6 +39,7 @@ const extractAudio = async (src) => {
       }
 
       data["picture"] = `data:${imgFormat};base64,${window.btoa(base64String)}`;
+      console.log(metadata);
    } catch (error) {
       console.log(error);
    }

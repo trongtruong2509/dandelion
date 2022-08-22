@@ -21,7 +21,7 @@ export const playlists = [
       link: "/playlist/2",
       description: "This is freface for playlist",
       shuffle: true,
-      songs: ["14", "15", "7", "8", "4", "6"],
+      songs: ["1661179808523", "1661179987474", "1661180038030"],
    },
    {
       id: "3",

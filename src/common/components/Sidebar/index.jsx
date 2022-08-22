@@ -7,7 +7,7 @@ import {
 } from "react-icons/md";
 
 import LogoDark from "../../../assets/Dandelion_logo_dark.PNG";
-import routes from "./../../../app/routes";
+// import routes from "./../../../app/routes";
 
 const Sidebar = () => {
    const navActive = "bg-hover-1 px-6 py-2 flex gap-2 items-center opacity-100";

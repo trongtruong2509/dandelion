@@ -18,7 +18,7 @@ const SongInfo = ({ info, onClick }) => {
                >
                   {info?.title}
                </h1>
-               <p className="text-xs text-secondary">{info?.artists}</p>
+               <p className="text-xs text-secondary">{info?.artistNames}</p>
             </div>
          </div>
       </div>

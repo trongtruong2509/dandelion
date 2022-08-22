@@ -49,17 +49,23 @@ const UploadComponent = () => {
 
    useEffect(() => {
       const songInfo = {
+         id: Date.now(),
          title: asset?.title,
-         artists: asset?.artists.join(","),
+         artists: [],
+         artistNames: asset?.artists,
          audio: uploadedSrc,
          time: asset?.duration,
          thumbnail: asset?.picture,
-         ablum: asset?.album,
+         album: asset?.album,
          like: false,
+         genreIds: [],
+         releaseDate: Date.now(),
+         userId: "",
+         isOfficial: true,
       };
 
       setUploadSong(songInfo);
-   }, [asset, uploadedSrc]);
+   }, [asset, uploadedSrc, genres]);
 
    const handleListen = () => {
       dispatch(update(uploadSong));
@@ -114,8 +120,10 @@ const UploadComponent = () => {
          if (!validateInfo()) {
          }
 
+         uploadSong["genreIds"] = genres.split(",");
+
          setTimeout(() => {
-            addNewDoc("Songs", uploadSong);
+            addNewDoc("Songs", uploadSong.id.toString(), uploadSong);
             setLoading(false);
             clearFields();
          }, 1000);
@@ -195,9 +203,9 @@ const UploadComponent = () => {
                         <label className="text-secondary">Genres</label>
                         <input
                            type="text"
-                           // value={album}
+                           value={genres}
                            placeholder="Genres of audio"
-                           // onChange={(e) => setAlbum(e.target.value)}
+                           onChange={(e) => setGenres(e.target.value)}
                            className="mt-1 w-full bg-transparent border-b border-gray-500 outline-none px-2
                            placeholder:text-base placeholder:opacity-50"
                         />
