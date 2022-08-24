@@ -10,15 +10,26 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 
 import { Progress } from "./Progress";
-import { play, pause } from "../Playbar/playingSlice";
+import { play, pause, updateAndPlay } from "../Playbar/playingSlice";
+import { removeASong, updateShuffle } from "../Playlist/playlistSlice";
+import {
+   addToQueue,
+   removeASongFromQueue,
+   updateQueue,
+   addASongToPlayed,
+   removeASongFromPlayed,
+   updatePlayed,
+} from "../playQueueSlice";
 
 const Player = () => {
    const currentSong = useSelector((state) => state.playing.value);
+   const currentPlaylist = useSelector((state) => state.playlist.value);
+   const playqueue = useSelector((state) => state.playqueue.queue);
+   const played = useSelector((state) => state.playqueue.played);
    const dispatch = useDispatch();
 
    const [audio, setAudio] = useState(null);
    const [playing, setPlaying] = useState(false);
-   // const [hasEnded, setHasEnded] = useState(false);
    const [length, setLength] = useState(0);
    const [time, setTime] = useState(0);
    const [volume, setVolume] = useState(0.8);
@@ -26,7 +37,9 @@ const Player = () => {
 
    const [slider, setSlider] = useState(0);
    const [drag, setDrag] = useState(0);
-   const [shuffled, setShuffled] = useState(false);
+   // const [shuffled, setShuffled] = useState(
+   //    currentPlaylist ? currentPlaylist.shuffle : false
+   // );
    const [looped, setLooped] = useState(false);
 
    const fmtMSS = (s) => new Date(1000 * s).toISOString().substr(15, 4);
@@ -77,7 +90,7 @@ const Player = () => {
    // start playing audio when audio src has been changed
    useEffect(() => {
       console.log(audio);
-      if (audio && currentSong?.info?.audio) {
+      if (audio && currentSong?.info?.audio && currentSong?.playing) {
          setPlaying(true);
       }
    }, [audio]);
@@ -125,18 +138,61 @@ const Player = () => {
       }
    }, [end]);
 
+   const nextSong = () => {
+      if (playqueue.length > 0) {
+         dispatch(updateAndPlay(playqueue[0]));
+         dispatch(addASongToPlayed(playqueue[0]));
+         dispatch(removeASongFromQueue(playqueue[0]));
+      } else {
+         const newShuffe = [...played];
+         dispatch(updateAndPlay(newShuffe[0]));
+         dispatch(updatePlayed([newShuffe[0]]));
+
+         if (newShuffe.length === 1) {
+            dispatch(updateQueue([]));
+         } else {
+            dispatch(updateQueue(newShuffe.slice(1)));
+         }
+      }
+   };
+
+   const prevSong = () => {
+      if (played.length === 1) {
+         dispatch(updateAndPlay(null));
+
+         setTimeout(() => {
+            dispatch(updateAndPlay(played[0]));
+         }, 200);
+         // dispatch(addToQueue(played[played.length - 1]));
+         // dispatch(removeASongFromPlayed(played[played.length - 1]));
+      } else {
+         const lastPlay = played[played.length - 2];
+         dispatch(updateAndPlay(lastPlay));
+         dispatch(addToQueue(played[played.length - 1]));
+         dispatch(removeASongFromPlayed(played[played.length - 1]));
+      }
+   };
+
    return (
       <div
          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 
                flex flex-col justify-center items-center gap-2"
       >
          <div className="flex gap-2 items-center text-xl">
-            <button className="p-2 hover:bg-hover-1 rounded-full">
+            <button
+               className={`p-2 hover:bg-hover-1 rounded-full ${
+                  currentPlaylist?.shuffle ? "opacity-100" : "opacity-50"
+               }`}
+               onClick={() => {
+                  //@todo: update playlist shuffle here
+                  dispatch(updateShuffle(!currentPlaylist?.shuffle));
+               }}
+            >
                <MdOutlineShuffle />
             </button>
 
             <button className="p-1 hover:bg-hover-1 rounded-full">
-               <MdOutlineSkipPrevious className="text-3xl" />
+               <MdOutlineSkipPrevious className="text-3xl" onClick={prevSong} />
             </button>
 
             <button onClick={() => setPlaying(!playing)}>
@@ -148,7 +204,7 @@ const Player = () => {
             </button>
 
             <button className="p-1 hover:bg-hover-1 rounded-full">
-               <MdOutlineSkipNext className="text-3xl" />
+               <MdOutlineSkipNext className="text-3xl" onClick={nextSong} />
             </button>
 
             <button

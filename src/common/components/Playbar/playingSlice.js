@@ -12,6 +12,10 @@ export const playingSlice = createSlice({
          state.value = action.payload;
       },
 
+      updateAndPlay: (state, action) => {
+         state.value = { info: action.payload, playing: true };
+      },
+
       play: (state) => {
          console.log("dispatch play");
          state.value.playing = true;
@@ -30,6 +34,7 @@ export const playingSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { update, play, pause, remove } = playingSlice.actions;
+export const { update, updateAndPlay, play, pause, remove } =
+   playingSlice.actions;
 
 export default playingSlice.reducer;

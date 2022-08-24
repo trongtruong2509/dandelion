@@ -8,16 +8,24 @@ export const playlistSlice = createSlice({
    name: "playlist",
    initialState,
    reducers: {
-      update: (state) => {
-         state.value += 1;
+      updatePlaylist: (state, action) => {
+         state.value = action.payload;
       },
       remove: (state, action) => {
          state.value += action.payload;
+      },
+      removeASong: (state, action) => {
+         state.value += action.payload;
+      },
+      updateShuffle: (state, action) => {
+         console.log(action.payload);
+         state.value.shuffle = action.payload;
       },
    },
 });
 
 // Action creators are generated for each case reducer function
-export const { update, remove } = playlistSlice.actions;
+export const { updatePlaylist, remove, removeASong, updateShuffle } =
+   playlistSlice.actions;
 
 export default playlistSlice.reducer;

@@ -2,12 +2,15 @@ import React, { useEffect, useState } from "react";
 import { FaPause, FaPlay } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 
-import { play, pause, update } from "../Playbar/playingSlice";
 import SongInfo from "../SongInfo";
 import SongOptions from "./../SongOptions";
 
+import { play, pause, update } from "../Playbar/playingSlice";
+import currentUser from "../../Reducers/userSlice";
+
 const PlaylistItem = ({ info }) => {
    const playingSong = useSelector((state) => state.playing.value);
+   const currentUser = useSelector((state) => state.user.value);
    const dispatch = useDispatch();
 
    const [current, setCurrent] = useState(false);

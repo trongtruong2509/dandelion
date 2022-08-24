@@ -31,6 +31,20 @@ export const genreTemplate = {
    name: "",
 };
 
+export const userTemplate = {
+   id,
+   userName,
+   mail,
+   phone,
+   avatar,
+   uploaded: [],
+   createdPlaylist: [],
+   recentPlayed: [], //ids of playlist
+   likedSongs: [],
+   likedPlaylists: [],
+   likedAlbums: [],
+};
+
 /*
 ["1"] Lofi
 ["2"] Trữ tình & Bolero

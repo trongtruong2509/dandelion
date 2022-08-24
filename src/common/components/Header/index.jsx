@@ -1,49 +1,84 @@
 import React, { useEffect, useState } from "react";
 import { MdEast, MdSearch, MdSettings, MdUpload, MdWest } from "react-icons/md";
 import { Link } from "react-router-dom";
-// import { GoogleAuthProvider } from "firebase/auth";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { useSelector, useDispatch } from "react-redux";
 
 import defaultAvatar from "./../../../assets/default_avatar.png";
 import { addNewDoc } from "../../utils/firebaseApi";
-import { updateUserToDb } from "../../utils/user";
+import { updateUser, removeUser } from "../../Reducers/userSlice";
+import { getUserDb } from "../../utils/user";
+
+// import { updateUser, getUserLocal } from "../../utils/user";
+
+import { playlists } from "../../../tempData/playlists";
 
 const Header = () => {
-   const [userAvatar, setUserAvatar] = useState(defaultAvatar);
-   const [user, setUser] = useState(null);
+   const user = useSelector((state) => state.user.value);
+   const dispatch = useDispatch();
 
    useEffect(() => {
       if (user) {
-         setUserAvatar(user.photoURL);
-         updateUserToDb(user);
+         getUserDb(user.id)
+            .then((userInfo) => {
+               if (userInfo) {
+                  dispatch(updateUser(userInfo));
+               }
+            })
+            .catch((err) => {
+               console.log("error while get user from db");
+               console.log(err);
+            });
       } else {
-         setUserAvatar(defaultAvatar);
+         console.log("no current user loggin before");
       }
-   }, [user]);
+   }, []);
 
    const provider = new GoogleAuthProvider();
    const auth = getAuth();
 
-   const login = () => {
-      signInWithPopup(auth, provider)
-         .then((result) => {
-            // The signed-in user info.
-            const user = result.user;
-            console.log(user);
-            setUser(user);
-            // ...
-         })
-         .catch((error) => {
-            // Handle Errors here.
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            // The email of the user's account used.
-            const email = error.customData.email;
-            // The AuthCredential type that was used.
-            const credential = GoogleAuthProvider.credentialFromError(error);
-            // ...
-            console.log("errorrrrrrrrrrrr");
-         });
+   const login = async () => {
+      try {
+         const result = await signInWithPopup(auth, provider);
+         const user = result.user;
+
+         const userDb = await getUserDb(user.email);
+
+         if (userDb) {
+            dispatch(updateUser(userDb));
+         } else {
+            dispatch(
+               updateUser({
+                  id: user.email,
+                  name: user.displayName,
+                  avatar: user.photoURL,
+                  phone: user.phoneNumber,
+                  uploaded: [],
+                  likedSongs: [],
+                  createdPlaylist: [],
+                  recentPlayed: [],
+                  likedSongs: [],
+                  likedPlaylists: [],
+                  likedAlbums: [],
+               })
+            );
+         }
+      } catch (error) {
+         // Handle Errors here.
+         const errorCode = error.code;
+         const errorMessage = error.message;
+         // The email of the user's account used.
+         const email = error.customData.email;
+         // The AuthCredential type that was used.
+         const credential = GoogleAuthProvider.credentialFromError(error);
+         // ...
+         console.log("errorrrrrrrrrrrr");
+      }
+   };
+
+   const logout = () => {
+      console.log("logging out...");
+      dispatch(removeUser());
    };
 
    return (
@@ -76,9 +111,9 @@ const Header = () => {
             <div className="w-10 h-10 rounded-full bg-hover-1 flex text-white justify-center items-center">
                <MdSettings className="text-xl" />
             </div>
-            <div onClick={login}>
+            <div onClick={user ? logout : login}>
                <img
-                  src={userAvatar}
+                  src={user?.avatar ? user.avatar : defaultAvatar}
                   alt="Avatar"
                   className="w-10 h-10 rounded-full object-cover"
                />

@@ -2,23 +2,34 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import PlaylistItem from "./PlaylistItem";
-import { update } from "../Playbar/playingSlice";
 import AlbumDefault from "./../../../assets/album_default.png";
-
 import { playlists } from "../../../tempData/playlists";
 import { songs } from "../../../tempData/songs";
 import { getDocInList } from "../../utils/firebaseApi";
+import { shuffleArray } from "../../utils/common";
+
+import { update } from "../Playbar/playingSlice";
+import { updatePlaylist } from "../Playlist/playlistSlice";
+import {
+   addToQueue,
+   removeFromQueue,
+   updateQueue,
+   addASongToPlayed,
+   removeFromPlayed,
+   updatePlayed,
+} from "../playQueueSlice";
 
 const PlaylistDetail = ({ id }) => {
-   // const currentPlaying = useSelector((state) => state.playing.value);
+   const playlist = useSelector((state) => state.playlist.value);
+   const playqueue = useSelector((state) => state.playqueue.queue);
+   const played = useSelector((state) => state.playqueue.played);
    const dispatch = useDispatch();
 
-   const [playlist, setPlaylist] = useState(null);
    const [playSongs, setPlaySongs] = useState([]);
 
    useEffect(() => {
       const currentPlaylist = playlists.find((p) => p.id === id);
-      setPlaylist(currentPlaylist);
+      dispatch(updatePlaylist(currentPlaylist));
 
       getDocInList("Songs", currentPlaylist.songs).then((result) => {
          setPlaySongs(result);
@@ -26,17 +37,18 @@ const PlaylistDetail = ({ id }) => {
    }, [id]);
 
    useEffect(() => {
-      console.log(playSongs.length);
-
       if (playSongs.length > 0) {
+         let shuffledSongs = [...playSongs];
          if (playlist.shuffle) {
-            //@todo: twist the array before dispatch to currentplaying state
-            console.log(playSongs[0]);
-            dispatch(update({ info: playSongs[0], playing: true }));
-         } else {
-            console.log("elwhlrhwlrhwrlh");
-            dispatch(update({ info: playSongs[0], playing: true }));
+            shuffleArray(shuffledSongs);
          }
+
+         console.log(shuffledSongs);
+
+         //@todo: dispatch shuffledSong to playingQueue slice
+         dispatch(update({ info: shuffledSongs[0], playing: true }));
+         dispatch(addASongToPlayed(shuffledSongs[0]));
+         dispatch(updateQueue(shuffledSongs.slice(1)));
       }
    }, [playSongs]);
 
