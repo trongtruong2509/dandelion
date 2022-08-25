@@ -1,12 +1,12 @@
-import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { update } from "./playingSlice";
+import React from "react";
+import { useSelector } from "react-redux";
+// import { update } from "./playingSlice";
 
 import Player from "./Player";
-import SongInfo from "../SongInfo";
+// import SongInfo from "../SongInfo";
 import SongOptions from "../SongOptions";
 
-import sample from "./../../../assets/sampleImage.png";
+// import sample from "./../../../assets/sampleImage.png";
 
 const Playbar = () => {
    const currentSong = useSelector((state) => state.playing.value)?.info;
@@ -32,11 +32,11 @@ const Playbar = () => {
                   <div>
                      <h1 className="text-sm">{currentSong?.title}</h1>
                      <p className="text-xs text-secondary">
-                        {currentSong?.artists}
+                        {currentSong?.artistNames}
                      </p>
                   </div>
                </div>
-               <SongOptions />
+               <SongOptions songInfo={currentSong} />
             </div>
             <Player />
          </div>

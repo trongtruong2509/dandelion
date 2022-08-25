@@ -51,3 +51,28 @@ export const getDocInList = async (document, filter) => {
       return null;
    }
 };
+
+export const getLatestSongs = async () => {
+   const q = query(
+      collection(firestore, "Songs"),
+      where("releaseDate", ">=", Date.now() - 2592000000)
+   );
+
+   console.log(q);
+
+   try {
+      const querySnapshot = await getDocs(q);
+
+      let reuturnDoc = [];
+      querySnapshot.forEach((doc) => {
+         // doc.data() is never undefined for query doc snapshots
+         // console.log(doc.id, " => ", doc.data());
+         reuturnDoc.push(doc.data());
+      });
+
+      return reuturnDoc;
+   } catch (error) {
+      console.log(error);
+      return null;
+   }
+};

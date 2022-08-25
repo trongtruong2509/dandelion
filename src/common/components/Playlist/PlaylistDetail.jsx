@@ -4,25 +4,18 @@ import { useSelector, useDispatch } from "react-redux";
 import PlaylistItem from "./PlaylistItem";
 import AlbumDefault from "./../../../assets/album_default.png";
 import { playlists } from "../../../tempData/playlists";
-import { songs } from "../../../tempData/songs";
+// import { songs } from "../../../tempData/songs";
 import { getDocInList } from "../../utils/firebaseApi";
 import { shuffleArray } from "../../utils/common";
 
 import { update } from "../Playbar/playingSlice";
 import { updatePlaylist } from "../Playlist/playlistSlice";
-import {
-   addToQueue,
-   removeFromQueue,
-   updateQueue,
-   addASongToPlayed,
-   removeFromPlayed,
-   updatePlayed,
-} from "../playQueueSlice";
+import { updateQueue, addASongToPlayed } from "../playQueueSlice";
 
 const PlaylistDetail = ({ id }) => {
    const playlist = useSelector((state) => state.playlist.value);
-   const playqueue = useSelector((state) => state.playqueue.queue);
-   const played = useSelector((state) => state.playqueue.played);
+   // const playqueue = useSelector((state) => state.playqueue.queue);
+   // const played = useSelector((state) => state.playqueue.played);
    const dispatch = useDispatch();
 
    const [playSongs, setPlaySongs] = useState([]);

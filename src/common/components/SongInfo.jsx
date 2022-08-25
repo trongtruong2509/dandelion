@@ -1,6 +1,6 @@
 import React from "react";
 
-const SongInfo = ({ info, onClick }) => {
+const SongInfo = ({ info, medium = false, onClick }) => {
    return (
       <div>
          <div className="flex items-center gap-3 text-white">
@@ -8,7 +8,9 @@ const SongInfo = ({ info, onClick }) => {
                <img
                   src={info?.thumbnail}
                   alt={info?.title}
-                  className="object-cover rounded-md w-10 h-10"
+                  className={`object-cover rounded-md ${
+                     medium ? "w-[60px] h-[60px]" : "w-10 h-10"
+                  }`}
                />
             </div>
             <div>

@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { MdEast, MdSearch, MdSettings, MdUpload, MdWest } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { useSelector, useDispatch } from "react-redux";
 
 import defaultAvatar from "./../../../assets/default_avatar.png";
-import { addNewDoc } from "../../utils/firebaseApi";
+// import { addNewDoc } from "../../utils/firebaseApi";
 import { updateUser, removeUser } from "../../Reducers/userSlice";
 import { getUserDb } from "../../utils/user";
 
 // import { updateUser, getUserLocal } from "../../utils/user";
 
-import { playlists } from "../../../tempData/playlists";
+// import { playlists } from "../../../tempData/playlists";
 
 const Header = () => {
    const user = useSelector((state) => state.user.value);
@@ -57,7 +57,6 @@ const Header = () => {
                   likedSongs: [],
                   createdPlaylist: [],
                   recentPlayed: [],
-                  likedSongs: [],
                   likedPlaylists: [],
                   likedAlbums: [],
                })
@@ -65,12 +64,12 @@ const Header = () => {
          }
       } catch (error) {
          // Handle Errors here.
-         const errorCode = error.code;
-         const errorMessage = error.message;
+         // const errorCode = error.code;
+         // const errorMessage = error.message;
          // The email of the user's account used.
-         const email = error.customData.email;
+         // const email = error.customData.email;
          // The AuthCredential type that was used.
-         const credential = GoogleAuthProvider.credentialFromError(error);
+         // const credential = GoogleAuthProvider.credentialFromError(error);
          // ...
          console.log("errorrrrrrrrrrrr");
       }

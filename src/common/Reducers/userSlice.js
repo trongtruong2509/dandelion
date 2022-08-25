@@ -27,10 +27,20 @@ export const userSlice = createSlice({
             state.value.recentPlayed.splice(0, 0, action.payload);
          }
       },
+      updateLikeSong: (state, action) => {
+         console.log(action.payload);
+         const idx = current(state.value.likedSongs).indexOf(action.payload);
+         if (idx === -1) {
+            state.value.likedSongs.push(action.payload);
+         } else {
+            state.value.likedSongs.splice(idx, 1); // delete that song in likedSongs
+         }
+      },
    },
 });
 
 // Action creators are generated for each case reducer function
-export const { updateUser, removeUser } = userSlice.actions;
+export const { updateUser, removeUser, updateLikeSong, updateRecentPlay } =
+   userSlice.actions;
 
 export default userSlice.reducer;

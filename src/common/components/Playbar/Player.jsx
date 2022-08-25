@@ -11,7 +11,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { Progress } from "./Progress";
 import { play, pause, updateAndPlay } from "../Playbar/playingSlice";
-import { removeASong, updateShuffle } from "../Playlist/playlistSlice";
+import { updateShuffle } from "../Playlist/playlistSlice";
 import {
    addToQueue,
    removeASongFromQueue,
