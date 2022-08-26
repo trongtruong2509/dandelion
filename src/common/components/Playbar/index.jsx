@@ -27,9 +27,9 @@ const Playbar = () => {
                         className="object-cover rounded-md w-16 h-16"
                      />
                   </div>
-                  <div>
-                     <h1 className="text-sm">{currentSong?.title}</h1>
-                     <p className="text-xs text-secondary">
+                  <div className="max-w-[240px]">
+                     <h1 className="text-sm truncate">{currentSong?.title}</h1>
+                     <p className="text-xs text-secondary truncate">
                         {currentSong?.artistNames}
                      </p>
                   </div>

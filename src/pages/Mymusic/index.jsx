@@ -22,7 +22,7 @@ const Mymusic = () => {
    return (
       <div className="flex ">
          <Sidebar />
-         <div className="w-full h-[calc(100vh-96px)] block overflow-auto bg-dark-4 px-12 relative">
+         <div className="w-full h-[calc(100vh-96px)] block overflow-y-scroll scrollbar bg-dark-4 px-12 relative">
             <div className="sticky top-0 left-0 z-[1000] w-full">
                <Header />
             </div>

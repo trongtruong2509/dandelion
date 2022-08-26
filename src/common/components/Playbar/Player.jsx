@@ -134,6 +134,12 @@ const Player = () => {
                console.log("trigger play again");
                setPlaying(true);
             }, 500);
+         } else {
+            nextSong();
+
+            setTimeout(() => {
+               setPlaying(true);
+            }, 500);
          }
       }
    }, [end]);

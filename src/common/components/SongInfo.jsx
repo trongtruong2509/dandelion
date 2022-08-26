@@ -4,7 +4,7 @@ const SongInfo = ({ info, medium = false, onClick }) => {
    return (
       <div>
          <div className="flex items-center gap-3 text-white">
-            <div>
+            <div className="flex-shrink-0">
                <img
                   src={info?.thumbnail}
                   alt={info?.title}
@@ -13,14 +13,16 @@ const SongInfo = ({ info, medium = false, onClick }) => {
                   }`}
                />
             </div>
-            <div>
+            <div className="max-w-[220px]">
                <h1
-                  className="text-sm hover:text-primary cursor-pointer"
+                  className="text-sm hover:text-primary cursor-pointer truncate w-full"
                   onClick={onClick}
                >
                   {info?.title}
                </h1>
-               <p className="text-xs text-secondary">{info?.artistNames}</p>
+               <p className="text-xs text-secondary truncate">
+                  {info?.artistNames}
+               </p>
             </div>
          </div>
       </div>
