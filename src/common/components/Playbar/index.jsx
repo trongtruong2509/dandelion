@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 // import { update } from "./playingSlice";
 
@@ -10,8 +10,6 @@ import SongOptions from "../SongOptions";
 
 const Playbar = () => {
    const currentSong = useSelector((state) => state.playing.value)?.info;
-
-   // console.log(currentSong);
 
    return (
       <div

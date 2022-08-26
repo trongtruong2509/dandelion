@@ -68,7 +68,7 @@ const PlaylistItem = ({ info, simple = false }) => {
                </p>
             )}
             <div className="absolute top-1/2 -translate-y-1/2 right-3 hidden group-hover:block">
-               <SongOptions songInfo={info} simple />
+               <SongOptions songInfo={info} simple={simple} />
             </div>
          </div>
       </div>

@@ -1,4 +1,5 @@
 import { addNewDoc, getDocById } from "./firebaseApi";
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 
 // const updateUserToDb = async (user) => {
 //    // use user.email as id because at the moment we use email for document id!
@@ -44,8 +45,25 @@ export const getUserLocal = () => {
    return JSON.parse(localStorage.getItem("currentUser"));
 };
 
-// export const updateUser = async (user) => {
-//    const userInfo = await updateUserToDb(user);
-//    console.log(userInfo);
-//    updateUserLocal(userInfo);
-// };
+export const loginGoogle = async () => {
+   const provider = new GoogleAuthProvider();
+   const auth = getAuth();
+
+   try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result?.user;
+
+      return user;
+   } catch (error) {
+      // Handle Errors here.
+      // const errorCode = error.code;
+      // const errorMessage = error.message;
+      // The email of the user's account used.
+      // const email = error.customData.email;
+      // The AuthCredential type that was used.
+      // const credential = GoogleAuthProvider.credentialFromError(error);
+      // ...
+      console.log("errorrrrrrrrrrrr");
+      return null;
+   }
+};
