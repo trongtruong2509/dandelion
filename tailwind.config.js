@@ -9,6 +9,8 @@ module.exports = {
             "dark-2": "#242528",
             "dark-1": "#4C4E54",
             "hover-1": "hsla(0,0%,100%,0.1)",
+            "hover-2": "hsla(0,0%,100%,0.2)",
+            "hover-3": "hsla(0,0%,100%,0.3)",
             "overlay-1": "rgba(0,0,0,0.1)",
             "overlay-2": "rgba(0,0,0,0.3)",
             "overlay-3": "rgba(0,0,0,0.5)",
@@ -18,6 +20,7 @@ module.exports = {
          textColor: {
             primary: "rgb(20, 184, 166)",
             secondary: "hsla(0,0%,100%,0.5)",
+            navigation: "#a0a0a0",
          },
       },
    },

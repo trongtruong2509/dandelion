@@ -37,9 +37,7 @@ const Player = () => {
 
    const [slider, setSlider] = useState(0);
    const [drag, setDrag] = useState(0);
-   // const [shuffled, setShuffled] = useState(
-   //    currentPlaylist ? currentPlaylist.shuffle : false
-   // );
+
    const [looped, setLooped] = useState(false);
 
    const fmtMSS = (s) => new Date(1000 * s).toISOString().substr(15, 4);
@@ -109,6 +107,7 @@ const Player = () => {
             dispatch(play());
          }
       } else {
+         console.log("vo day chac luon");
          audio?.pause();
 
          if (currentSong?.playing) {

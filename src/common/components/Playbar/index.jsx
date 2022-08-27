@@ -3,10 +3,8 @@ import { useSelector } from "react-redux";
 // import { update } from "./playingSlice";
 
 import Player from "./Player";
-// import SongInfo from "../SongInfo";
 import SongOptions from "../SongOptions";
-
-// import sample from "./../../../assets/sampleImage.png";
+import PlaybarOptions from "./PlaybarOptions";
 
 const Playbar = () => {
    const currentSong = useSelector((state) => state.playing.value)?.info;
@@ -14,8 +12,8 @@ const Playbar = () => {
    return (
       <div
          className="bg-dark-3 py-3 px-5  
-                        w-full h-[96px] fixed bottom-0 left-0
-                        text-white"
+                        w-full h-[90px]
+                        text-white z-999"
       >
          <div className="relative flex justify-between items-center h-full drop-shadow-md">
             <div className="flex gap-3 justify-center items-center">
@@ -37,6 +35,7 @@ const Playbar = () => {
                <SongOptions songInfo={currentSong} />
             </div>
             <Player />
+            <PlaybarOptions />
          </div>
       </div>
    );

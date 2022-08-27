@@ -1,10 +1,12 @@
 import React, { forwardRef } from "react";
+import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { MdFavorite, MdFavoriteBorder, MdMoreHoriz } from "react-icons/md";
 import { useSelector, useDispatch } from "react-redux";
 // import Tippy from "@tippyjs/react";
 
 import { updateLikeSong, updateUser } from "../Reducers/userSlice";
 import { getUserDb, loginGoogle } from "../utils/user";
+import SongMenu from "./Popers/SongMenu";
 
 const SongOptions = ({ songInfo, simple = false }) => {
    const currentUser = useSelector((state) => state.user.value);
@@ -55,12 +57,14 @@ const SongOptions = ({ songInfo, simple = false }) => {
             </div>
          )}
 
-         <div
-            className="cursor-pointer flex items-center justify-center
-                  p-2 rounded-full hover:bg-hover-1 w-10 h-10"
-         >
-            <MdMoreHoriz className="text-xl" />
-         </div>
+         <SongMenu info={songInfo}>
+            <div
+               className="cursor-pointer flex items-center justify-center
+                     p-2 rounded-full hover:bg-hover-1 w-10 h-10"
+            >
+               <HiOutlineDotsHorizontal className="text-xl" />
+            </div>
+         </SongMenu>
       </div>
    );
 };

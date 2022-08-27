@@ -26,6 +26,9 @@ export const userSlice = createSlice({
          } else {
             state.value.recentPlayed.splice(0, 0, action.payload);
          }
+
+         updateUserLocal(current(state.value));
+         updateUserDb(current(state.value));
       },
       updateLikeSong: (state, action) => {
          console.log(action.payload);
@@ -35,6 +38,9 @@ export const userSlice = createSlice({
          } else {
             state.value.likedSongs.splice(idx, 1); // delete that song in likedSongs
          }
+
+         updateUserLocal(current(state.value));
+         updateUserDb(current(state.value));
       },
    },
 });
