@@ -10,7 +10,7 @@ import { shuffleArray } from "../../utils/common";
 
 import { update } from "../Playbar/playingSlice";
 import { updatePlaylist } from "../Playlist/playlistSlice";
-import { updateQueue, addASongToPlayed } from "../playQueueSlice";
+import { updateQueue, addASongToPlayed } from "../../Reducers/playQueueSlice";
 
 const PlaylistDetail = ({ id }) => {
    const playlist = useSelector((state) => state.playlist.value);

@@ -23,6 +23,7 @@ const PlayerQueue = () => {
                <HiOutlineDotsHorizontal />
             </button>
          </header>
+         <main className="w-full"></main>
       </div>
    );
 };

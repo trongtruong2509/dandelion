@@ -19,7 +19,7 @@ import {
    addASongToPlayed,
    removeASongFromPlayed,
    updatePlayed,
-} from "../playQueueSlice";
+} from "../../Reducers/playQueueSlice";
 
 const Player = () => {
    const currentSong = useSelector((state) => state.playing.value);
@@ -39,6 +39,7 @@ const Player = () => {
    const [drag, setDrag] = useState(0);
 
    const [looped, setLooped] = useState(false);
+   const [firstTime, setFirstTime] = useState(true);
 
    const fmtMSS = (s) => new Date(1000 * s).toISOString().substr(15, 4);
 
@@ -88,6 +89,8 @@ const Player = () => {
    // start playing audio when audio src has been changed
    useEffect(() => {
       console.log(audio);
+      console.log(currentSong?.info?.audio);
+      console.log(currentSong?.playing);
       if (audio && currentSong?.info?.audio && currentSong?.playing) {
          setPlaying(true);
       }
@@ -100,18 +103,22 @@ const Player = () => {
 
    // update audio play/pause and update redux state
    useEffect(() => {
-      if (playing) {
-         audio?.play();
-
-         if (!currentSong?.playing) {
-            dispatch(play());
-         }
+      if (firstTime) {
+         setFirstTime(false);
       } else {
-         console.log("vo day chac luon");
-         audio?.pause();
+         if (playing) {
+            audio?.play();
 
-         if (currentSong?.playing) {
-            dispatch(pause());
+            if (!currentSong?.playing) {
+               dispatch(play());
+            }
+         } else {
+            console.log("vo day chac luon");
+            audio?.pause();
+
+            if (currentSong?.playing) {
+               dispatch(pause());
+            }
          }
       }
    }, [playing, audio]);
