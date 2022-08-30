@@ -44,7 +44,7 @@ function Layout() {
             >
                <Sidebar />
                <div className="w-full block overflow-auto bg-dark-4 px-12 relative overflow-y-scroll scrollbar">
-                  <div className="sticky top-0 left-0 z-[1000] w-full">
+                  <div className="sticky top-0 left-0 z-40 w-full">
                      <Header />
                   </div>
                   <Outlet />
