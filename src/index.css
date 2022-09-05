@@ -40,4 +40,12 @@ code {
   .scrollbar::-webkit-scrollbar-thumb:hover {
     background: rgba(255,255,255,0.5);
   }
+
+  .scrollbar::-webkit-scrollbar-track-piece:start {
+    background: transparent;
+  }
+
+  .scrollbar::-webkit-scrollbar-track-piece:end {
+    background: transparent;
+  }
 }

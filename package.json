@@ -4,6 +4,7 @@
   "private": true,
   "proxy": "https://data.chiasenhac.com/down2",
   "dependencies": {
+    "@peculiar/webcrypto": "^1.4.0",
     "@reduxjs/toolkit": "^1.8.4",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.3.0",
@@ -11,6 +12,8 @@
     "@tippyjs/react": "^4.2.6",
     "axios": "^0.27.2",
     "buffer": "^6.0.3",
+    "crypto-browserify": "^3.12.0",
+    "crypto-js": "^4.1.1",
     "firebase": "^9.9.3",
     "jsmediatags": "^3.9.7",
     "lodash.isempty": "^4.4.0",
@@ -25,10 +28,12 @@
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
     "react-spinners": "^0.13.4",
+    "react-tabs": "^5.1.0",
     "redux-thunk": "^2.4.1",
     "stream-browserify": "^3.0.0",
     "swiper": "^8.3.2",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "zingmp3-api": "^1.0.10"
   },
   "scripts": {
     "start": "react-app-rewired start",

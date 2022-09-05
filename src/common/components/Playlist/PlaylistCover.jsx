@@ -41,7 +41,7 @@ const PlaylistCover = ({ playlist, sm = false }) => {
          </div>
          <div className="w-full text-sm">
             <div className="flex gap-2 items-center justify-between w-full mt-2">
-               <h1 className="">{playlist?.title}</h1>
+               <h1 className="w-40 truncate">{playlist?.title}</h1>
                {!sm && (
                   <p className="text-secondary">
                      {playlist?.songs.length} tracks

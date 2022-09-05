@@ -4,6 +4,7 @@ import Explore from "../pages/Explore";
 import Upload from "../pages/Upload";
 import Mymusic from "../pages/Mymusic";
 import Playlist from "../pages/Playlist";
+import Artist from "../pages/Artist";
 
 const routes = [
    { path: "/", component: Home },
@@ -12,6 +13,7 @@ const routes = [
    { path: "/upload", component: Upload },
    { path: "/mymusic", component: Mymusic },
    { path: "/playlist/:id", component: Playlist },
+   { path: "/artist/:id", component: Artist },
 ];
 
 export default routes;

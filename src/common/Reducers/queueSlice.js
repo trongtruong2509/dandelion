@@ -1,7 +1,8 @@
 import { createSlice, current } from "@reduxjs/toolkit";
 
 const initialState = {
-   value: false,
+   animate: false,
+   hidden: TextTrackCueList,
 };
 
 export const queueSlice = createSlice({
@@ -9,12 +10,15 @@ export const queueSlice = createSlice({
    initialState,
    reducers: {
       toggleQueuebar: (state, action) => {
-         state.value = action.payload;
+         state.animate = action.payload;
+      },
+      toggleQueuebarHidden: (state, action) => {
+         state.hidden = action.payload;
       },
    },
 });
 
 // Action creators are generated for each case reducer function
-export const { toggleQueuebar } = queueSlice.actions;
+export const { toggleQueuebar, toggleQueuebarHidden } = queueSlice.actions;
 
 export default queueSlice.reducer;

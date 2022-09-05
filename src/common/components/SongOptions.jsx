@@ -8,7 +8,7 @@ import { updateLikeSong, updateUser } from "../Reducers/userSlice";
 import { getUserDb, loginGoogle } from "../utils/user";
 import SongMenu from "./Popers/SongMenu";
 
-const SongOptions = ({ songInfo, simple = false }) => {
+const SongOptions = ({ songInfo, simple = false, liked = true }) => {
    const currentUser = useSelector((state) => state.user.value);
    const dispatch = useDispatch();
 
@@ -38,7 +38,7 @@ const SongOptions = ({ songInfo, simple = false }) => {
 
    return (
       <div className="flex items-center justify-center text-lg gap-2 text-white">
-         {!simple && (
+         {(!simple || liked) && (
             <div
                className="cursor-pointer flex items-center justify-center
                   p-2 rounded-full hover:bg-hover-1 w-10 h-10"

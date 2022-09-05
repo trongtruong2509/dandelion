@@ -4,6 +4,7 @@ module.exports = {
    theme: {
       extend: {
          colors: {
+            primary: "rgb(20, 184, 166)",
             "dark-4": "#17171A",
             "dark-3": "#222226",
             "dark-2": "#242528",
@@ -21,7 +22,24 @@ module.exports = {
             primary: "rgb(20, 184, 166)",
             secondary: "hsla(0,0%,100%,0.5)",
             navigation: "#a0a0a0",
+            "white-custom": "#ffffff",
          },
+      },
+      screens: {
+         sm: "640px",
+         // => @media (min-width: 640px) { ... }
+
+         md: "768px",
+         // => @media (min-width: 768px) { ... }
+
+         lg: "1024px",
+         // => @media (min-width: 1024px) { ... }
+
+         xl: "1280px",
+         // => @media (min-width: 1280px) { ... }
+
+         "2xl": "1540px",
+         // => @media (min-width: 1536px) { ... }
       },
    },
    plugins: [],

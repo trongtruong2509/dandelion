@@ -12,8 +12,10 @@ const SongMenu = ({ children, info }) => {
    return (
       <Tippy
          interactive
-         placement="auto-end"
          appendTo={() => document.body}
+         delay={[0, 700]}
+         trigger="click"
+         placement="auto-end"
          render={(attrs) => (
             <div
                className="w-[280px] h-[314px] flex flex-col bg-dark-2
@@ -78,8 +80,6 @@ const SongMenu = ({ children, info }) => {
                </div>
             </div>
          )}
-         delay={[0, 700]}
-         trigger="click"
       >
          {children}
       </Tippy>

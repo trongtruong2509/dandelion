@@ -30,11 +30,15 @@ import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 // };
 
 export const updateUserDb = (user) => {
-   addNewDoc("Users", user.id, user);
+   addNewDoc("Users", user, user.id);
 };
 
 export const getUserDb = async (userId) => {
    return await getDocById("Users", userId);
+};
+
+export const getArtistDb = async (id) => {
+   return await getDocById("Artists", id);
 };
 
 export const updateUserLocal = (user) => {

@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
-import { MdEast, MdSearch, MdSettings, MdUpload, MdWest } from "react-icons/md";
+import { MdEast, MdSettings, MdUpload, MdWest } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import Tippy from "@tippyjs/react/headless"; // different import path!
 
 import defaultAvatar from "./../../../assets/default_avatar.png";
 import { updateUser, removeUser } from "../../Reducers/userSlice";
 import { getUserDb, loginGoogle } from "../../utils/user";
+import Search from "./Search";
 
 const Header = () => {
    const user = useSelector((state) => state.user.value);
@@ -69,26 +69,7 @@ const Header = () => {
                   <MdEast className="text-white text-2xl opacity-50" />
                </button>
             </div>
-            <Tippy
-               render={(attrs) => (
-                  <div
-                     className="w-full h-20 bg-dark-3"
-                     tabIndex="-1"
-                     {...attrs}
-                  >
-                     This is search tippy
-                  </div>
-               )}
-            >
-               <div className="w-96 relative">
-                  <input
-                     type="text"
-                     className="w-full py-2 rounded-3xl outline-none bg-hover-1 pl-10 text-sm text-white"
-                     placeholder="Search for song, artist, album..."
-                  />
-                  <MdSearch className="absolute top-2 left-3 text-2xl text-white opacity-50" />
-               </div>
-            </Tippy>
+            <Search />
          </div>
          <div className="flex gap-3 justify-center items-center">
             <Link

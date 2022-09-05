@@ -18,10 +18,15 @@ function App() {
    return (
       <Router>
          <Routes>
-            <Route path="/" element={<Layout />}>
+            <Route exact path="/" element={<Layout />}>
                {routes.map(({ component: Component, path }) => {
                   return (
-                     <Route key={path} path={path} element={<Component />} />
+                     <Route
+                        exact
+                        key={path}
+                        path={path}
+                        element={<Component />}
+                     />
                   );
                })}
             </Route>
@@ -32,24 +37,26 @@ function App() {
 
 function Layout() {
    const currentSong = useSelector((state) => state.playing.value)?.info;
-   const queueBar = useSelector((state) => state.queue.value);
 
    return (
       <>
-         <div className="h-screen max-h-screen">
+         <div className="h-screen max-h-screen ">
             <div
-               className={`flex z-100 ${
+               className={`flex z-[100] relative overflow-hidden ${
                   currentSong ? "h-[calc(100vh-90px)]" : "h-full"
                }`}
             >
                <Sidebar />
-               <div className="w-full block overflow-auto bg-dark-4 px-12 relative overflow-y-scroll scrollbar">
-                  <div className="sticky top-0 left-0 z-[1000] w-full">
+               <div className="w-full block overflow-auto bg-dark-4 relative overflow-y-scroll overscroll-auto scrollbar">
+                  <div className="sticky top-0 left-0 z-[200] w-full bg-dark-4 px-12">
                      <Header />
                   </div>
-                  <Outlet />
+                  <div className="w-full block overflow-auto bg-dark-4 px-12 relative">
+                     <Outlet />
+                  </div>
                </div>
-               {queueBar && <PlayerQueue />}
+
+               <PlayerQueue />
             </div>
             {currentSong && <Playbar />}
          </div>

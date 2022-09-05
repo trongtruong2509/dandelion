@@ -13,7 +13,7 @@ const Playbar = () => {
       <div
          className="bg-dark-3 py-3 px-5  
                         w-full h-[90px]
-                        text-white z-999"
+                        text-white z-[600]"
       >
          <div className="relative flex justify-between items-center h-full drop-shadow-md">
             <div className="flex gap-3 justify-center items-center">
