@@ -1,7 +1,7 @@
 import { createSlice, current } from "@reduxjs/toolkit";
 
 const initialState = {
-   value: false,
+   value: true,
 };
 
 export const queueSlice = createSlice({

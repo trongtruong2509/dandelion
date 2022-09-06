@@ -10,7 +10,7 @@ import {
    collection,
 } from "firebase/firestore";
 
-export const addNewDoc = async (collection, id = `${Date.now()}`, info) => {
+export const addNewDoc = async (collection, info, id = `${Date.now()}`) => {
    console.log(id);
    console.log(info);
    await setDoc(doc(firestore, collection, id), info, {
