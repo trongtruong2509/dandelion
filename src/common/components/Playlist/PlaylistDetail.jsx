@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { IoIosAddCircle, IoIosMusicalNote } from "react-icons/io";
+import { BiRefresh } from "react-icons/bi";
 
 import AlbumDefault from "./../../../assets/album_default.png";
-import { playlists } from "../../../tempData/playlists";
-// import { songs } from "../../../tempData/songs";
-import { getDocInList } from "../../utils/firebaseApi";
+import {
+   getDocById,
+   getDocInList,
+   getLatestSongs,
+} from "../../utils/firebaseApi";
 import { shuffleArray } from "../../utils/common";
 import SongItem from "../Song/SongItem";
 
 import { update } from "../Playbar/playingSlice";
 import { updatePlaylist } from "../Playlist/playlistSlice";
-import { updateQueue, addASongToPlayed } from "../playQueueSlice";
 import { updateRecentPlay } from "../../Reducers/userSlice";
+import { updateQueue, addASongToPlayed } from "../../Reducers/playQueueSlice";
 
 const PlaylistDetail = ({ id }) => {
    const playlist = useSelector((state) => state.playlist.value);
@@ -20,14 +24,32 @@ const PlaylistDetail = ({ id }) => {
    const dispatch = useDispatch();
 
    const [playSongs, setPlaySongs] = useState([]);
+   const [suggestSongs, setSuggestSongs] = useState([]);
 
    useEffect(() => {
-      const currentPlaylist = playlists.find((p) => p.id === id);
-      dispatch(updatePlaylist(currentPlaylist));
+      getDocById("playlists", id)
+         .then((result) => {
+            dispatch(updatePlaylist(result));
 
-      getDocInList("Songs", currentPlaylist.songs).then((result) => {
-         setPlaySongs(result);
-      });
+            if (result.songs.length > 0) {
+               getDocInList("Songs", result.songs).then((result) => {
+                  setPlaySongs(result);
+               });
+            }
+         })
+         .catch((err) => console.log(err));
+
+      getLatestSongs()
+         .then((result) => {
+            const latest = result.slice(0, 10);
+            console.log(latest);
+
+            setSuggestSongs(latest);
+         })
+         .then((error) => {
+            console.log("error");
+            console.log(error);
+         });
    }, [id]);
 
    useEffect(() => {
@@ -48,11 +70,11 @@ const PlaylistDetail = ({ id }) => {
    }, [playSongs]);
 
    return (
-      <div className="w-full h-full bg-transparent mt-20 relative flex">
+      <div className="w-full h-full bg-transparent mt-20 relative flex gap-8">
          <div className="w-72  flex-shrink-0 text-white sticky top-40 h-72">
-            <div className="w-60">
+            <div className="w-72">
                <img
-                  className="w-60 h-60 rounded-md object-cover"
+                  className="w-72 h-72 rounded-md object-cover"
                   src={playlist?.thumbnail ? playlist?.thumbnail : AlbumDefault}
                   alt="Album Thumbnail"
                />
@@ -68,16 +90,22 @@ const PlaylistDetail = ({ id }) => {
             </div>
          </div>
          <div className="w-full">
-            <div className="grid grid-cols-12 px-3 py-3 w-full border-b border-hover-1">
-               <p className="col-span-6 text-secondary text-sm">SONG</p>
-               <p className="col-span-5 text-secondary text-sm flex items-center">
-                  ALBUM
-               </p>
-               <p className="col-span-1 text-secondary text-sm flex items-center justify-end">
-                  TIME
-               </p>
-            </div>
+            <div>
+               {playSongs.length > 0 ? (
+                  <>
+                     <div className="grid grid-cols-12 px-3 py-3 w-full border-b border-hover-1">
+                        <p className="col-span-6 text-secondary text-sm">
+                           SONG
+                        </p>
+                        <p className="col-span-5 text-secondary text-sm flex items-center">
+                           ALBUM
+                        </p>
+                        <p className="col-span-1 text-secondary text-sm flex items-center justify-end">
+                           TIME
+                        </p>
+                     </div>
 
+                     {/* <<<<<<< HEAD
             {playSongs?.map((song, index) => (
                <SongItem
                   key={index}
@@ -86,6 +114,49 @@ const PlaylistDetail = ({ id }) => {
                   onClick={() => dispatch(update(song))}
                />
             ))}
+======= */}
+                     {playSongs?.map((song, index) => (
+                        <SongItem
+                           key={index}
+                           info={song}
+                           playlistMode
+                           onClick={() => dispatch(update(song))}
+                        />
+                     ))}
+                  </>
+               ) : (
+                  <div className="bg-hover-1 py-4 flex items-center justify-center text-secondary flex-col gap-2 h-60">
+                     <IoIosMusicalNote className="text-7xl italic" />
+                     <p className="text-lg">
+                        Currently no songs in your playlist
+                     </p>
+                  </div>
+               )}
+
+               {playSongs.length < 10 && (
+                  <div className="mt-5">
+                     <div className="flex justify-between items-center">
+                        <div>
+                           <h2 className="text-xl font-semibold">
+                              Recommended
+                           </h2>
+                           <p className="text-sm text-secondary">
+                              Based on your recent play
+                           </p>
+                        </div>
+                        <button className="px-5 py-[6px] rounded-2xl bg-teal-500 mr-2 flex justify-center items-center text-sm gap-1">
+                           <BiRefresh className="text-xl" />
+                           Refresh
+                        </button>
+                     </div>
+                     <div>
+                        {suggestSongs.map((s) => {
+                           <SongItem key={s.id} info={s} playlistMode />;
+                        })}
+                     </div>
+                  </div>
+               )}
+            </div>
          </div>
       </div>
    );

@@ -47,8 +47,13 @@ function Layout() {
                }`}
             >
                <Sidebar />
+               {/* <<<<<<< HEAD */}
                <div className="w-full block overflow-auto bg-dark-4 relative overflow-y-scroll overscroll-auto scrollbar">
                   <div className="sticky top-0 left-0 z-[200] w-full bg-dark-4 px-12">
+                     {/* =======
+               <div className="w-full block overflow-auto bg-dark-4 px-12 relative overflow-y-scroll scrollbar">
+                  <div className="sticky top-0 left-0 z-40 w-full">
+>>>>>>> fea1806ea795286f13aa675aeb3a32c017f5affc */}
                      <Header />
                   </div>
                   <div className="w-full h-auto block overflow-auto bg-dark-4 px-12 relative">

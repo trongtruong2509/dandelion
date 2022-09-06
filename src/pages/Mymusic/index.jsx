@@ -7,11 +7,14 @@ import { songs } from "../../tempData/songs";
 import PlaylistCover from "../../common/components/Playlist/PlaylistCover";
 import { Link } from "react-router-dom";
 import SongItem from "../../common/components/Song/SongItem";
+import Modal from "../../common/components/Modal/Modal";
+import CreatePlaylistModal from "../../common/components/Modal/CreatePlaylistModal";
 
 const Mymusic = () => {
    const currentUser = useSelector((state) => state.user.value);
 
    const [playlists, setPlaylists] = useState([]);
+   const [show, setShow] = useState(false);
 
    useEffect(() => {
       setPlaylists(tempPlaylists);
@@ -20,14 +23,19 @@ const Mymusic = () => {
    console.log(playlists);
 
    return (
-      <div className="w-full mt-20 text-white mb-20">
-         <div className="w-full">
+      <div className="w-full mt-20 text-white mb-20 ">
+         <CreatePlaylistModal show={show} onClose={() => setShow(false)} />
+
+         <div className="w-full z-10 relative">
             <div className="flex justify-between items-center">
                <div className="flex gap-4 justify-start items-center">
                   <h1 className="text-xl text-primary font-semibold">
                      MY PLAYLIST
                   </h1>
-                  <button className="p-2 bg-hover-1 hover:text-primary rounded-full outline-none">
+                  <button
+                     className="p-2 bg-hover-1 hover:text-primary rounded-full outline-none"
+                     onClick={() => setShow(!show)}
+                  >
                      <MdOutlineAdd className="text-xl" />
                   </button>
                </div>
