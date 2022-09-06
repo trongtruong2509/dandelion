@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import PlaylistItem from "../../common/components/Playlist/PlaylistItem";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { FaPlay, FaPlus } from "react-icons/fa";
 import { MdArrowForwardIos } from "react-icons/md";
@@ -16,6 +15,7 @@ import AlbumDefault from "./../../assets/album_default.png";
 import PlaylistCover from "../../common/components/Playlist/PlaylistCover";
 
 import { playlists as tempPlaylists } from "../../tempData/playlists";
+import SongItem from "../../common/components/Song/SongItem";
 
 const Artist = () => {
    const params = useParams();
@@ -116,7 +116,7 @@ const Artist = () => {
 
                         <div className="w-full h-[285px] overflow-auto scrollbar">
                            {topHits?.map((hit) => (
-                              <PlaylistItem info={hit} />
+                              <SongItem key={hit.id} info={hit} playlistMode />
                            ))}
                         </div>
                      </div>

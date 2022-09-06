@@ -3,11 +3,12 @@ import { GiAlarmClock } from "react-icons/gi";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { useSelector, useDispatch } from "react-redux";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import PlaylistItem from "../Playlist/PlaylistItem";
+import SongItem from "../Song/SongItem";
 
 const PlayerQueue = () => {
    const queueState = useSelector((state) => state.queue);
    const playqueue = useSelector((state) => state.playqueue);
+   const user = useSelector((state) => state.user.value);
 
    const activeStyle = "bg-hover-2 text-white";
 
@@ -44,8 +45,8 @@ const PlayerQueue = () => {
 
             <TabPanel className="w-full">
                <div className="">
-                  {playqueue.played.map((s) => (
-                     <PlaylistItem info={s} simple liked />
+                  {user?.recentPlayed?.map((s) => (
+                     <SongItem info={s} fade />
                   ))}
                </div>
                <div></div>

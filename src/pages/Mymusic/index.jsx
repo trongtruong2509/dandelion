@@ -5,8 +5,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { playlists as tempPlaylists } from "../../tempData/playlists";
 import { songs } from "../../tempData/songs";
 import PlaylistCover from "../../common/components/Playlist/PlaylistCover";
-import PlaylistItem from "../../common/components/Playlist/PlaylistItem";
 import { Link } from "react-router-dom";
+import SongItem from "../../common/components/Song/SongItem";
 
 const Mymusic = () => {
    const currentUser = useSelector((state) => state.user.value);
@@ -50,7 +50,7 @@ const Mymusic = () => {
 
             {currentUser?.likedSongs.length > 0 ? (
                currentUser?.likedSongs.map((song) => (
-                  <PlaylistItem key={song.id} info={song} />
+                  <SongItem key={song.id} info={song} playlistMode />
                ))
             ) : (
                <div className="w-full flex flex-col gap-6 items-center justify-center h-96 text-secondary">

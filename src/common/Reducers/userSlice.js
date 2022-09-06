@@ -1,4 +1,5 @@
 import { createSlice, current } from "@reduxjs/toolkit";
+import { info } from "autoprefixer";
 import { getUserLocal, updateUserLocal, updateUserDb } from "../utils/user";
 
 const initialState = {
@@ -19,13 +20,20 @@ export const userSlice = createSlice({
          updateUserLocal(null);
       },
       updateRecentPlay: (state, action) => {
-         const idx = current(state.value.recentPlayed.indexOf(action.payload));
+         console.log(action.payload);
+
+         const idx = current(state.value.recentPlayed).findIndex(
+            (s) => s.id === action.payload.id
+         );
+
+         console.log("idx = " + idx);
          if (idx > -1) {
             state.value.recentPlayed.splice(idx, 1); // delete in recentplay
-            state.value.recentPlayed.splice(0, 0, action.payload); // add to first position again
-         } else {
-            state.value.recentPlayed.splice(0, 0, action.payload);
          }
+
+         console.log(current(state.value.recentPlayed));
+
+         state.value.recentPlayed.push(action.payload); // add to array
 
          updateUserLocal(current(state.value));
          updateUserDb(current(state.value));

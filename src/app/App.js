@@ -51,7 +51,7 @@ function Layout() {
                   <div className="sticky top-0 left-0 z-[200] w-full bg-dark-4 px-12">
                      <Header />
                   </div>
-                  <div className="w-full block overflow-auto bg-dark-4 px-12 relative">
+                  <div className="w-full h-auto block overflow-auto bg-dark-4 px-12 relative">
                      <Outlet />
                   </div>
                </div>

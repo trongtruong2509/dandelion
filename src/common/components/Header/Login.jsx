@@ -2,9 +2,9 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 
-import { getUserDb } from "../utils/user";
+import { getUserDb } from "../../utils/user";
 
-import { updateUser, removeUser } from "../Reducers/userSlice";
+import { updateUser, removeUser } from "../../Reducers/userSlice";
 
 const Login = ({ children }) => {
    const user = useSelector((state) => state.user.value);

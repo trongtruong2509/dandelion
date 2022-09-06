@@ -20,6 +20,7 @@ import {
    removeASongFromPlayed,
    updatePlayed,
 } from "../playQueueSlice";
+import { updateRecentPlay } from "../../Reducers/userSlice";
 
 const Player = () => {
    const currentSong = useSelector((state) => state.playing.value);
@@ -148,10 +149,12 @@ const Player = () => {
          dispatch(updateAndPlay(playqueue[0]));
          dispatch(addASongToPlayed(playqueue[0]));
          dispatch(removeASongFromQueue(playqueue[0]));
+         dispatch(updateRecentPlay(playqueue[0]));
       } else {
          const newShuffe = [...played];
          dispatch(updateAndPlay(newShuffe[0]));
          dispatch(updatePlayed([newShuffe[0]]));
+         dispatch(updateRecentPlay(newShuffe[0]));
 
          if (newShuffe.length === 1) {
             dispatch(updateQueue([]));

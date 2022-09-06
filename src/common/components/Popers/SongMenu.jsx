@@ -4,7 +4,7 @@ import { BsDownload, BsShare } from "react-icons/bs";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { AiOutlineComment } from "react-icons/ai";
 
-import SongInfo from "./../SongInfo";
+import SongInfo from "../Song/SongInfo";
 import { MdArrowForwardIos, MdBlock, MdQueueMusic } from "react-icons/md";
 import { GiMicrophone } from "react-icons/gi";
 

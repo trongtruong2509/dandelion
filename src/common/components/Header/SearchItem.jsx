@@ -1,19 +1,26 @@
 import React from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import PlaylistItem from "../Playlist/PlaylistItem";
+import SongItem from "../Song/SongItem";
 
 const SearchItem = ({ infos }) => {
    return (
       <div className="w-full rounded-lg">
-         {infos?.map((info, index) => {
+         {infos?.map((info) => {
             if (info.artistNames) {
-               return <PlaylistItem info={info} simple key={index} />;
+               return (
+                  <SongItem
+                     key={info.id}
+                     info={info}
+                     size="52"
+                     options={false}
+                  />
+               );
             } else if (info.alias) {
                return (
                   <Link
                      className="w-full rounded-lg hover:bg-hover-1 p-2 flex gap-3 items-center justify-start cursor-pointer"
                      to={info.link}
-                     key={index}
+                     key={info.id}
                   >
                      <div className="w-[60px] h-[60px] rounded-full">
                         <img

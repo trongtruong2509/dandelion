@@ -125,6 +125,7 @@ const Search = () => {
       <Tippy
          interactive
          // hideOnClick="toggle"
+         placement="bottom"
          appendTo={() => document.body}
          delay={[0, 700]}
          trigger="click"

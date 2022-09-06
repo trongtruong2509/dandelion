@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 // import { update } from "./playingSlice";
 
 import Player from "./Player";
-import SongOptions from "../SongOptions";
+import SongOptions from "../Song/SongOptions";
 import PlaybarOptions from "./PlaybarOptions";
 
 const Playbar = () => {

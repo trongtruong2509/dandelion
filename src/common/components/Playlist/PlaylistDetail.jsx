@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import PlaylistItem from "./PlaylistItem";
 import AlbumDefault from "./../../../assets/album_default.png";
 import { playlists } from "../../../tempData/playlists";
 // import { songs } from "../../../tempData/songs";
 import { getDocInList } from "../../utils/firebaseApi";
 import { shuffleArray } from "../../utils/common";
+import SongItem from "../Song/SongItem";
 
 import { update } from "../Playbar/playingSlice";
 import { updatePlaylist } from "../Playlist/playlistSlice";
 import { updateQueue, addASongToPlayed } from "../playQueueSlice";
+import { updateRecentPlay } from "../../Reducers/userSlice";
 
 const PlaylistDetail = ({ id }) => {
    const playlist = useSelector((state) => state.playlist.value);
@@ -42,6 +43,7 @@ const PlaylistDetail = ({ id }) => {
          dispatch(update({ info: shuffledSongs[0], playing: true }));
          dispatch(addASongToPlayed(shuffledSongs[0]));
          dispatch(updateQueue(shuffledSongs.slice(1)));
+         dispatch(updateRecentPlay(shuffledSongs[0]));
       }
    }, [playSongs]);
 
@@ -77,10 +79,11 @@ const PlaylistDetail = ({ id }) => {
             </div>
 
             {playSongs?.map((song, index) => (
-               <PlaylistItem
-                  info={song}
-                  onClick={() => dispatch(update(song))}
+               <SongItem
                   key={index}
+                  info={song}
+                  playlistMode
+                  onClick={() => dispatch(update(song))}
                />
             ))}
          </div>

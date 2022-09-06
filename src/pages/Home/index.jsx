@@ -12,11 +12,11 @@ import {
    getDocumentContains,
    getLatestSongs,
 } from "../../common/utils/firebaseApi";
-import PlaylistItem from "../../common/components/Playlist/PlaylistItem";
 
-import { artistExample } from "../../tempData/artists";
-import { addNewDoc } from "../../common/utils/firebaseApi";
-import { zing } from "../../common/utils/crawlData";
+// import { artistExample } from "../../tempData/artists";
+// import { addNewDoc } from "../../common/utils/firebaseApi";
+// import { zing } from "../../common/utils/crawlData";
+import SongItem from "../../common/components/Song/SongItem";
 // import ZingMp3 from "zingmp3-api";
 
 const group = (items, n) =>
@@ -142,7 +142,7 @@ const Home = () => {
                      <SwiperSlide key={index}>
                         {songs.map((s) => (
                            <div className="my-1" key={s.id}>
-                              <PlaylistItem info={s} simple />
+                              <SongItem info={s} size="60" like={false} />
                            </div>
                         ))}
                      </SwiperSlide>
