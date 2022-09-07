@@ -10,7 +10,7 @@ import { updateRecentPlay } from "../../Reducers/userSlice";
 
 const SongItem = ({
    info,
-   size = "40",
+   size = "10",
    options = true,
    like = true,
    playlistMode = false,
@@ -23,6 +23,14 @@ const SongItem = ({
 
    const [current, setCurrent] = useState(false);
 
+   useEffect(() => {
+      if (playingSong?.info?.id === info.id) {
+         setCurrent(true);
+      } else {
+         setCurrent(false);
+      }
+   }, [playingSong]);
+
    const playSong = () => {
       if (current) {
          playingSong?.playing ? dispatch(pause()) : dispatch(play());
@@ -32,13 +40,15 @@ const SongItem = ({
       }
    };
 
-   useEffect(() => {
-      if (playingSong?.info?.id === info.id) {
-         setCurrent(true);
-      } else {
-         setCurrent(false);
-      }
-   }, [playingSong]);
+   const thumbnailSizes = {
+      10: "w-10 h-10",
+      11: "w-11 h-11",
+      12: "w-12 h-12",
+      13: "w-13 h-13",
+      14: "w-14 h-14",
+      15: "w-15 h-15",
+      16: "w-16 h-16",
+   };
 
    return (
       <div
@@ -55,9 +65,9 @@ const SongItem = ({
             <SongInfo info={info} onClick={playSong} size={size} />
 
             <button
-               className={` items-center justify-center bg-overlay-3 rounded-md absolute top-2 left-3 group-hover:flex 
+               className={`items-center justify-center bg-overlay-3 rounded-md absolute top-2 left-3 group-hover:flex 
                ${current ? "flex" : "hidden"} 
-               w-[${size}px] h-[${size}px]`}
+               ${thumbnailSizes[size]}`}
                onClick={playSong}
             >
                {current && playingSong?.playing ? (

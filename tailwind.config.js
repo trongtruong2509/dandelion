@@ -24,6 +24,14 @@ module.exports = {
             navigation: "#a0a0a0",
             "white-custom": "#ffffff",
          },
+         width: {
+            '13': '3.25rem',
+            '15': '3.75rem'
+         },
+         height: {
+            '13': '3.25rem',
+            '15': '3.75rem'
+         }
       },
       screens: {
          sm: "640px",

@@ -11,7 +11,7 @@ const SearchItem = ({ infos }) => {
                   <SongItem
                      key={info.id}
                      info={info}
-                     size="52"
+                     size="13"
                      options={false}
                   />
                );

@@ -142,7 +142,7 @@ const Home = () => {
                      <SwiperSlide key={index}>
                         {songs.map((s) => (
                            <div className="my-1" key={s.id}>
-                              <SongItem info={s} size="60" like={false} />
+                              <SongItem info={s} size="13" like={false} />
                            </div>
                         ))}
                      </SwiperSlide>

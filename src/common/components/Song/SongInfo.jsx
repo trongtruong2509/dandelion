@@ -1,11 +1,21 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const SongInfo = ({ info, size = "40", onClick }) => {
+const SongInfo = ({ info, size = "10", onClick }) => {
    const generateArtists = (artists) => {
       // let display = (
       // )
       //  display;
+   };
+
+   const thumbnailSizes = {
+      10: "w-10 h-10",
+      11: "w-11 h-11",
+      12: "w-12 h-12",
+      13: "w-13 h-13",
+      14: "w-14 h-14",
+      15: "w-15 h-15",
+      16: "w-16 h-16",
    };
 
    return (
@@ -15,7 +25,7 @@ const SongInfo = ({ info, size = "40", onClick }) => {
             <img
                src={info?.thumbnail}
                alt={info?.title}
-               className={`object-cover rounded-md w-[${size}px] h-[${size}px]`}
+               className={`object-cover rounded-md ${thumbnailSizes[size]}`}
             />
             {/* </div> */}
             <div className="max-w-[220px]">
