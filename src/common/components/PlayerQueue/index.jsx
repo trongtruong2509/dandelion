@@ -46,7 +46,7 @@ const PlayerQueue = () => {
             <TabPanel className="w-full">
                <div className="">
                   {user?.recentPlayed?.map((s) => (
-                     <SongItem info={s} fade />
+                     <SongItem key={s.id} info={s} fade />
                   ))}
                </div>
                <div></div>

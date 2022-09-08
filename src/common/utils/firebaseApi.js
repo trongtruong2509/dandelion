@@ -11,8 +11,8 @@ import {
 } from "firebase/firestore";
 
 export const addNewDoc = async (collection, info, id = `${Date.now()}`) => {
-   console.log(id);
-   console.log(info);
+   // console.log(id);
+   // console.log(info);
    await setDoc(doc(firestore, collection, id), info, {
       merge: true,
    });
@@ -58,8 +58,6 @@ export const getLatestSongs = async () => {
       collection(firestore, "Songs"),
       where("releaseDate", ">=", Date.now() - 2592000000)
    );
-
-   console.log(q);
 
    try {
       const querySnapshot = await getDocs(q);

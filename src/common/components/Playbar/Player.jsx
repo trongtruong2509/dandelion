@@ -158,16 +158,16 @@ const Player = () => {
          dispatch(removeASongFromQueue(playqueue[0]));
          dispatch(updateRecentPlay(playqueue[0]));
       } else {
-         const newShuffe = [...played];
-         dispatch(updateAndPlay(newShuffe[0]));
-         dispatch(updatePlayed([newShuffe[0]]));
-         dispatch(updateRecentPlay(newShuffe[0]));
-
-         if (newShuffe.length === 1) {
-            dispatch(updateQueue([]));
-         } else {
-            dispatch(updateQueue(newShuffe.slice(1)));
-         }
+         //@todo: issue with newShuffe
+         // const newShuffe = [...played];
+         // dispatch(updateAndPlay(newShuffe[0]));
+         // dispatch(updateRecentPlay(newShuffe[0]));
+         // dispatch(updatePlayed([newShuffe[0]]));
+         // if (newShuffe.length === 1) {
+         //    dispatch(updateQueue([]));
+         // } else {
+         //    dispatch(updateQueue(newShuffe.slice(1)));
+         // }
       }
    };
 

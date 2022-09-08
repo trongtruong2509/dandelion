@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Tippy from "@tippyjs/react/headless"; // different import path!
 import { MdSearch } from "react-icons/md";
 import { useSelector, useDispatch } from "react-redux";
+import SyncLoader from "react-spinners/SyncLoader";
 
 import SearchItem from "./SearchItem";
 import { getAllDocs } from "../../utils/firebaseApi";
@@ -24,6 +25,7 @@ const Search = () => {
 
    const [searchText, setSearchText] = useState("");
    const [searchResult, setSearchResult] = useState([]);
+   const [loading, setLoading] = useState(false);
 
    // Workaround for search feature
    const [songsDb, setSongsDb] = useState([]);
@@ -43,14 +45,26 @@ const Search = () => {
       }
 
       if (searchText !== "" && firstTime) {
-         fetchDb().then(() => {
-            getResults();
-         });
+         setLoading(true);
          setFirstTime(false);
+
+         fetchDb()
+            .then(() => {
+               getResults();
+               setLoading(false);
+            })
+            .catch((err) => {
+               console.log(err);
+               setLoading(false);
+            });
       } else {
          getResults();
       }
    }, [searchText]);
+
+   useEffect(() => {
+      getResults();
+   }, [playlistsDb]);
 
    const getResults = () => {
       let results = [];
@@ -88,8 +102,7 @@ const Search = () => {
    };
 
    useEffect(() => {
-      console.log("searchResult");
-      console.log(searchResult);
+      console.log("[searchResult]", searchResult);
    }, [searchResult]);
 
    const getTop5Matches = (input, search) => {
@@ -119,6 +132,12 @@ const Search = () => {
          console.log(error);
          return [];
       }
+   };
+
+   const override = {
+      display: "block",
+      margin: "0 auto",
+      borderColor: "red",
    };
 
    return (
@@ -152,7 +171,16 @@ const Search = () => {
                      )}
                   </div>
                   <div>
-                     {searchText === "" ? (
+                     {loading ? (
+                        <div className="w-full h-60 flex items-center justify-center">
+                           <SyncLoader
+                              color="rgb(20, 184, 166)"
+                              loading={loading}
+                              cssOverride={override}
+                              size={10}
+                           />
+                        </div>
+                     ) : searchText === "" ? (
                         <SearchItem infos={artistExample} />
                      ) : (
                         <SearchItem infos={searchResult} />
