@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-   value: null,
+   current: null,
+   playing: null
 };
 
 export const playlistSlice = createSlice({
@@ -9,17 +10,17 @@ export const playlistSlice = createSlice({
    initialState,
    reducers: {
       updatePlaylist: (state, action) => {
-         state.value = action.payload;
+         state.current = action.payload;
       },
       remove: (state, action) => {
-         state.value += action.payload;
+         state.current += action.payload;
       },
       removeASong: (state, action) => {
-         state.value += action.payload;
+         state.current += action.payload;
       },
       updateShuffle: (state, action) => {
          console.log(action.payload);
-         state.value.shuffle = action.payload;
+         state.current.shuffle = action.payload;
       },
    },
 });

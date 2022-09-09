@@ -17,6 +17,7 @@ export const songTemplate = {
 export const playlistTemplate = {
    id: "",
    title: "",
+   createdByUserId: "",
    createdBy: "",
    description: "",
    link: "",

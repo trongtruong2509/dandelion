@@ -50,11 +50,24 @@ export const userSlice = createSlice({
          updateUserLocal(current(state.value));
          updateUserDb(current(state.value));
       },
+      updateCreatedPlaylist: (state, action) => {
+         console.log(action.payload);
+         const idx = current(state.value.createdPlaylist).indexOf(action.payload);
+
+         if (idx === -1) {
+            state.value.createdPlaylist.push(action.payload);
+         } else {
+            state.value.createdPlaylist.splice(idx, 1); // delete it in list
+         }
+
+         updateUserLocal(current(state.value));
+         updateUserDb(current(state.value));
+      },
    },
 });
 
 // Action creators are generated for each case reducer function
-export const { updateUser, removeUser, updateLikeSong, updateRecentPlay } =
+export const { updateUser, removeUser, updateLikeSong, updateRecentPlay, updateCreatedPlaylist } =
    userSlice.actions;
 
 export default userSlice.reducer;

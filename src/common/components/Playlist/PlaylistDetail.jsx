@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { IoIosAddCircle, IoIosMusicalNote } from "react-icons/io";
+import { FiEdit3 } from "react-icons/fi";
 import { BiRefresh } from "react-icons/bi";
 
 import AlbumDefault from "./../../../assets/album_default.png";
@@ -11,6 +12,7 @@ import {
 } from "../../utils/firebaseApi";
 import { shuffleArray } from "../../utils/common";
 import SongItem from "../Song/SongItem";
+import PlaylistModal from "../Modal/PlaylistModal";
 
 import { update } from "../Playbar/playingSlice";
 import { updatePlaylist } from "../Playlist/playlistSlice";
@@ -19,12 +21,14 @@ import { updateQueue, addASongToPlayed } from "../../Reducers/playQueueSlice";
 
 const PlaylistDetail = ({ id }) => {
    const playlist = useSelector((state) => state.playlist.value);
+   const user = useSelector((state) => state.user.value);
    // const playqueue = useSelector((state) => state.playqueue.queue);
    // const played = useSelector((state) => state.playqueue.played);
    const dispatch = useDispatch();
 
    const [playSongs, setPlaySongs] = useState([]);
    const [suggestSongs, setSuggestSongs] = useState([]);
+   const [show, setShow] = useState(false);
 
    useEffect(() => {
       getDocById("playlists", id)
@@ -71,6 +75,8 @@ const PlaylistDetail = ({ id }) => {
 
    return (
       <div className="w-full h-full bg-transparent mt-20 relative flex gap-8">
+         <PlaylistModal show={show} update onClose={() => setShow(false)} />
+
          <div className="w-72  flex-shrink-0 text-white sticky top-40 h-72">
             <div className="w-72">
                <img
@@ -78,9 +84,20 @@ const PlaylistDetail = ({ id }) => {
                   src={playlist?.thumbnail ? playlist?.thumbnail : AlbumDefault}
                   alt="Album Thumbnail"
                />
-               <h1 className="text-2xl font-semibold text-center mt-4">
-                  {playlist?.title}
-               </h1>
+               <div className="relative flex justify-center items-center mt-4 gap-1">
+                  <h1 className="text-2xl font-semibold text-center">
+                     {playlist?.title}
+                  </h1>
+                  {playlist?.createdByUserId === user.id && (
+                     <button
+                        className="text-secondary hover:text-primary hover:bg-hover-1 rounded-full p-2"
+                        onClick={() => setShow(!show)}
+                     >
+                        <FiEdit3 className="text-lg" />
+                     </button>
+                  )}
+               </div>
+
                <p className="text-xs mt-1 text-secondary text-center">
                   Created by{" "}
                   <span className="text-white font-semibold cursor-pointer hover:text-primary">
@@ -105,16 +122,6 @@ const PlaylistDetail = ({ id }) => {
                         </p>
                      </div>
 
-                     {/* <<<<<<< HEAD
-            {playSongs?.map((song, index) => (
-               <SongItem
-                  key={index}
-                  info={song}
-                  playlistMode
-                  onClick={() => dispatch(update(song))}
-               />
-            ))}
-======= */}
                      {playSongs?.map((song, index) => (
                         <SongItem
                            key={index}

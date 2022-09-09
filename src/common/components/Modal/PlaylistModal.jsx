@@ -1,12 +1,16 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+
 import { addNewDoc } from "../../utils/firebaseApi";
 import Modal from "./Modal";
+import { updateCreatedPlaylist } from "../../Reducers/userSlice";
 
-const CreatePlaylistModal = ({ ...props }) => {
+const PlaylistModal = ({ ...props }) => {
    const user = useSelector((state) => state.user.value);
+   const playlist = useSelector((state) => state.playlist.value);
    const navigate = useNavigate();
+   const dispatch = useDispatch();
 
    const [title, setTitle] = useState("");
    const [desc, setDesc] = useState("");
@@ -20,6 +24,7 @@ const CreatePlaylistModal = ({ ...props }) => {
       const newPlaylist = {
          id,
          title,
+         createdByUserId: user.id,
          createdBy: user.name,
          description: desc,
          link: `/playlist/${id}`,
@@ -29,18 +34,39 @@ const CreatePlaylistModal = ({ ...props }) => {
          shuffle: true,
       };
 
+      props.onClose();
+      navigate(newPlaylist.link, { replace: true });
+
       addNewDoc("playlists", newPlaylist, id)
          .then(() => {
             setLoading(false);
-
-            props.onClose();
-
-            navigate(newPlaylist.link, { replace: true });
          })
          .catch((err) => {
             console.log(err);
             setLoading(true);
          });
+
+      dispatch(updateCreatedPlaylist(id));
+   };
+
+   const onUpdate = () => {
+      const updatedPlaylist = {
+         ...playlist,
+         title,
+         desc,
+         //@todo: shuffle and autoplay?
+      };
+
+      // addNewDoc("playlists", updatedPlaylist, playlist.id)
+      //    .then(() => {
+      //       setLoading(false);
+      //    })
+      //    .catch((err) => {
+      //       console.log(err);
+      //       setLoading(true);
+      //    });
+
+      console.log("update playlist...");
    };
 
    return (
@@ -74,7 +100,7 @@ const CreatePlaylistModal = ({ ...props }) => {
             </button>
             <button
                className="px-3 py-2 bg-teal-500 text-white rounded-lg w-20"
-               onClick={onCreate}
+               onClick={props.update ? onUpdate : onCreate}
             >
                Create
             </button>
@@ -83,4 +109,4 @@ const CreatePlaylistModal = ({ ...props }) => {
    );
 };
 
-export default CreatePlaylistModal;
+export default PlaylistModal;

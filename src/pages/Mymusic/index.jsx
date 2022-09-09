@@ -3,12 +3,10 @@ import { MdArrowForwardIos, MdOutlineAdd } from "react-icons/md";
 import { useSelector, useDispatch } from "react-redux";
 
 import { playlists as tempPlaylists } from "../../tempData/playlists";
-import { songs } from "../../tempData/songs";
 import PlaylistCover from "../../common/components/Playlist/PlaylistCover";
 import { Link } from "react-router-dom";
 import SongItem from "../../common/components/Song/SongItem";
-import Modal from "../../common/components/Modal/Modal";
-import CreatePlaylistModal from "../../common/components/Modal/CreatePlaylistModal";
+import PlaylistModal from "../../common/components/Modal/PlaylistModal";
 
 const Mymusic = () => {
    const currentUser = useSelector((state) => state.user.value);
@@ -24,7 +22,7 @@ const Mymusic = () => {
 
    return (
       <div className="w-full mt-20 text-white mb-20 ">
-         <CreatePlaylistModal show={show} onClose={() => setShow(false)} />
+         <PlaylistModal show={show} onClose={() => setShow(false)} />
 
          <div className="w-full z-10 relative">
             <div className="flex justify-between items-center">
