@@ -88,8 +88,8 @@ const Search = () => {
    };
 
    useEffect(() => {
-      console.log("searchResult");
-      console.log(searchResult);
+      // console.log("searchResult");
+      // console.log(searchResult);
    }, [searchResult]);
 
    const getTop5Matches = (input, search) => {

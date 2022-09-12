@@ -2,13 +2,11 @@ import React, { useEffect, useState } from "react";
 import { MdArrowForwardIos, MdOutlineAdd } from "react-icons/md";
 import { useSelector, useDispatch } from "react-redux";
 
-import { playlists as tempPlaylists } from "../../tempData/playlists";
-import { songs } from "../../tempData/songs";
 import PlaylistCover from "../../common/components/Playlist/PlaylistCover";
 import { Link } from "react-router-dom";
 import SongItem from "../../common/components/Song/SongItem";
-import Modal from "../../common/components/Modal/Modal";
 import CreatePlaylistModal from "../../common/components/Modal/CreatePlaylistModal";
+import { getDocInList } from "../../common/utils/firebaseApi";
 
 const Mymusic = () => {
    const currentUser = useSelector((state) => state.user.value);
@@ -17,10 +15,22 @@ const Mymusic = () => {
    const [show, setShow] = useState(false);
 
    useEffect(() => {
-      setPlaylists(tempPlaylists);
-   }, []);
+      getDocInList("playlists", currentUser.recentPlaylist)
+         .then((result) => {
+            const ordered = [];
+            console.log("[result]", result);
 
-   console.log(playlists);
+            // correct order for playlist
+            currentUser.recentPlaylist?.forEach((playlistId) => {
+               ordered.push(result.find((s) => s.id === playlistId));
+            });
+
+            setPlaylists(ordered);
+         })
+         .catch((err) => console.log(err));
+   }, [currentUser.recentPlaylist]);
+
+   console.log("[playlists]", playlists);
 
    return (
       <div className="w-full mt-20 text-white mb-20 ">
@@ -45,7 +55,7 @@ const Mymusic = () => {
                </button>
             </div>
             <div className="w-full py-2 flex gap-8 flex-wrap my-6">
-               {tempPlaylists.map((p) => (
+               {playlists?.map((p) => (
                   <PlaylistCover key={p.id} playlist={p} />
                ))}
             </div>

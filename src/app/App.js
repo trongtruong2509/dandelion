@@ -42,21 +42,16 @@ function Layout() {
       <>
          <div className="h-screen max-h-screen ">
             <div
-               className={`flex z-[100] relative overflow-hidden ${
+               className={`flex w-full z-[100] relative overflow-hidden ${
                   currentSong ? "h-[calc(100vh-90px)]" : "h-full"
                }`}
             >
                <Sidebar />
-               {/* <<<<<<< HEAD */}
-               <div className="w-full block overflow-auto bg-dark-4 relative overflow-y-scroll overscroll-auto scrollbar">
-                  <div className="sticky top-0 left-0 z-[200] w-full bg-dark-4 px-12">
-                     {/* =======
-               <div className="w-full block overflow-auto bg-dark-4 px-12 relative overflow-y-scroll scrollbar">
-                  <div className="sticky top-0 left-0 z-40 w-full">
->>>>>>> fea1806ea795286f13aa675aeb3a32c017f5affc */}
+               <div className="flex flex-col items-stretch h-full flex-grow bg-dark-4 relative overflow-auto">
+                  <div className="w-full sticky top-0 left-0 z-[200] bg-dark-4 px-12">
                      <Header />
                   </div>
-                  <div className="w-full h-auto block overflow-auto bg-dark-4 px-12 relative">
+                  <div className="w-full flex items-stretch overflow-auto px-12 relative overflow-y-scroll overscroll-auto scrollbar flex-grow">
                      <Outlet />
                   </div>
                </div>

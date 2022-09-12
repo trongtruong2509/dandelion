@@ -7,8 +7,9 @@ const Playlist = () => {
    const params = useParams();
 
    return (
-      <div className="w-full mt-20 text-white">
+      <div className="w-full h-full text-white">
          <PlaylistDetail id={params.id} />
+         {/* <div className="h-[900px] w-full bg-teal-50"></div> */}
       </div>
    );
 };

@@ -18,7 +18,7 @@ const PlayerQueue = () => {
             queueState.animate ? "right-0" : "-right-[320px]"
          } 2xl:w-96 w-80 2xl:block flex-shrink-0 h-full bg-dark-2 px-2
             absolute top-0 2xl:right-0 2xl:relative z-[300]
-            transition-all ease-out duration-500 
+            transition-all ease-out duration-500 overflow-y-scroll scrollbar
             `}
       >
          {/* <header className="py-[14px] flex justify-center items-center 3xl:gap-2 gap-1 w-full h-[72px]"> */}
