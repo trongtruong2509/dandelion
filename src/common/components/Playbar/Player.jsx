@@ -11,7 +11,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { Progress } from "./Progress";
 import { play, pause, updateAndPlay } from "../Playbar/playingSlice";
-import { updateShuffle } from "../Playlist/playlistSlice";
+import { updateShuffle } from "../../Reducers/playlistSlice";
 import {
    addToQueue,
    removeASongFromQueue,
@@ -25,7 +25,7 @@ import { updateRecentPlay } from "../../Reducers/userSlice";
 const Player = () => {
    const currentSong = useSelector((state) => state.playing.value);
    const currentPlaylist = useSelector((state) => state.playlist.value);
-   const playqueue = useSelector((state) => state.playqueue.queue);
+   const playqueue = useSelector((state) => state.playqueue.next);
    const played = useSelector((state) => state.playqueue.played);
    const dispatch = useDispatch();
 
@@ -154,9 +154,9 @@ const Player = () => {
    const nextSong = () => {
       if (playqueue.length > 0) {
          dispatch(updateAndPlay(playqueue[0]));
-         dispatch(addASongToPlayed(playqueue[0]));
-         dispatch(removeASongFromQueue(playqueue[0]));
          dispatch(updateRecentPlay(playqueue[0]));
+
+         dispatch(updateQueue(playqueue[0]));
       } else {
          //@todo: issue with newShuffe
          // const newShuffe = [...played];
@@ -181,10 +181,12 @@ const Player = () => {
          // dispatch(addToQueue(played[played.length - 1]));
          // dispatch(removeASongFromPlayed(played[played.length - 1]));
       } else {
-         const lastPlay = played[played.length - 2];
+         const lastPlay = played.at(-2);
+         console.log("[lastPlay]", lastPlay);
          dispatch(updateAndPlay(lastPlay));
-         dispatch(addToQueue(played[played.length - 1]));
-         dispatch(removeASongFromPlayed(played[played.length - 1]));
+
+         dispatch(updateRecentPlay(lastPlay));
+         dispatch(updateQueue(lastPlay));
       }
    };
 

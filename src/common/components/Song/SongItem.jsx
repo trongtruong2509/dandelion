@@ -6,7 +6,12 @@ import SongInfo from "../Song/SongInfo";
 import SongOptions from "../Song/SongOptions";
 
 import { play, pause, update } from "../Playbar/playingSlice";
-import { updateRecentPlay } from "../../Reducers/userSlice";
+import {
+   updateRecentPlay,
+   updateRecentPlaylist,
+} from "../../Reducers/userSlice";
+import { updateQueue } from "../../Reducers/playQueueSlice";
+import { fetchPlayingPlaylist } from "../../Reducers/playlistSlice";
 
 const SongItem = ({
    info,
@@ -17,9 +22,13 @@ const SongItem = ({
    addPlaylist = false,
    fade = false,
 }) => {
+   const dispatch = useDispatch();
+
    const playingSong = useSelector((state) => state.playing.value);
    const currentUser = useSelector((state) => state.user.value);
-   const dispatch = useDispatch();
+   const playingPlaylist = useSelector((state) => state.playlist.playing.value);
+   const currentPlaylist = useSelector((state) => state.playlist.current);
+   const playqueue = useSelector((state) => state.playqueue);
 
    const [current, setCurrent] = useState(false);
 
@@ -37,6 +46,18 @@ const SongItem = ({
       } else {
          dispatch(update({ info, playing: true }));
          dispatch(updateRecentPlay(info));
+
+         if (!playingPlaylist || playingPlaylist.songs.indexOf(info) === -1) {
+            if (currentPlaylist?.songs.includes(info.id)) {
+               dispatch(fetchPlayingPlaylist(currentPlaylist));
+               dispatch(updateRecentPlaylist(currentPlaylist.id));
+            } else {
+               // clean play queue
+               // clean playing playlist
+            }
+         } else {
+            dispatch(updateQueue(info));
+         }
       }
    };
 

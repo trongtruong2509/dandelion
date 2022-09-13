@@ -27,7 +27,7 @@ export const userSlice = createSlice({
             state.value.recentPlayed.splice(idx, 1); // delete in recentplay
          }
 
-         state.value.recentPlayed.push(action.payload); // add to array
+         state.value.recentPlayed.unshift(action.payload); // add to the beginning of array
 
          updateUserLocal(current(state.value));
          updateUserDb(current(state.value));
@@ -75,7 +75,3 @@ export const { updateUser, removeUser, updateLikeSong, updateRecentPlay, updateC
    userSlice.actions;
 
 export default userSlice.reducer;
-
-// export const updateRecentPlaylist = createAsyncThunk("user/updateRecentPlaylist", async (playlistId) => {
-
-// })

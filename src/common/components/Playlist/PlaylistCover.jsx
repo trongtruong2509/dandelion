@@ -5,22 +5,34 @@ import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { updateRecentPlaylist } from "../../Reducers/userSlice";
+import {
+   updateCurrentPlaylist,
+   updatePlayingPlaylist,
+   fetchPlayingPlaylist,
+} from "../../Reducers/playlistSlice";
 
 const PlaylistCover = ({ playlist, sm = false }) => {
    const navigate = useNavigate();
    const dispatch = useDispatch();
 
+   const onNavigate = () => {
+      dispatch(updateCurrentPlaylist(playlist));
+      navigate(playlist.link);
+   };
+
    const onPlay = () => {
+      onNavigate();
+      dispatch(fetchPlayingPlaylist(playlist));
       dispatch(updateRecentPlaylist(playlist.id));
-      navigate(playlist.link, { replace: true });
    };
 
    return (
       <div className={`h-auto text-white ${sm ? "w-40" : "w-56"}`}>
          <div
-            className={`w-full group relative overflow-hidden ${
+            className={`w-full group relative overflow-hidden cursor-pointer ${
                sm ? "h-40" : "h-56"
             }`}
+            onClick={onNavigate}
          >
             <img
                src={playlist?.thumbnail}
@@ -34,15 +46,7 @@ const PlaylistCover = ({ playlist, sm = false }) => {
                <button className="hover:bg-hover-2 p-2 rounded-full">
                   <MdFavoriteBorder className="text-2xl cursor-pointer" />
                </button>
-
-               {/* <<<<<<< HEAD
-               <button
-                  className="hover:text-primary"
-                  onClick={() => navigate(playlist.link)}
-               >
-======= */}
                <button className="hover:text-primary" onClick={onPlay}>
-                  {/* >>>>>>> contributors/iris */}
                   <FaPlay className="text-3xl cursor-pointer" />
                </button>
 

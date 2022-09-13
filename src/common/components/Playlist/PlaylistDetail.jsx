@@ -11,12 +11,18 @@ import SongItem from "../Song/SongItem";
 import PlaylistModal from "../Modal/PlaylistModal";
 
 import { update } from "../Playbar/playingSlice";
-import { updatePlaylist } from "../Playlist/playlistSlice";
+import {
+   updatePlayingTracks,
+   updatePlayingPlaylist,
+   updateCurrentPlaylist,
+   fetchPlayingPlaylist,
+} from "../../Reducers/playlistSlice";
 import { updateRecentPlay } from "../../Reducers/userSlice";
-import { updateQueue, addASongToPlayed } from "../../Reducers/playQueueSlice";
+import { initQueue } from "../../Reducers/playQueueSlice";
 
 const PlaylistDetail = ({ id }) => {
-   const playlist = useSelector((state) => state.playlist.value);
+   const currentPlaylist = useSelector((state) => state.playlist.current);
+   const playingPlaylist = useSelector((state) => state.playlist.playing.value);
    const user = useSelector((state) => state.user.value);
    // const playqueue = useSelector((state) => state.playqueue.queue);
    // const played = useSelector((state) => state.playqueue.played);
@@ -27,23 +33,41 @@ const PlaylistDetail = ({ id }) => {
    const [show, setShow] = useState(false);
 
    useEffect(() => {
-      getDocById("playlists", id)
-         .then((result) => {
-            dispatch(updatePlaylist(result));
+      console.log("[playlist detail] id changed", id);
 
-            if (result.songs.length > 0) {
-               console.log("[result.songs]", result.songs);
+      // if (playingPlaylist.id === id) {
+      //    getDocInList("Songs", playingPlaylist.songs)
+      //       .then((result) => {
+      //          dispatch(updatePlayingTracks(result));
+      //          dispatch(
+      //             updatePlayingPlaylist({ ...playingPlaylist, songs: result })
+      //          );
+      //       })
+      //       .catch((err) => console.log("[err] when setPlaylistTracks", err));
+      // }
 
-               getDocInList("Songs", result.songs)
-                  .then((result) => {
-                     setPlaylistTracks(result);
-                  })
-                  .catch((err) =>
-                     console.log("[err] when setPlaylistTracks", err)
-                  );
-            }
-         })
-         .catch((err) => console.log(err));
+      // if currentPlaylist is empty or different id with current id, fetch playlist again.
+      // mostly for reload page, change page
+      if (!currentPlaylist || currentPlaylist.id !== id) {
+         getDocById("playlists", id)
+            .then((result) => {
+               dispatch(updateCurrentPlaylist(result));
+            })
+            .catch((err) => console.log(err));
+      }
+   }, [id]);
+
+   useEffect(() => {
+      if (currentPlaylist?.songs.length > 0) {
+         console.log("[result.songs]", currentPlaylist.songs);
+
+         getDocInList("Songs", currentPlaylist.songs)
+            .then((result) => {
+               console.log("[currentPlaylist] result", result);
+               setPlaylistTracks(result);
+            })
+            .catch((err) => console.log("[err] when setPlaylistTracks", err));
+      }
 
       // getLatestSongs()
       //    .then((result) => {
@@ -56,15 +80,13 @@ const PlaylistDetail = ({ id }) => {
       //       console.log("error");
       //       console.log(error);
       //    });
-   }, [id]);
-
-   useEffect(() => {}, [playlist]);
+   }, [currentPlaylist]);
 
    useEffect(() => {
-      console.log("[playlistTracks]", playlistTracks);
-      if (playlistTracks.length > 0) {
-         let shuffledSongs = [...playlistTracks];
-         if (playlist?.shuffle) {
+      if (playingPlaylist?.songs.length > 0) {
+         console.log("[playlistTracks]", playingPlaylist?.songs);
+         let shuffledSongs = [...playingPlaylist?.songs];
+         if (playingPlaylist?.shuffle) {
             shuffleArray(shuffledSongs);
          }
 
@@ -72,33 +94,31 @@ const PlaylistDetail = ({ id }) => {
 
          //@todo: dispatch shuffledSong to playingQueue slice
          dispatch(update({ info: shuffledSongs[0], playing: true }));
-         dispatch(addASongToPlayed(shuffledSongs[0]));
-         dispatch(updateQueue(shuffledSongs.slice(1)));
          dispatch(updateRecentPlay(shuffledSongs[0]));
+
+         dispatch(initQueue(shuffledSongs));
       }
-   }, [playlistTracks]);
+   }, [playingPlaylist]);
 
    return (
-      // <<<<<<< HEAD
-      //       <div className="w-full h-full bg-transparent mt-20 relative flex gap-8">
-      //          <PlaylistModal show={show} update onClose={() => setShow(false)} />
-
-      //          <div className="w-72  flex-shrink-0 text-white sticky top-40 h-72">
-      // =======
-      <div className="w-full h-auto bg-transparent relative flex flex-shrink-0 gap-8 mb-8">
+      <div className="w-full h-auto bg-transparent relative flex flex-shrink-0 gap-8 mt-12 mb-8">
+         <PlaylistModal show={show} update onClose={() => setShow(false)} />
          <div className="w-72 flex-shrink-0 text-white sticky top-10 h-fit">
-            {/* >>>>>>> contributors/iris */}
             <div className="w-72">
                <img
                   className="w-72 h-72 rounded-md object-cover"
-                  src={playlist?.thumbnail ? playlist?.thumbnail : AlbumDefault}
+                  src={
+                     currentPlaylist?.thumbnail
+                        ? currentPlaylist?.thumbnail
+                        : AlbumDefault
+                  }
                   alt="Album Thumbnail"
                />
                <div className="relative flex justify-center items-center mt-4 gap-1">
                   <h1 className="text-2xl font-semibold text-center">
-                     {playlist?.title}
+                     {currentPlaylist?.title}
                   </h1>
-                  {playlist?.createdByUserId === user.id && (
+                  {currentPlaylist?.createdByUserId === user.id && (
                      <button
                         className="text-secondary hover:text-primary hover:bg-hover-1 rounded-full p-2"
                         onClick={() => setShow(!show)}
@@ -111,12 +131,12 @@ const PlaylistDetail = ({ id }) => {
                <p className="text-xs mt-1 text-secondary text-center">
                   Created by{" "}
                   <span className="text-white font-semibold cursor-pointer hover:text-primary">
-                     {playlist?.createdBy}
+                     {currentPlaylist?.createdBy}
                   </span>
                </p>
             </div>
          </div>
-         <div className="w-full mt-8">
+         <div className="w-full">
             <div>
                {playlistTracks.length > 0 ? (
                   <>

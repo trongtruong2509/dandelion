@@ -35,7 +35,6 @@ export const getDocById = async (collection, id) => {
 
 export const getDocInList = async (document, filter) => {
    console.log("[getDocInList] filter",filter);
-   const q = query(collection(firestore, document), where("id", "in", filter));
    let reuturnDoc = [];
 
    const filters = group(filter, 10);
