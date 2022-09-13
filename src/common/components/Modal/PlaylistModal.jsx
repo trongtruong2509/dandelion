@@ -35,7 +35,7 @@ const PlaylistModal = ({ ...props }) => {
       };
 
       props.onClose();
-      navigate(newPlaylist.link, { replace: true });
+      navigate(newPlaylist.link);
 
       addNewDoc("playlists", newPlaylist, id)
          .then(() => {

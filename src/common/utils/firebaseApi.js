@@ -33,11 +33,13 @@ export const getDocById = async (collection, id) => {
 };
 
 export const getDocInList = async (document, filter) => {
-   // console.log(filter);
+   console.log("[getDocInList] filter",filter);
    const q = query(collection(firestore, document), where("id", "in", filter));
 
    try {
       const querySnapshot = await getDocs(q);
+
+      console.log("[getDocInList] querySnapshot", querySnapshot);
 
       let reuturnDoc = [];
       querySnapshot.forEach((doc) => {
@@ -46,9 +48,12 @@ export const getDocInList = async (document, filter) => {
          reuturnDoc.push(doc.data());
       });
 
+      console.log("[getDocInList] reuturnDoc", reuturnDoc);
+
       return reuturnDoc;
    } catch (error) {
-      console.log(error);
+      console.log("[getDocInList] error",error);
+
       return null;
    }
 };

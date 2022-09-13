@@ -16,7 +16,7 @@ const PlayerQueue = () => {
       <div
          className={`${queueState.hidden ? "hidden" : "block"} ${
             queueState.animate ? "right-0" : "-right-[320px]"
-         } 2xl:w-96 w-80 2xl:block flex-shrink-0 h-full bg-dark-2 px-2
+         } 2xl:w-96 w-80 2xl:block flex-shrink-0 h-full bg-dark-2 px-2 overflow-y-scroll overscroll-auto scrollbar
             absolute top-0 2xl:right-0 2xl:relative z-[300]
             transition-all ease-out duration-500 
             `}

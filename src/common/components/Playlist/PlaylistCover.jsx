@@ -29,7 +29,7 @@ const PlaylistCover = ({ playlist, sm = false }) => {
 
                <button
                   className="hover:text-primary"
-                  onClick={() => navigate(playlist.link, { replace: true })}
+                  onClick={() => navigate(playlist.link)}
                >
                   <FaPlay className="text-3xl cursor-pointer" />
                </button>

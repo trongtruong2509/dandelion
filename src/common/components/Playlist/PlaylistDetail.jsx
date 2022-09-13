@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { IoIosAddCircle, IoIosMusicalNote } from "react-icons/io";
+import { IoIosMusicalNote } from "react-icons/io";
 import { FiEdit3 } from "react-icons/fi";
 import { BiRefresh } from "react-icons/bi";
 
 import AlbumDefault from "./../../../assets/album_default.png";
-import {
-   getDocById,
-   getDocInList,
-   getLatestSongs,
-} from "../../utils/firebaseApi";
+import { getDocById, getDocInList } from "../../utils/firebaseApi";
 import { shuffleArray } from "../../utils/common";
 import SongItem from "../Song/SongItem";
 import PlaylistModal from "../Modal/PlaylistModal";
@@ -26,7 +22,7 @@ const PlaylistDetail = ({ id }) => {
    // const played = useSelector((state) => state.playqueue.played);
    const dispatch = useDispatch();
 
-   const [playSongs, setPlaySongs] = useState([]);
+   const [playlistTracks, setPlaylistTracks] = useState([]);
    const [suggestSongs, setSuggestSongs] = useState([]);
    const [show, setShow] = useState(false);
 
@@ -36,30 +32,39 @@ const PlaylistDetail = ({ id }) => {
             dispatch(updatePlaylist(result));
 
             if (result.songs.length > 0) {
-               getDocInList("Songs", result.songs).then((result) => {
-                  setPlaySongs(result);
-               });
+               console.log("[result.songs]", result.songs);
+
+               getDocInList("Songs", result.songs)
+                  .then((result) => {
+                     setPlaylistTracks(result);
+                  })
+                  .catch((err) =>
+                     console.log("[err] when setPlaylistTracks", err)
+                  );
             }
          })
          .catch((err) => console.log(err));
 
-      getLatestSongs()
-         .then((result) => {
-            const latest = result.slice(0, 10);
-            console.log(latest);
+      // getLatestSongs()
+      //    .then((result) => {
+      //       const latest = result.slice(0, 10);
+      //       console.log(latest);
 
-            setSuggestSongs(latest);
-         })
-         .then((error) => {
-            console.log("error");
-            console.log(error);
-         });
+      //       setSuggestSongs(latest);
+      //    })
+      //    .then((error) => {
+      //       console.log("error");
+      //       console.log(error);
+      //    });
    }, [id]);
 
+   useEffect(() => {}, [playlist]);
+
    useEffect(() => {
-      if (playSongs.length > 0) {
-         let shuffledSongs = [...playSongs];
-         if (playlist.shuffle) {
+      console.log("[playlistTracks]", playlistTracks);
+      if (playlistTracks.length > 0) {
+         let shuffledSongs = [...playlistTracks];
+         if (playlist?.shuffle) {
             shuffleArray(shuffledSongs);
          }
 
@@ -71,7 +76,7 @@ const PlaylistDetail = ({ id }) => {
          dispatch(updateQueue(shuffledSongs.slice(1)));
          dispatch(updateRecentPlay(shuffledSongs[0]));
       }
-   }, [playSongs]);
+   }, [playlistTracks]);
 
    return (
       <div className="w-full h-full bg-transparent mt-20 relative flex gap-8">
@@ -108,7 +113,7 @@ const PlaylistDetail = ({ id }) => {
          </div>
          <div className="w-full">
             <div>
-               {playSongs.length > 0 ? (
+               {playlistTracks.length > 0 ? (
                   <>
                      <div className="grid grid-cols-12 px-3 py-3 w-full border-b border-hover-1">
                         <p className="col-span-6 text-secondary text-sm">
@@ -122,7 +127,7 @@ const PlaylistDetail = ({ id }) => {
                         </p>
                      </div>
 
-                     {playSongs?.map((song, index) => (
+                     {playlistTracks?.map((song, index) => (
                         <SongItem
                            key={index}
                            info={song}
@@ -140,7 +145,7 @@ const PlaylistDetail = ({ id }) => {
                   </div>
                )}
 
-               {playSongs.length < 10 && (
+               {playlistTracks.length < 10 && (
                   <div className="mt-5">
                      <div className="flex justify-between items-center">
                         <div>
