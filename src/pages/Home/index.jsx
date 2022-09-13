@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { MdArrowForwardIos } from "react-icons/md";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { useSelector, useDispatch } from "react-redux";
 
 // Import Swiper styles
 import "swiper/css";
@@ -13,21 +14,15 @@ import {
    getLatestSongs,
 } from "../../common/utils/firebaseApi";
 
-// import { artistExample } from "../../tempData/artists";
-// import { addNewDoc } from "../../common/utils/firebaseApi";
-// import { zing } from "../../common/utils/crawlData";
 import SongItem from "../../common/components/Song/SongItem";
-// import ZingMp3 from "zingmp3-api";
-
-const group = (items, n) =>
-   items.reduce((acc, x, i) => {
-      const idx = Math.floor(i / n);
-      acc[idx] = [...(acc[idx] || []), x];
-      return acc;
-   }, []);
+import { getDocInList } from "../../common/utils/firebaseApi";
+import { group } from "../../common/utils/common";
 
 const Home = () => {
+   const currentUser = useSelector((state) => state.user.value);
+
    const [newReleases, setNewReleases] = useState([]);
+   const [recentPlaylist, setRecentPlaylist] = useState([]);
 
    useEffect(() => {
       getLatestSongs()
@@ -40,6 +35,22 @@ const Home = () => {
 
       // pushArtist();
    }, []);
+
+   useEffect(() => {
+      getDocInList("playlists", currentUser.recentPlaylist)
+         .then((result) => {
+            const ordered = [];
+            console.log("[result]", result);
+
+            // correct order for playlist
+            currentUser.recentPlaylist?.forEach((playlistId) => {
+               ordered.push(result.find((s) => s.id === playlistId));
+            });
+
+            setRecentPlaylist(ordered);
+         })
+         .catch((err) => console.log(err));
+   }, [currentUser]);
 
    const pushArtist = () => {
       // console.log("clicked");
@@ -87,7 +98,7 @@ const Home = () => {
             </div>
             <div className="w-full my-4">
                <Swiper slidesPerView={6} spaceBetween={30} className="w-full">
-                  {tempPlaylists.map((p) => (
+                  {recentPlaylist?.map((p) => (
                      <SwiperSlide key={p.id}>
                         <PlaylistCover playlist={p} sm={true} />
                      </SwiperSlide>

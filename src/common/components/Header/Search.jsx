@@ -102,7 +102,12 @@ const Search = () => {
    };
 
    useEffect(() => {
+<<<<<<< HEAD
       console.log("[searchResult]", searchResult);
+=======
+      // console.log("searchResult");
+      // console.log(searchResult);
+>>>>>>> contributors/iris
    }, [searchResult]);
 
    const getTop5Matches = (input, search) => {

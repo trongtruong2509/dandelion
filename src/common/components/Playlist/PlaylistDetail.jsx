@@ -79,10 +79,15 @@ const PlaylistDetail = ({ id }) => {
    }, [playlistTracks]);
 
    return (
-      <div className="w-full h-full bg-transparent mt-20 relative flex gap-8">
-         <PlaylistModal show={show} update onClose={() => setShow(false)} />
+      // <<<<<<< HEAD
+      //       <div className="w-full h-full bg-transparent mt-20 relative flex gap-8">
+      //          <PlaylistModal show={show} update onClose={() => setShow(false)} />
 
-         <div className="w-72  flex-shrink-0 text-white sticky top-40 h-72">
+      //          <div className="w-72  flex-shrink-0 text-white sticky top-40 h-72">
+      // =======
+      <div className="w-full h-auto bg-transparent relative flex flex-shrink-0 gap-8 mb-8">
+         <div className="w-72 flex-shrink-0 text-white sticky top-10 h-fit">
+            {/* >>>>>>> contributors/iris */}
             <div className="w-72">
                <img
                   className="w-72 h-72 rounded-md object-cover"
@@ -111,7 +116,7 @@ const PlaylistDetail = ({ id }) => {
                </p>
             </div>
          </div>
-         <div className="w-full">
+         <div className="w-full mt-8">
             <div>
                {playlistTracks.length > 0 ? (
                   <>

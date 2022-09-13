@@ -9,6 +9,7 @@ import {
    setDoc,
    collection,
 } from "firebase/firestore";
+import { group } from "./common";
 
 export const addNewDoc = async (collection, info, id = `${Date.now()}`) => {
    // console.log(id);
@@ -35,18 +36,34 @@ export const getDocById = async (collection, id) => {
 export const getDocInList = async (document, filter) => {
    console.log("[getDocInList] filter",filter);
    const q = query(collection(firestore, document), where("id", "in", filter));
+   let reuturnDoc = [];
 
-   try {
-      const querySnapshot = await getDocs(q);
-
+   const filters = group(filter, 10);
       console.log("[getDocInList] querySnapshot", querySnapshot);
 
-      let reuturnDoc = [];
-      querySnapshot.forEach((doc) => {
-         // doc.data() is never undefined for query doc snapshots
-         // console.log(doc.id, " => ", doc.data());
-         reuturnDoc.push(doc.data());
-      });
+      // let reuturnDoc = [];
+      // querySnapshot.forEach((doc) => {
+      //    // doc.data() is never undefined for query doc snapshots
+      //    // console.log(doc.id, " => ", doc.data());
+      //    reuturnDoc.push(doc.data());
+      // });
+
+   try {
+      for (const filter of filters) {
+         // console.log(filter);
+         const q = query(
+            collection(firestore, document),
+            where("id", "in", filter)
+         );
+
+         const querySnapshot = await getDocs(q);
+
+         querySnapshot.forEach((doc) => {
+            // doc.data() is never undefined for query doc snapshots
+            // console.log(doc.id, " => ", doc.data());
+            reuturnDoc.push(doc.data());
+         });
+      }
 
       console.log("[getDocInList] reuturnDoc", reuturnDoc);
 

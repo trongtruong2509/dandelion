@@ -3,9 +3,17 @@ import { FaPlay } from "react-icons/fa";
 import { MdFavoriteBorder } from "react-icons/md";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { updateRecentPlaylist } from "../../Reducers/userSlice";
 
 const PlaylistCover = ({ playlist, sm = false }) => {
    const navigate = useNavigate();
+   const dispatch = useDispatch();
+
+   const onPlay = () => {
+      dispatch(updateRecentPlaylist(playlist.id));
+      navigate(playlist.link, { replace: true });
+   };
 
    return (
       <div className={`h-auto text-white ${sm ? "w-40" : "w-56"}`}>
@@ -27,10 +35,14 @@ const PlaylistCover = ({ playlist, sm = false }) => {
                   <MdFavoriteBorder className="text-2xl cursor-pointer" />
                </button>
 
+               {/* <<<<<<< HEAD
                <button
                   className="hover:text-primary"
                   onClick={() => navigate(playlist.link)}
                >
+======= */}
+               <button className="hover:text-primary" onClick={onPlay}>
+                  {/* >>>>>>> contributors/iris */}
                   <FaPlay className="text-3xl cursor-pointer" />
                </button>
 
