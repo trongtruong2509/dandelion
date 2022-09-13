@@ -53,6 +53,7 @@ export const userSlice = createSlice({
          } else {
             state.value.createdPlaylist.splice(idx, 1); // delete it in list
          }
+      },
       updateRecentPlaylist: (state, action) => {
          console.log(action.payload);
          const idx = current(state.value.recentPlaylist).indexOf(

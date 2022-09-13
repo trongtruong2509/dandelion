@@ -39,7 +39,7 @@ export const getDocInList = async (document, filter) => {
    let reuturnDoc = [];
 
    const filters = group(filter, 10);
-      console.log("[getDocInList] querySnapshot", querySnapshot);
+      // console.log("[getDocInList] querySnapshot", querySnapshot);
 
       // let reuturnDoc = [];
       // querySnapshot.forEach((doc) => {
