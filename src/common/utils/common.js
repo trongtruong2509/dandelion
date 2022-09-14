@@ -1,4 +1,4 @@
-export const shuffleArray = (array) => {
+export const shuffleArray = (array, chosen = null) => {
    var m = array.length,
       t,
       i;
@@ -12,6 +12,15 @@ export const shuffleArray = (array) => {
       t = array[m];
       array[m] = array[i];
       array[i] = t;
+   }
+
+   if (chosen) {
+      const idx = array.findIndex(s => s.id === chosen.id)
+
+      if (idx != -1) {
+         array.splice(idx, 1)
+         array.unshift(chosen)
+      }
    }
 };
 

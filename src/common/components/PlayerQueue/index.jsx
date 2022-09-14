@@ -8,7 +8,7 @@ import SongItem from "../Song/SongItem";
 const PlayerQueue = () => {
    const queueState = useSelector((state) => state.queue);
    const playqueue = useSelector((state) => state.playqueue);
-   const playingPlaylist = useSelector((state) => state.playlist.current);
+   const playingPlaylist = useSelector((state) => state.playlist.playing.value);
    const user = useSelector((state) => state.user.value);
 
    const activeStyle = "bg-hover-2 text-white";
@@ -41,19 +41,32 @@ const PlayerQueue = () => {
                      <SongItem key={s.id} info={s} fade />
                   ))}
                </div>
-               <div className="mt-4">
-                  <div className="mb-2">
-                     <h2 className="flex gap-2 font-semibold text-white">
-                        Next from
-                        <span className="text-primary cursor-pointer hover:underline font-normal">
-                           {playingPlaylist?.title}
-                        </span>
-                     </h2>
+               {playqueue?.next.length > 0 && (
+                  <div className="mt-4">
+                     <div className="mb-2">
+                        <h2 className="flex gap-2 font-semibold text-white">
+                           Next from
+                           <span className="text-primary cursor-pointer hover:underline font-normal">
+                              {playingPlaylist?.title}
+                           </span>
+                        </h2>
+                     </div>
+                     <div>
+                        {playqueue?.next?.map((s) => (
+                           <SongItem key={s.id} info={s} />
+                        ))}
+                     </div>
                   </div>
-                  <div>
-                     {playqueue?.next?.map((s) => (
-                        <SongItem key={s.id} info={s} />
-                     ))}
+               )}
+
+               <div>
+                  <div className="my-2">
+                     <h2 className="flex gap-2 font-semibold text-white">
+                        Suggession
+                        {/* <span className="text-primary cursor-pointer hover:underline font-normal">
+                           {playingPlaylist?.title}
+                        </span> */}
+                     </h2>
                   </div>
                </div>
             </TabPanel>

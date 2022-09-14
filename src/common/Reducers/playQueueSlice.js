@@ -14,13 +14,13 @@ export const playQueue = createSlice({
          state.next = action.payload;
       },
       updateQueue: (state, action) => {
-         const id = current(state.next).indexOf(action.payload);
+         const id = current(state.next).findIndex(s => s.id === action.payload.id);
 
          if (id != -1) {
             state.played.push(action.payload);
             state.next.splice(id, 1);
          } else {
-            const playedId = current(state.played).indexOf(action.payload);
+            const playedId = current(state.played).findIndex(s => s.id === action.payload.id);
             
             //add last element to next and remove last element of played 
             // if id is last latest play

@@ -16,19 +16,21 @@ import {
    updatePlayingPlaylist,
    updateCurrentPlaylist,
    fetchPlayingPlaylist,
+   setCurrentTracks,
 } from "../../Reducers/playlistSlice";
 import { updateRecentPlay } from "../../Reducers/userSlice";
 import { initQueue } from "../../Reducers/playQueueSlice";
 
 const PlaylistDetail = ({ id }) => {
-   const currentPlaylist = useSelector((state) => state.playlist.current);
-   const playingPlaylist = useSelector((state) => state.playlist.playing.value);
+   const currentPlaylist = useSelector((state) => state.playlist.current.value);
+   const currentTracks = useSelector((state) => state.playlist.current.tracks);
+   const playingPlaylist = useSelector((state) => state.playlist.playing);
    const user = useSelector((state) => state.user.value);
    // const playqueue = useSelector((state) => state.playqueue.queue);
    // const played = useSelector((state) => state.playqueue.played);
    const dispatch = useDispatch();
 
-   const [playlistTracks, setPlaylistTracks] = useState([]);
+   // const [playlistTracks, setPlaylistTracks] = useState([]);
    const [suggestSongs, setSuggestSongs] = useState([]);
    const [show, setShow] = useState(false);
 
@@ -64,7 +66,8 @@ const PlaylistDetail = ({ id }) => {
          getDocInList("Songs", currentPlaylist.songs)
             .then((result) => {
                console.log("[currentPlaylist] result", result);
-               setPlaylistTracks(result);
+               // setPlaylistTracks(result);
+               dispatch(setCurrentTracks(result));
             })
             .catch((err) => console.log("[err] when setPlaylistTracks", err));
       }
@@ -82,23 +85,34 @@ const PlaylistDetail = ({ id }) => {
       //    });
    }, [currentPlaylist]);
 
-   useEffect(() => {
-      if (playingPlaylist?.songs.length > 0) {
-         console.log("[playlistTracks]", playingPlaylist?.songs);
-         let shuffledSongs = [...playingPlaylist?.songs];
-         if (playingPlaylist?.shuffle) {
-            shuffleArray(shuffledSongs);
-         }
+   const shuffleAndUpdate = (songs, shuffle, chosen) => {
+      let shuffledSongs = [...songs];
 
-         console.log(shuffledSongs);
-
-         //@todo: dispatch shuffledSong to playingQueue slice
-         dispatch(update({ info: shuffledSongs[0], playing: true }));
-         dispatch(updateRecentPlay(shuffledSongs[0]));
-
-         dispatch(initQueue(shuffledSongs));
+      if (shuffle) {
+         shuffleArray(shuffledSongs, chosen);
       }
-   }, [playingPlaylist]);
+
+      dispatch(update({ info: shuffledSongs[0], playing: true }));
+      dispatch(updateRecentPlay(shuffledSongs[0]));
+      dispatch(initQueue(shuffledSongs));
+   };
+
+   // this is only for new playlist play.
+   // if there is playing playlist and user change playlist, this effect should be not triggered
+   useEffect(() => {
+      const playing = playingPlaylist.value;
+      const track = playingPlaylist?.chosenTrack;
+
+      if (currentPlaylist?.id === playing?.id) {
+         if (track) {
+            shuffleAndUpdate(playing?.songs, playing.shuffle, track);
+         } else {
+            if (playing?.songs.length > 0) {
+               shuffleAndUpdate(playing?.songs, playing.shuffle);
+            }
+         }
+      }
+   }, [playingPlaylist?.value]);
 
    return (
       <div className="w-full h-auto bg-transparent relative flex flex-shrink-0 gap-8 mt-12 mb-8">
@@ -138,7 +152,7 @@ const PlaylistDetail = ({ id }) => {
          </div>
          <div className="w-full">
             <div>
-               {playlistTracks.length > 0 ? (
+               {currentTracks?.length > 0 ? (
                   <>
                      <div className="grid grid-cols-12 px-3 py-3 w-full border-b border-hover-1">
                         <p className="col-span-6 text-secondary text-sm">
@@ -152,7 +166,7 @@ const PlaylistDetail = ({ id }) => {
                         </p>
                      </div>
 
-                     {playlistTracks?.map((song, index) => (
+                     {currentTracks?.map((song, index) => (
                         <SongItem
                            key={index}
                            info={song}
@@ -170,7 +184,7 @@ const PlaylistDetail = ({ id }) => {
                   </div>
                )}
 
-               {playlistTracks.length < 10 && (
+               {currentTracks?.length < 10 && (
                   <div className="mt-5">
                      <div className="flex justify-between items-center">
                         <div>

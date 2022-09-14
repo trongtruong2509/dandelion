@@ -10,8 +10,12 @@ import {
    updateRecentPlay,
    updateRecentPlaylist,
 } from "../../Reducers/userSlice";
-import { updateQueue } from "../../Reducers/playQueueSlice";
-import { fetchPlayingPlaylist } from "../../Reducers/playlistSlice";
+import { initQueue, updateQueue } from "../../Reducers/playQueueSlice";
+import {
+   emtpyPlayingPlaylist,
+   fetchPlayingPlaylist,
+   updateCurrentToPlaying,
+} from "../../Reducers/playlistSlice";
 
 const SongItem = ({
    info,
@@ -27,7 +31,7 @@ const SongItem = ({
    const playingSong = useSelector((state) => state.playing.value);
    const currentUser = useSelector((state) => state.user.value);
    const playingPlaylist = useSelector((state) => state.playlist.playing.value);
-   const currentPlaylist = useSelector((state) => state.playlist.current);
+   const currentPlaylist = useSelector((state) => state.playlist.current.value);
    const playqueue = useSelector((state) => state.playqueue);
 
    const [current, setCurrent] = useState(false);
@@ -47,16 +51,20 @@ const SongItem = ({
          dispatch(update({ info, playing: true }));
          dispatch(updateRecentPlay(info));
 
-         if (!playingPlaylist || playingPlaylist.songs.indexOf(info) === -1) {
-            if (currentPlaylist?.songs.includes(info.id)) {
-               dispatch(fetchPlayingPlaylist(currentPlaylist));
+         if (playingPlaylist) {
+            console.log("[info]", info);
+
+            if (playingPlaylist.songs.find((s) => s.id === info.id)) {
+               dispatch(updateQueue(info));
+            } else if (currentPlaylist?.songs.includes(info.id)) {
+               // trigger new playlist
                dispatch(updateRecentPlaylist(currentPlaylist.id));
+               dispatch(updateCurrentToPlaying(info));
             } else {
-               // clean play queue
-               // clean playing playlist
+               dispatch(initQueue([info]));
+               dispatch(emtpyPlayingPlaylist());
             }
          } else {
-            dispatch(updateQueue(info));
          }
       }
    };
