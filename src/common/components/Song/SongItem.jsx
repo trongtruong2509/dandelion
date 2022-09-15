@@ -64,12 +64,16 @@ const SongItem = ({
                // trigger not from the playlist. treat as a single track
                dispatch(emtpyPlayingPlaylist());
                dispatch(initQueue([info]));
-            } else if (playingPlaylist.songs.find((s) => s.id === info.id)) {
-               dispatch(updateQueue(info));
-            } else if (currentPlaylist?.songs.includes(info.id)) {
+            } else if (
+               inPlaylistPage &&
+               playingPlaylist.id !== currentPlaylist.id
+            ) {
+               // in case current playlist not playing playlist even tho trigger song is in both current and playing
                // trigger new playlist
                dispatch(updateRecentPlaylist(currentPlaylist.id));
                dispatch(updateCurrentToPlaying(info));
+            } else if (playingPlaylist.songs.find((s) => s.id === info.id)) {
+               dispatch(updateQueue(info));
             }
          } else {
             if (currentPlaylist?.songs.includes(info.id)) {

@@ -7,6 +7,7 @@ import SongItem from "../Song/SongItem";
 
 const PlayerQueue = () => {
    const queueState = useSelector((state) => state.queue);
+   const playingTrack = useSelector((state) => state.playing.value);
    const playqueue = useSelector((state) => state.playqueue);
    const playingPlaylist = useSelector((state) => state.playlist.playing.value);
    const user = useSelector((state) => state.user.value);
@@ -81,9 +82,13 @@ const PlayerQueue = () => {
             </TabPanel>
             <TabPanel className="w-full">
                <div className="">
-                  {user?.recentPlayed?.map((s, index) => (
-                     <SongItem key={index} info={s} />
-                  ))}
+                  {user?.recentPlayed?.map(
+                     (s, index) =>
+                        (!playingTrack?.info ||
+                           playingTrack?.info?.id !== s?.id) && (
+                           <SongItem key={index} info={s} />
+                        )
+                  )}
                </div>
             </TabPanel>
          </Tabs>
