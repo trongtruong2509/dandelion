@@ -39,7 +39,7 @@ const PlaybarOptions = () => {
             </button>
             <div className="w-36 flex gap-2 justify-center items-center">
                <GiSpeaker className="text-3xl" />
-               <Progress value={10} />
+               {/* <Progress value={10} /> */}
             </div>
          </div>
          <div className="2xl:hidden px-3 border-l border-hover-1">

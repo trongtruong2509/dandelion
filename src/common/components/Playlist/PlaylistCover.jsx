@@ -3,7 +3,7 @@ import { FaPlay } from "react-icons/fa";
 import { MdFavoriteBorder } from "react-icons/md";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { updateRecentPlaylist } from "../../Reducers/userSlice";
 import {
    updateCurrentPlaylist,
@@ -15,6 +15,8 @@ const PlaylistCover = ({ playlist, sm = false }) => {
    const navigate = useNavigate();
    const dispatch = useDispatch();
 
+   const playingPlaylist = useSelector((state) => state.playlist.playing);
+
    const onNavigate = () => {
       dispatch(updateCurrentPlaylist(playlist));
       navigate(playlist.link);
@@ -22,8 +24,15 @@ const PlaylistCover = ({ playlist, sm = false }) => {
 
    const onPlay = () => {
       onNavigate();
-      dispatch(fetchPlayingPlaylist(playlist));
-      dispatch(updateRecentPlaylist(playlist.id));
+
+      console.log("[onPlay playlist]", playlist);
+
+      if (playingPlaylist?.value?.id !== playlist.id) {
+         console.log("[playingPlaylist?.value?.id]");
+
+         dispatch(fetchPlayingPlaylist(playlist));
+         dispatch(updateRecentPlaylist(playlist.id));
+      }
    };
 
    return (

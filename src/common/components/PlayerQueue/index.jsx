@@ -38,10 +38,15 @@ const PlayerQueue = () => {
             <TabPanel className="w-full">
                <div className="">
                   {playqueue?.played?.map((s) => (
-                     <SongItem key={s.id} info={s} fade />
+                     <SongItem
+                        key={s.id}
+                        info={s}
+                        fade
+                        isPlaylist={!!playingPlaylist}
+                     />
                   ))}
                </div>
-               {playqueue?.next.length > 0 && (
+               {playqueue?.next.length > 0 && !!playingPlaylist && (
                   <div className="mt-4">
                      <div className="mb-2">
                         <h2 className="flex gap-2 font-semibold text-white">
@@ -53,7 +58,11 @@ const PlayerQueue = () => {
                      </div>
                      <div>
                         {playqueue?.next?.map((s) => (
-                           <SongItem key={s.id} info={s} />
+                           <SongItem
+                              key={s.id}
+                              info={s}
+                              isPlaylist={!!playingPlaylist}
+                           />
                         ))}
                      </div>
                   </div>
@@ -72,8 +81,8 @@ const PlayerQueue = () => {
             </TabPanel>
             <TabPanel className="w-full">
                <div className="">
-                  {user?.recentPlayed?.map((s) => (
-                     <SongItem key={s.id} info={s} />
+                  {user?.recentPlayed?.map((s, index) => (
+                     <SongItem key={index} info={s} />
                   ))}
                </div>
             </TabPanel>

@@ -116,7 +116,12 @@ const Artist = () => {
 
                         <div className="w-full h-[285px] overflow-auto scrollbar">
                            {topHits?.map((hit) => (
-                              <SongItem key={hit.id} info={hit} playlistMode />
+                              <SongItem
+                                 key={hit.id}
+                                 info={hit}
+                                 playlistMode
+                                 isPlaylist
+                              />
                            ))}
                         </div>
                      </div>

@@ -13,7 +13,6 @@ import {
 import { initQueue, updateQueue } from "../../Reducers/playQueueSlice";
 import {
    emtpyPlayingPlaylist,
-   fetchPlayingPlaylist,
    updateCurrentToPlaying,
 } from "../../Reducers/playlistSlice";
 
@@ -23,6 +22,8 @@ const SongItem = ({
    options = true,
    like = true,
    playlistMode = false,
+   isPlaylist = false,
+   inPlaylistPage = false,
    addPlaylist = false,
    fade = false,
 }) => {
@@ -42,7 +43,7 @@ const SongItem = ({
       } else {
          setCurrent(false);
       }
-   }, [playingSong]);
+   }, [playingSong, info]);
 
    const playSong = () => {
       if (current) {
@@ -53,18 +54,33 @@ const SongItem = ({
 
          if (playingPlaylist) {
             console.log("[info]", info);
+            console.log("[isPlaylist]", isPlaylist);
 
-            if (playingPlaylist.songs.find((s) => s.id === info.id)) {
+            const inQueue =
+               playqueue.played.find((s) => s.id === info.id) ||
+               playqueue.next.find((s) => s.id === info.id);
+
+            if (!isPlaylist) {
+               // trigger not from the playlist. treat as a single track
+               dispatch(emtpyPlayingPlaylist());
+               dispatch(initQueue([info]));
+            } else if (playingPlaylist.songs.find((s) => s.id === info.id)) {
                dispatch(updateQueue(info));
             } else if (currentPlaylist?.songs.includes(info.id)) {
                // trigger new playlist
                dispatch(updateRecentPlaylist(currentPlaylist.id));
                dispatch(updateCurrentToPlaying(info));
-            } else {
-               dispatch(initQueue([info]));
-               dispatch(emtpyPlayingPlaylist());
             }
          } else {
+            if (currentPlaylist?.songs.includes(info.id)) {
+               // trigger new playlist
+               dispatch(updateRecentPlaylist(currentPlaylist.id));
+               dispatch(updateCurrentToPlaying(info));
+            } else {
+               // trigger not from the playlist. treat as a single track
+               dispatch(emtpyPlayingPlaylist());
+               dispatch(initQueue([info]));
+            }
          }
       }
    };
@@ -99,11 +115,12 @@ const SongItem = ({
                ${thumbnailSizes[size]}`}
                onClick={playSong}
             >
-               {current && playingSong?.playing ? (
-                  <FaPause className="text-base text-white" />
-               ) : (
-                  <FaPlay className="text-base text-white" />
-               )}
+               {current &&
+                  (playingSong?.playing ? (
+                     <FaPause className="text-base text-white" />
+                  ) : (
+                     <FaPlay className="text-base text-white" />
+                  ))}
             </button>
          </div>
 

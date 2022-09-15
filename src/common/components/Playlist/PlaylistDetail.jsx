@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { IoIosMusicalNote } from "react-icons/io";
 import { FiEdit3 } from "react-icons/fi";
@@ -15,7 +15,6 @@ import {
    updatePlayingTracks,
    updatePlayingPlaylist,
    updateCurrentPlaylist,
-   fetchPlayingPlaylist,
    setCurrentTracks,
 } from "../../Reducers/playlistSlice";
 import { updateRecentPlay } from "../../Reducers/userSlice";
@@ -33,6 +32,7 @@ const PlaylistDetail = ({ id }) => {
    // const [playlistTracks, setPlaylistTracks] = useState([]);
    const [suggestSongs, setSuggestSongs] = useState([]);
    const [show, setShow] = useState(false);
+   const isMounted = useRef(false);
 
    useEffect(() => {
       console.log("[playlist detail] id changed", id);
@@ -97,20 +97,22 @@ const PlaylistDetail = ({ id }) => {
       dispatch(initQueue(shuffledSongs));
    };
 
-   // this is only for new playlist play.
-   // if there is playing playlist and user change playlist, this effect should be not triggered
    useEffect(() => {
-      const playing = playingPlaylist.value;
-      const track = playingPlaylist?.chosenTrack;
+      if (isMounted.current) {
+         const playing = playingPlaylist.value;
+         const track = playingPlaylist?.chosenTrack;
 
-      if (currentPlaylist?.id === playing?.id) {
-         if (track) {
-            shuffleAndUpdate(playing?.songs, playing.shuffle, track);
-         } else {
-            if (playing?.songs.length > 0) {
-               shuffleAndUpdate(playing?.songs, playing.shuffle);
+         if (currentPlaylist?.id === playing?.id) {
+            if (track) {
+               shuffleAndUpdate(playing?.songs, playing.shuffle, track);
+            } else {
+               if (playing?.songs.length > 0) {
+                  shuffleAndUpdate(playing?.songs, playing.shuffle);
+               }
             }
          }
+      } else {
+         isMounted.current = true;
       }
    }, [playingPlaylist?.value]);
 
@@ -171,6 +173,8 @@ const PlaylistDetail = ({ id }) => {
                            key={index}
                            info={song}
                            playlistMode
+                           isPlaylist
+                           inPlaylistPage
                            onClick={() => dispatch(update(song))}
                         />
                      ))}

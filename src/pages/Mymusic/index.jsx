@@ -69,7 +69,7 @@ const Mymusic = () => {
 
             {currentUser?.likedSongs.length > 0 ? (
                currentUser?.likedSongs.map((song) => (
-                  <SongItem key={song.id} info={song} playlistMode />
+                  <SongItem key={song.id} info={song} playlistMode isPlaylist />
                ))
             ) : (
                <div className="w-full flex flex-col gap-6 items-center justify-center h-96 text-secondary">
