@@ -1,6 +1,6 @@
 export const Progress = ({ value, onChange, onMouseUp, onTouchEnd }) => {
    return (
-      <div className="grid place-items-center w-full">
+      <div className="grid w-full place-items-center">
          <input
             type="range"
             min="1"

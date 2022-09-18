@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
-// import { update } from "./playingSlice";
 
 import Player from "./Player";
 import SongOptions from "../Song/SongOptions";
@@ -15,19 +14,19 @@ const Playbar = () => {
                         w-full h-[90px]
                         text-white z-[600]"
       >
-         <div className="relative flex justify-between items-center h-full drop-shadow-md">
-            <div className="flex gap-3 justify-center items-center">
+         <div className="relative h-full flex-btw drop-shadow-md">
+            <div className="gap-3 flex-center">
                <div className="flex items-center gap-3 text-white">
                   <div>
                      <img
                         src={currentSong?.thumbnail}
                         alt={currentSong?.title}
-                        className="object-cover rounded-md w-16 h-16"
+                        className="object-cover w-16 h-16 rounded-md"
                      />
                   </div>
                   <div className="max-w-[240px]">
                      <h1 className="text-sm truncate">{currentSong?.title}</h1>
-                     <p className="text-xs text-secondary truncate">
+                     <p className="text-xs truncate text-secondary">
                         {currentSong?.artistNames}
                      </p>
                   </div>

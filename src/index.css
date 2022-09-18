@@ -49,3 +49,11 @@ code {
     background: transparent;
   }
 }
+
+.flex-center {
+  @apply flex items-center justify-center
+}
+
+.flex-btw {
+  @apply flex items-center justify-between
+}

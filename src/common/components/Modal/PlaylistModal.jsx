@@ -70,36 +70,35 @@ const PlaylistModal = ({ ...props }) => {
    };
 
    return (
-      <Modal {...props} className="bg-dark-3 w-96 text-white rounded-xl p-4">
-         <header className="header py-1 w-full flex justify-center items-center">
+      <Modal {...props} className="p-4 text-white bg-dark-3 w-96 rounded-xl">
+         <header className="w-full py-1 flex-center header">
             <h4 className="text-xl font-semibold">Create New Playlist</h4>
          </header>
-         <main className="py-3 w-full flex flex-col gap-4">
+         <main className="flex flex-col w-full gap-4 py-3">
             <input
                type="text"
                value={title}
                onChange={(e) => setTitle(e.target.value)}
-               className="px-4 py-2 border border-hover-1 rounded-xl bg-hover-1 outline-none"
+               className="px-4 py-2 border outline-none border-hover-1 rounded-xl bg-hover-1"
                placeholder="Enter playlist name"
             />
             <textarea
                value={desc}
                onChange={(e) => setDesc(e.target.value)}
-               className="py-2 px-4 border border-hover-1 rounded-xl bg-hover-1 outline-none"
+               className="px-4 py-2 border outline-none border-hover-1 rounded-xl bg-hover-1"
                placeholder="Enter descrption"
                rows={5}
             />
          </main>
-         <div className="pt-4 pb-2 flex justify-end items-center gap-6 w-full px-4">
+         <div className="flex items-center justify-end w-full gap-6 px-4 pt-4 pb-2">
             <button
-               className="px-3 py-2 bg-hover-1 rounded-lg text-navigation w-20
-               hover:text-white hover:bg-dark-1 hover:opacity-100"
+               className="w-20 px-3 py-2 rounded-lg bg-hover-1 text-navigation hover:text-white hover:bg-dark-1 hover:opacity-100"
                onClick={props.onClose}
             >
                Cancel
             </button>
             <button
-               className="px-3 py-2 bg-teal-500 text-white rounded-lg w-20"
+               className="w-20 px-3 py-2 text-white bg-teal-500 rounded-lg"
                onClick={props.update ? onUpdate : onCreate}
             >
                Create

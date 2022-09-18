@@ -32,19 +32,19 @@ const PlaybarOptions = () => {
    };
 
    return (
-      <div className="flex justify-center items-center">
-         <div className="flex justify-center items-center gap-4 pr-3">
+      <div className="flex-center">
+         <div className="gap-4 pr-3 flex-center">
             <button>
                <GiMicrophone />
             </button>
-            <div className="w-36 flex gap-2 justify-center items-center">
+            <div className="gap-2 flex-center w-36">
                <GiSpeaker className="text-3xl" />
                {/* <Progress value={10} /> */}
             </div>
          </div>
-         <div className="2xl:hidden px-3 border-l border-hover-1">
+         <div className="px-3 border-l 2xl:hidden border-hover-1">
             <button
-               className="p-[6px] rounded-md text-white flex items-center justify-center bg-hover-1"
+               className="p-[6px] rounded-md text-white flex-center bg-hover-1"
                onClick={handleToggle}
             >
                <MdQueueMusic

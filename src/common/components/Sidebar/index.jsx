@@ -15,8 +15,8 @@ const Sidebar = () => {
       "hover:bg-hover-1 px-6 py-2 flex gap-2 items-center opacity-80";
 
    return (
-      <div className="h-full w-72 bg-dark-2 text-white z-100 flex-shrink-0">
-         <div className="w-full flex justify-center items-center py-2 mb-6">
+      <div className="flex-shrink-0 h-full text-white w-72 bg-dark-2 z-100">
+         <div className="w-full py-2 mb-6 flex-center">
             <img className="h-[70px]" src={LogoDark} alt="" />
          </div>
 

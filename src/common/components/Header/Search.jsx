@@ -156,11 +156,11 @@ const Search = () => {
                {...attrs}
             >
                <div className="w-full text-sm">
-                  <div className="pb-2 pt-4">
+                  <div className="pt-4 pb-2">
                      {searchText === "" ? (
-                        <div className="flex justify-between items-center ">
+                        <div className="flex-btw">
                            <h2 className="font-semibold">Recent searches</h2>
-                           <button className="text-xs px-3 text-secondary hover:text-primary">
+                           <button className="px-3 text-xs text-secondary hover:text-primary">
                               Clear
                            </button>
                         </div>
@@ -172,7 +172,7 @@ const Search = () => {
                   </div>
                   <div>
                      {loading ? (
-                        <div className="w-full h-60 flex items-center justify-center">
+                        <div className="w-full h-60 flex-center">
                            <SyncLoader
                               color="rgb(20, 184, 166)"
                               loading={loading}
@@ -199,7 +199,7 @@ const Search = () => {
                             focus-within:rounded-b-none focus-within:bg-dark-3"
                placeholder="Search for song, artist, album..."
             />
-            <MdSearch className="absolute top-2 left-3 text-2xl text-white opacity-50" />
+            <MdSearch className="absolute text-2xl text-white opacity-50 top-2 left-3" />
          </div>
       </Tippy>
    );

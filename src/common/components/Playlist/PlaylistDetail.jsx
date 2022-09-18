@@ -117,12 +117,12 @@ const PlaylistDetail = ({ id }) => {
    }, [playingPlaylist?.value]);
 
    return (
-      <div className="w-full h-auto bg-transparent relative flex flex-shrink-0 gap-8 mt-12 mb-8">
+      <div className="relative flex flex-shrink-0 w-full h-auto gap-8 mt-12 mb-8 bg-transparent">
          <PlaylistModal show={show} update onClose={() => setShow(false)} />
-         <div className="w-72 flex-shrink-0 text-white sticky top-10 h-fit">
+         <div className="sticky flex-shrink-0 text-white w-72 top-10 h-fit">
             <div className="w-72">
                <img
-                  className="w-72 h-72 rounded-md object-cover"
+                  className="object-cover rounded-md w-72 h-72"
                   src={
                      currentPlaylist?.thumbnail
                         ? currentPlaylist?.thumbnail
@@ -130,13 +130,13 @@ const PlaylistDetail = ({ id }) => {
                   }
                   alt="Album Thumbnail"
                />
-               <div className="relative flex justify-center items-center mt-4 gap-1">
+               <div className="relative gap-1 mt-4 flex-center">
                   <h1 className="text-2xl font-semibold text-center">
                      {currentPlaylist?.title}
                   </h1>
                   {currentPlaylist?.createdByUserId === user.id && (
                      <button
-                        className="text-secondary hover:text-primary hover:bg-hover-1 rounded-full p-2"
+                        className="p-2 rounded-full text-secondary hover:text-primary hover:bg-hover-1"
                         onClick={() => setShow(!show)}
                      >
                         <FiEdit3 className="text-lg" />
@@ -144,9 +144,9 @@ const PlaylistDetail = ({ id }) => {
                   )}
                </div>
 
-               <p className="text-xs mt-1 text-secondary text-center">
+               <p className="mt-1 text-xs text-center text-secondary">
                   Created by{" "}
-                  <span className="text-white font-semibold cursor-pointer hover:text-primary">
+                  <span className="font-semibold text-white cursor-pointer hover:text-primary">
                      {currentPlaylist?.createdBy}
                   </span>
                </p>
@@ -156,14 +156,14 @@ const PlaylistDetail = ({ id }) => {
             <div>
                {currentTracks?.length > 0 ? (
                   <>
-                     <div className="grid grid-cols-12 px-3 py-3 w-full border-b border-hover-1">
-                        <p className="col-span-6 text-secondary text-sm">
+                     <div className="grid w-full grid-cols-12 p-3 border-b border-hover-1">
+                        <p className="col-span-6 text-sm text-secondary">
                            SONG
                         </p>
-                        <p className="col-span-5 text-secondary text-sm flex items-center">
+                        <p className="flex items-center col-span-5 text-sm text-secondary">
                            ALBUM
                         </p>
-                        <p className="col-span-1 text-secondary text-sm flex items-center justify-end">
+                        <p className="flex items-center justify-end col-span-1 text-sm text-secondary">
                            TIME
                         </p>
                      </div>
@@ -180,8 +180,8 @@ const PlaylistDetail = ({ id }) => {
                      ))}
                   </>
                ) : (
-                  <div className="bg-hover-1 py-4 flex items-center justify-center text-secondary flex-col gap-2 h-60">
-                     <IoIosMusicalNote className="text-7xl italic" />
+                  <div className="flex-col gap-2 py-4 bg-hover-1 flex-center text-secondary h-60">
+                     <IoIosMusicalNote className="italic text-7xl" />
                      <p className="text-lg">
                         Currently no songs in your playlist
                      </p>
@@ -190,7 +190,7 @@ const PlaylistDetail = ({ id }) => {
 
                {currentTracks?.length < 10 && (
                   <div className="mt-5">
-                     <div className="flex justify-between items-center">
+                     <div className="flex-btw">
                         <div>
                            <h2 className="text-xl font-semibold">
                               Recommended
@@ -199,7 +199,7 @@ const PlaylistDetail = ({ id }) => {
                               Based on your recent play
                            </p>
                         </div>
-                        <button className="px-5 py-[6px] rounded-2xl bg-teal-500 mr-2 flex justify-center items-center text-sm gap-1">
+                        <button className="px-5 py-[6px] rounded-2xl bg-teal-500 mr-2 flex-center text-sm gap-1">
                            <BiRefresh className="text-xl" />
                            Refresh
                         </button>

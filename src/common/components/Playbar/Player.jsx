@@ -191,11 +191,8 @@ const Player = () => {
    };
 
    return (
-      <div
-         className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 
-               flex flex-col justify-center items-center gap-2"
-      >
-         <div className="flex gap-2 items-center text-xl">
+      <div className="absolute flex-col gap-2 transform -translate-x-1/2 -translate-y-1/2 flex-center top-1/2 left-1/2">
+         <div className="flex items-center gap-2 text-xl">
             <button
                className={`p-2 hover:bg-hover-1 rounded-full ${
                   currentPlaylist?.shuffle ? "opacity-100" : "opacity-50"
@@ -208,7 +205,7 @@ const Player = () => {
                <MdOutlineShuffle />
             </button>
 
-            <button className="p-1 hover:bg-hover-1 rounded-full">
+            <button className="p-1 rounded-full hover:bg-hover-1">
                <MdOutlineSkipPrevious className="text-3xl" onClick={prevSong} />
             </button>
 
@@ -220,7 +217,7 @@ const Player = () => {
                )}
             </button>
 
-            <button className="p-1 hover:bg-hover-1 rounded-full">
+            <button className="p-1 rounded-full hover:bg-hover-1">
                <MdOutlineSkipNext className="text-3xl" onClick={nextSong} />
             </button>
 
@@ -233,7 +230,7 @@ const Player = () => {
                <MdOutlineReplay />
             </button>
          </div>
-         <div className="flex justify-center items-center gap-2">
+         <div className="gap-2 flex-center">
             <p className="w-8 text-xs">{!time ? "0:00" : fmtMSS(time)}</p>
             <div className="w-[600px]">
                <Progress

@@ -34,28 +34,28 @@ const Mymusic = () => {
    console.log("[playlists]", playlists);
 
    return (
-      <div className="w-full mt-20 text-white mb-20 ">
+      <div className="w-full mt-20 mb-20 text-white ">
          <PlaylistModal show={show} onClose={() => setShow(false)} />
 
-         <div className="w-full z-10 relative">
-            <div className="flex justify-between items-center">
-               <div className="flex gap-4 justify-start items-center">
-                  <h1 className="text-xl text-primary font-semibold">
+         <div className="relative z-10 w-full">
+            <div className="flex-btw">
+               <div className="flex items-center justify-start gap-4">
+                  <h1 className="text-xl font-semibold text-primary">
                      MY PLAYLIST
                   </h1>
                   <button
-                     className="p-2 bg-hover-1 hover:text-primary rounded-full outline-none"
+                     className="p-2 rounded-full outline-none bg-hover-1 hover:text-primary"
                      onClick={() => setShow(!show)}
                   >
                      <MdOutlineAdd className="text-xl" />
                   </button>
                </div>
-               <button className="flex justify-center items-center gap-2 text-secondary hover:text-primary">
+               <button className="gap-2 flex-center text-secondary hover:text-primary">
                   View All
                   <MdArrowForwardIos />
                </button>
             </div>
-            <div className="w-full py-2 flex gap-8 flex-wrap my-6">
+            <div className="flex flex-wrap w-full gap-8 py-2 my-6">
                {playlists?.map((p) => (
                   <PlaylistCover key={p.id} playlist={p} />
                ))}
@@ -63,8 +63,8 @@ const Mymusic = () => {
          </div>
 
          <div className="w-full text-white">
-            <div className="w-full border-b border-hover-1 py-2">
-               <p className="uppercase text-lg font-semibold">Songs</p>
+            <div className="w-full py-2 border-b border-hover-1">
+               <p className="text-lg font-semibold uppercase">Songs</p>
             </div>
 
             {currentUser?.likedSongs.length > 0 ? (
@@ -72,7 +72,7 @@ const Mymusic = () => {
                   <SongItem key={song.id} info={song} playlistMode isPlaylist />
                ))
             ) : (
-               <div className="w-full flex flex-col gap-6 items-center justify-center h-96 text-secondary">
+               <div className="flex-col w-full gap-6 flex-center h-96 text-secondary">
                   <h1 className="text-2xl font-semibold">
                      Songs you like will appear here
                   </h1>
@@ -81,7 +81,7 @@ const Mymusic = () => {
                   </p>
                   <Link
                      to="/"
-                     className="px-4 py-2 rounded-full bg-teal-500 text-white"
+                     className="px-4 py-2 text-white bg-teal-500 rounded-full"
                   >
                      Explore Now
                   </Link>

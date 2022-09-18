@@ -137,8 +137,8 @@ const Upload = () => {
    };
 
    return (
-      <div className="text-white flex justify-center items-center w-full h-full">
-         <div className="w-[500px] min-h-[500px] flex justify-center items-center h-auto border border-hover-1 m-auto rounded-lg">
+      <div className="w-full h-full text-white flex-center">
+         <div className="w-[500px] min-h-[500px] flex-center h-auto border border-hover-1 m-auto rounded-lg">
             {loading ? (
                <>
                   <SyncLoader
@@ -149,18 +149,18 @@ const Upload = () => {
                   />
                </>
             ) : !!asset ? (
-               <div className="p-8 text-white w-full">
-                  <div className="flex w-full items-center h-40 mb-4">
+               <div className="w-full p-8 text-white">
+                  <div className="flex items-center w-full h-40 mb-4">
                      <div className={`drop-shadow-lg w-40 h-40 flex-shrink-0`}>
                         <img
                            src={asset?.picture}
-                           className="w-full object-cover rounded-lg"
+                           className="object-cover w-full rounded-lg"
                            alt="Thumbnail"
                         />
                      </div>
-                     <div className="bg-dark-2 pl-6 w-full py-2 rounded-r-xl">
+                     <div className="w-full py-2 pl-6 bg-dark-2 rounded-r-xl">
                         <p className="font-semibold">{asset?.title}</p>
-                        <p className="text-secondary text-sm mt-1">
+                        <p className="mt-1 text-sm text-secondary">
                            {asset?.duration} / <span>{asset?.type}</span>
                         </p>
                      </div>
@@ -173,8 +173,7 @@ const Upload = () => {
                            value={title}
                            onChange={(e) => setTitle(e.target.value)}
                            placeholder="Enter of your audio"
-                           className="mt-1 w-full bg-transparent border-b border-gray-500 outline-none px-2 
-                           placeholder:text-base placeholder:opacity-50"
+                           className="w-full px-2 mt-1 bg-transparent border-b border-gray-500 outline-none placeholder:text-base placeholder:opacity-50"
                         />
                      </div>
                      <div className="">
@@ -184,8 +183,7 @@ const Upload = () => {
                            value={artists}
                            placeholder="Enter of artist(s)"
                            onChange={(e) => setArtists(e.target.value)}
-                           className="mt-1 w-full bg-transparent border-b border-gray-500 outline-none px-2
-                           placeholder:text-base placeholder:opacity-50"
+                           className="w-full px-2 mt-1 bg-transparent border-b border-gray-500 outline-none placeholder:text-base placeholder:opacity-50"
                         />
                      </div>
                      <div className="">
@@ -195,8 +193,7 @@ const Upload = () => {
                            value={album}
                            placeholder="Album of audio"
                            onChange={(e) => setAlbum(e.target.value)}
-                           className="mt-1 w-full bg-transparent border-b border-gray-500 outline-none px-2
-                           placeholder:text-base placeholder:opacity-50"
+                           className="w-full px-2 mt-1 bg-transparent border-b border-gray-500 outline-none placeholder:text-base placeholder:opacity-50"
                         />
                      </div>
                      <div className="">
@@ -206,28 +203,24 @@ const Upload = () => {
                            value={genres}
                            placeholder="Genres of audio"
                            onChange={(e) => setGenres(e.target.value)}
-                           className="mt-1 w-full bg-transparent border-b border-gray-500 outline-none px-2
-                           placeholder:text-base placeholder:opacity-50"
+                           className="w-full px-2 mt-1 bg-transparent border-b border-gray-500 outline-none placeholder:text-base placeholder:opacity-50"
                         />
                      </div>
                   </div>
-                  <div className="flex justify-end items-center gap-4 mt-8 w-full">
-                     <button
-                        className="flex justify-center items-center gap-1 bg-gray-500 opacity-50 
-                     hover:opacity-100 hover:bg-red-500 rounded-full py-2 px-3"
-                     >
+                  <div className="flex items-center justify-end w-full gap-4 mt-8">
+                     <button className="gap-1 px-3 py-2 bg-gray-500 rounded-full opacity-50 flex-center hover:opacity-100 hover:bg-red-500">
                         <MdCancel />
                         Cancel
                      </button>
                      <button
-                        className="flex justify-center items-center gap-1 bg-amber-500 rounded-full py-2 px-3"
+                        className="gap-1 px-3 py-2 rounded-full flex-center bg-amber-500"
                         onClick={handleListen}
                      >
                         <MdMusicNote />
                         Listen
                      </button>
                      <button
-                        className="flex justify-center items-center gap-1 bg-teal-500 rounded-full py-2 px-3"
+                        className="gap-1 px-3 py-2 bg-teal-500 rounded-full flex-center"
                         onClick={uploadSongInfo}
                      >
                         <MdUpload />
@@ -236,8 +229,8 @@ const Upload = () => {
                   </div>
                </div>
             ) : (
-               <div className="w-full h-full flex items-center justify-center">
-                  <label className="w-full h-full flex items-center justify-center flex-col gap-2 text-secondary text-xl opacity-50 cursor-pointer">
+               <div className="w-full h-full flex-center">
+                  <label className="flex-col w-full h-full gap-2 text-xl opacity-50 cursor-pointer flex-center text-secondary">
                      <p className="">Click here to upload</p>
                      <MdCloudUpload className="w-8 h-8" />
                      <input

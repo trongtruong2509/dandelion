@@ -85,13 +85,13 @@ const Home = () => {
       <div className="w-full text-white">
          <div className="w-full h-60">Advertise</div>
          <div className="w-full">
-            <div className="flex justify-between items-center">
-               <div className="flex gap-4 justify-start items-center">
-                  <h1 className="text-2xl text-white font-bold">
+            <div className="flex-btw">
+               <div className="flex items-center justify-start gap-4">
+                  <h1 className="text-2xl font-bold text-white">
                      Recently Played
                   </h1>
                </div>
-               <button className="flex justify-center items-center gap-2 text-secondary hover:text-primary">
+               <button className="gap-2 flex-center text-secondary hover:text-primary">
                   View All
                   <MdArrowForwardIos />
                </button>
@@ -107,13 +107,13 @@ const Home = () => {
             </div>
          </div>
          <div className="pt-3">
-            <div className="flex justify-between items-center">
-               <div className="flex gap-4 justify-start items-center">
-                  <h1 className="text-2xl text-white font-bold">
+            <div className="flex-btw">
+               <div className="flex items-center justify-start gap-4">
+                  <h1 className="text-2xl font-bold text-white">
                      Your Top Mixes
                   </h1>
                </div>
-               <button className="flex justify-center items-center gap-2 text-secondary hover:text-primary">
+               <button className="gap-2 flex-center text-secondary hover:text-primary">
                   View All
                   <MdArrowForwardIos />
                </button>
@@ -129,16 +129,16 @@ const Home = () => {
             </div>
          </div>
          <div className="pt-3">
-            <div className="flex justify-between items-center">
+            <div className="flex-btw">
                <div
-                  className="flex gap-4 justify-start items-center"
+                  className="flex items-center justify-start gap-4"
                   onClick={() => pushArtist}
                >
-                  <button className="text-2xl text-white font-bold">
+                  <button className="text-2xl font-bold text-white">
                      New Releases
                   </button>
                </div>
-               <button className="flex justify-center items-center gap-2 text-secondary hover:text-primary">
+               <button className="gap-2 flex-center text-secondary hover:text-primary">
                   View All
                   <MdArrowForwardIos />
                </button>
@@ -147,7 +147,7 @@ const Home = () => {
                <Swiper
                   slidesPerView={3}
                   spaceBetween={20}
-                  className="w-full flex gap-3"
+                  className="flex w-full gap-3"
                >
                   {group(newReleases, 4).map((songs, index) => (
                      <SwiperSlide key={index}>

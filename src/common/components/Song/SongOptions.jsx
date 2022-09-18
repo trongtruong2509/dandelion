@@ -37,11 +37,10 @@ const SongOptions = ({ songInfo, like = true, addPlaylist = false }) => {
    };
 
    return (
-      <div className="flex items-center justify-center text-lg gap-2 text-white">
+      <div className="gap-2 text-lg text-white flex-center">
          {like && (
             <div
-               className="cursor-pointer flex items-center justify-center
-                  p-2 rounded-full hover:bg-hover-1 w-10 h-10"
+               className="w-10 h-10 p-2 rounded-full cursor-pointer flex-center hover:bg-hover-1"
                onClick={() =>
                   currentUser
                      ? dispatch(updateLikeSong(songInfo))
@@ -59,8 +58,7 @@ const SongOptions = ({ songInfo, like = true, addPlaylist = false }) => {
 
          <SongMenu info={songInfo}>
             <div
-               className="cursor-pointer flex items-center justify-center
-                     p-2 rounded-full hover:bg-hover-1 w-10 h-10"
+               className="w-10 h-10 p-2 rounded-full cursor-pointer flex-center hover:bg-hover-1"
             >
                <HiOutlineDotsHorizontal className="text-xl" />
             </div>

@@ -18,7 +18,7 @@ const SearchItem = ({ infos }) => {
             } else if (info.alias) {
                return (
                   <Link
-                     className="w-full rounded-lg hover:bg-hover-1 p-2 flex gap-3 items-center justify-start cursor-pointer"
+                     className="flex items-center justify-start w-full gap-3 p-2 rounded-lg cursor-pointer hover:bg-hover-1"
                      to={info.link}
                      key={info.id}
                   >
@@ -26,7 +26,7 @@ const SearchItem = ({ infos }) => {
                         <img
                            src={info.thumbnail}
                            alt=""
-                           className="w-full object-cover rounded-full"
+                           className="object-cover w-full rounded-full"
                         />
                      </div>
                      <div className="">

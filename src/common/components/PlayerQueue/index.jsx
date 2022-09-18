@@ -24,14 +24,14 @@ const PlayerQueue = () => {
             `}
       >
          <Tabs
-            className="Tabs w-full"
+            className="w-full Tabs"
             selectedTabClassName="text-white-custom bg-hover-2 hover:text-white"
          >
-            <TabList className="w-fit bg-hover-1 rounded-3xl p-[3px] flex justify-center items-center mt-4 ml-10 mb-5">
-               <Tab className="3xl:px-3 px-2 py-1 text-sm rounded-3xl text-navigation hover:text-white cursor-pointer">
+            <TabList className="w-fit bg-hover-1 rounded-3xl p-[3px] flex-center mt-4 ml-10 mb-5">
+               <Tab className="px-2 py-1 text-sm cursor-pointer 3xl:px-3 rounded-3xl text-navigation hover:text-white">
                   Playing Queue
                </Tab>
-               <Tab className="3xl:px-3 px-2 py-1 text-sm rounded-3xl text-navigation hover:text-white cursor-pointer">
+               <Tab className="px-2 py-1 text-sm cursor-pointer 3xl:px-3 rounded-3xl text-navigation hover:text-white">
                   Recently Played
                </Tab>
             </TabList>
@@ -52,7 +52,7 @@ const PlayerQueue = () => {
                      <div className="mb-2">
                         <h2 className="flex gap-2 font-semibold text-white">
                            Next from
-                           <span className="text-primary cursor-pointer hover:underline font-normal">
+                           <span className="font-normal cursor-pointer text-primary hover:underline">
                               {playingPlaylist?.title}
                            </span>
                         </h2>
@@ -73,7 +73,7 @@ const PlayerQueue = () => {
                   <div className="my-2">
                      <h2 className="flex gap-2 font-semibold text-white">
                         Suggession
-                        {/* <span className="text-primary cursor-pointer hover:underline font-normal">
+                        {/* <span className="font-normal cursor-pointer text-primary hover:underline">
                            {playingPlaylist?.title}
                         </span> */}
                      </h2>
@@ -92,7 +92,7 @@ const PlayerQueue = () => {
                </div>
             </TabPanel>
          </Tabs>
-         <div className="absolute right-4 top-4 flex gap-2 items-center justify-center">
+         <div className="absolute gap-2 flex-center right-4 top-4">
             <button className="text-lg bg-hover-1 text-white p-[7px] rounded-full hover:bg-hover-2">
                <GiAlarmClock />
             </button>

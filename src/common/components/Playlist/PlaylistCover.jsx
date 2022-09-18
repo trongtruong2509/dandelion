@@ -46,26 +46,23 @@ const PlaylistCover = ({ playlist, sm = false }) => {
             <img
                src={playlist?.thumbnail}
                alt={playlist?.title}
-               className="w-full h-full object-cover group-hover:scale-105 transition-all duration-500 ease-out rounded-md"
+               className="object-cover w-full h-full transition-all duration-500 ease-out rounded-md group-hover:scale-105"
             />
-            <div
-               className="absolute top-0 left-0 w-full h-full
-                        hidden group-hover:flex justify-center items-center text-white bg-overlay-2 gap-6"
-            >
-               <button className="hover:bg-hover-2 p-2 rounded-full">
+            <div className="absolute top-0 left-0 items-center justify-center hidden w-full h-full gap-6 text-white group-hover:flex bg-overlay-2">
+               <button className="p-2 rounded-full hover:bg-hover-2">
                   <MdFavoriteBorder className="text-2xl cursor-pointer" />
                </button>
                <button className="hover:text-primary" onClick={onPlay}>
                   <FaPlay className="text-3xl cursor-pointer" />
                </button>
 
-               <button className="hover:bg-hover-2 p-2 rounded-full">
+               <button className="p-2 rounded-full hover:bg-hover-2">
                   <HiOutlineDotsHorizontal className="text-2xl cursor-pointer" />
                </button>
             </div>
          </div>
          <div className="w-full text-sm">
-            <div className="flex gap-2 items-center justify-between w-full mt-2">
+            <div className="w-full gap-2 mt-2 flex-btw">
                <h1 className="w-40 truncate">{playlist?.title}</h1>
                {!sm && (
                   <p className="text-secondary">
@@ -73,7 +70,7 @@ const PlaylistCover = ({ playlist, sm = false }) => {
                   </p>
                )}
             </div>
-            <p className="text-secondary text-xs mt-1">{playlist?.createdBy}</p>
+            <p className="mt-1 text-xs text-secondary">{playlist?.createdBy}</p>
          </div>
       </div>
    );
