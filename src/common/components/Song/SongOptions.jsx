@@ -37,31 +37,27 @@ const SongOptions = ({ songInfo, like = true, addPlaylist = false }) => {
    };
 
    return (
-      <div className="flex items-center justify-center text-lg gap-2 text-white">
+      <div className="flex items-center justify-center gap-2 text-lg text-white">
          {like && (
             <div
-               className="cursor-pointer flex items-center justify-center
-                  p-2 rounded-full hover:bg-hover-1 w-10 h-10"
-               onClick={() =>
-                  currentUser
-                     ? dispatch(updateLikeSong(songInfo))
-                     : handleLogin()
-               }
+               className="flex items-center justify-center w-10 h-10 p-2 rounded-full cursor-pointer hover:bg-hover-1"
+               // onClick={() =>
+               //    currentUser
+               //       ? dispatch(updateLikeSong(songInfo))
+               //       : handleLogin()
+               // }
             >
-               {!currentUser ||
+               {/* {!currentUser ||
                currentUser?.likedSongs.indexOf(songInfo) === -1 ? (
                   <MdFavoriteBorder className={`text-lg`} />
                ) : (
                   <MdFavorite className="text-lg text-primary" />
-               )}
+               )} */}
             </div>
          )}
 
          <SongMenu info={songInfo}>
-            <div
-               className="cursor-pointer flex items-center justify-center
-                     p-2 rounded-full hover:bg-hover-1 w-10 h-10"
-            >
+            <div className="flex items-center justify-center w-10 h-10 p-2 rounded-full cursor-pointer hover:bg-hover-1">
                <HiOutlineDotsHorizontal className="text-xl" />
             </div>
          </SongMenu>

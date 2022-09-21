@@ -1,5 +1,8 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+
+const withMT = require("@material-tailwind/react/utils/withMT");
+
+module.exports = withMT({
    content: ["./src/**/*.{js,jsx,ts,tsx}"],
    theme: {
       extend: {
@@ -25,13 +28,13 @@ module.exports = {
             "white-custom": "#ffffff",
          },
          width: {
-            '13': '3.25rem',
-            '15': '3.75rem'
+            13: "3.25rem",
+            15: "3.75rem",
          },
          height: {
-            '13': '3.25rem',
-            '15': '3.75rem'
-         }
+            13: "3.25rem",
+            15: "3.75rem",
+         },
       },
       screens: {
          sm: "640px",
@@ -51,4 +54,4 @@ module.exports = {
       },
    },
    plugins: [],
-};
+});

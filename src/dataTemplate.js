@@ -27,17 +27,23 @@ export const playlistTemplate = {
    shuffle: true,
 };
 
+export const firebaseCollections = {
+   genres: "genres",
+   playlists: "playlists",
+   songs: "songs",
+};
+
 export const genreTemplate = {
    id: "",
    name: "",
 };
 
 export const userTemplate = {
-   id,
-   userName,
-   mail,
-   phone,
-   avatar,
+   id: "",
+   userName: "",
+   mail: "",
+   phone: "",
+   avatar: "",
    uploaded: [],
    createdPlaylist: [],
    recentPlayed: [], //ids of playlist

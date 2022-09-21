@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import { useSelector } from "react-redux";
 
+import { ToastContainer } from "react-toastify";
 import routes, { adminPaths, adminRoutes } from "./routes";
 import "./App.css";
 import Sidebar from "../common/components/Sidebar";
@@ -14,6 +15,9 @@ import Header from "../common/components/Header";
 import PlayerQueue from "../common/components/PlayerQueue";
 import Playbar from "../common/components/Playbar";
 import AdminSidebar from "../admin/components/Sidebar/AdminSidebar";
+
+import "react-toastify/dist/ReactToastify.css";
+import AdminHeader from "../admin/components/Header/AdminHeader";
 
 function App() {
    return (
@@ -60,11 +64,11 @@ function Layout() {
                }`}
             >
                <Sidebar />
-               <div className="flex flex-col items-stretch h-full flex-grow bg-dark-4 relative overflow-auto">
+               <div className="relative flex flex-col items-stretch flex-grow h-full overflow-auto bg-dark-4">
                   <div className="w-full sticky top-0 left-0 z-[200] bg-dark-4 px-12">
                      <Header />
                   </div>
-                  <div className="w-full flex items-stretch overflow-auto px-12 relative overflow-y-scroll overscroll-auto scrollbar flex-grow">
+                  <div className="relative flex items-stretch flex-grow w-full px-12 overflow-auto overflow-y-scroll overscroll-auto scrollbar">
                      <Outlet />
                   </div>
                </div>
@@ -89,16 +93,26 @@ function AdminLayout() {
                }`}
             >
                <AdminSidebar />
-               <div className="flex flex-col items-stretch h-full flex-grow bg-dark-4 relative overflow-auto">
+               <div className="relative flex flex-col items-stretch flex-grow h-full overflow-auto bg-dark-4">
                   <div className="w-full sticky top-0 left-0 z-[200] bg-dark-4 px-12">
-                     <Header />
+                     <AdminHeader />
                   </div>
-                  <div className="w-full flex items-stretch overflow-auto px-12 relative overflow-y-scroll overscroll-auto scrollbar flex-grow">
+                  <div className="relative flex items-stretch flex-grow w-full px-12 overflow-auto overflow-y-scroll overscroll-auto scrollbar">
                      <Outlet />
                   </div>
                </div>
             </div>
             {currentSong && <Playbar />}
+            <ToastContainer
+               position="top-right"
+               autoClose={2000}
+               hideProgressBar={true}
+               newestOnTop={false}
+               closeOnClick
+               rtl={false}
+               draggable
+               theme="dark"
+            />
          </div>
       </>
    );

@@ -1,17 +1,30 @@
 import React, { useEffect } from "react";
 import { MdEast, MdSettings, MdUpload, MdWest } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
 import defaultAvatar from "./../../../assets/default_avatar.png";
-import { updateUser, removeUser } from "../../Reducers/userSlice";
-import { getUserDb, loginGoogle } from "../../utils/user";
-import Search from "./Search";
-import axios from "axios";
+import { updateUser, removeUser } from "../../../common/Reducers/userSlice";
+import { getUserDb, loginGoogle } from "../../../common/utils/user";
+import Search from "../../../common/components/Header/Search";
+import { FaUpload } from "react-icons/fa";
+import { FiUploadCloud } from "react-icons/fi";
+import { GiCloudUpload } from "react-icons/gi";
+import { useState } from "react";
+import UploadSingleModal from "../Modals/UploadSingleModal";
+import { getArtistInfo } from "../Upload/uploadZing";
+import UploadMultiModal from "../Modals/UploadMultiModal";
+import { adminPaths } from "../../../app/routes";
 
-const Header = () => {
-   const user = useSelector((state) => state.user.value);
+const AdminHeader = () => {
    const dispatch = useDispatch();
+   const navigate = useNavigate();
+
+   const user = useSelector((state) => state.user.value);
+   const upload = useSelector((state) => state.upload);
+
+   const [singleShow, setSingleShow] = useState(false);
+   const [multiShow, setMultiShow] = useState(false);
 
    useEffect(() => {
       if (user) {
@@ -29,6 +42,12 @@ const Header = () => {
          console.log("no current user loggin before");
       }
    }, []);
+
+   useEffect(() => {
+      if (upload?.tracks?.length) {
+         navigate(adminPaths.multiUpload.replace(":id", upload?.current.id));
+      }
+   }, [upload?.tracks]);
 
    const handleLogin = async () => {
       const user = await loginGoogle();
@@ -59,8 +78,26 @@ const Header = () => {
       dispatch(removeUser());
    };
 
+   const onClickHandle = async () => {
+      console.log("[getArtistInfo]", "on click");
+
+      const res = await getArtistInfo("BIGBANG");
+
+      console.log("[getArtistInfo]", res);
+   };
+
    return (
       <div className="flex items-center justify-between w-full py-4 bg-dark-4">
+         <UploadSingleModal
+            show={singleShow}
+            onClose={() => setSingleShow(false)}
+         />
+
+         <UploadMultiModal
+            show={multiShow}
+            onClose={() => setMultiShow(false)}
+         />
+
          <div className="flex items-center justify-center gap-8">
             <div className="flex items-center justify-center gap-4">
                <button>
@@ -72,15 +109,27 @@ const Header = () => {
             </div>
             <Search />
          </div>
-         <div className="flex items-center justify-center gap-3">
-            <Link
+         <div className="flex items-center justify-center gap-5">
+            {/* <Link
                className="flex items-center justify-center w-10 h-10 text-white rounded-full cursor-pointer bg-hover-1"
                to="/upload"
             >
                <MdUpload className="text-xl" />
-            </Link>
+            </Link> */}
             <div className="flex items-center justify-center w-10 h-10 text-white rounded-full cursor-pointer bg-hover-1">
-               <MdSettings className="text-xl" />
+               <FaUpload className="text-xl" />
+            </div>
+            <div
+               className="flex items-center justify-center w-10 h-10 text-white rounded-full cursor-pointer bg-hover-1"
+               onClick={() => setSingleShow(true)}
+            >
+               <FiUploadCloud className="text-xl" />
+            </div>
+            <div className="flex items-center justify-center w-10 h-10 text-white rounded-full cursor-pointer bg-hover-1">
+               <GiCloudUpload
+                  className="text-xl"
+                  onClick={() => setMultiShow(true)}
+               />
             </div>
             <div
                className="cursor-pointer"
@@ -97,4 +146,4 @@ const Header = () => {
    );
 };
 
-export default Header;
+export default AdminHeader;
