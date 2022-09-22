@@ -1,6 +1,8 @@
 import { createSlice, current } from "@reduxjs/toolkit";
 
-const initialState = {
+import * as local from "../utils/localStorage"
+
+const initialState = local.getQueue() ?? {
    played: [],
    next: [],
 };
@@ -11,7 +13,8 @@ export const playQueue = createSlice({
    reducers: {
       initQueue: (state, action) => {
          state.played = [action.payload.shift()];
-         state.next = action.payload;
+         state.next = action.payload; // already shift first element;
+         local.updateQueue(current(state))
       },
       updateQueue: (state, action) => {
          const id = current(state.next).findIndex(s => s.id === action.payload.id);
@@ -32,24 +35,14 @@ export const playQueue = createSlice({
                state.played.push(action.payload);
             }
          }
+         
+         local.updateQueue(current(state))
       },
       addToQueue: (state, action) => {
          state.next.splice(0, 0, action.payload);
+
+         local.updateQueue(current(state))
       },
-      // removeASongFromQueue: (state, action) => {
-      //    const id = current(state.queue).indexOf(action.payload);
-      //    console.log(id);
-      //    state.queue.splice(id, 1);
-      // },
-      // addASongToPlayed: (state, action) => {
-      //    state.played.push(action.payload);
-      // },
-      // removeASongFromPlayed: (state, action) => {
-      //    state.played.splice(current(state.played).indexOf(action.payload), 1);
-      // },
-      // updatePlayed: (state, action) => {
-      //    state.played = action.payload;
-      // },
    },
 });
 
@@ -57,11 +50,11 @@ export const playQueue = createSlice({
 export const {
    initQueue,
    addToQueue,
-   removeASongFromQueue,
    updateQueue,
-   addASongToPlayed,
-   removeASongFromPlayed,
-   updatePlayed,
+   // removeASongFromQueue,
+   // addASongToPlayed,
+   // removeASongFromPlayed,
+   // updatePlayed,
 } = playQueue.actions;
 
 export default playQueue.reducer;

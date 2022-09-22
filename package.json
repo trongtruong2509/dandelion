@@ -32,7 +32,6 @@
     "redux-thunk": "^2.4.1",
     "stream-browserify": "^3.0.0",
     "swiper": "^8.3.2",
-    "web-vitals": "^2.1.4",
     "zingmp3-api": "^1.0.10"
   },
   "scripts": {

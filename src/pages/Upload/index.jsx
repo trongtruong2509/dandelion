@@ -123,7 +123,7 @@ const Upload = () => {
          uploadSong["genreIds"] = genres.split(",");
 
          setTimeout(() => {
-            addNewDoc("Songs", uploadSong.id.toString(), uploadSong);
+            addNewDoc("songs", uploadSong.id.toString(), uploadSong);
             setLoading(false);
             clearFields();
          }, 1000);

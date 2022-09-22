@@ -37,19 +37,21 @@ const Home = () => {
    }, []);
 
    useEffect(() => {
-      getDocInList("playlists", currentUser.recentPlaylist)
-         .then((result) => {
-            const ordered = [];
-            console.log("[result]", result);
+      if (currentUser) {
+         getDocInList("playlists", currentUser.recentPlaylist)
+            .then((result) => {
+               const ordered = [];
+               console.log("[result]", result);
 
-            // correct order for playlist
-            currentUser.recentPlaylist?.forEach((playlistId) => {
-               ordered.push(result.find((s) => s.id === playlistId));
-            });
+               // correct order for playlist
+               currentUser.recentPlaylist?.forEach((playlistId) => {
+                  ordered.push(result.find((s) => s.id === playlistId));
+               });
 
-            setRecentPlaylist(ordered);
-         })
-         .catch((err) => console.log(err));
+               setRecentPlaylist(ordered);
+            })
+            .catch((err) => console.log(err));
+      }
    }, [currentUser]);
 
    const pushArtist = () => {
@@ -73,7 +75,7 @@ const Home = () => {
       //    .then((err) => console.log(err));
 
       console.log("test fetch serach");
-      getDocumentContains("Songs", "title", "Sau")
+      getDocumentContains("songs", "title", "Sau")
          .then((result) => {
             console.log("this is the result");
             console.log(result);
@@ -100,7 +102,7 @@ const Home = () => {
                <Swiper slidesPerView={6} spaceBetween={30} className="w-full">
                   {recentPlaylist?.map((p) => (
                      <SwiperSlide key={p.id}>
-                        <PlaylistCover playlist={p} sm={true} />
+                        <PlaylistCover info={p} size="sm" />
                      </SwiperSlide>
                   ))}
                </Swiper>
@@ -122,7 +124,7 @@ const Home = () => {
                <Swiper slidesPerView={5} spaceBetween={120} className="w-full">
                   {tempPlaylists.map((p) => (
                      <SwiperSlide key={p.id}>
-                        <PlaylistCover playlist={p} />
+                        <PlaylistCover info={p} />
                      </SwiperSlide>
                   ))}
                </Swiper>

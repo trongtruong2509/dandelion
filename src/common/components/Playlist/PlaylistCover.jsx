@@ -11,42 +11,53 @@ import {
    fetchPlayingPlaylist,
 } from "../../Reducers/playlistSlice";
 
-const PlaylistCover = ({ playlist, sm = false }) => {
+const PlaylistCover = ({ info, size = "md", inPlaylist = false }) => {
    const navigate = useNavigate();
    const dispatch = useDispatch();
 
    const playingPlaylist = useSelector((state) => state.playlist.playing);
+   // const playingTrack = useSelector((state) => state.playlist.value);
 
    const onNavigate = () => {
-      dispatch(updateCurrentPlaylist(playlist));
-      navigate(playlist.link);
+      dispatch(updateCurrentPlaylist(info));
+      navigate(info.link);
    };
 
    const onPlay = () => {
       onNavigate();
 
-      console.log("[onPlay playlist]", playlist);
+      // console.log("[onPlay playlist]", info);
 
-      if (playingPlaylist?.value?.id !== playlist.id) {
-         console.log("[playingPlaylist?.value?.id]");
+      if (playingPlaylist?.value?.id !== info.id) {
+         // console.log("[playingPlaylist?.value?.id]");
 
-         dispatch(fetchPlayingPlaylist(playlist));
-         dispatch(updateRecentPlaylist(playlist.id));
+         dispatch(fetchPlayingPlaylist(info));
+         dispatch(updateRecentPlaylist(info.id));
       }
    };
 
+   const thumbnailSizes = {
+      sm: "w-40 h-40",
+      md: "w-56 h-56",
+      lg: "w-[300px] h-[300px]",
+   };
+
+   const widthSize = {
+      sm: "w-40",
+      md: "w-56",
+      lg: "w-[300px]",
+   };
+
    return (
-      <div className={`h-auto text-white ${sm ? "w-40" : "w-56"}`}>
+      <div className={`h-auto text-white ${widthSize[size]}`}>
          <div
-            className={`w-full group relative overflow-hidden cursor-pointer ${
-               sm ? "h-40" : "h-56"
-            }`}
-            onClick={onNavigate}
+            className={`group relative overflow-hidden rounded-md cursor-pointer ${thumbnailSizes[size]}`}
+            onClick={inPlaylist ? onPlay : onNavigate}
          >
             <img
-               src={playlist?.thumbnail}
-               alt={playlist?.title}
-               className="object-cover w-full h-full transition-all duration-500 ease-out rounded-md group-hover:scale-105"
+               src={info?.thumbnail}
+               alt={info?.title}
+               className="object-cover w-full h-full transition-all duration-500 ease-out group-hover:scale-105"
             />
             <div className="absolute top-0 left-0 items-center justify-center hidden w-full h-full gap-6 text-white group-hover:flex bg-overlay-2">
                <button className="p-2 rounded-full hover:bg-hover-2">
@@ -61,16 +72,16 @@ const PlaylistCover = ({ playlist, sm = false }) => {
                </button>
             </div>
          </div>
-         <div className="w-full text-sm">
+         <div className="w-full">
             <div className="w-full gap-2 mt-2 flex-btw">
-               <h1 className="w-40 truncate">{playlist?.title}</h1>
-               {!sm && (
-                  <p className="text-secondary">
-                     {playlist?.songs.length} tracks
+               <h1 className="w-40 truncate">{info?.title}</h1>
+               {size == "md" && (
+                  <p className="text-sm text-secondary">
+                     {info?.songs.length} tracks
                   </p>
                )}
             </div>
-            <p className="mt-1 text-xs text-secondary">{playlist?.createdBy}</p>
+            <p className="mt-1 text-xs text-secondary">{info?.createdBy}</p>
          </div>
       </div>
    );

@@ -42,7 +42,7 @@ const Artist = () => {
    }, [params.id]);
 
    useEffect(() => {
-      getDocInList("Songs", artist?.topHits).then((result) => {
+      getDocInList("songs", artist?.topHits).then((result) => {
          setTopHits(result);
       });
    }, [artist]);
@@ -146,7 +146,7 @@ const Artist = () => {
                      >
                         {tempPlaylists.map((p) => (
                            <SwiperSlide key={p.id}>
-                              <PlaylistCover playlist={p} />
+                              <PlaylistCover info={p} />
                            </SwiperSlide>
                         ))}
                      </Swiper>
@@ -171,7 +171,7 @@ const Artist = () => {
                      >
                         {tempPlaylists.map((p) => (
                            <SwiperSlide key={p.id}>
-                              <PlaylistCover playlist={p} />
+                              <PlaylistCover info={p} />
                            </SwiperSlide>
                         ))}
                      </Swiper>
@@ -196,7 +196,7 @@ const Artist = () => {
                      >
                         {tempPlaylists.map((p) => (
                            <SwiperSlide key={p.id}>
-                              <PlaylistCover playlist={p} />
+                              <PlaylistCover info={p} />
                            </SwiperSlide>
                         ))}
                      </Swiper>

@@ -115,7 +115,7 @@ const Search = () => {
 
    const fetchDb = async () => {
       try {
-         const songs = await getAllDocs("Songs");
+         const songs = await getAllDocs("songs");
          setSongsDb(songs.filter((e) => e !== undefined));
 
          const artists = await getAllDocs("Artists");

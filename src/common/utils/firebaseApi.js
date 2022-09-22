@@ -76,7 +76,7 @@ export const getDocInList = async (document, filter) => {
 
 export const getLatestSongs = async () => {
    const q = query(
-      collection(firestore, "Songs"),
+      collection(firestore, "songs"),
       where("releaseDate", ">=", Date.now() - 2592000000)
    );
 

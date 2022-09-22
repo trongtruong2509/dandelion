@@ -1,7 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
+import * as local from "../../utils/localStorage"
 
 const initialState = {
-   value: { info: null, playing: false },
+   value: { 
+      info: local.getPlaying() ?? null, 
+      playing: false 
+   },
 };
 
 export const playingSlice = createSlice({
@@ -10,10 +14,12 @@ export const playingSlice = createSlice({
    reducers: {
       update: (state, action) => {
          state.value = action.payload;
+         local.updatePlaying(action.payload.info)
       },
 
       updateAndPlay: (state, action) => {
          state.value = { info: action.payload, playing: true };
+         local.updatePlaying(action.payload)
       },
 
       play: (state) => {
@@ -27,14 +33,14 @@ export const playingSlice = createSlice({
          // state.value = { info: state.value.info, playing: false };
          // console.log(state.value.playing);
       },
-      remove: (state, action) => {
-         state.value += action.payload;
-      },
+      // remove: (state, action) => {
+      //    state.value += action.payload;
+      // },
    },
 });
 
 // Action creators are generated for each case reducer function
-export const { update, updateAndPlay, play, pause, remove } =
+export const { update, updateAndPlay, play, pause } =
    playingSlice.actions;
 
 export default playingSlice.reducer;

@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { IoIosMusicalNote } from "react-icons/io";
 import { FiEdit3 } from "react-icons/fi";
 import { BiRefresh } from "react-icons/bi";
+// import SyncLoader from "react-spinners/SyncLoader";
 
 import AlbumDefault from "./../../../assets/album_default.png";
 import { getDocById, getDocInList } from "../../utils/firebaseApi";
@@ -10,20 +11,26 @@ import { shuffleArray } from "../../utils/common";
 import SongItem from "../Song/SongItem";
 import PlaylistModal from "../Modal/PlaylistModal";
 
-import { update } from "../Playbar/playingSlice";
+import { pause, play, update } from "../Playbar/playingSlice";
 import {
-   updatePlayingTracks,
-   updatePlayingPlaylist,
-   updateCurrentPlaylist,
+   // updatePlayingTracks,
+   // updatePlayingPlaylist,
+   // updateCurrentPlaylist,
    setCurrentTracks,
+   fetchCurrentPlaylistInfo,
+   updateCurrentToPlaying,
 } from "../../Reducers/playlistSlice";
 import { updateRecentPlay } from "../../Reducers/userSlice";
 import { initQueue } from "../../Reducers/playQueueSlice";
+import { MdFavoriteBorder } from "react-icons/md";
+import { FaPause, FaPlay } from "react-icons/fa";
+import { HiOutlineDotsHorizontal } from "react-icons/hi";
 
 const PlaylistDetail = ({ id }) => {
    const currentPlaylist = useSelector((state) => state.playlist.current.value);
-   const currentTracks = useSelector((state) => state.playlist.current.tracks);
    const playingPlaylist = useSelector((state) => state.playlist.playing);
+   const currentTracks = useSelector((state) => state.playlist.current.tracks);
+   const playingTrack = useSelector((state) => state.playing.value);
    const user = useSelector((state) => state.user.value);
    // const playqueue = useSelector((state) => state.playqueue.queue);
    // const played = useSelector((state) => state.playqueue.played);
@@ -32,38 +39,28 @@ const PlaylistDetail = ({ id }) => {
    // const [playlistTracks, setPlaylistTracks] = useState([]);
    const [suggestSongs, setSuggestSongs] = useState([]);
    const [show, setShow] = useState(false);
+   const [isPlaying, setIsPlaying] = useState(false);
    const isMounted = useRef(false);
 
    useEffect(() => {
       console.log("[playlist detail] id changed", id);
 
-      // if (playingPlaylist.id === id) {
-      //    getDocInList("Songs", playingPlaylist.songs)
-      //       .then((result) => {
-      //          dispatch(updatePlayingTracks(result));
-      //          dispatch(
-      //             updatePlayingPlaylist({ ...playingPlaylist, songs: result })
-      //          );
-      //       })
-      //       .catch((err) => console.log("[err] when setPlaylistTracks", err));
-      // }
-
       // if currentPlaylist is empty or different id with current id, fetch playlist again.
       // mostly for reload page, change page
       if (!currentPlaylist || currentPlaylist.id !== id) {
-         getDocById("playlists", id)
-            .then((result) => {
-               dispatch(updateCurrentPlaylist(result));
-            })
-            .catch((err) => console.log(err));
+         dispatch(fetchCurrentPlaylistInfo(id));
+         // getDocById("playlists", id)
+         //    .then((result) => {
+         //       dispatch(updateCurrentPlaylist(result));
+         //    })
+         //    .catch((err) => console.log(err));
       }
    }, [id]);
 
    useEffect(() => {
-      if (currentPlaylist?.songs.length > 0) {
+      if (currentPlaylist?.songs?.length) {
          console.log("[result.songs]", currentPlaylist.songs);
-
-         getDocInList("Songs", currentPlaylist.songs)
+         getDocInList("songs", currentPlaylist.songs)
             .then((result) => {
                console.log("[currentPlaylist] result", result);
                // setPlaylistTracks(result);
@@ -71,21 +68,9 @@ const PlaylistDetail = ({ id }) => {
             })
             .catch((err) => console.log("[err] when setPlaylistTracks", err));
       }
-
-      // getLatestSongs()
-      //    .then((result) => {
-      //       const latest = result.slice(0, 10);
-      //       console.log(latest);
-
-      //       setSuggestSongs(latest);
-      //    })
-      //    .then((error) => {
-      //       console.log("error");
-      //       console.log(error);
-      //    });
    }, [currentPlaylist]);
 
-   const shuffleAndUpdate = (songs, shuffle, chosen) => {
+   const shuffleAndPlay = (songs, shuffle, chosen) => {
       let shuffledSongs = [...songs];
 
       if (shuffle) {
@@ -97,6 +82,20 @@ const PlaylistDetail = ({ id }) => {
       dispatch(initQueue(shuffledSongs));
    };
 
+   const onPlay = () => {
+      console.log("[onPlay] clicked");
+
+      if (currentPlaylist?.id !== playingPlaylist?.value?.id) {
+         dispatch(updateCurrentToPlaying());
+      } else {
+         dispatch(play());
+      }
+   };
+
+   const onPause = () => {
+      dispatch(pause());
+   };
+
    useEffect(() => {
       if (isMounted.current) {
          const playing = playingPlaylist.value;
@@ -104,10 +103,10 @@ const PlaylistDetail = ({ id }) => {
 
          if (currentPlaylist?.id === playing?.id) {
             if (track) {
-               shuffleAndUpdate(playing?.songs, playing.shuffle, track);
+               shuffleAndPlay(playing?.songs, playing.shuffle, track);
             } else {
                if (playing?.songs.length > 0) {
-                  shuffleAndUpdate(playing?.songs, playing.shuffle);
+                  shuffleAndPlay(playing?.songs, playing.shuffle);
                }
             }
          }
@@ -119,17 +118,42 @@ const PlaylistDetail = ({ id }) => {
    return (
       <div className="relative flex flex-shrink-0 w-full h-auto gap-8 mt-12 mb-8 bg-transparent">
          <PlaylistModal show={show} update onClose={() => setShow(false)} />
+
          <div className="sticky flex-shrink-0 text-white w-72 top-10 h-fit">
-            <div className="w-72">
+            <div
+               className="overflow-hidden rounded-md w-72 group h-72 hover:cursor-pointer"
+               onClick={playingTrack?.playing ? onPause : onPlay}
+            >
                <img
-                  className="object-cover rounded-md w-72 h-72"
+                  className="object-cover w-full h-full transition-all duration-500 ease-out group-hover:scale-105"
                   src={
                      currentPlaylist?.thumbnail
                         ? currentPlaylist?.thumbnail
                         : AlbumDefault
                   }
-                  alt="Album Thumbnail"
+                  alt="Playlist Cover"
                />
+               <div className="absolute top-0 left-0 items-center justify-center hidden gap-6 text-white w-72 h-72 group-hover:flex bg-overlay-2">
+                  {/* <button className="p-2 rounded-full hover:bg-hover-2">
+                     <MdFavoriteBorder className="text-2xl cursor-pointer" />
+                  </button> */}
+                  {playingTrack?.playing ? (
+                     <button className="hover:text-primary">
+                        <FaPause className="text-3xl cursor-pointer" />
+                     </button>
+                  ) : (
+                     <button className="hover:text-primary">
+                        <FaPlay className="text-3xl cursor-pointer" />
+                     </button>
+                  )}
+
+                  {/* <button className="p-2 rounded-full hover:bg-hover-2">
+                     <HiOutlineDotsHorizontal className="text-2xl cursor-pointer" />
+                  </button> */}
+               </div>
+            </div>
+
+            <div>
                <div className="relative gap-1 mt-4 flex-center">
                   <h1 className="text-2xl font-semibold text-center">
                      {currentPlaylist?.title}
@@ -143,7 +167,6 @@ const PlaylistDetail = ({ id }) => {
                      </button>
                   )}
                </div>
-
                <p className="mt-1 text-xs text-center text-secondary">
                   Created by{" "}
                   <span className="font-semibold text-white cursor-pointer hover:text-primary">

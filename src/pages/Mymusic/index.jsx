@@ -57,7 +57,7 @@ const Mymusic = () => {
             </div>
             <div className="flex flex-wrap w-full gap-8 py-2 my-6">
                {playlists?.map((p) => (
-                  <PlaylistCover key={p.id} playlist={p} />
+                  <PlaylistCover key={p.id} info={p} />
                ))}
             </div>
          </div>
