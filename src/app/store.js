@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import playingReducer from "./../common/components/Playbar/playingSlice";
+import playingReducer from "./../common/Reducers/playingSlice";
 import playlistReducer from "./../common/Reducers/playlistSlice";
 import playQueueReducer from "./../common/Reducers/playQueueSlice";
 import userReducer from "./../common/Reducers/userSlice";

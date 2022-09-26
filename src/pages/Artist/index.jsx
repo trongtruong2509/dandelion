@@ -42,7 +42,7 @@ const Artist = () => {
    }, [params.id]);
 
    useEffect(() => {
-      getDocInList("songs", artist?.topHits).then((result) => {
+      getDocInList("Songs", artist?.topHits).then((result) => {
          setTopHits(result);
       });
    }, [artist]);

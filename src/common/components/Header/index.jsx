@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { MdEast, MdSettings, MdUpload, MdWest } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -7,11 +7,15 @@ import defaultAvatar from "./../../../assets/default_avatar.png";
 import { updateUser, removeUser } from "../../Reducers/userSlice";
 import { getUserDb, loginGoogle } from "../../utils/user";
 import Search from "./Search";
-import axios from "axios";
+import { applyTheme } from "../../../themes/utils";
+import baseTheme from "../../../themes/base";
+import darkTheme from "../../../themes/dark";
 
 const Header = () => {
    const user = useSelector((state) => state.user.value);
    const dispatch = useDispatch();
+
+   const [isDefault, setIsDefault] = useState(false);
 
    useEffect(() => {
       if (user) {
@@ -59,6 +63,16 @@ const Header = () => {
       dispatch(removeUser());
    };
 
+   const handleSettings = () => {
+      if (isDefault) {
+         applyTheme(baseTheme);
+         setIsDefault(!isDefault);
+      } else {
+         applyTheme(darkTheme);
+         setIsDefault(!isDefault);
+      }
+   };
+
    return (
       <div className="w-full py-4 flex-btw bg-dark-4">
          <div className="gap-8 flex-center">
@@ -79,7 +93,10 @@ const Header = () => {
             >
                <MdUpload className="text-xl" />
             </Link>
-            <div className="w-10 h-10 text-white rounded-full cursor-pointer flex-center bg-hover-1">
+            <div
+               className="w-10 h-10 text-white rounded-full cursor-pointer flex-center bg-hover-1"
+               onClick={handleSettings}
+            >
                <MdSettings className="text-xl" />
             </div>
             <div

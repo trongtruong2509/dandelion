@@ -4,7 +4,7 @@ import { getDocById, getDocInList } from "../utils/firebaseApi";
 import * as local from "../utils/localStorage"
 
 export const fetchPlayingPlaylist = createAsyncThunk("/playlist/fetchPlayingPlaylistStatus", async (playlist) => {
-   const songDetails = await getDocInList("songs", playlist.songs);
+   const songDetails = await getDocInList("Songs", playlist.songs);
 
    return {...playlist, songs: songDetails}
 })

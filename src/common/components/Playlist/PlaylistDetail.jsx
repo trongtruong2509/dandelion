@@ -1,8 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { IoIosMusicalNote } from "react-icons/io";
+import {
+   IoIosMusicalNote,
+   IoIosShuffle,
+   IoMdPause,
+   IoMdPlay,
+   IoShuffleOutline,
+} from "react-icons/io";
 import { FiEdit3 } from "react-icons/fi";
-import { BiRefresh } from "react-icons/bi";
+import { BiPause, BiPlay, BiRefresh } from "react-icons/bi";
 // import SyncLoader from "react-spinners/SyncLoader";
 
 import AlbumDefault from "./../../../assets/album_default.png";
@@ -11,7 +17,7 @@ import { shuffleArray } from "../../utils/common";
 import SongItem from "../Song/SongItem";
 import PlaylistModal from "../Modal/PlaylistModal";
 
-import { pause, play, update } from "../Playbar/playingSlice";
+import { pause, play, update } from "../../Reducers/playingSlice";
 import {
    // updatePlayingTracks,
    // updatePlayingPlaylist,
@@ -22,7 +28,7 @@ import {
 } from "../../Reducers/playlistSlice";
 import { updateRecentPlay } from "../../Reducers/userSlice";
 import { initQueue } from "../../Reducers/playQueueSlice";
-import { MdFavoriteBorder } from "react-icons/md";
+import { MdFavorite, MdFavoriteBorder } from "react-icons/md";
 import { FaPause, FaPlay } from "react-icons/fa";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 
@@ -60,7 +66,7 @@ const PlaylistDetail = ({ id }) => {
    useEffect(() => {
       if (currentPlaylist?.songs?.length) {
          console.log("[result.songs]", currentPlaylist.songs);
-         getDocInList("songs", currentPlaylist.songs)
+         getDocInList("Songs", currentPlaylist.songs)
             .then((result) => {
                console.log("[currentPlaylist] result", result);
                // setPlaylistTracks(result);
@@ -116,7 +122,7 @@ const PlaylistDetail = ({ id }) => {
    }, [playingPlaylist?.value]);
 
    return (
-      <div className="relative flex flex-shrink-0 w-full h-auto gap-8 mt-12 mb-8 bg-transparent">
+      <div className="relative flex flex-shrink-0 w-full h-auto gap-8 pb-12 mt-12 mb-8 bg-transparent">
          <PlaylistModal show={show} update onClose={() => setShow(false)} />
 
          <div className="sticky flex-shrink-0 text-white w-72 top-10 h-fit">
@@ -146,10 +152,6 @@ const PlaylistDetail = ({ id }) => {
                         <FaPlay className="text-3xl cursor-pointer" />
                      </button>
                   )}
-
-                  {/* <button className="p-2 rounded-full hover:bg-hover-2">
-                     <HiOutlineDotsHorizontal className="text-2xl cursor-pointer" />
-                  </button> */}
                </div>
             </div>
 
@@ -173,6 +175,41 @@ const PlaylistDetail = ({ id }) => {
                      {currentPlaylist?.createdBy}
                   </span>
                </p>
+               <div className="flex items-center justify-center w-full">
+                  {currentPlaylist?.id !== playingPlaylist?.value?.id ? (
+                     <button
+                        className="flex items-center gap-1 px-5 py-2 my-5 text-sm uppercase bg-primary rounded-3xl"
+                        onClick={onPlay}
+                     >
+                        <IoIosShuffle className="text-lg" />
+                        Shuffle Play
+                     </button>
+                  ) : playingTrack?.playing ? (
+                     <button
+                        className="flex items-center gap-1 px-5 py-2 my-5 text-sm uppercase bg-primary rounded-3xl"
+                        onClick={onPause}
+                     >
+                        <IoMdPause className="text-lg" />
+                        Pause
+                     </button>
+                  ) : (
+                     <button
+                        className="flex items-center gap-1 px-5 py-2 my-5 text-sm uppercase bg-primary rounded-3xl"
+                        onClick={onPlay}
+                     >
+                        <IoMdPlay className="text-lg" />
+                        Continue
+                     </button>
+                  )}
+               </div>
+               <div className="flex items-center justify-center gap-4">
+                  <button className="p-2 rounded-full cursor-pointer flex-center bg-hover-1">
+                     <MdFavorite className="text-lg text-primary" />
+                  </button>
+                  <button className="p-2 rounded-full cursor-pointer flex-center bg-hover-1">
+                     <HiOutlineDotsHorizontal className="text-lg" />
+                  </button>
+               </div>
             </div>
          </div>
          <div className="w-full">

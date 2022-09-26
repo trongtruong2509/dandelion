@@ -75,7 +75,7 @@ const Home = () => {
       //    .then((err) => console.log(err));
 
       console.log("test fetch serach");
-      getDocumentContains("songs", "title", "Sau")
+      getDocumentContains("Songs", "title", "Sau")
          .then((result) => {
             console.log("this is the result");
             console.log(result);

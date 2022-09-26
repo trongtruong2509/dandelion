@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import SongInfo from "../Song/SongInfo";
 import SongOptions from "../Song/SongOptions";
 
-import { play, pause, update } from "../Playbar/playingSlice";
+import { play, pause, update } from "../../Reducers/playingSlice";
 import {
    updateRecentPlay,
    updateRecentPlaylist,

@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import * as local from "../../utils/localStorage"
+import * as local from "../utils/localStorage"
 
 const initialState = {
    value: { 

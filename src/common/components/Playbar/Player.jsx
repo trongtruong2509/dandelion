@@ -1,43 +1,49 @@
 import React, { useState, useEffect } from "react";
-import {
-   MdOutlinePlayCircle,
-   MdOutlinePauseCircle,
-   MdOutlineSkipNext,
-   MdOutlineSkipPrevious,
-   MdOutlineReplay,
-   MdOutlineShuffle,
-} from "react-icons/md";
 import { useSelector, useDispatch } from "react-redux";
 
-import { Progress } from "./Progress";
-import { play, pause, updateAndPlay } from "../Playbar/playingSlice";
-import { updateShuffle } from "../../Reducers/playlistSlice";
 import {
-   addToQueue,
-   removeASongFromQueue,
-   updateQueue,
-   addASongToPlayed,
-   removeASongFromPlayed,
-   updatePlayed,
-} from "../../Reducers/playQueueSlice";
+   IoPlaySkipForward,
+   IoPlaySkipBack,
+   IoPlay,
+   IoPause,
+   IoShuffleOutline,
+   IoRepeatOutline,
+   IoVolumeMedium,
+   IoVolumeMute,
+} from "react-icons/io5";
+import { MdQueueMusic } from "react-icons/md";
+
+import { play, pause, updateAndPlay } from "../../Reducers/playingSlice";
+import { updateShuffle } from "../../Reducers/playlistSlice";
+import { updateQueue } from "../../Reducers/playQueueSlice";
 import { updateRecentPlay } from "../../Reducers/userSlice";
+import {
+   toggleQueuebar,
+   toggleQueuebarHidden,
+} from "../../Reducers/queueSlice";
+
+import { Progress } from "./Progress";
 
 const Player = () => {
+   const dispatch = useDispatch();
+
    const currentSong = useSelector((state) => state.playing.value);
    const currentPlaylist = useSelector((state) => state.playlist.value);
    const playqueue = useSelector((state) => state.playqueue.next);
    const played = useSelector((state) => state.playqueue.played);
-   const dispatch = useDispatch();
+   const queueState = useSelector((state) => state.queue);
 
    const [audio, setAudio] = useState(null);
    const [playing, setPlaying] = useState(false);
    const [length, setLength] = useState(0);
    const [time, setTime] = useState(0);
-   const [volume, setVolume] = useState(0.8);
    let [end, setEnd] = useState(0);
 
    const [slider, setSlider] = useState(0);
    const [drag, setDrag] = useState(0);
+   // const [volSlider, setVolSlider] = useState(0);
+   const [volume, setVolume] = useState(0.8);
+   const [volDrag, setVolDrag] = useState(0.8);
 
    const [looped, setLooped] = useState(false);
    const [firstTime, setFirstTime] = useState(true);
@@ -61,7 +67,7 @@ const Player = () => {
          );
       };
 
-      const setAudioVolume = () => setVolume(_audio.volume);
+      // const setAudioVolume = () => setVolume(_audio.volume * 100);
 
       const setAudioEnd = () => {
          setEnd((end += 1));
@@ -70,7 +76,7 @@ const Player = () => {
       // events on audio object
       _audio.addEventListener("loadeddata", setAudioData);
       _audio.addEventListener("timeupdate", setAudioTime);
-      _audio.addEventListener("volumechange", setAudioVolume);
+      // _audio.addEventListener("volumechange", setAudioVolume);
       _audio.addEventListener("ended", setAudioEnd);
 
       setAudio(_audio);
@@ -82,7 +88,7 @@ const Player = () => {
          _audio.pause();
          _audio.removeEventListener("loadeddata", setAudioData);
          _audio.removeEventListener("timeupdate", setAudioTime);
-         _audio.removeEventListener("volumechange", setAudioVolume);
+         // _audio.removeEventListener("volumechange", setAudioVolume);
          _audio.removeEventListener("ended", setAudioEnd);
       };
    }, [currentSong?.info]);
@@ -131,6 +137,13 @@ const Player = () => {
          audio.currentTime = val;
       }
    }, [drag]);
+
+   useEffect(() => {
+      if (audio) {
+         const val = Math.round(volDrag / 100);
+         audio.volume = val;
+      }
+   }, [volDrag]);
 
    useEffect(() => {
       if (audio) {
@@ -190,60 +203,115 @@ const Player = () => {
       }
    };
 
+   const handleToggle = () => {
+      if (queueState.hidden) {
+         dispatch(toggleQueuebarHidden(false));
+      } else {
+         setTimeout(() => {
+            dispatch(toggleQueuebarHidden(true));
+         }, 500);
+      }
+
+      if (queueState.animate) {
+         dispatch(toggleQueuebar(false));
+      } else {
+         setTimeout(() => {
+            dispatch(toggleQueuebar(true));
+         }, 50);
+      }
+   };
+
+   useEffect(() => {
+      console.log("[volume]", volume);
+   }, [volume]);
+
    return (
-      <div className="absolute flex-col gap-2 transform -translate-x-1/2 -translate-y-1/2 flex-center top-1/2 left-1/2">
-         <div className="flex items-center gap-2 text-xl">
-            <button
-               className={`p-2 hover:bg-hover-1 rounded-full ${
-                  currentPlaylist?.shuffle ? "opacity-100" : "opacity-50"
-               }`}
-               onClick={() => {
-                  //@todo: update playlist shuffle here
-                  dispatch(updateShuffle(!currentPlaylist?.shuffle));
-               }}
-            >
-               <MdOutlineShuffle />
-            </button>
-
-            <button className="p-1 rounded-full hover:bg-hover-1">
-               <MdOutlineSkipPrevious className="text-3xl" onClick={prevSong} />
-            </button>
-
-            <button onClick={() => setPlaying(!playing)}>
-               {playing ? (
-                  <MdOutlinePauseCircle className="text-5xl" />
-               ) : (
-                  <MdOutlinePlayCircle className="text-5xl" />
-               )}
-            </button>
-
-            <button className="p-1 rounded-full hover:bg-hover-1">
-               <MdOutlineSkipNext className="text-3xl" onClick={nextSong} />
-            </button>
-
-            <button
-               className={`p-2 hover:bg-hover-1 rounded-full ${
-                  looped ? "opacity-100" : "opacity-50"
-               }`}
-               onClick={() => setLooped(!looped)}
-            >
-               <MdOutlineReplay />
-            </button>
-         </div>
-         <div className="gap-2 flex-center">
-            <p className="w-8 text-xs">{!time ? "0:00" : fmtMSS(time)}</p>
-            <div className="w-[600px]">
-               <Progress
-                  value={slider}
-                  onChange={(e) => {
-                     setSlider(e.target.value);
-                     setDrag(e.target.value);
+      <div>
+         <div className="absolute flex-col gap-2 transform -translate-x-1/2 -translate-y-1/2 flex-center top-1/2 left-1/2">
+            <div className="flex items-center gap-4 text-xl">
+               <button
+                  className={`p-2 hover:bg-hover-1 rounded-full ${
+                     currentPlaylist?.shuffle ? "opacity-100" : "opacity-50"
+                  }`}
+                  onClick={() => {
+                     //@todo: update playlist shuffle here
+                     dispatch(updateShuffle(!currentPlaylist?.shuffle));
                   }}
-                  onMouseUp={() => setPlaying(true)}
-                  onTouchEnd={() => setPlaying(true)}
-               />
+               >
+                  <IoShuffleOutline />
+               </button>
+
+               <button className="p-2 rounded-full hover:bg-hover-1">
+                  <IoPlaySkipBack className="text-xl" onClick={prevSong} />
+               </button>
+
+               <button onClick={() => setPlaying(!playing)}>
+                  {playing ? (
+                     <IoPause className="text-[40px]" />
+                  ) : (
+                     <IoPlay className="text-[40px]" />
+                  )}
+               </button>
+
+               <button className="p-2 rounded-full hover:bg-hover-1">
+                  <IoPlaySkipForward className="text-xl" onClick={nextSong} />
+               </button>
+
+               <button
+                  className={`p-2 hover:bg-hover-1 rounded-full ${
+                     looped ? "opacity-100" : "opacity-50"
+                  }`}
+                  onClick={() => setLooped(!looped)}
+               >
+                  <IoRepeatOutline />
+               </button>
             </div>
-            <p className="w-8 text-xs">{!!length ? fmtMSS(length) : "0:00"}</p>
+            <div className="gap-2 flex-center">
+               <p className="w-8 text-xs">{!time ? "0:00" : fmtMSS(time)}</p>
+               <div className="w-[600px]">
+                  <Progress
+                     value={slider}
+                     onChange={(e) => {
+                        setSlider(e.target.value);
+                        setDrag(e.target.value);
+                     }}
+                     onMouseUp={() => setPlaying(true)}
+                     onTouchEnd={() => setPlaying(true)}
+                  />
+               </div>
+               <p className="w-8 text-xs text-right">
+                  {!!length ? fmtMSS(length) : "0:00"}
+               </p>
+            </div>
+         </div>
+         <div className="flex-center">
+            <div className="gap-4 pr-3 flex-center">
+               {/* <button>
+                  <GiMicrophone />
+               </button> */}
+               <div className="gap-2 flex-center w-36">
+                  <IoVolumeMedium className="text-3xl" />
+                  <Progress
+                     value={volume}
+                     onChange={(e) => {
+                        setVolume(e.target.value);
+                        setVolDrag(e.target.value);
+                     }}
+                  />
+               </div>
+            </div>
+            <div className="px-3 border-l 2xl:hidden border-hover-1">
+               <button
+                  className="p-[6px] rounded-md text-white flex-center bg-hover-1"
+                  onClick={handleToggle}
+               >
+                  <MdQueueMusic
+                     className={`text-xl ${
+                        queueState.hidden ? "text-primary" : ""
+                     }`}
+                  />
+               </button>
+            </div>
          </div>
       </div>
    );

@@ -8,7 +8,7 @@ import SyncLoader from "react-spinners/SyncLoader";
 import _ from "lodash";
 
 import extractAudio from "../../common/utils/extractAudio";
-import { update } from "./../../common/components/Playbar/playingSlice";
+import { update } from "./../../common/Reducers/playingSlice";
 import { addNewDoc } from "../../common/utils/firebaseApi";
 
 const override = {
@@ -123,7 +123,7 @@ const Upload = () => {
          uploadSong["genreIds"] = genres.split(",");
 
          setTimeout(() => {
-            addNewDoc("songs", uploadSong.id.toString(), uploadSong);
+            addNewDoc("Songs", uploadSong.id.toString(), uploadSong);
             setLoading(false);
             clearFields();
          }, 1000);

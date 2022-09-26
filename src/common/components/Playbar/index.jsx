@@ -1,9 +1,9 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import Player from "./Player";
 import SongOptions from "../Song/SongOptions";
-import PlaybarOptions from "./PlaybarOptions";
+// import PlaybarOptions from "./PlaybarOptions";
 
 const Playbar = () => {
    const currentSong = useSelector((state) => state.playing.value)?.info;
@@ -34,7 +34,6 @@ const Playbar = () => {
                <SongOptions songInfo={currentSong} />
             </div>
             <Player />
-            <PlaybarOptions />
          </div>
       </div>
    );

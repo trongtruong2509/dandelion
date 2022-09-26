@@ -115,7 +115,7 @@ const Search = () => {
 
    const fetchDb = async () => {
       try {
-         const songs = await getAllDocs("songs");
+         const songs = await getAllDocs("Songs");
          setSongsDb(songs.filter((e) => e !== undefined));
 
          const artists = await getAllDocs("Artists");
@@ -151,7 +151,7 @@ const Search = () => {
          // reference={ref}
          render={(attrs) => (
             <div
-               className="w-[500px] h-auto min-h-20 pb-3 bg-dark-3 -mt-[11px] rounded-b-2xl text-white px-3"
+               className="w-[500px] h-auto min-h-20 pb-3 bg-dark-2 -mt-1 rounded-2xl text-white px-3"
                tabIndex="-1"
                {...attrs}
             >
@@ -195,8 +195,7 @@ const Search = () => {
                type="text"
                value={searchText}
                onChange={(e) => setSearchText(e.target.value)}
-               className="w-full py-[10px] rounded-2xl outline-none bg-hover-1 pl-10 text-sm text-white 
-                            focus-within:rounded-b-none focus-within:bg-dark-3"
+               className="w-full py-[10px] rounded-2xl outline-none bg-dark-2 pl-10 text-sm text-white"
                placeholder="Search for song, artist, album..."
             />
             <MdSearch className="absolute text-2xl text-white opacity-50 top-2 left-3" />
