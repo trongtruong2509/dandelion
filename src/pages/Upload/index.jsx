@@ -8,7 +8,7 @@ import SyncLoader from "react-spinners/SyncLoader";
 import _ from "lodash";
 
 import extractAudio from "../../common/utils/extractAudio";
-import { update } from "./../../common/Reducers/playingSlice";
+import { update } from "./../../common/slices/playingSlice";
 import { addNewDoc } from "../../common/utils/firebaseApi";
 
 const override = {

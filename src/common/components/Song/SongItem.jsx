@@ -5,16 +5,13 @@ import { useSelector, useDispatch } from "react-redux";
 import SongInfo from "../Song/SongInfo";
 import SongOptions from "../Song/SongOptions";
 
-import { play, pause, update } from "../../Reducers/playingSlice";
-import {
-   updateRecentPlay,
-   updateRecentPlaylist,
-} from "../../Reducers/userSlice";
-import { initQueue, updateQueue } from "../../Reducers/playQueueSlice";
+import { play, pause, update } from "../../slices/playingSlice";
+import { updateRecentPlay, updateRecentPlaylist } from "../../slices/userSlice";
+import { initQueue, updateQueue } from "../../slices/playQueueSlice";
 import {
    emtpyPlayingPlaylist,
    updateCurrentToPlaying,
-} from "../../Reducers/playlistSlice";
+} from "../../slices/playlistSlice";
 
 const SongItem = ({
    info,

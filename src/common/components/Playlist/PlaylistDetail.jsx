@@ -5,30 +5,26 @@ import {
    IoIosShuffle,
    IoMdPause,
    IoMdPlay,
-   IoShuffleOutline,
 } from "react-icons/io";
 import { FiEdit3 } from "react-icons/fi";
-import { BiPause, BiPlay, BiRefresh } from "react-icons/bi";
+import { BiRefresh } from "react-icons/bi";
 // import SyncLoader from "react-spinners/SyncLoader";
 
 import AlbumDefault from "./../../../assets/album_default.png";
-import { getDocById, getDocInList } from "../../utils/firebaseApi";
+import { getDocInList } from "../../utils/firebaseApi";
 import { shuffleArray } from "../../utils/common";
 import SongItem from "../Song/SongItem";
 import PlaylistModal from "../Modal/PlaylistModal";
 
-import { pause, play, update } from "../../Reducers/playingSlice";
+import { pause, play, update } from "../../slices/playingSlice";
 import {
-   // updatePlayingTracks,
-   // updatePlayingPlaylist,
-   // updateCurrentPlaylist,
    setCurrentTracks,
    fetchCurrentPlaylistInfo,
    updateCurrentToPlaying,
-} from "../../Reducers/playlistSlice";
-import { updateRecentPlay } from "../../Reducers/userSlice";
-import { initQueue } from "../../Reducers/playQueueSlice";
-import { MdFavorite, MdFavoriteBorder } from "react-icons/md";
+} from "../../slices/playlistSlice";
+import { updateRecentPlay } from "../../slices/userSlice";
+import { initQueue } from "../../slices/playQueueSlice";
+import { MdFavorite } from "react-icons/md";
 import { FaPause, FaPlay } from "react-icons/fa";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 

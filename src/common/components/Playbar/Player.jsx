@@ -8,21 +8,21 @@ import {
    IoPause,
    IoShuffleOutline,
    IoRepeatOutline,
-   IoVolumeMedium,
-   IoVolumeMute,
 } from "react-icons/io5";
-import { MdQueueMusic } from "react-icons/md";
+import { MdRepeatOne } from "react-icons/md";
 
-import { play, pause, updateAndPlay } from "../../Reducers/playingSlice";
-import { updateShuffle } from "../../Reducers/playlistSlice";
-import { updateQueue } from "../../Reducers/playQueueSlice";
-import { updateRecentPlay } from "../../Reducers/userSlice";
-import {
-   toggleQueuebar,
-   toggleQueuebarHidden,
-} from "../../Reducers/queueSlice";
+import { play, pause, updateAndPlay } from "../../slices/playingSlice";
+import { initQueue, updateQueue } from "../../slices/playQueueSlice";
+import { updateRecentPlay } from "../../slices/userSlice";
 
 import { Progress } from "./Progress";
+import {
+   updateRepeat,
+   updateShuffle,
+   updateVolume,
+} from "../../slices/playbarSlice";
+import { shuffleArray } from "../../utils/common";
+import PlaybarOptions from "./PlaybarOptions";
 
 const Player = () => {
    const dispatch = useDispatch();
@@ -32,6 +32,7 @@ const Player = () => {
    const playqueue = useSelector((state) => state.playqueue.next);
    const played = useSelector((state) => state.playqueue.played);
    const queueState = useSelector((state) => state.queue);
+   const playbarSlice = useSelector((state) => state.playbar);
 
    const [audio, setAudio] = useState(null);
    const [playing, setPlaying] = useState(false);
@@ -41,11 +42,8 @@ const Player = () => {
 
    const [slider, setSlider] = useState(0);
    const [drag, setDrag] = useState(0);
-   // const [volSlider, setVolSlider] = useState(0);
-   const [volume, setVolume] = useState(0.8);
-   const [volDrag, setVolDrag] = useState(0.8);
+   const [volume, setVolume] = useState(1);
 
-   const [looped, setLooped] = useState(false);
    const [firstTime, setFirstTime] = useState(true);
 
    const fmtMSS = (s) => new Date(1000 * s).toISOString().substr(15, 4);
@@ -67,7 +65,7 @@ const Player = () => {
          );
       };
 
-      // const setAudioVolume = () => setVolume(_audio.volume * 100);
+      const setAudioVolume = () => setVolume(_audio.volume);
 
       const setAudioEnd = () => {
          setEnd((end += 1));
@@ -76,19 +74,18 @@ const Player = () => {
       // events on audio object
       _audio.addEventListener("loadeddata", setAudioData);
       _audio.addEventListener("timeupdate", setAudioTime);
-      // _audio.addEventListener("volumechange", setAudioVolume);
+      _audio.addEventListener("volumechange", setAudioVolume);
       _audio.addEventListener("ended", setAudioEnd);
 
       setAudio(_audio);
       setSlider(0);
-      // setPlaying(false);
       _audio.pause();
 
       return () => {
          _audio.pause();
          _audio.removeEventListener("loadeddata", setAudioData);
          _audio.removeEventListener("timeupdate", setAudioTime);
-         // _audio.removeEventListener("volumechange", setAudioVolume);
+         _audio.removeEventListener("volumechange", setAudioVolume);
          _audio.removeEventListener("ended", setAudioEnd);
       };
    }, [currentSong?.info]);
@@ -140,47 +137,47 @@ const Player = () => {
 
    useEffect(() => {
       if (audio) {
-         const val = Math.round(volDrag / 100);
-         audio.volume = val;
-      }
-   }, [volDrag]);
-
-   useEffect(() => {
-      if (audio) {
          setPlaying(false);
 
-         if (looped) {
+         if (playbarSlice.repeat === 2) {
             setTimeout(() => {
                console.log("trigger play again");
                setPlaying(true);
             }, 500);
-         } else {
-            nextSong();
-
-            setTimeout(() => {
-               setPlaying(true);
-            }, 500);
+         } else if (playbarSlice.repeat === 1 || playqueue.length > 0) {
+            changeTrack();
          }
       }
    }, [end]);
 
-   const nextSong = () => {
+   const changeTrack = () => {
       if (playqueue.length > 0) {
          dispatch(updateAndPlay(playqueue[0]));
          dispatch(updateRecentPlay(playqueue[0]));
-
          dispatch(updateQueue(playqueue[0]));
+
+         setTimeout(() => {
+            setPlaying(true);
+         }, 500);
       } else {
-         //@todo: issue with newShuffe
-         // const newShuffe = [...played];
-         // dispatch(updateAndPlay(newShuffe[0]));
-         // dispatch(updateRecentPlay(newShuffe[0]));
-         // dispatch(updatePlayed([newShuffe[0]]));
-         // if (newShuffe.length === 1) {
-         //    dispatch(updateQueue([]));
-         // } else {
-         //    dispatch(updateQueue(newShuffe.slice(1)));
-         // }
+         const newShuffe = [...played];
+         shuffleArray(newShuffe);
+
+         dispatch(updateAndPlay(newShuffe[0]));
+         dispatch(updateRecentPlay(newShuffe[0]));
+         dispatch(initQueue(newShuffe));
+
+         setTimeout(() => {
+            setPlaying(true);
+         }, 500);
+      }
+   };
+
+   const nextSong = () => {
+      changeTrack();
+
+      if (playbarSlice.repeat === 2) {
+         dispatch(updateRepeat(0));
       }
    };
 
@@ -203,26 +200,30 @@ const Player = () => {
       }
    };
 
-   const handleToggle = () => {
-      if (queueState.hidden) {
-         dispatch(toggleQueuebarHidden(false));
-      } else {
-         setTimeout(() => {
-            dispatch(toggleQueuebarHidden(true));
-         }, 500);
-      }
+   // const handleToggle = () => {
+   //    if (queueState.hidden) {
+   //       dispatch(toggleQueuebarHidden(false));
+   //    } else {
+   //       setTimeout(() => {
+   //          dispatch(toggleQueuebarHidden(true));
+   //       }, 500);
+   //    }
 
-      if (queueState.animate) {
-         dispatch(toggleQueuebar(false));
-      } else {
-         setTimeout(() => {
-            dispatch(toggleQueuebar(true));
-         }, 50);
-      }
-   };
+   //    if (queueState.animate) {
+   //       dispatch(toggleQueuebar(false));
+   //    } else {
+   //       setTimeout(() => {
+   //          dispatch(toggleQueuebar(true));
+   //       }, 50);
+   //    }
+   // };
 
    useEffect(() => {
-      console.log("[volume]", volume);
+      if (audio) {
+         audio.volume = volume;
+      }
+
+      dispatch(updateVolume(volume));
    }, [volume]);
 
    return (
@@ -231,11 +232,12 @@ const Player = () => {
             <div className="flex items-center gap-4 text-xl">
                <button
                   className={`p-2 hover:bg-hover-1 rounded-full ${
-                     currentPlaylist?.shuffle ? "opacity-100" : "opacity-50"
+                     playbarSlice?.shuffle
+                        ? "text-accent opacity-100"
+                        : "opacity-70"
                   }`}
                   onClick={() => {
-                     //@todo: update playlist shuffle here
-                     dispatch(updateShuffle(!currentPlaylist?.shuffle));
+                     dispatch(updateShuffle(!playbarSlice?.shuffle));
                   }}
                >
                   <IoShuffleOutline />
@@ -257,14 +259,28 @@ const Player = () => {
                   <IoPlaySkipForward className="text-xl" onClick={nextSong} />
                </button>
 
-               <button
-                  className={`p-2 hover:bg-hover-1 rounded-full ${
-                     looped ? "opacity-100" : "opacity-50"
-                  }`}
-                  onClick={() => setLooped(!looped)}
-               >
-                  <IoRepeatOutline />
-               </button>
+               {playbarSlice.repeat === 2 ? (
+                  <button
+                     className="p-2 rounded-full hover:bg-hover-1 text-accent"
+                     onClick={() => dispatch(updateRepeat(0))}
+                  >
+                     <MdRepeatOne />
+                  </button>
+               ) : playbarSlice.repeat === 1 ? (
+                  <button
+                     className="p-2 rounded-full hover:bg-hover-1 text-accent"
+                     onClick={() => dispatch(updateRepeat(2))}
+                  >
+                     <IoRepeatOutline />
+                  </button>
+               ) : (
+                  <button
+                     className="p-2 rounded-full hover:bg-hover-1 opacity-70 hover:opacity-100"
+                     onClick={() => dispatch(updateRepeat(1))}
+                  >
+                     <IoRepeatOutline />
+                  </button>
+               )}
             </div>
             <div className="gap-2 flex-center">
                <p className="w-8 text-xs">{!time ? "0:00" : fmtMSS(time)}</p>
@@ -284,35 +300,10 @@ const Player = () => {
                </p>
             </div>
          </div>
-         <div className="flex-center">
-            <div className="gap-4 pr-3 flex-center">
-               {/* <button>
-                  <GiMicrophone />
-               </button> */}
-               <div className="gap-2 flex-center w-36">
-                  <IoVolumeMedium className="text-3xl" />
-                  <Progress
-                     value={volume}
-                     onChange={(e) => {
-                        setVolume(e.target.value);
-                        setVolDrag(e.target.value);
-                     }}
-                  />
-               </div>
-            </div>
-            <div className="px-3 border-l 2xl:hidden border-hover-1">
-               <button
-                  className="p-[6px] rounded-md text-white flex-center bg-hover-1"
-                  onClick={handleToggle}
-               >
-                  <MdQueueMusic
-                     className={`text-xl ${
-                        queueState.hidden ? "text-primary" : ""
-                     }`}
-                  />
-               </button>
-            </div>
-         </div>
+         <PlaybarOptions
+            volume={volume * 100}
+            onVolChange={(e) => setVolume(e.target.value / 100)}
+         />
       </div>
    );
 };

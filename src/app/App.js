@@ -12,14 +12,15 @@ import "./App.css";
 import Sidebar from "../common/components/Sidebar";
 import Header from "../common/components/Header";
 import PlayerQueue from "../common/components/PlayerQueue";
-import Playbar from "../common/components/Playbar";
+import Playbar from "../common/components/Playbar/Playbar";
 
 import { applyTheme } from "../themes/utils";
 import baseTheme from "../themes/base";
+import darkTheme from "../themes/dark";
 
 function App() {
    useEffect(() => {
-      applyTheme(baseTheme);
+      applyTheme(darkTheme);
     }, []);
 
    return (

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
 import defaultAvatar from "./../../../assets/default_avatar.png";
-import { updateUser, removeUser } from "../../Reducers/userSlice";
+import { updateUser, removeUser } from "../../slices/userSlice";
 import { getUserDb, loginGoogle } from "../../utils/user";
 import Search from "./Search";
 import { applyTheme } from "../../../themes/utils";

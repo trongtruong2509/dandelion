@@ -4,7 +4,7 @@ import { MdFavorite, MdFavoriteBorder, MdMoreHoriz } from "react-icons/md";
 import { useSelector, useDispatch } from "react-redux";
 // import Tippy from "@tippyjs/react";
 
-import { updateLikeSong, updateUser } from "../../Reducers/userSlice";
+import { updateLikeSong, updateUser } from "../../slices/userSlice";
 import { getUserDb, loginGoogle } from "../../utils/user";
 import SongMenu from "../Popers/SongMenu";
 
@@ -57,9 +57,7 @@ const SongOptions = ({ songInfo, like = true, addPlaylist = false }) => {
          )}
 
          <SongMenu info={songInfo}>
-            <div
-               className="w-10 h-10 p-2 rounded-full cursor-pointer flex-center hover:bg-hover-1"
-            >
+            <div className="w-10 h-10 p-2 rounded-full cursor-pointer flex-center hover:bg-hover-1">
                <HiOutlineDotsHorizontal className="text-xl" />
             </div>
          </SongMenu>

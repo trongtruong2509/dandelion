@@ -16,5 +16,6 @@ export function createTheme(theme) {
       "--bg-primary-dark": theme.bgPrimaryDark,
       "--text-primary": theme.textPrimary,
       "--text-secondary": theme.textSecondary,
+      "--text-accent": theme.textAccent,
     };
   }

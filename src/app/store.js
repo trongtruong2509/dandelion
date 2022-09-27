@@ -1,9 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import playingReducer from "./../common/Reducers/playingSlice";
-import playlistReducer from "./../common/Reducers/playlistSlice";
-import playQueueReducer from "./../common/Reducers/playQueueSlice";
-import userReducer from "./../common/Reducers/userSlice";
-import queueReducer from "./../common/Reducers/queueSlice";
+import playingReducer from "./../common/slices/playingSlice";
+import playlistReducer from "./../common/slices/playlistSlice";
+import playQueueReducer from "./../common/slices/playQueueSlice";
+import userReducer from "./../common/slices/userSlice";
+import queueReducer from "./../common/slices/queueSlice";
+import playbarReducer from "./../common/slices/playbarSlice";
 
 export const store = configureStore({
    reducer: {
@@ -12,5 +13,6 @@ export const store = configureStore({
       playqueue: playQueueReducer,
       user: userReducer,
       queue: queueReducer,
+      playbar: playbarReducer,
    },
 });

@@ -39,3 +39,11 @@ export const updatePlaylist = (data) => {
 export const getPlaylist = () => {
     return get(localKeys.playlist);
 }
+
+export const updatePlaybar = (data) => {
+    write(localKeys.playbar, data);
+}
+
+export const getPlaybar = () => {
+    return get(localKeys.playbar);
+}

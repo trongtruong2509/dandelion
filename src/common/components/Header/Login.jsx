@@ -4,7 +4,7 @@ import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 
 import { getUserDb } from "../../utils/user";
 
-import { updateUser, removeUser } from "../../Reducers/userSlice";
+import { updateUser, removeUser } from "../../slices/userSlice";
 
 const Login = ({ children }) => {
    const user = useSelector((state) => state.user.value);

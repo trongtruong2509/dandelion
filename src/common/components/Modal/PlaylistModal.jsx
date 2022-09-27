@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import { addNewDoc } from "../../utils/firebaseApi";
 import Modal from "./Modal";
-import { updateCreatedPlaylist } from "../../Reducers/userSlice";
+import { updateCreatedPlaylist } from "../../slices/userSlice";
 
 const PlaylistModal = ({ ...props }) => {
    const user = useSelector((state) => state.user.value);

@@ -1,11 +1,12 @@
 import { createTheme } from "./utils";
 
 const darkTheme = createTheme({
-    bgPrimary: "#f97316",
-    bgPrimaryLight: "#f97316",
-    bgPrimaryDark: "#f97316",
+    bgPrimary: "#14b8a6",
+    bgPrimaryLight: "#14b8a6",
+    bgPrimaryDark: "#14b8a6",
     textPrimary: "#ffffff",
     textSecondary: "hsla(0,0%,100%,0.5)",
+    textAccent: "#14b8a6"
 });
 
 export default darkTheme;

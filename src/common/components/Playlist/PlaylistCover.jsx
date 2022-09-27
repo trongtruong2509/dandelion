@@ -4,12 +4,12 @@ import { MdFavoriteBorder } from "react-icons/md";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { updateRecentPlaylist } from "../../Reducers/userSlice";
+import { updateRecentPlaylist } from "../../slices/userSlice";
 import {
    updateCurrentPlaylist,
    updatePlayingPlaylist,
    fetchPlayingPlaylist,
-} from "../../Reducers/playlistSlice";
+} from "../../slices/playlistSlice";
 
 const PlaylistCover = ({ info, size = "md", inPlaylist = false }) => {
    const navigate = useNavigate();

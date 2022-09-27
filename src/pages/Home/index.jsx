@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { MdArrowForwardIos } from "react-icons/md";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 // Import Swiper styles
 import "swiper/css";

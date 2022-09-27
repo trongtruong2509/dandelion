@@ -1,18 +1,43 @@
 import React from "react";
+import { useEffect } from "react";
 import { GiAlarmClock } from "react-icons/gi";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { useSelector, useDispatch } from "react-redux";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import { updateNoShuffle, updateShuffle } from "../../slices/playQueueSlice";
 import SongItem from "../Song/SongItem";
 
 const PlayerQueue = () => {
+   const dispatch = useDispatch();
+
    const queueState = useSelector((state) => state.queue);
    const playingTrack = useSelector((state) => state.playing.value);
    const playqueue = useSelector((state) => state.playqueue);
+   const shuffle = useSelector((state) => state.playbar.shuffle);
    const playingPlaylist = useSelector((state) => state.playlist.playing.value);
    const user = useSelector((state) => state.user.value);
 
-   const activeStyle = "bg-hover-2 text-white";
+   // const activeStyle = "bg-hover-2 text-white";
+
+   useEffect(() => {
+      if (playingPlaylist && playingTrack?.info) {
+         if (shuffle) {
+            dispatch(
+               updateShuffle({
+                  tracks: playingPlaylist.songs,
+                  chosen: playingTrack.info,
+               })
+            );
+         } else {
+            dispatch(
+               updateNoShuffle({
+                  tracks: playingPlaylist.songs,
+                  chosen: playingTrack.info,
+               })
+            );
+         }
+      }
+   }, [shuffle]);
 
    return (
       <div

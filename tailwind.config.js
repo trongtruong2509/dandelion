@@ -36,6 +36,7 @@ module.exports = {
             primary: "var(--text-primary)",
             // secondary: "hsla(0,0%,100%,0.5)",
             secondary: "var(--text-secondary)",
+            accent: "var(--text-accent)",
             // navigation: "var(--text-navigation)",
             "white-custom": "#ffffff",
          },
