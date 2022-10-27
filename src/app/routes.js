@@ -8,6 +8,8 @@ import Artist from "../pages/Artist";
 import AdminHome from "../admin/pages/Home/AdminHome";
 import UploadZing from "../admin/pages/Track/UploadZing";
 import MultiUpload from "../admin/pages/Upload/MultiUpload";
+import AdminPlaylist from "../admin/pages/Playlist/AdminPlaylist";
+import AdminCreatePlaylist from "../admin/pages/CreatePlaylist/AdminCreatePlaylist";
 
 export const paths = {
    home: "/",
@@ -22,6 +24,7 @@ export const adminPaths = {
    uploadZing: "/admin/track/upload-zing",
    artists: "/admin/artists",
    playlists: "/admin/playlists",
+   createPlaylist: "/admin/create-playlist",
    users: "/admin/users",
    trackDetail: "/admin/track/:id",
    multiUpload: "/admin/uploadMulti/:id",
@@ -40,6 +43,8 @@ const routes = [
 export const adminRoutes = [
    { path: adminPaths.home, component: AdminHome },
    { path: adminPaths.multiUpload, component: MultiUpload },
+   { path: adminPaths.playlists, component: AdminPlaylist },
+   { path: adminPaths.createPlaylist, component: AdminCreatePlaylist },
 ];
 
 export default routes;
