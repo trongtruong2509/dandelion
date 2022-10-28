@@ -1,17 +1,29 @@
-import { createTheme } from "./utils";
-
-const darkTheme = createTheme({
-   bgPrimary: "#14b8a6",
-   bgPrimaryLight: "#14b8a6",
-   bgPrimaryDark: "#14b8a6",
-   textPrimary: "#ffffff",
-   textSecondary: "hsla(0,0%,100%,0.5)",
-   textAccent: "#14b8a6",
-});
-
-export default darkTheme;
-
 /*
+style attribute {
+    --box-hot-item-bg: rgba(254,255,255,0.1);
+    --box-hot-item-bg-hover: rgba(254,255,255,0.2);
+}
+[data-theme=pink] {
+    --layout-bg: #411636;
+    --player-bg: #4c1a3f;
+    --sidebar-popup-bg: #883c6c;
+    --primary-bg: #642654;
+    --alpha-layout-bg: rgba(128,0,100,0.8);
+    --queue-player-popup-bg: #800064;
+    --blur-queue-bg: rgba(128,0,100,0.9019607843137255);
+    --purple-primary: #ca4974;
+    --link-text-hover: #e9638f;
+    --gradient-bg: linear-gradient(96deg,#ff64dc,#d631a1 102%);
+    --chart-bg-img-alpha: rgba(142,51,122,0.9);
+    --chart-box-bg-alpha: hsla(0,0%,100%,0.05);
+    --linear-gradient-bg: linear-gradient(180deg,#ad3994,#8f0f72);
+}
+[data-theme=blue-light], [data-theme=blue], [data-theme=brown], [data-theme=green], [data-theme=pink], [data-theme=purple], [data-theme=red] {
+    --text-placeholder: #dadada;
+    --navigation-text: #dadada;
+    --sticky-header-box-shadow: rgba(0,0,0,0.1);
+    --portal-menu-box-shadow: rgba(0,0,0,0.2);
+}
 
 [data-theme=blue-light], [data-theme=blue], [data-theme=brown], [data-theme=dark], [data-theme=green], [data-theme=pink], [data-theme=purple], [data-theme=red] {
     --layout-bg: #1e1e1e;
@@ -84,5 +96,4 @@ export default darkTheme;
     --chart-logo-color: #fff;
     --chart-icon-play-color: var(--purple-primary);
 }
-
 */

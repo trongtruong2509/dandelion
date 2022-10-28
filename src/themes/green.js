@@ -1,17 +1,26 @@
-import { createTheme } from "./utils";
-
-const darkTheme = createTheme({
-   bgPrimary: "#14b8a6",
-   bgPrimaryLight: "#14b8a6",
-   bgPrimaryDark: "#14b8a6",
-   textPrimary: "#ffffff",
-   textSecondary: "hsla(0,0%,100%,0.5)",
-   textAccent: "#14b8a6",
-});
-
-export default darkTheme;
-
 /*
+[data-theme=brown], [data-theme=green] {
+    --chart-box-bg-alpha: hsla(0,0%,100%,0.05);
+}
+[data-theme=green] {
+    --layout-bg: #142922;
+    --player-bg: #19342c;
+    --sidebar-popup-bg: #244f3f;
+    --primary-bg: #204b3d;
+    --alpha-layout-bg: rgba(18,69,52,0.8);
+    --queue-player-popup-bg: #0c523a;
+    --blur-queue-bg: rgba(18,69,52,0.9019607843137255);
+    --purple-primary: #138673;
+    --link-text-hover: #0daf94;
+    --chart-bg-img-alpha: rgba(18,69,52,0.9);
+    --linear-gradient-bg: linear-gradient(180deg,#137555,#15533f);
+}
+[data-theme=blue-light], [data-theme=blue], [data-theme=brown], [data-theme=green], [data-theme=pink], [data-theme=purple], [data-theme=red] {
+    --text-placeholder: #dadada;
+    --navigation-text: #dadada;
+    --sticky-header-box-shadow: rgba(0,0,0,0.1);
+    --portal-menu-box-shadow: rgba(0,0,0,0.2);
+}
 
 [data-theme=blue-light], [data-theme=blue], [data-theme=brown], [data-theme=dark], [data-theme=green], [data-theme=pink], [data-theme=purple], [data-theme=red] {
     --layout-bg: #1e1e1e;

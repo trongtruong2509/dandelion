@@ -1,17 +1,27 @@
-import { createTheme } from "./utils";
-
-const darkTheme = createTheme({
-   bgPrimary: "#14b8a6",
-   bgPrimaryLight: "#14b8a6",
-   bgPrimaryDark: "#14b8a6",
-   textPrimary: "#ffffff",
-   textSecondary: "hsla(0,0%,100%,0.5)",
-   textAccent: "#14b8a6",
-});
-
-export default darkTheme;
-
 /*
+
+[data-theme=brown] {
+    --layout-bg: #251b18;
+    --player-bg: #30201d;
+    --sidebar-popup-bg: #604a45;
+    --primary-bg: #46312b;
+    --alpha-layout-bg: rgba(87,64,59,0.8);
+    --queue-player-popup-bg: #63423c;
+    --blur-queue-bg: rgba(87,64,59,0.9019607843137255);
+    --purple-primary: #b65f20;
+    --link-text-hover: #e96f16;
+    --chart-bg-img-alpha: rgba(87,64,59,0.9);
+    --linear-gradient-bg: linear-gradient(180deg,#7b5e58,#654943);
+}
+[data-theme=brown], [data-theme=green] {
+    --chart-box-bg-alpha: hsla(0,0%,100%,0.05);
+}
+[data-theme=blue-light], [data-theme=blue], [data-theme=brown], [data-theme=green], [data-theme=pink], [data-theme=purple], [data-theme=red] {
+    --text-placeholder: #dadada;
+    --navigation-text: #dadada;
+    --sticky-header-box-shadow: rgba(0,0,0,0.1);
+    --portal-menu-box-shadow: rgba(0,0,0,0.2);
+}
 
 [data-theme=blue-light], [data-theme=blue], [data-theme=brown], [data-theme=dark], [data-theme=green], [data-theme=pink], [data-theme=purple], [data-theme=red] {
     --layout-bg: #1e1e1e;
