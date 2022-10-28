@@ -20,7 +20,11 @@ const PlayerQueue = () => {
    // const activeStyle = "bg-hover-2 text-white";
 
    useEffect(() => {
-      if (playingPlaylist && playingTrack?.info) {
+      if (
+         playingPlaylist &&
+         playingPlaylist.songs?.length &&
+         playingTrack?.info
+      ) {
          if (shuffle) {
             dispatch(
                updateShuffle({

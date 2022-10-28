@@ -48,7 +48,9 @@ const SongOptions = ({ songInfo, like = true, addPlaylist = false }) => {
                }
             >
                {!currentUser ||
-               currentUser?.likedSongs.indexOf(songInfo) === -1 ? (
+               currentUser?.likedSongs.findIndex(
+                  (t) => t.id === songInfo?.id
+               ) === -1 ? (
                   <MdFavoriteBorder className={`text-lg`} />
                ) : (
                   <MdFavorite className="text-lg text-primary" />

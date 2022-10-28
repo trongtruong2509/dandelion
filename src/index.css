@@ -76,9 +76,9 @@ code {
   }
 
   .progress-wrapper:hover input[type="range"]::-webkit-slider-thumb {
-    width: 12px;
-    height: 12px;
-    background: var(--bg-primary);
+    width: 14px;
+    height: 14px;
+    background: var(--text-primary);
   }
    
   .progress::-moz-range-thumb {

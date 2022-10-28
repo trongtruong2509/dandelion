@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import { addNewDoc } from "../../utils/firebaseApi";
 import Modal from "./Modal";
-import { updateCreatedPlaylist } from "../../slices/userSlice";
+import { updateCreatedPlaylist, updatePlaylists } from "../../slices/userSlice";
 
 const PlaylistModal = ({ ...props }) => {
    const user = useSelector((state) => state.user.value);
@@ -46,7 +46,7 @@ const PlaylistModal = ({ ...props }) => {
             setLoading(true);
          });
 
-      dispatch(updateCreatedPlaylist(id));
+      dispatch(updatePlaylists(id));
    };
 
    const onUpdate = () => {

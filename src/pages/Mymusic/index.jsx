@@ -8,6 +8,8 @@ import PlaylistModal from "../../common/components/Modal/PlaylistModal";
 import PlaylistCover from "../../common/components/Playlist/PlaylistCover";
 import SongItem from "../../common/components/Song/SongItem";
 import { getDocInList } from "../../common/utils/firebaseApi";
+// import Skeleton from "react-loading-skeleton";
+import PlaylistCoverSkeleton from "../../common/components/Playlist/PlaylistCoverSkeleton";
 
 const Mymusic = () => {
    const currentUser = useSelector((state) => state.user.value);
@@ -16,22 +18,20 @@ const Mymusic = () => {
    const [show, setShow] = useState(false);
 
    useEffect(() => {
-      getDocInList("playlists", currentUser.recentPlaylist)
+      getDocInList("playlists", currentUser.playlists)
          .then((result) => {
             const ordered = [];
             console.log("[result]", result);
 
             // correct order for playlist
-            currentUser.recentPlaylist?.forEach((playlistId) => {
-               ordered.push(result.find((s) => s.id === playlistId));
+            currentUser.playlists?.forEach((id) => {
+               ordered.push(result.find((s) => s.id === id));
             });
 
             setPlaylists(ordered);
          })
          .catch((err) => console.log(err));
-   }, [currentUser.recentPlaylist]);
-
-   console.log("[playlists]", playlists);
+   }, [currentUser?.playlists]);
 
    return (
       <div className="w-full mt-20 mb-20 text-white ">
@@ -56,9 +56,13 @@ const Mymusic = () => {
                </button>
             </div>
             <div className="flex flex-wrap w-full gap-8 py-2 my-6">
-               {playlists?.map((p) => (
-                  <PlaylistCover key={p.id} info={p} />
-               ))}
+               {playlists.length
+                  ? playlists?.map((p, index) => (
+                       <PlaylistCover key={index} info={p} editable />
+                    ))
+                  : [1, 2, 3, 4].map((loading) => (
+                       <PlaylistCoverSkeleton key={loading} />
+                    ))}
             </div>
          </div>
 
@@ -68,8 +72,8 @@ const Mymusic = () => {
             </div>
 
             {currentUser?.likedSongs.length > 0 ? (
-               currentUser?.likedSongs.map((song) => (
-                  <SongItem key={song.id} info={song} playlistMode isPlaylist />
+               currentUser?.likedSongs.map((song, index) => (
+                  <SongItem key={index} info={song} playlistMode isPlaylist />
                ))
             ) : (
                <div className="flex-col w-full gap-6 flex-center h-96 text-secondary">

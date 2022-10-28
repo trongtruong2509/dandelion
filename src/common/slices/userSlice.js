@@ -34,7 +34,9 @@ export const userSlice = createSlice({
       },
       updateLikeSong: (state, action) => {
          console.log(action.payload);
-         const idx = current(state.value.likedSongs).indexOf(action.payload);
+         const idx = current(state.value.likedSongs).findIndex(
+            (t) => t.id === action.payload.id
+         );
          if (idx === -1) {
             state.value.likedSongs.push(action.payload);
          } else {
@@ -44,15 +46,18 @@ export const userSlice = createSlice({
          updateUserLocal(current(state.value));
          updateUserDb(current(state.value));
       },
-      updateCreatedPlaylist: (state, action) => {
+      updatePlaylists: (state, action) => {
          console.log(action.payload);
-         const idx = current(state.value.createdPlaylist).indexOf(action.payload);
+         const idx = current(state.value.playlists).indexOf(action.payload);
 
          if (idx === -1) {
-            state.value.createdPlaylist.push(action.payload);
+            state.value.playlists.push(action.payload);
          } else {
-            state.value.createdPlaylist.splice(idx, 1); // delete it in list
+            state.value.playlists.splice(idx, 1); // delete it in list
          }
+
+         updateUserLocal(current(state.value));
+         updateUserDb(current(state.value));
       },
       updateRecentPlaylist: (state, action) => {
          console.log(action.payload);
@@ -71,7 +76,13 @@ export const userSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { updateUser, removeUser, updateLikeSong, updateRecentPlay, updateCreatedPlaylist, updateRecentPlaylist } =
-   userSlice.actions;
+export const {
+   updateUser,
+   removeUser,
+   updateLikeSong,
+   updateRecentPlay,
+   updatePlaylists,
+   updateRecentPlaylist,
+} = userSlice.actions;
 
 export default userSlice.reducer;
