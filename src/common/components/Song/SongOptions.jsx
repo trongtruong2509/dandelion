@@ -8,7 +8,12 @@ import { updateLikeSong, updateUser } from "../../Reducers/userSlice";
 import { getUserDb, loginGoogle } from "../../utils/user";
 import SongMenu from "../Popers/SongMenu";
 
-const SongOptions = ({ songInfo, like = true, addPlaylist = false }) => {
+const SongOptions = ({
+   songInfo,
+   like = true,
+   addPlaylist = false,
+   canDetele = false,
+}) => {
    const currentUser = useSelector((state) => state.user.value);
    const dispatch = useDispatch();
 
@@ -56,7 +61,7 @@ const SongOptions = ({ songInfo, like = true, addPlaylist = false }) => {
             </div>
          )}
 
-         <SongMenu info={songInfo}>
+         <SongMenu info={songInfo} canDetele={canDetele}>
             <div className="flex items-center justify-center w-10 h-10 p-2 rounded-full cursor-pointer hover:bg-hover-1">
                <HiOutlineDotsHorizontal className="text-xl" />
             </div>

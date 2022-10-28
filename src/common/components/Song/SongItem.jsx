@@ -16,6 +16,7 @@ const SongItem = ({
    playlistMode = false,
    addPlaylist = false,
    fade = false,
+   canDetele = false,
 }) => {
    const playingSong = useSelector((state) => state.playing.value);
    const currentUser = useSelector((state) => state.user.value);
@@ -79,22 +80,23 @@ const SongItem = ({
          </div>
 
          {playlistMode && (
-            <p className="text-xs text-secondary hover:text-teal-500 cursor-pointer hover:underline col-span-5 flex items-center">
+            <p className="flex items-center col-span-5 text-xs cursor-pointer text-secondary hover:text-teal-500 hover:underline">
                {info.album}
             </p>
          )}
          <div className="flex items-center justify-end">
             {playlistMode && (
-               <p className="text-xs text-secondary col-span-1 text-right flex items-center justify-end group-hover:opacity-0">
+               <p className="flex items-center justify-end col-span-1 text-xs text-right text-secondary group-hover:opacity-0">
                   {info.time}
                </p>
             )}
             {options && (
-               <div className="absolute top-1/2 -translate-y-1/2 right-3 hidden group-hover:block">
+               <div className="absolute hidden -translate-y-1/2 top-1/2 right-3 group-hover:block">
                   <SongOptions
                      songInfo={info}
                      like={like}
                      addPlaylist={addPlaylist}
+                     canDetele={canDetele}
                   />
                </div>
             )}

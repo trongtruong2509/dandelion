@@ -29,6 +29,7 @@ const songInfo = async (id, rank) => {
          duration: raw.duration,
          isPrivate: raw.isPrivate,
          releaseDate: raw.releaseDate,
+         uploadDate: Date.now(),
          genreIds: raw.genreIds,
          radioId: raw.radioId ?? "",
          hasLyric: raw.hasLyric,
