@@ -1,21 +1,62 @@
 import { createTheme } from "./utils";
 
 const baseTheme = createTheme({
+   white: "#fff",
+   black: "#32323d",
+   yellow: "#f8e71c",
+   blue: "#4a90e2",
+   green: "#50e3c2",
+   red: "#e35050",
+   gray: "#dbdbdb",
+   darkAlpha10: "rgba(0,0,0,0.1)",
+   darkAlpha50: "rgba(0,0,0,0.5)",
+   darkAlpha70: "rgba(0,0,0,0.7)",
+   darkAlpha80: "rgba(0,0,0,0.8)",
+   contrastColor: "rgba(254,255,255,0.8)",
+   purplePrimary: "#8d22c3",
+
    bgPrimary: "#fff",
-   bgPrimaryLight: "#fff",
-   bgPrimaryDark: "#fff",
-   // textPrimary: "#32323d",
-   textPrimary: "#ffffff",
-   // textSecondary: "rgba(0,0,0,0.6)",
-   textSecondary: "hsla(0,0%,100%,0.5)",
-   textAccent: "#fff",
+   bgLayout: "#fff",
+   bgSidebar: "rgba(0,0,0,0.05)",
+   bgAlpha: "rgba(0,0,0,0.05)",
+   bgTooltip: "#e8e8e8",
+   bgContrast: "rgba(20,20,20,0.4)",
+   bgContrast1: "rgba(20,20,20,0.4)",
+   bgLoading: "rgba(0,0,0,0.05)",
+   bgNoContent: "#f9f9f9",
+   bgBoxItem: "#fff",
+   bgPlayer: "#fff",
+   bgAlphaLayout: "rgba(12,3,3,0.8)",
+   bgTabActive: "#fff",
+   bgLinearGradient: "linear-gradient(180deg,#740091,#2d1a4c)",
+
+   textPrimary: "#32323d",
+   textSecondary: "rgba(0,0,0,0.6)",
+   textMuted: "rgba(20,20,20,0.4)",
+   textPlaceholder: "#757575",
+   searchText: "#282828",
+   textSettingIcon: "#495057",
+   textNavigation: "#32323d",
+   textSidebarTitle: "rgba(0,0,0,0.7)",
+   textPlayer: "#32323d",
+   textItemHover: "#8d22c3",
+   textLinkHover: "#8d22c3",
+
+   borderPrimary: "rgba(0,0,0,0.1)",
+   borderSecondary: "rgba(0,0,0,0.05)",
+   borderBox: "rgba(0,0,0,0.2)",
+   borderQueue: "rgba(0,0,0,0.1)",
+   borderPlayer: "rgba(0,0,0,0.05)",
+
+   shadowMainBox: "hsla(0,0%,81.2%,0.4)",
+   boxShadowQueue:
+      "0 1px 0 rgba(0,0,0,0.3),0 1px 6px rgba(0,0,0,0.3),inset 0 1px 1px hsla(0,0%,100%,0.3)",
 });
 
 export default baseTheme;
 
 /*
 :root, [data-theme=green-light], [data-theme=light], [data-theme=pink-light], [data-theme=yellow] {
-    --background-tooltip: #e8e8e8;
     --white: #fff;
     --black: #32323d;
     --yellow: #f8e71c;
@@ -36,6 +77,7 @@ export default baseTheme;
     --contrast-bg: rgba(20,20,20,0.4);
     --contrast-bg-1: rgba(20,20,20,0.4);
     --contrast-color: rgba(254,255,255,0.8);
+    --background-tooltip: #e8e8e8;
     --banner-home-dot: #d8d8d8;
     --loading-bg: rgba(0,0,0,0.05);
     --loading-bg-animation: #f5f5f5;
@@ -99,5 +141,4 @@ export default baseTheme;
     --linear-gradient-bg: linear-gradient(180deg,#740091,#2d1a4c);
     --padding-section: 59px;
 }
-
 */

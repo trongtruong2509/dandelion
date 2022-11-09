@@ -20,8 +20,8 @@ import darkTheme from "../themes/dark";
 
 function App() {
    useEffect(() => {
-      applyTheme(darkTheme);
-    }, []);
+      applyTheme(baseTheme);
+   }, []);
 
    return (
       <Router>
