@@ -30,12 +30,12 @@ const SongInfo = ({ info, size = "10", onClick }) => {
             {/* </div> */}
             <div className="max-w-[220px]">
                <h1
-                  className="text-sm hover:text-primary cursor-pointer truncate w-full"
+                  className="w-full text-sm truncate cursor-pointer text-primary"
                   onClick={onClick}
                >
                   {info?.title}
                </h1>
-               <div className="text-xs text-secondary truncate">
+               <div className="text-xs truncate text-secondary">
                   {info?.artists.length > 0 ? (
                      <p>
                         {info?.artists.map((artist, index) => (

@@ -8,7 +8,7 @@
     --alpha-layout-bg: rgba(87,64,59,0.8);
     --queue-player-popup-bg: #63423c;
     --blur-queue-bg: rgba(87,64,59,0.9019607843137255);
-    --purple-primary: #b65f20;
+    --dandelion-primary: #b65f20;
     --link-text-hover: #e96f16;
     --chart-bg-img-alpha: rgba(87,64,59,0.9);
     --linear-gradient-bg: linear-gradient(180deg,#7b5e58,#654943);
@@ -53,7 +53,7 @@
     --select-bg: hsla(0,0%,100%,0.15);
     --text-primary: #fff;
     --text-secondary: hsla(0,0%,100%,0.5);
-    --purple-primary: #9b4de0;
+    --dandelion-primary: #9b4de0;
     --link-text-hover: #c273ed;
     --text-item-hover: #fff;
     --player-text: #fff;
@@ -92,7 +92,7 @@
     --chart-bg-img-alpha: rgba(30,30,30,0.9);
     --chart-box-bg-alpha: hsla(0,0%,100%,0.05);
     --chart-logo-color: #fff;
-    --chart-icon-play-color: var(--purple-primary);
+    --chart-icon-play-color: var(--dandelion-primary);
 }
 
 */

@@ -30,7 +30,7 @@ const SearchItem = ({ infos }) => {
                         />
                      </div>
                      <div className="">
-                        <h2 className="font-semibold text-white">
+                        <h2 className="font-semibold text-primary">
                            {info.name}
                         </h2>
                         <p className="text-sm text-secondary">Artist</p>

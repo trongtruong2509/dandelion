@@ -13,7 +13,7 @@ const Playbar = () => {
                         w-full h-[90px]
                         text-white z-[600]"
       >
-         <div className="relative h-full flex-btw drop-shadow-md">
+         <div className="relative h-full flex-btw">
             <div className="gap-3 flex-center">
                <div className="flex items-center gap-3 text-white">
                   <div>
@@ -24,7 +24,9 @@ const Playbar = () => {
                      />
                   </div>
                   <div className="max-w-[240px]">
-                     <h1 className="text-sm truncate">{currentSong?.title}</h1>
+                     <h1 className="text-sm font-semibold truncate text-player">
+                        {currentSong?.title}
+                     </h1>
                      <p className="text-xs truncate text-secondary">
                         {currentSong?.artistNames}
                      </p>

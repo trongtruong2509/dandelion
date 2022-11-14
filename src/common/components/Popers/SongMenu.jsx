@@ -18,7 +18,7 @@ const SongMenu = ({ children, info }) => {
          placement="auto-end"
          render={(attrs) => (
             <div
-               className="w-[280px] h-[314px] flex flex-col bg-dark-2
+               className="w-[280px] h-[314px] flex flex-col bg-layout
                 py-4 shadow-lg drop-shadow-lg rounded-xl"
                tabIndex="-1"
                {...attrs}
@@ -27,21 +27,21 @@ const SongMenu = ({ children, info }) => {
                   <SongInfo info={info} />
                   <div className="w-full my-4 text-xs flex-btw rounded-xl bg-hover-1">
                      <button
-                        className="flex-center flex-col gap-1 py-2 text-white rounded-xl w-[80px]
+                        className="flex-center flex-col gap-1 py-2 text-primary rounded-xl w-[80px]
                   cursor-pointer hover:bg-hover-1"
                      >
                         <BsDownload className="text-base " />
                         Download
                      </button>
                      <button
-                        className="flex-center flex-col gap-1 py-2 text-white rounded-xl w-[80px]
+                        className="flex-center flex-col gap-1 py-2 text-primary rounded-xl w-[80px]
                   cursor-pointer hover:bg-hover-1"
                      >
                         <MdQueueMusic className="text-base " />
                         Lyrics
                      </button>
                      <button
-                        className="flex-center flex-col gap-1 py-2 text-white rounded-xl w-[80px]
+                        className="flex-center flex-col gap-1 py-2 text-primary rounded-xl w-[80px]
                   cursor-pointer hover:bg-hover-1"
                      >
                         <MdBlock className="text-base " />
@@ -50,27 +50,27 @@ const SongMenu = ({ children, info }) => {
                   </div>
                </div>
                <div className="w-full">
-                  <button className="w-full hover:bg-hover-1 hover:text-white py-[10px] text-secondary flex-btw px-4 text-sm">
+                  <button className="w-full hover:bg-hover-1 hover:text-primary py-[10px] text-secondary flex-btw px-4 text-sm">
                      <div className="flex items-center gap-3">
                         <IoMdAddCircleOutline className="text-xl" />
                         Add to playlist
                      </div>
                      <MdArrowForwardIos className="text-xl" />
                   </button>
-                  <button className="w-full hover:bg-hover-1 hover:text-white py-[10px] text-secondary flex-btw px-4 text-sm">
+                  <button className="w-full hover:bg-hover-1 hover:text-primary py-[10px] text-secondary flex-btw px-4 text-sm">
                      <div className="flex items-center gap-3">
                         <GiMicrophone className="text-xl" />
                         Play with lyrics
                      </div>
                      <MdArrowForwardIos className="text-xl" />
                   </button>
-                  <button className="w-full hover:bg-hover-1 hover:text-white py-[10px] text-secondary flex-btw px-4 text-sm">
+                  <button className="w-full hover:bg-hover-1 hover:text-primary py-[10px] text-secondary flex-btw px-4 text-sm">
                      <div className="flex items-center gap-3">
                         <AiOutlineComment className="text-xl" />
                         Comments
                      </div>
                   </button>
-                  <button className="w-full hover:bg-hover-1 hover:text-white py-[10px] text-secondary flex-btw px-4 text-sm">
+                  <button className="w-full hover:bg-hover-1 hover:text-primary py-[10px] text-secondary flex-btw px-4 text-sm">
                      <div className="flex items-center gap-3">
                         <BsShare className="text-xl" />
                         Share

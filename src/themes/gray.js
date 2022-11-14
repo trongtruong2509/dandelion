@@ -10,7 +10,7 @@ style attribute {
     --queue-player-popup-bg: #e5e3df;
     --blur-queue-bg: rgba(229,227,223,0.9019607843137255);
     --artist-layout-bg: rgba(229,227,223,0.8);
-    --purple-primary: #644646;
+    --dandelion-primary: #644646;
     --text-item-hover: #844d4d;
     --link-text-hover: #844d4d;
     --chart-bg-img-alpha: rgb(229 227 223/90%);

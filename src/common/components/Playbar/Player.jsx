@@ -229,7 +229,7 @@ const Player = () => {
    return (
       <div>
          <div className="absolute flex-col gap-2 transform -translate-x-1/2 -translate-y-1/2 flex-center top-1/2 left-1/2">
-            <div className="flex items-center gap-4 text-xl">
+            <div className="flex items-center gap-4 text-xl text-player">
                <button
                   className={`p-2 hover:bg-hover-1 rounded-full ${
                      playbarSlice?.shuffle
@@ -282,7 +282,7 @@ const Player = () => {
                   </button>
                )}
             </div>
-            <div className="gap-2 flex-center">
+            <div className="gap-2 flex-center text-primary">
                <p className="w-8 text-xs">{!time ? "0:00" : fmtMSS(time)}</p>
                <div className="w-[600px]">
                   <Progress
@@ -295,7 +295,7 @@ const Player = () => {
                      onTouchEnd={() => setPlaying(true)}
                   />
                </div>
-               <p className="w-8 text-xs text-right">
+               <p className="w-8 text-xs text-right ">
                   {!!length ? fmtMSS(length) : "0:00"}
                </p>
             </div>

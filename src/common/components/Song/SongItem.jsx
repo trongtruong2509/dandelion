@@ -98,8 +98,8 @@ const SongItem = ({
 
    return (
       <div
-         className={`w-full px-3 py-2  border-hover-1 grid grid-cols-12 relative rounded-md group
-                         ${current ? "bg-hover-1" : "hover:bg-hover-1"} 
+         className={`w-full px-3 py-2  border-secondary grid grid-cols-12 relative rounded-md group
+                         ${current ? "bg-alpha" : "hover:bg-alpha"} 
                          ${playlistMode ? "border-b" : ""}
                          ${
                             fade && !current
@@ -125,7 +125,7 @@ const SongItem = ({
          </div>
 
          {playlistMode && (
-            <p className="flex items-center col-span-5 text-xs cursor-pointer text-secondary hover:text-teal-500 hover:underline">
+            <p className="flex items-center col-span-5 text-xs cursor-pointer text-secondary hover:text-dandelion-primary hover:underline">
                {info.album}
             </p>
          )}

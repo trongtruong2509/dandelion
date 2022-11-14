@@ -151,7 +151,7 @@ const Search = () => {
          // reference={ref}
          render={(attrs) => (
             <div
-               className="w-[500px] h-auto min-h-20 pb-3 bg-dark-2 -mt-1 rounded-2xl text-white px-3"
+               className="w-[500px] h-auto min-h-20 pb-3 bg-primary -mt-1 rounded-2xl shadow-md text-primary px-3"
                tabIndex="-1"
                {...attrs}
             >
@@ -159,7 +159,9 @@ const Search = () => {
                   <div className="pt-4 pb-2">
                      {searchText === "" ? (
                         <div className="flex-btw">
-                           <h2 className="font-semibold">Recent searches</h2>
+                           <h2 className="font-semibold text-primary">
+                              Recent searches
+                           </h2>
                            <button className="px-3 text-xs text-secondary hover:text-primary">
                               Clear
                            </button>
@@ -195,10 +197,10 @@ const Search = () => {
                type="text"
                value={searchText}
                onChange={(e) => setSearchText(e.target.value)}
-               className="w-full py-[10px] rounded-2xl outline-none bg-dark-2 pl-10 text-sm text-white"
+               className="w-full py-[10px] rounded-2xl outline-none bg-sidebar pl-10 text-sm text-search"
                placeholder="Search for song, artist, album..."
             />
-            <MdSearch className="absolute text-2xl text-white opacity-50 top-2 left-3" />
+            <MdSearch className="absolute text-2xl opacity-50 text-search top-2 left-3" />
          </div>
       </Tippy>
    );

@@ -35,14 +35,14 @@ const PlaybarOptions = ({ volume, onVolChange }) => {
             {/* <button>
                <GiMicrophone />
             </button> */}
-            <div className="gap-2 flex-center w-36">
+            <div className="gap-2 flex-center w-36 text-primary">
                <GiSpeaker className="text-3xl" />
                <Progress value={volume} onChange={onVolChange} />
             </div>
          </div>
-         <div className="px-3 border-l 2xl:hidden border-hover-1">
+         <div className="px-3 border-l 2xl:hidden border-secondary">
             <button
-               className="p-[6px] rounded-md text-white flex-center bg-hover-1"
+               className="p-[6px] rounded-md text-primary flex-center bg-hover-1"
                onClick={handleToggle}
             >
                <MdQueueMusic

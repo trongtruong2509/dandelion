@@ -66,8 +66,8 @@ const Mymusic = () => {
             </div>
          </div>
 
-         <div className="w-full text-white">
-            <div className="w-full py-2 border-b border-hover-1">
+         <div className="w-full text-primary">
+            <div className="w-full py-2 border-b border-secondary">
                <p className="text-lg font-semibold uppercase">Songs</p>
             </div>
 

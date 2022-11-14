@@ -8,7 +8,7 @@
     --blur-queue-bg: rgba(249,219,219,0.9019607843137255);
     --player-bg: #f9c6c5;
     --artist-layout-bg: rgba(249,219,219,0.8);
-    --purple-primary: #b72479;
+    --dandelion-primary: #b72479;
     --text-item-hover: #b72479;
     --link-text-hover: #b72479;
     --chart-bg-img-alpha: rgb(249 219 219/0.9);

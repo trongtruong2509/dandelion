@@ -84,12 +84,12 @@ const Home = () => {
    };
 
    return (
-      <div className="w-full text-white">
+      <div className="w-full text-primary">
          <div className="w-full h-60">Advertise</div>
          <div className="w-full">
             <div className="flex-btw">
                <div className="flex items-center justify-start gap-4">
-                  <h1 className="text-2xl font-bold text-white">
+                  <h1 className="text-2xl font-bold text-primary">
                      Recently Played
                   </h1>
                </div>
@@ -111,7 +111,7 @@ const Home = () => {
          <div className="pt-3">
             <div className="flex-btw">
                <div className="flex items-center justify-start gap-4">
-                  <h1 className="text-2xl font-bold text-white">
+                  <h1 className="text-2xl font-bold text-primary">
                      Your Top Mixes
                   </h1>
                </div>

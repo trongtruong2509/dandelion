@@ -78,23 +78,23 @@ const Header = () => {
          <div className="gap-8 flex-center">
             <div className="gap-4 flex-center">
                <button>
-                  <MdWest className="text-2xl text-white" />
+                  <MdWest className="text-2xl text-primary" />
                </button>
                <button>
-                  <MdEast className="text-2xl text-white opacity-50" />
+                  <MdEast className="text-2xl opacity-50 text-primary" />
                </button>
             </div>
             <Search />
          </div>
          <div className="gap-3 flex-center">
             <Link
-               className="w-10 h-10 text-white rounded-full cursor-pointer flex-center bg-hover-1"
+               className="w-10 h-10 rounded-full cursor-pointer text-primary flex-center bg-alpha"
                to="/upload"
             >
                <MdUpload className="text-xl" />
             </Link>
             <div
-               className="w-10 h-10 text-white rounded-full cursor-pointer flex-center bg-hover-1"
+               className="w-10 h-10 rounded-full cursor-pointer text-primary flex-center bg-alpha"
                onClick={handleSettings}
             >
                <MdSettings className="text-xl" />

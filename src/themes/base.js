@@ -13,7 +13,8 @@ const baseTheme = createTheme({
    darkAlpha70: "rgba(0,0,0,0.7)",
    darkAlpha80: "rgba(0,0,0,0.8)",
    contrastColor: "rgba(254,255,255,0.8)",
-   purplePrimary: "#8d22c3",
+   hoverTooltip: "hsla(0,0%,100%,0.3)",
+   dandelionPrimary: "#14b8a6",
 
    bgPrimary: "#fff",
    bgLayout: "#fff",
@@ -29,6 +30,7 @@ const baseTheme = createTheme({
    bgAlphaLayout: "rgba(12,3,3,0.8)",
    bgTabActive: "#fff",
    bgLinearGradient: "linear-gradient(180deg,#740091,#2d1a4c)",
+   bgProcessbar: "rgba(0,0,0,0.1)",
 
    textPrimary: "#32323d",
    textSecondary: "rgba(0,0,0,0.6)",
@@ -88,7 +90,7 @@ export default baseTheme;
     --alpha-layout-bg: rgba(12,3,3,0.8);
     --tab-active-bg: #fff;
     --queue-player-popup-bg: #fff;
-    --progressbar-active-bg: var(--purple-primary);
+    --progressbar-active-bg: var(--dandelion-primary);
     --progressbar-player-bg: rgba(0,0,0,0.1);
     --kara-lyrics-bg: #9882bd;
     --kara-btn-bg: hsla(0,0%,100%,0.1);
@@ -97,7 +99,7 @@ export default baseTheme;
     --select-bg: rgba(0,0,0,0.15);
     --text-primary: #32323d;
     --text-secondary: rgba(0,0,0,0.6);
-    --purple-primary: #8d22c3;
+    --dandelion-primary: #8d22c3;
     --text-item-hover: #8d22c3;
     --link-text-hover: #8d22c3;
     --player-text: #32323d;

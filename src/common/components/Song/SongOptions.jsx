@@ -37,7 +37,7 @@ const SongOptions = ({ songInfo, like = true, addPlaylist = false }) => {
    };
 
    return (
-      <div className="gap-2 text-lg text-white flex-center">
+      <div className="gap-2 text-lg text-primary flex-center">
          {like && (
             <div
                className="w-10 h-10 p-2 rounded-full cursor-pointer flex-center hover:bg-hover-1"
@@ -51,15 +51,17 @@ const SongOptions = ({ songInfo, like = true, addPlaylist = false }) => {
                currentUser?.likedSongs.findIndex(
                   (t) => t.id === songInfo?.id
                ) === -1 ? (
-                  <MdFavoriteBorder className={`text-lg`} />
+                  <MdFavoriteBorder
+                     className={`text-lg hover:text-dandelion-primary`}
+                  />
                ) : (
-                  <MdFavorite className="text-lg text-primary" />
+                  <MdFavorite className="text-lg text-dandelion-primary" />
                )}
             </div>
          )}
 
          <SongMenu info={songInfo}>
-            <div className="w-10 h-10 p-2 rounded-full cursor-pointer flex-center hover:bg-hover-1">
+            <div className="w-10 h-10 p-2 rounded-full cursor-pointer flex-center hover:bg-dark-alpha-10">
                <HiOutlineDotsHorizontal className="text-xl" />
             </div>
          </SongMenu>

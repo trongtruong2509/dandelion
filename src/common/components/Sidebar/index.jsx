@@ -10,14 +10,15 @@ import LogoDark from "../../../assets/Dandelion_logo_dark.PNG";
 // import routes from "./../../../app/routes";
 
 const Sidebar = () => {
-   const navActive = "bg-hover-1 px-6 py-2 flex gap-2 items-center opacity-100";
+   const navActive =
+      "bg-dark-alpha-10 border-l-4 border-dandelion-primary px-6 py-2 flex gap-2 items-center opacity-100 text-primary";
    const navInactive =
-      "hover:bg-hover-1 px-6 py-2 flex gap-2 items-center opacity-80";
+      "hover:bg-hover-1 px-6 py-2 flex gap-2 items-center opacity-80 text-primary";
 
    return (
-      <div className="flex-shrink-0 h-full text-white w-72 bg-dark-2 z-100">
-         <div className="w-full py-2 mb-6 flex-center">
-            <img className="h-[70px]" src={LogoDark} alt="" />
+      <div className="flex-shrink-0 h-full text-white w-72 bg-sidebar z-100">
+         <div className="w-full h-[70px] py-2 mb-6 flex-center">
+            {/* <img className="h-[70px]" src={LogoDark} alt="" /> */}
          </div>
 
          <div className="flex flex-col">
@@ -48,7 +49,7 @@ const Sidebar = () => {
                <MdOutlineBarChart className="text-2xl" />
                Chart
             </NavLink>
-            <div className="h-[1px] mx-6 my-3 border-b border-hover-1"></div>
+            <div className="h-[1px] mx-6 my-3 border-b border-secondary"></div>
          </div>
          <div className="flex flex-col">
             <NavLink
@@ -78,7 +79,7 @@ const Sidebar = () => {
                <MdOutlineBarChart className="text-2xl" />
                Chart
             </NavLink>
-            {/* <div className="h-[1px] mx-6 my-3 border-b border-hover-1"></div> */}
+            {/* <div className="h-[1px] mx-6 my-3 border-b border-secondary"></div> */}
          </div>
       </div>
    );

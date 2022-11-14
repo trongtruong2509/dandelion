@@ -21,7 +21,8 @@ export function createTheme(theme) {
       "--dark-alpha-70": theme.darkAlpha70,
       "--dark-alpha-80": theme.darkAlpha80,
       "--contrast-color": theme.contrastColor,
-      "--purple-primary": theme.purplePrimary,
+      "--hover-tooltip": theme.hoverTooltip,
+      "--dandelion-primary": theme.dandelionPrimary,
 
       "--primary-bg": theme.bgPrimary,
       "--layout-bg": theme.bgLayout,
@@ -36,6 +37,7 @@ export function createTheme(theme) {
       "--player-bg": theme.bgPlayer,
       "--alpha-layout-bg": theme.bgAlphaLayout,
       "--tab-active-bg": theme.bgTabActive,
+      "--progressbar-bg": theme.bgProcessbar,
       "--linear-gradient-bg": theme.bgLinearGradient,
 
       "--text-primary": theme.textPrimary,

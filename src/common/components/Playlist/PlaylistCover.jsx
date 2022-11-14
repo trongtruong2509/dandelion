@@ -74,9 +74,9 @@ const PlaylistCover = ({ info, size = "md", editable = false }) => {
             }
          >
             {currentUser?.playlists?.find((p) => p === info?.id) ? (
-               <IoHeart className="text-2xl text-accent" />
+               <IoHeart className="text-2xl text-dandelion-primary" />
             ) : (
-               <IoHeartOutline className="text-2xl text-primary hover:text-accent" />
+               <IoHeartOutline className="text-2xl text-white hover:text-dandelion-primary" />
             )}
          </button>
       );
@@ -90,7 +90,7 @@ const PlaylistCover = ({ info, size = "md", editable = false }) => {
                   className="w-10 h-10 rounded-full cursor-pointer flex-center"
                   onClick={() => dispatch(updatePlaylists(info.id))}
                >
-                  <IoClose className="text-3xl hover:text-accent" />
+                  <IoClose className="text-3xl text-white hover:text-dandelion-primary" />
                </button>
             )
          );
@@ -110,18 +110,21 @@ const PlaylistCover = ({ info, size = "md", editable = false }) => {
                alt={info?.title}
                className="z-10 object-cover w-full h-full transition-all duration-500 ease-out group-hover:scale-105"
             />
-            <div className="absolute top-0 left-0 z-50 items-center justify-center hidden w-full h-full text-white group-hover:flex bg-overlay-2">
+            <div className="absolute top-0 left-0 z-50 items-center justify-center hidden w-full h-full text-primary group-hover:flex bg-overlay-2">
                <div
                   className="gap-6 flex-center"
                   onClick={(e) => e.stopPropagation()}
                >
                   <div className="w-10 h-10 ">{displayIcon()}</div>
 
-                  <button className="hover:text-primary" onClick={onPlay}>
+                  <button
+                     className="text-white hover:text-dandelion-primary"
+                     onClick={onPlay}
+                  >
                      <FaPlay className="text-3xl cursor-pointer" />
                   </button>
 
-                  <button className="p-2 rounded-full hover:bg-hover-2">
+                  <button className="p-2 text-white rounded-full hover:bg-hover-tooltip">
                      <HiOutlineDotsHorizontal className="text-2xl cursor-pointer" />
                   </button>
                </div>
@@ -129,7 +132,9 @@ const PlaylistCover = ({ info, size = "md", editable = false }) => {
          </div>
          <div className="w-full">
             <div className="w-full mt-2 flex-btw">
-               <h1 className="w-40 truncate">{info?.title}</h1>
+               <h1 className="w-40 font-semibold truncate text-primary">
+                  {info?.title}
+               </h1>
                {size == "md" && (
                   <p className="text-sm text-secondary">
                      {info?.songs.length} tracks

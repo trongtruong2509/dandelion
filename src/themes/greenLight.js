@@ -9,7 +9,7 @@
     --blur-queue-bg: rgba(206,217,217,0.9019607843137255);
     --primary-bg: #e0ebeb;
     --artist-layout-bg: rgba(206,217,217,0.8);
-    --purple-primary: #0e8080;
+    --dandelion-primary: #0e8080;
     --text-item-hover: #0f7070;
     --link-text-hover: #0f7070;
     --chart-bg-img-alpha: rgb(206 217 217/0.9);

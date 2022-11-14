@@ -135,16 +135,16 @@ const PlaylistDetail = ({ id }) => {
                   }
                   alt="Playlist Cover"
                />
-               <div className="absolute top-0 left-0 items-center justify-center hidden gap-6 text-white w-72 h-72 group-hover:flex bg-overlay-2">
+               <div className="absolute top-0 left-0 items-center justify-center hidden gap-6 text-white rounded-md w-72 h-72 group-hover:flex bg-dark-alpha-50">
                   {/* <button className="p-2 rounded-full hover:bg-hover-2">
                      <MdFavoriteBorder className="text-2xl cursor-pointer" />
                   </button> */}
                   {playingTrack?.playing ? (
-                     <button className="hover:text-primary">
+                     <button className="hover:text-dandelion-primary">
                         <FaPause className="text-3xl cursor-pointer" />
                      </button>
                   ) : (
-                     <button className="hover:text-primary">
+                     <button className="hover:text-dandelion-primary">
                         <FaPlay className="text-3xl cursor-pointer" />
                      </button>
                   )}
@@ -153,7 +153,7 @@ const PlaylistDetail = ({ id }) => {
 
             <div>
                <div className="relative gap-1 mt-4 flex-center">
-                  <h1 className="text-2xl font-semibold text-center">
+                  <h1 className="text-2xl font-semibold text-center text-primary">
                      {currentPlaylist?.title}
                   </h1>
                   {currentPlaylist?.createdByUserId === user.id && (
@@ -167,14 +167,14 @@ const PlaylistDetail = ({ id }) => {
                </div>
                <p className="mt-1 text-xs text-center text-secondary">
                   Created by{" "}
-                  <span className="font-semibold text-white cursor-pointer hover:text-primary">
+                  <span className="font-semibold cursor-pointer text-primary hover:text-dandelion-primary">
                      {currentPlaylist?.createdBy}
                   </span>
                </p>
                <div className="flex items-center justify-center w-full">
                   {currentPlaylist?.id !== playingPlaylist?.value?.id ? (
                      <button
-                        className="flex items-center gap-1 px-5 py-2 my-5 text-sm uppercase bg-primary rounded-3xl"
+                        className="flex items-center gap-1 px-5 py-2 my-5 text-sm uppercase bg-dandelion-primary rounded-3xl"
                         onClick={onPlay}
                      >
                         <IoIosShuffle className="text-lg" />
@@ -182,7 +182,7 @@ const PlaylistDetail = ({ id }) => {
                      </button>
                   ) : playingTrack?.playing ? (
                      <button
-                        className="flex items-center gap-1 px-5 py-2 my-5 text-sm uppercase bg-primary rounded-3xl"
+                        className="flex items-center gap-1 px-5 py-2 my-5 text-sm uppercase bg-dandelion-primary rounded-3xl"
                         onClick={onPause}
                      >
                         <IoMdPause className="text-lg" />
@@ -190,7 +190,7 @@ const PlaylistDetail = ({ id }) => {
                      </button>
                   ) : (
                      <button
-                        className="flex items-center gap-1 px-5 py-2 my-5 text-sm uppercase bg-primary rounded-3xl"
+                        className="flex items-center gap-1 px-5 py-2 my-5 text-sm uppercase bg-dandelion-primary rounded-3xl"
                         onClick={onPlay}
                      >
                         <IoMdPlay className="text-lg" />
@@ -200,10 +200,10 @@ const PlaylistDetail = ({ id }) => {
                </div>
                <div className="flex items-center justify-center gap-4">
                   <button className="p-2 rounded-full cursor-pointer flex-center bg-hover-1">
-                     <MdFavorite className="text-lg text-primary" />
+                     <MdFavorite className="text-lg text-dandelion-primary" />
                   </button>
                   <button className="p-2 rounded-full cursor-pointer flex-center bg-hover-1">
-                     <HiOutlineDotsHorizontal className="text-lg" />
+                     <HiOutlineDotsHorizontal className="text-lg text-primary" />
                   </button>
                </div>
             </div>
@@ -212,7 +212,7 @@ const PlaylistDetail = ({ id }) => {
             <div>
                {currentTracks?.length > 0 ? (
                   <>
-                     <div className="grid w-full grid-cols-12 p-3 border-b border-hover-1">
+                     <div className="grid w-full grid-cols-12 p-3 border-b border-secondary">
                         <p className="col-span-6 text-sm text-secondary">
                            SONG
                         </p>

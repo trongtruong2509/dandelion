@@ -7,15 +7,15 @@ export const Progress = ({ value, onChange, onMouseUp, onTouchEnd }) => {
             max="100"
             step="1"
             value={value}
-            className="w-full rounded-md appearance-none cursor-pointer from-teal-500 to-gray-600 progress"
+            className="w-full rounded-md appearance-none cursor-pointer progress"
             id="myRange"
             onChange={onChange}
             onMouseUp={onMouseUp}
             onTouchEnd={onTouchEnd}
             style={{
-               background: `linear-gradient(90deg, var(--tw-gradient-from) ${Math.floor(
+               background: `linear-gradient(90deg, var(--dandelion-primary) ${Math.floor(
                   value
-               )}%, var(--tw-gradient-to) ${Math.floor(value)}%)`,
+               )}%, var(--progressbar-bg) ${Math.floor(value)}%)`,
             }}
          />
       </div>

@@ -138,7 +138,7 @@ const Upload = () => {
 
    return (
       <div className="w-full h-full text-white flex-center">
-         <div className="w-[500px] min-h-[500px] flex-center h-auto border border-hover-1 m-auto rounded-lg">
+         <div className="w-[500px] min-h-[500px] flex-center h-auto border border-secondary m-auto rounded-lg">
             {loading ? (
                <>
                   <SyncLoader
