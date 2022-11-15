@@ -54,7 +54,7 @@ const PlayerQueue = () => {
       >
          <Tabs
             className="w-full Tabs"
-            selectedTabClassName="text-white-custom bg-hover-2 hover:text-white"
+            selectedTabClassName="text-dandelion-primary bg-tab-active"
          >
             <TabList className="w-fit bg-alpha rounded-3xl p-[3px] flex-center mt-4 ml-10 mb-5">
                <Tab className="px-2 py-1 text-sm cursor-pointer 3xl:px-3 rounded-3xl text-navigation hover:text-dandelion-primary">
@@ -121,7 +121,7 @@ const PlayerQueue = () => {
                </div>
             </TabPanel>
          </Tabs>
-         <div className="absolute gap-2 flex-center right-4 top-4">
+         <div className="absolute gap-2 flex-center right-2 top-4">
             <button className="text-lg bg-hover-1 text-secondary p-[7px] rounded-full bg-alpha">
                <GiAlarmClock />
             </button>

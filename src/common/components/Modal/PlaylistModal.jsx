@@ -70,29 +70,29 @@ const PlaylistModal = ({ ...props }) => {
    };
 
    return (
-      <Modal {...props} className="p-4 text-white bg-dark-3 w-96 rounded-xl">
-         <header className="w-full py-1 flex-center header">
+      <Modal {...props} className="p-4 text-white bg-layout w-96 rounded-xl">
+         <header className="w-full py-1 flex-center header text-primary">
             <h4 className="text-xl font-semibold">Create New Playlist</h4>
          </header>
-         <main className="flex flex-col w-full gap-4 py-3">
+         <main className="flex flex-col w-full gap-4 py-3 text-primary">
             <input
                type="text"
                value={title}
                onChange={(e) => setTitle(e.target.value)}
-               className="px-4 py-2 border outline-none border-secondary rounded-xl bg-hover-1"
+               className="px-4 py-2 border outline-none border-primary rounded-xl bg-hover-1"
                placeholder="Enter playlist name"
             />
             <textarea
                value={desc}
                onChange={(e) => setDesc(e.target.value)}
-               className="px-4 py-2 border outline-none border-secondary rounded-xl bg-hover-1"
+               className="px-4 py-2 border outline-none border-primary rounded-xl bg-hover-1"
                placeholder="Enter descrption"
                rows={5}
             />
          </main>
          <div className="flex items-center justify-end w-full gap-6 px-4 pt-4 pb-2">
             <button
-               className="w-20 px-3 py-2 rounded-lg bg-hover-1 text-navigation hover:text-white hover:bg-dark-1 hover:opacity-100"
+               className="w-20 px-3 py-2 rounded-lg bg-dark-alpha-10 text-navigation hover:text-white hover:bg-dark-alpha-50 hover:opacity-100"
                onClick={props.onClose}
             >
                Cancel

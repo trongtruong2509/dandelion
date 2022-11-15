@@ -44,7 +44,7 @@ const Mymusic = () => {
                      MY PLAYLIST
                   </h1>
                   <button
-                     className="p-2 rounded-full outline-none bg-hover-1 hover:text-primary"
+                     className="p-2 rounded-full outline-none bg-alpha hover:text-dandelion-primary text-primary"
                      onClick={() => setShow(!show)}
                   >
                      <MdOutlineAdd className="text-xl" />

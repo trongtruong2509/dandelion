@@ -34,18 +34,18 @@ export const getDocById = async (collection, id) => {
 };
 
 export const getDocInList = async (document, filter) => {
-   console.log("[getDocInList] filter",filter);
+   console.log("[getDocInList] filter", filter);
    let reuturnDoc = [];
 
    const filters = group(filter, 10);
-      // console.log("[getDocInList] querySnapshot", querySnapshot);
+   // console.log("[getDocInList] querySnapshot", querySnapshot);
 
-      // let reuturnDoc = [];
-      // querySnapshot.forEach((doc) => {
-      //    // doc.data() is never undefined for query doc snapshots
-      //    // console.log(doc.id, " => ", doc.data());
-      //    reuturnDoc.push(doc.data());
-      // });
+   // let reuturnDoc = [];
+   // querySnapshot.forEach((doc) => {
+   //    // doc.data() is never undefined for query doc snapshots
+   //    // console.log(doc.id, " => ", doc.data());
+   //    reuturnDoc.push(doc.data());
+   // });
 
    try {
       for (const filter of filters) {
@@ -68,7 +68,7 @@ export const getDocInList = async (document, filter) => {
 
       return reuturnDoc;
    } catch (error) {
-      console.log("[getDocInList] error",error);
+      console.log("[getDocInList] error", error);
 
       return null;
    }
@@ -77,7 +77,7 @@ export const getDocInList = async (document, filter) => {
 export const getLatestSongs = async () => {
    const q = query(
       collection(firestore, "Songs"),
-      where("releaseDate", ">=", Date.now() - 5592000000)
+      where("releaseDate", ">=", Date.now() - 15592000000)
    );
 
    try {

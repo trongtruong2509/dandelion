@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { MdEast, MdSettings, MdUpload, MdWest } from "react-icons/md";
+import { RiPaintFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -10,12 +11,14 @@ import Search from "./Search";
 import { applyTheme } from "../../../themes/utils";
 import baseTheme from "../../../themes/base";
 import darkTheme from "../../../themes/dark";
+import ThemeModal from "../Modal/ThemeModal";
 
 const Header = () => {
    const user = useSelector((state) => state.user.value);
    const dispatch = useDispatch();
 
    const [isDefault, setIsDefault] = useState(false);
+   const [show, setShow] = useState(false);
 
    useEffect(() => {
       if (user) {
@@ -63,7 +66,7 @@ const Header = () => {
       dispatch(removeUser());
    };
 
-   const handleSettings = () => {
+   const handleChangeTheme = () => {
       if (isDefault) {
          applyTheme(baseTheme);
          setIsDefault(!isDefault);
@@ -74,7 +77,9 @@ const Header = () => {
    };
 
    return (
-      <div className="w-full py-4 flex-btw bg-dark-4">
+      <div className="w-full py-4 flex-btw bg-layout">
+         <ThemeModal show={show} onClose={() => setShow(false)} />
+
          <div className="gap-8 flex-center">
             <div className="gap-4 flex-center">
                <button>
@@ -87,6 +92,12 @@ const Header = () => {
             <Search />
          </div>
          <div className="gap-3 flex-center">
+            <div
+               className="w-10 h-10 rounded-full cursor-pointer text-primary flex-center bg-alpha hover:text-dandelion-primary"
+               onClick={() => setShow(true)}
+            >
+               <RiPaintFill className="text-xl" />
+            </div>
             <Link
                className="w-10 h-10 rounded-full cursor-pointer text-primary flex-center bg-alpha"
                to="/upload"
@@ -95,7 +106,7 @@ const Header = () => {
             </Link>
             <div
                className="w-10 h-10 rounded-full cursor-pointer text-primary flex-center bg-alpha"
-               onClick={handleSettings}
+               // onClick={handleSettings}
             >
                <MdSettings className="text-xl" />
             </div>

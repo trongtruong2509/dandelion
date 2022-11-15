@@ -136,7 +136,7 @@ const Home = () => {
                   className="flex items-center justify-start gap-4"
                   onClick={() => pushArtist}
                >
-                  <button className="text-2xl font-bold text-white">
+                  <button className="text-2xl font-bold text-primary">
                      New Releases
                   </button>
                </div>

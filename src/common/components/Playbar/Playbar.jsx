@@ -9,7 +9,7 @@ const Playbar = () => {
 
    return (
       <div
-         className="bg-dark-3 py-3 px-5  
+         className="bg-player py-3 px-5 border-t border-secondary
                         w-full h-[90px]
                         text-white z-[600]"
       >

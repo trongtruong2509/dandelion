@@ -199,10 +199,10 @@ const PlaylistDetail = ({ id }) => {
                   )}
                </div>
                <div className="flex items-center justify-center gap-4">
-                  <button className="p-2 rounded-full cursor-pointer flex-center bg-hover-1">
+                  <button className="p-2 rounded-full cursor-pointer flex-center hover:bg-alpha">
                      <MdFavorite className="text-lg text-dandelion-primary" />
                   </button>
-                  <button className="p-2 rounded-full cursor-pointer flex-center bg-hover-1">
+                  <button className="p-2 rounded-full cursor-pointer flex-center hover:bg-alpha">
                      <HiOutlineDotsHorizontal className="text-lg text-primary" />
                   </button>
                </div>
