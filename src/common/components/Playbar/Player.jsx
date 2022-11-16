@@ -231,7 +231,7 @@ const Player = () => {
          <div className="absolute flex-col gap-2 transform -translate-x-1/2 -translate-y-1/2 flex-center top-1/2 left-1/2">
             <div className="flex items-center gap-4 text-xl text-player">
                <button
-                  className={`p-2 hover:bg-hover-1 rounded-full ${
+                  className={`p-2 hover:bg-alpha rounded-full ${
                      playbarSlice?.shuffle
                         ? "text-accent opacity-100"
                         : "opacity-70"
@@ -243,7 +243,7 @@ const Player = () => {
                   <IoShuffleOutline />
                </button>
 
-               <button className="p-2 rounded-full hover:bg-hover-1">
+               <button className="p-2 rounded-full hover:bg-alpha">
                   <IoPlaySkipBack className="text-xl" onClick={prevSong} />
                </button>
 
@@ -255,35 +255,37 @@ const Player = () => {
                   )}
                </button>
 
-               <button className="p-2 rounded-full hover:bg-hover-1">
+               <button className="p-2 rounded-full hover:bg-alpha">
                   <IoPlaySkipForward className="text-xl" onClick={nextSong} />
                </button>
 
                {playbarSlice.repeat === 2 ? (
                   <button
-                     className="p-2 rounded-full hover:bg-hover-1 text-accent"
+                     className="p-2 rounded-full hover:bg-alpha text-accent"
                      onClick={() => dispatch(updateRepeat(0))}
                   >
                      <MdRepeatOne />
                   </button>
                ) : playbarSlice.repeat === 1 ? (
                   <button
-                     className="p-2 rounded-full hover:bg-hover-1 text-accent"
+                     className="p-2 rounded-full hover:bg-alpha text-accent"
                      onClick={() => dispatch(updateRepeat(2))}
                   >
                      <IoRepeatOutline />
                   </button>
                ) : (
                   <button
-                     className="p-2 rounded-full hover:bg-hover-1 opacity-70 hover:opacity-100"
+                     className="p-2 rounded-full hover:bg-alpha opacity-70 hover:opacity-100"
                      onClick={() => dispatch(updateRepeat(1))}
                   >
                      <IoRepeatOutline />
                   </button>
                )}
             </div>
-            <div className="gap-2 flex-center text-primary">
-               <p className="w-8 text-xs">{!time ? "0:00" : fmtMSS(time)}</p>
+            <div className="gap-2 font-semibold flex-center text-primary">
+               <p className="w-8 text-xs text-secondary">
+                  {!time ? "0:00" : fmtMSS(time)}
+               </p>
                <div className="w-[600px]">
                   <Progress
                      value={slider}

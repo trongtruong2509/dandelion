@@ -19,6 +19,7 @@ module.exports = {
             "tab-active": "var(--tab-active-bg)",
             "linear-gradient": "var(--linear-gradient-bg)",
             progressbar: "var(--progressbar-bg)",
+            "artist-layout": "var(--artist-layout-bg)",
          },
          colors: {
             white: "var(--white)",

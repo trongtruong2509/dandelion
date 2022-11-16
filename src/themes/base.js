@@ -31,6 +31,7 @@ const baseTheme = createTheme({
    bgTabActive: "#fff",
    bgLinearGradient: "linear-gradient(180deg,#740091,#2d1a4c)",
    bgProcessbar: "rgba(0,0,0,0.1)",
+   bgArtistLayout: "hsla(0,0%,100%,0.6)",
 
    textPrimary: "#32323d",
    textSecondary: "rgba(0,0,0,0.6)",

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { MdEast, MdSettings, MdUpload, MdWest } from "react-icons/md";
 import { RiPaintFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
@@ -8,12 +8,9 @@ import defaultAvatar from "./../../../assets/default_avatar.png";
 import { updateUser, removeUser } from "../../slices/userSlice";
 import { getUserDb, loginGoogle } from "../../utils/user";
 import Search from "./Search";
-import { applyTheme } from "../../../themes/utils";
-import baseTheme from "../../../themes/base";
-import darkTheme from "../../../themes/dark";
 import ThemeModal from "../Modal/ThemeModal";
 
-const Header = () => {
+const Header = ({ active }) => {
    const user = useSelector((state) => state.user.value);
    const dispatch = useDispatch();
 
@@ -66,18 +63,40 @@ const Header = () => {
       dispatch(removeUser());
    };
 
-   const handleChangeTheme = () => {
-      if (isDefault) {
-         applyTheme(baseTheme);
-         setIsDefault(!isDefault);
-      } else {
-         applyTheme(darkTheme);
-         setIsDefault(!isDefault);
-      }
-   };
+   // const handleScroll = useCallback(
+   //    (e) => {
+   //       const window = e.currentTarget;
+   //       console.log("[setActive]");
+
+   //       if (y < Threshold) {
+   //          console.log("[setActive]", y);
+   //          setActive(true);
+   //       } else {
+   //          console.log("[setActive]", y);
+   //          setActive(false);
+   //       }
+
+   //       setY(window.scrollY);
+   //    },
+   //    [y]
+   // );
+
+   // useEffect(() => {
+   //    setY(window.scrollY);
+   //    window.addEventListener("scroll", (e) => handleScroll(e));
+
+   //    return () => {
+   //       // return a cleanup function to unregister our function since its gonna run multiple times
+   //       window.removeEventListener("scroll", (e) => handleScroll(e));
+   //    };
+   // }, [handleScroll]);
 
    return (
-      <div className="w-full py-4 flex-btw bg-layout">
+      <div
+         className={`w-full px-12 py-4 flex-btw ${
+            active ? "shadow-md bg-layout" : "bg-transparent"
+         }`}
+      >
          <ThemeModal show={show} onClose={() => setShow(false)} />
 
          <div className="gap-8 flex-center">

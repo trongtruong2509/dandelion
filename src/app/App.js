@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
    BrowserRouter as Router,
    Routes,
@@ -44,7 +44,35 @@ function App() {
 }
 
 function Layout() {
+   const Threshold = 60;
+
    const currentSong = useSelector((state) => state.playing.value)?.info;
+   const ref = useRef();
+
+   const [y, setY] = useState(0);
+   const [active, setActive] = useState(false);
+
+   const handleScroll = useCallback(
+      (e) => {
+         if (y < Threshold) {
+            setActive(false);
+         } else {
+            setActive(true);
+         }
+
+         setY(ref.current.scrollTop);
+      },
+      [y]
+   );
+
+   useEffect(() => {
+      const div = ref.current;
+      setY(ref.current.scrollTop);
+
+      if (div) {
+         div.addEventListener("scroll", handleScroll);
+      }
+   }, [handleScroll]);
 
    return (
       <>
@@ -55,14 +83,20 @@ function Layout() {
                }`}
             >
                <Sidebar />
-               <div className="relative flex flex-col items-stretch flex-grow h-full overflow-auto bg-dark-4">
-                  <div className="w-full sticky top-0 left-0 z-[200] bg-dark-4 px-12">
-                     <Header />
+               {/* <div className="relative flex flex-col items-stretch flex-grow h-full overflow-auto bg-dark-4"> */}
+               <div
+                  className="relative items-stretch flex-grow w-full overflow-y-scroll scrollbar"
+                  ref={ref}
+               >
+                  <div className="w-full sticky top-0 left-0 z-[200]">
+                     <Header active={active} />
                   </div>
-                  <div className="relative flex items-stretch flex-grow w-full px-12 overflow-auto overflow-y-scroll overscroll-auto scrollbar">
+
+                  <div className="px-12">
                      <Outlet />
                   </div>
                </div>
+               {/* </div> */}
 
                <PlayerQueue />
             </div>

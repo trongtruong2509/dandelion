@@ -39,6 +39,7 @@ export function createTheme(theme) {
       "--tab-active-bg": theme.bgTabActive,
       "--progressbar-bg": theme.bgProcessbar,
       "--linear-gradient-bg": theme.bgLinearGradient,
+      "--artist-layout-bg": theme.bgArtistLayout,
 
       "--text-primary": theme.textPrimary,
       "--text-secondary": theme.textSecondary,

@@ -79,13 +79,13 @@ const PlaylistModal = ({ ...props }) => {
                type="text"
                value={title}
                onChange={(e) => setTitle(e.target.value)}
-               className="px-4 py-2 border outline-none border-primary rounded-xl bg-hover-1"
+               className="px-4 py-2 border outline-none border-primary rounded-xl bg-alpha"
                placeholder="Enter playlist name"
             />
             <textarea
                value={desc}
                onChange={(e) => setDesc(e.target.value)}
-               className="px-4 py-2 border outline-none border-primary rounded-xl bg-hover-1"
+               className="px-4 py-2 border outline-none border-primary rounded-xl bg-alpha"
                placeholder="Enter descrption"
                rows={5}
             />

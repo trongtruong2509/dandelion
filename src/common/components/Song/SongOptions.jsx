@@ -40,7 +40,7 @@ const SongOptions = ({ songInfo, like = true, addPlaylist = false }) => {
       <div className="gap-2 text-lg text-primary flex-center">
          {like && (
             <div
-               className="w-10 h-10 p-2 rounded-full cursor-pointer flex-center hover:bg-hover-1"
+               className="w-10 h-10 p-2 rounded-full cursor-pointer flex-center hover:bg-alpha"
                onClick={() =>
                   currentUser
                      ? dispatch(updateLikeSong(songInfo))

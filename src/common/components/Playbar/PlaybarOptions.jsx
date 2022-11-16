@@ -42,7 +42,7 @@ const PlaybarOptions = ({ volume, onVolChange }) => {
          </div>
          <div className="px-3 border-l 2xl:hidden border-secondary">
             <button
-               className="p-[6px] rounded-md text-primary flex-center bg-hover-1"
+               className="p-[6px] rounded-md text-primary flex-center bg-alpha"
                onClick={handleToggle}
             >
                <MdQueueMusic

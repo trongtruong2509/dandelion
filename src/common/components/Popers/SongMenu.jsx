@@ -25,24 +25,24 @@ const SongMenu = ({ children, info }) => {
             >
                <div className="w-full px-4">
                   <SongInfo info={info} />
-                  <div className="w-full my-4 text-xs flex-btw rounded-xl bg-hover-1">
+                  <div className="w-full my-4 text-xs flex-btw rounded-xl bg-alpha">
                      <button
                         className="flex-center flex-col gap-1 py-2 text-primary rounded-xl w-[80px]
-                  cursor-pointer hover:bg-hover-1"
+                  cursor-pointer hover:bg-alpha"
                      >
                         <BsDownload className="text-base " />
                         Download
                      </button>
                      <button
                         className="flex-center flex-col gap-1 py-2 text-primary rounded-xl w-[80px]
-                  cursor-pointer hover:bg-hover-1"
+                  cursor-pointer hover:bg-alpha"
                      >
                         <MdQueueMusic className="text-base " />
                         Lyrics
                      </button>
                      <button
                         className="flex-center flex-col gap-1 py-2 text-primary rounded-xl w-[80px]
-                  cursor-pointer hover:bg-hover-1"
+                  cursor-pointer hover:bg-alpha"
                      >
                         <MdBlock className="text-base " />
                         Block
@@ -50,27 +50,27 @@ const SongMenu = ({ children, info }) => {
                   </div>
                </div>
                <div className="w-full">
-                  <button className="w-full hover:bg-hover-1 hover:text-primary py-[10px] text-secondary flex-btw px-4 text-sm">
+                  <button className="w-full hover:bg-alpha hover:text-primary py-[10px] text-secondary flex-btw px-4 text-sm">
                      <div className="flex items-center gap-3">
                         <IoMdAddCircleOutline className="text-xl" />
                         Add to playlist
                      </div>
                      <MdArrowForwardIos className="text-xl" />
                   </button>
-                  <button className="w-full hover:bg-hover-1 hover:text-primary py-[10px] text-secondary flex-btw px-4 text-sm">
+                  <button className="w-full hover:bg-alpha hover:text-primary py-[10px] text-secondary flex-btw px-4 text-sm">
                      <div className="flex items-center gap-3">
                         <GiMicrophone className="text-xl" />
                         Play with lyrics
                      </div>
                      <MdArrowForwardIos className="text-xl" />
                   </button>
-                  <button className="w-full hover:bg-hover-1 hover:text-primary py-[10px] text-secondary flex-btw px-4 text-sm">
+                  <button className="w-full hover:bg-alpha hover:text-primary py-[10px] text-secondary flex-btw px-4 text-sm">
                      <div className="flex items-center gap-3">
                         <AiOutlineComment className="text-xl" />
                         Comments
                      </div>
                   </button>
-                  <button className="w-full hover:bg-hover-1 hover:text-primary py-[10px] text-secondary flex-btw px-4 text-sm">
+                  <button className="w-full hover:bg-alpha hover:text-primary py-[10px] text-secondary flex-btw px-4 text-sm">
                      <div className="flex items-center gap-3">
                         <BsShare className="text-xl" />
                         Share

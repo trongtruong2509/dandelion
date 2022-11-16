@@ -17,6 +17,7 @@
     "firebase": "^9.9.3",
     "jsmediatags": "^3.9.7",
     "lodash.isempty": "^4.4.0",
+    "lodash.isequal": "^4.5.0",
     "music-metadata": "^8.0.1",
     "music-metadata-browser": "^2.5.8",
     "process": "^0.11.10",

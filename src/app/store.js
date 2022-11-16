@@ -5,6 +5,7 @@ import playQueueReducer from "./../common/slices/playQueueSlice";
 import userReducer from "./../common/slices/userSlice";
 import queueReducer from "./../common/slices/queueSlice";
 import playbarReducer from "./../common/slices/playbarSlice";
+import dandelionReducer from "./../common/slices/dandelionSlice";
 
 export const store = configureStore({
    reducer: {
@@ -14,5 +15,6 @@ export const store = configureStore({
       user: userReducer,
       queue: queueReducer,
       playbar: playbarReducer,
+      dandelion: dandelionReducer,
    },
 });

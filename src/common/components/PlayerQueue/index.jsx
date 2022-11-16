@@ -122,10 +122,10 @@ const PlayerQueue = () => {
             </TabPanel>
          </Tabs>
          <div className="absolute gap-2 flex-center right-2 top-4">
-            <button className="text-lg bg-hover-1 text-secondary p-[7px] rounded-full bg-alpha">
+            <button className="text-lg bg-alpha text-secondary p-[7px] rounded-full bg-alpha">
                <GiAlarmClock />
             </button>
-            <button className="text-lg bg-hover-1 text-secondary p-[7px] rounded-full bg-alpha">
+            <button className="text-lg bg-alpha text-secondary p-[7px] rounded-full bg-alpha">
                <HiOutlineDotsHorizontal />
             </button>
          </div>

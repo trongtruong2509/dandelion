@@ -68,7 +68,7 @@ const PlaylistCover = ({ info, size = "md", editable = false }) => {
    const likeIcon = () => {
       return (
          <button
-            className="w-full h-full rounded-full cursor-pointer hover:bg-hover-1 flex-center"
+            className="w-full h-full rounded-full cursor-pointer hover:bg-alpha flex-center"
             onClick={() =>
                currentUser ? dispatch(updatePlaylists(info?.id)) : handleLogin()
             }

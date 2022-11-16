@@ -9,6 +9,8 @@ import { getAllDocs } from "../../utils/firebaseApi";
 import { artistExample } from "../../../tempData/artists";
 import { useParams } from "react-router-dom";
 import { useRef } from "react";
+import { IoCloseOutline, IoSearchOutline } from "react-icons/io5";
+import { clearSearchHistory } from "../../slices/dandelionSlice";
 
 function removeAccents(str) {
    return str
@@ -20,7 +22,10 @@ function removeAccents(str) {
 
 const Search = () => {
    const user = useSelector((state) => state.user.value);
+   const searchHistory = useSelector((state) => state.dandelion.searchHistory);
+
    const params = useParams();
+   const dispatch = useDispatch();
    const ref = useRef();
 
    const [searchText, setSearchText] = useState("");
@@ -80,7 +85,7 @@ const Search = () => {
          .filter((s) =>
             removeAccents(s.name)
                .toLowerCase()
-               .includes(searchText.toLowerCase())
+               .includes(removeAccents(searchText.toLowerCase()))
          )
          .slice(0, 5);
 
@@ -101,13 +106,11 @@ const Search = () => {
       setSearchResult(results);
    };
 
-   useEffect(() => {
-      // console.log("[searchResult]", searchResult);
-   }, [searchResult]);
-
    const getTop5Matches = (input, search) => {
       let matches = input.filter((s) =>
-         removeAccents(s.title).toLowerCase().includes(search.toLowerCase())
+         removeAccents(s.title)
+            .toLowerCase()
+            .includes(removeAccents(search.toLowerCase()))
       );
 
       return matches.slice(0, 5);
@@ -140,15 +143,35 @@ const Search = () => {
       borderColor: "red",
    };
 
+   const hideOnInnerButtonPress = {
+      name: "hideOnInnerButtonPress",
+      defaultValue: true,
+      fn(instance) {
+         return {
+            onCreate() {
+               instance.popper.addEventListener("click", (event) => {
+                  if (
+                     instance.props.hideOnInnerButtonPress &&
+                     event.target.getAttribute("hide-on-press") === "false"
+                  ) {
+                     setTimeout(() => instance.hide(), 50);
+                     console.log("[hideOnInnerButtonPress]", "pressed");
+                     return event;
+                  }
+               });
+            },
+         };
+      },
+   };
+
    return (
       <Tippy
          interactive
-         // hideOnClick="toggle"
          placement="bottom"
          appendTo={() => document.body}
          delay={[0, 700]}
+         plugins={[hideOnInnerButtonPress]}
          trigger="click"
-         // reference={ref}
          render={(attrs) => (
             <div
                className="w-[500px] h-auto min-h-20 pb-3 bg-primary -mt-1 rounded-2xl shadow-md text-primary px-3"
@@ -162,7 +185,10 @@ const Search = () => {
                            <h2 className="font-semibold text-primary">
                               Recent searches
                            </h2>
-                           <button className="px-3 text-xs text-secondary hover:text-primary">
+                           <button
+                              className="px-3 text-xs text-secondary hover:text-primary"
+                              onClick={() => dispatch(clearSearchHistory())}
+                           >
                               Clear
                            </button>
                         </div>
@@ -183,7 +209,13 @@ const Search = () => {
                            />
                         </div>
                      ) : searchText === "" ? (
-                        <SearchItem infos={artistExample} />
+                        searchHistory.length ? (
+                           <SearchItem infos={searchHistory} />
+                        ) : (
+                           <div className="w-full h-28 flex-center text-secondary">
+                              No search history
+                           </div>
+                        )
                      ) : (
                         <SearchItem infos={searchResult} />
                      )}
@@ -197,10 +229,18 @@ const Search = () => {
                type="text"
                value={searchText}
                onChange={(e) => setSearchText(e.target.value)}
-               className="w-full py-[10px] rounded-2xl outline-none bg-sidebar pl-10 text-sm text-search"
+               className="w-full py-[10px] rounded-3xl outline-none bg-alpha pl-10 text-sm text-search font-normal"
                placeholder="Search for song, artist, album..."
             />
-            <MdSearch className="absolute text-2xl opacity-50 text-search top-2 left-3" />
+            <IoSearchOutline className="absolute text-xl text-placeholder top-[10px] left-3" />
+            {searchText !== "" && (
+               <button
+                  className="absolute text-xl text-placeholder top-[6px] right-3 hover:text-dandelion-primary cursor-pointer p-1 rounded-full"
+                  onClick={() => setSearchText("")}
+               >
+                  <IoCloseOutline className="" />
+               </button>
+            )}
          </div>
       </Tippy>
    );

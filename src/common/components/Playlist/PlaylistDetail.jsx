@@ -123,7 +123,7 @@ const PlaylistDetail = ({ id }) => {
 
          <div className="sticky flex-shrink-0 text-white w-72 top-10 h-fit">
             <div
-               className="overflow-hidden rounded-md w-72 group h-72 hover:cursor-pointer"
+               className="overflow-hidden rounded-md shadow-lg w-72 group h-72 hover:cursor-pointer"
                onClick={playingTrack?.playing ? onPause : onPlay}
             >
                <img
@@ -158,7 +158,7 @@ const PlaylistDetail = ({ id }) => {
                   </h1>
                   {currentPlaylist?.createdByUserId === user.id && (
                      <button
-                        className="p-2 rounded-full text-secondary hover:text-primary hover:bg-hover-1"
+                        className="p-2 rounded-full text-secondary hover:text-primary hover:bg-alpha"
                         onClick={() => setShow(!show)}
                      >
                         <FiEdit3 className="text-lg" />
@@ -199,10 +199,10 @@ const PlaylistDetail = ({ id }) => {
                   )}
                </div>
                <div className="flex items-center justify-center gap-4">
-                  <button className="p-2 rounded-full cursor-pointer flex-center hover:bg-alpha">
+                  <button className="p-2 rounded-full cursor-pointer flex-center bg-alpha">
                      <MdFavorite className="text-lg text-dandelion-primary" />
                   </button>
-                  <button className="p-2 rounded-full cursor-pointer flex-center hover:bg-alpha">
+                  <button className="p-2 rounded-full cursor-pointer flex-center bg-alpha">
                      <HiOutlineDotsHorizontal className="text-lg text-primary" />
                   </button>
                </div>
@@ -236,7 +236,7 @@ const PlaylistDetail = ({ id }) => {
                      ))}
                   </>
                ) : (
-                  <div className="flex-col gap-2 py-4 bg-hover-1 flex-center text-secondary h-60">
+                  <div className="flex-col gap-2 py-4 rounded-md bg-dark-alpha-10 flex-center text-secondary h-60">
                      <IoIosMusicalNote className="italic text-7xl" />
                      <p className="text-lg">
                         Currently no songs in your playlist

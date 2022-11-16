@@ -13,7 +13,7 @@ const Sidebar = () => {
    const navActive =
       "bg-dark-alpha-10 border-l-4 border-dandelion-primary px-6 py-2 flex gap-2 items-center opacity-100 text-primary";
    const navInactive =
-      "hover:bg-hover-1 px-6 py-2 flex gap-2 items-center opacity-80 text-primary";
+      "hover:bg-alpha px-6 py-2 flex gap-2 items-center opacity-80 text-primary";
 
    return (
       <div className="flex-shrink-0 h-full text-white w-72 bg-sidebar z-100">

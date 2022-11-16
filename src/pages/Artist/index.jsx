@@ -57,26 +57,28 @@ const Artist = () => {
       <div className="relative w-full px-3 mt-8 text-white">
          <header className="relative w-full py-8 flex-btw">
             {artist?.thumbnail && (
-               <div className="absolute top-0 bottom-0 left-0 right-0 overflow-hidden -mx-[60px] -mt-8 z-[1]">
+               <div className="absolute -top-[72px] bottom-0 left-0 right-0 overflow-hidden -mx-[60px] -mt-8 z-[1]">
                   <div
                      style={{
                         backgroundImage: `url(${artist.thumbnail})`,
                         backgroundPosition: "50%",
                      }}
                      className={`h-full bg-no-repeat bg-cover 
-                                 absolute top-0 bottom-0 left-0 right-0 blur-[50px]`}
+                                 absolute -top-[72px] bottom-0 left-0 right-0 blur-[50px]`}
                   />
-                  <div className="h-full z-[1] absolute top-0 bottom-0 left-0 right-0 bg-[rgba(12,3,3,0.8)]" />
+                  <div className="h-full z-[1] absolute top-0 bottom-0 left-0 right-0 bg-artist-layout" />
                </div>
             )}
             <div className="z-10 flex flex-col items-start">
-               <h1 className="py-12 font-bold text-7xl">{artist?.name}</h1>
+               <h1 className="py-12 font-bold text-7xl text-primary">
+                  {artist?.name}
+               </h1>
                <div className="gap-4 flex-center">
-                  <button className="gap-2 px-6 py-2 rounded-full flex-center bg-primary">
+                  <button className="gap-2 px-6 py-2 rounded-full flex-center bg-dandelion-primary">
                      <FaPlay />
                      Play
                   </button>
-                  <button className="gap-2 px-6 py-2 rounded-full flex-center bg-primary">
+                  <button className="gap-2 px-6 py-2 rounded-full flex-center bg-dandelion-primary">
                      <FaPlus />
                      Follow
                   </button>
@@ -95,7 +97,7 @@ const Artist = () => {
                className="w-full Tabs"
                selectedTabClassName="text-white-custom bg-hover-2 hover:text-white"
             >
-               <TabList className="w-fit bg-hover-1 rounded-3xl p-[3px] flex-center mx-auto mt-10 mb-5">
+               <TabList className="w-fit bg-alpha rounded-3xl p-[3px] flex-center mx-auto mt-10 mb-5">
                   <Tab className={tabStyle}>OVERVIEW</Tab>
                   <Tab className={tabStyle}>SONGS</Tab>
                   <Tab className={tabStyle}>ALBUM</Tab>
