@@ -9,6 +9,11 @@ import { updateUser, removeUser } from "../../slices/userSlice";
 import { getUserDb, loginGoogle } from "../../utils/user";
 import Search from "./Search";
 import ThemeModal from "../Modal/ThemeModal";
+import {
+   IoCloudUploadOutline,
+   IoColorPaletteOutline,
+   IoSettingsOutline,
+} from "react-icons/io5";
 
 const Header = ({ active }) => {
    const user = useSelector((state) => state.user.value);
@@ -115,19 +120,19 @@ const Header = ({ active }) => {
                className="w-10 h-10 rounded-full cursor-pointer text-primary flex-center bg-alpha hover:text-dandelion-primary"
                onClick={() => setShow(true)}
             >
-               <RiPaintFill className="text-xl" />
+               <IoColorPaletteOutline className="text-xl" />
             </div>
             <Link
                className="w-10 h-10 rounded-full cursor-pointer text-primary flex-center bg-alpha"
                to="/upload"
             >
-               <MdUpload className="text-xl" />
+               <IoCloudUploadOutline className="text-xl" />
             </Link>
             <div
                className="w-10 h-10 rounded-full cursor-pointer text-primary flex-center bg-alpha"
                // onClick={handleSettings}
             >
-               <MdSettings className="text-xl" />
+               <IoSettingsOutline className="text-xl" />
             </div>
             <div
                className="cursor-pointer"

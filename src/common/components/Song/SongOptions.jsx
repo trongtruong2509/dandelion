@@ -8,7 +8,12 @@ import { updateLikeSong, updateUser } from "../../slices/userSlice";
 import { getUserDb, loginGoogle } from "../../utils/user";
 import SongMenu from "../Popers/SongMenu";
 
-const SongOptions = ({ songInfo, like = true, addPlaylist = false }) => {
+const SongOptions = ({
+   songInfo,
+   like = true,
+   inPlaylistPage = false,
+   addPlaylist = false,
+}) => {
    const currentUser = useSelector((state) => state.user.value);
    const dispatch = useDispatch();
 
@@ -36,21 +41,24 @@ const SongOptions = ({ songInfo, like = true, addPlaylist = false }) => {
       }
    };
 
+   const notLiked =
+      !currentUser ||
+      currentUser?.likedSongs.findIndex((t) => t.id === songInfo?.id) === -1;
+
    return (
-      <div className="gap-2 text-lg text-primary flex-center">
+      <div className="gap-1 text-lg text-primary flex-center group">
          {like && (
             <div
-               className="w-10 h-10 p-2 rounded-full cursor-pointer flex-center hover:bg-alpha"
+               className={`items-center justify-center w-10 h-10 p-2 rounded-full cursor-pointer hover:bg-alpha group-hover:flex ${
+                  notLiked ? "hidden" : "flex"
+               }`}
                onClick={() =>
                   currentUser
                      ? dispatch(updateLikeSong(songInfo))
                      : handleLogin()
                }
             >
-               {!currentUser ||
-               currentUser?.likedSongs.findIndex(
-                  (t) => t.id === songInfo?.id
-               ) === -1 ? (
+               {notLiked ? (
                   <MdFavoriteBorder
                      className={`text-lg hover:text-dandelion-primary`}
                   />
@@ -61,7 +69,7 @@ const SongOptions = ({ songInfo, like = true, addPlaylist = false }) => {
          )}
 
          <SongMenu info={songInfo}>
-            <div className="w-10 h-10 p-2 rounded-full cursor-pointer flex-center hover:bg-dark-alpha-10">
+            <div className="w-10 h-10 p-2 rounded-full opacity-0 cursor-pointer flex-center group-hover:opacity-100 hover:bg-dark-alpha-10">
                <HiOutlineDotsHorizontal className="text-xl" />
             </div>
          </SongMenu>

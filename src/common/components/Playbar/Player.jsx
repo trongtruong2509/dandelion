@@ -92,9 +92,9 @@ const Player = () => {
 
    // start playing audio when audio src has been changed
    useEffect(() => {
-      console.log(audio);
-      console.log(currentSong?.info?.audio);
-      console.log(currentSong?.playing);
+      // console.log(audio);
+      // console.log(currentSong?.info?.audio);
+      // console.log(currentSong?.playing);
       if (audio && currentSong?.info?.audio && currentSong?.playing) {
          setPlaying(true);
       }
@@ -117,7 +117,7 @@ const Player = () => {
                dispatch(play());
             }
          } else {
-            console.log("vo day chac luon");
+            // console.log("vo day chac luon");
             audio?.pause();
 
             if (currentSong?.playing) {

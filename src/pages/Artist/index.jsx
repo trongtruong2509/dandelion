@@ -26,7 +26,7 @@ const Artist = () => {
    // const [tabIndex, setTabIndex] = useState(0);
 
    const tabStyle = `3xl:px-3 px-2 py-[5px] w-32 text-sm rounded-3xl text-navigation 
-                     hover:text-white uppercase cursor-pointer text-center`;
+                     hover:text-dandelion-primary uppercase cursor-pointer text-center`;
 
    useEffect(() => {
       console.log(params.id);
@@ -95,7 +95,7 @@ const Artist = () => {
          <main className="w-full">
             <Tabs
                className="w-full Tabs"
-               selectedTabClassName="text-white-custom bg-hover-2 hover:text-white"
+               selectedTabClassName="text-dandelion-primary bg-tab-active"
             >
                <TabList className="w-fit bg-alpha rounded-3xl p-[3px] flex-center mx-auto mt-10 mb-5">
                   <Tab className={tabStyle}>OVERVIEW</Tab>

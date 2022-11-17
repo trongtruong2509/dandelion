@@ -9,16 +9,14 @@ const SearchItem = ({ infos }) => {
 
    return (
       <div className="w-full rounded-lg">
-         {infos?.map((info) => {
+         {infos?.map((info, index) => {
             if (info.artistNames) {
                return (
-                  <div onClick={() => dispatch(updateSearchHistory(info))}>
-                     <SongItem
-                        key={info.id}
-                        info={info}
-                        size="13"
-                        options={false}
-                     />
+                  <div
+                     key={info.id}
+                     onClick={() => dispatch(updateSearchHistory(info))}
+                  >
+                     <SongItem info={info} size="13" options={false} />
                   </div>
                );
             } else if (info.alias) {

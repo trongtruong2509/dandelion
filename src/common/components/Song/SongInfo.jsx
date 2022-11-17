@@ -20,8 +20,10 @@ const SongInfo = ({ info, size = "10", onClick }) => {
 
    return (
       <div>
-         <div className="flex items-center gap-3 text-white">
-            {/* <div className={`flex-shrink-0 w-[${size}px] h-[${size}px]`}> */}
+         <div className="relative flex items-center gap-3 text-white">
+            <div
+               className={`absolute group-hover:bg-dark-alpha-50 rounded-md ${thumbnailSizes[size]}`}
+            />
             <img
                src={info?.thumbnail}
                alt={info?.title}

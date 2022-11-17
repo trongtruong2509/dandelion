@@ -77,8 +77,8 @@ const Search = () => {
       // get matches songs
       results = [...getTop5Matches(songsDb, searchText), ...results];
 
-      console.log("Result after songs: ");
-      console.log(results);
+      // console.log("Result after songs: ");
+      // console.log(results);
 
       // get matches artist
       const artistResults = artistsDb
@@ -89,13 +89,13 @@ const Search = () => {
          )
          .slice(0, 5);
 
-      console.log("artistResults: ");
-      console.log(artistResults);
+      // console.log("artistResults: ");
+      // console.log(artistResults);
 
       results = [...results, ...artistResults];
 
-      console.log("Result after artists: ");
-      console.log(results);
+      // console.log("Result after artists: ");
+      // console.log(results);
 
       // get matches playlist
       // results = [...getTop5Matches(playlistsDb, searchText), ...results];

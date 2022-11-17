@@ -34,7 +34,7 @@ export const getDocById = async (collection, id) => {
 };
 
 export const getDocInList = async (document, filter) => {
-   console.log("[getDocInList] filter", filter);
+   // console.log("[getDocInList] filter", filter);
    let reuturnDoc = [];
 
    const filters = group(filter, 10);
@@ -64,11 +64,11 @@ export const getDocInList = async (document, filter) => {
          });
       }
 
-      console.log("[getDocInList] reuturnDoc", reuturnDoc);
+      //console.log("[getDocInList] reuturnDoc", reuturnDoc);
 
       return reuturnDoc;
    } catch (error) {
-      console.log("[getDocInList] error", error);
+      //console.log("[getDocInList] error", error);
 
       return null;
    }

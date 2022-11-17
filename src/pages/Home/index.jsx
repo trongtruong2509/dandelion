@@ -41,7 +41,7 @@ const Home = () => {
          getDocInList("playlists", currentUser.recentPlaylist)
             .then((result) => {
                const ordered = [];
-               console.log("[result]", result);
+               // console.log("[result]", result);
 
                // correct order for playlist
                currentUser.recentPlaylist?.forEach((playlistId) => {

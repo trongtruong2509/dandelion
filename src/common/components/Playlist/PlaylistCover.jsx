@@ -68,7 +68,7 @@ const PlaylistCover = ({ info, size = "md", editable = false }) => {
    const likeIcon = () => {
       return (
          <button
-            className="w-full h-full rounded-full cursor-pointer hover:bg-alpha flex-center"
+            className="w-full h-full rounded-full cursor-pointer hover:bg-hover-tooltip flex-center"
             onClick={() =>
                currentUser ? dispatch(updatePlaylists(info?.id)) : handleLogin()
             }
@@ -87,10 +87,10 @@ const PlaylistCover = ({ info, size = "md", editable = false }) => {
          return (
             editable && (
                <button
-                  className="w-10 h-10 rounded-full cursor-pointer flex-center"
+                  className="w-10 h-10 rounded-full cursor-pointer flex-center hover:bg-hover-tooltip"
                   onClick={() => dispatch(updatePlaylists(info.id))}
                >
-                  <IoClose className="text-3xl text-white hover:text-dandelion-primary" />
+                  <IoClose className="text-3xl text-white" />
                </button>
             )
          );
@@ -110,7 +110,7 @@ const PlaylistCover = ({ info, size = "md", editable = false }) => {
                alt={info?.title}
                className="z-10 object-cover w-full h-full transition-all duration-500 ease-out group-hover:scale-105"
             />
-            <div className="absolute top-0 left-0 z-50 items-center justify-center hidden w-full h-full text-primary group-hover:flex bg-overlay-2">
+            <div className="absolute top-0 left-0 z-50 items-center justify-center hidden w-full h-full text-primary group-hover:flex bg-dark-alpha-50">
                <div
                   className="gap-6 flex-center"
                   onClick={(e) => e.stopPropagation()}

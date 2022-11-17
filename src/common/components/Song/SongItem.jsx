@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FaPause, FaPlay } from "react-icons/fa";
+import { IoPlay, IoPause } from "react-icons/io5";
 import { useSelector, useDispatch } from "react-redux";
 
 import SongInfo from "../Song/SongInfo";
@@ -12,6 +13,7 @@ import {
    emtpyPlayingPlaylist,
    updateCurrentToPlaying,
 } from "../../slices/playlistSlice";
+import { IoMdPause, IoMdPlay } from "react-icons/io";
 
 const SongItem = ({
    info,
@@ -19,7 +21,7 @@ const SongItem = ({
    options = true,
    like = true,
    playlistMode = false,
-   isPlaylist = false,
+   isPlaylist = false, //track is in playlist
    inPlaylistPage = false,
    addPlaylist = false,
    fade = false,
@@ -117,9 +119,9 @@ const SongItem = ({
                onClick={playSong}
             >
                {playingSong?.playing && current ? (
-                  <FaPause className="text-base text-white" />
+                  <IoMdPause className="text-xl text-white" />
                ) : (
-                  <FaPlay className="text-base text-white" />
+                  <IoMdPlay className="text-[22px] text-white" />
                )}
             </button>
          </div>
@@ -136,11 +138,12 @@ const SongItem = ({
                </p>
             )}
             {options && (
-               <div className="absolute hidden -translate-y-1/2 top-1/2 right-3 group-hover:block">
+               <div className="absolute -translate-y-1/2 top-1/2 right-3">
                   <SongOptions
                      songInfo={info}
                      like={like}
                      addPlaylist={addPlaylist}
+                     inPlaylistPage={inPlaylistPage}
                   />
                </div>
             )}

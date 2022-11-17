@@ -98,6 +98,11 @@ const PlaylistDetail = ({ id }) => {
       dispatch(pause());
    };
 
+   const thumbnailRotate =
+      "animate-[spin_12s_linear_infinite] rounded-full transition-[border-radius] duration-[2000ms] ease-out";
+   const thumbnailRotateOff =
+      "animate-[spinoff_0.5s_ease_1] rounded-md transition-[border-radius] duration-500 delay-500 ease-out";
+
    useEffect(() => {
       if (isMounted.current) {
          const playing = playingPlaylist.value;
@@ -123,7 +128,9 @@ const PlaylistDetail = ({ id }) => {
 
          <div className="sticky flex-shrink-0 text-white w-72 top-10 h-fit">
             <div
-               className="overflow-hidden rounded-md shadow-lg w-72 group h-72 hover:cursor-pointer"
+               className={`overflow-hidden shadow-lg w-72 group h-72 hover:cursor-pointer ${
+                  playingTrack?.playing ? thumbnailRotate : thumbnailRotateOff
+               }`}
                onClick={playingTrack?.playing ? onPause : onPlay}
             >
                <img
@@ -135,20 +142,23 @@ const PlaylistDetail = ({ id }) => {
                   }
                   alt="Playlist Cover"
                />
-               <div className="absolute top-0 left-0 items-center justify-center hidden gap-6 text-white rounded-md w-72 h-72 group-hover:flex bg-dark-alpha-50">
-                  {/* <button className="p-2 rounded-full hover:bg-hover-2">
+               {currentTracks && currentTracks.length && (
+                  <div className="absolute top-0 left-0 items-center justify-center hidden gap-6 text-white rounded-md w-72 h-72 group-hover:flex">
+                     {/* <button className="p-2 rounded-full hover:bg-hover-2">
                      <MdFavoriteBorder className="text-2xl cursor-pointer" />
                   </button> */}
-                  {playingTrack?.playing ? (
-                     <button className="hover:text-dandelion-primary">
-                        <FaPause className="text-3xl cursor-pointer" />
-                     </button>
-                  ) : (
-                     <button className="hover:text-dandelion-primary">
-                        <FaPlay className="text-3xl cursor-pointer" />
-                     </button>
-                  )}
-               </div>
+
+                     {playingTrack?.playing ? (
+                        <button className="hover:text-dandelion-primary">
+                           <FaPause className="text-3xl cursor-pointer" />
+                        </button>
+                     ) : (
+                        <button className="hover:text-dandelion-primary">
+                           <FaPlay className="text-3xl cursor-pointer" />
+                        </button>
+                     )}
+                  </div>
+               )}
             </div>
 
             <div>
@@ -165,40 +175,44 @@ const PlaylistDetail = ({ id }) => {
                      </button>
                   )}
                </div>
-               <p className="mt-1 text-xs text-center text-secondary">
+               <p className="mt-1 mb-5 text-xs text-center text-secondary">
                   Created by{" "}
                   <span className="font-semibold cursor-pointer text-primary hover:text-dandelion-primary">
                      {currentPlaylist?.createdBy}
                   </span>
                </p>
-               <div className="flex items-center justify-center w-full">
-                  {currentPlaylist?.id !== playingPlaylist?.value?.id ? (
-                     <button
-                        className="flex items-center gap-1 px-5 py-2 my-5 text-sm uppercase bg-dandelion-primary rounded-3xl"
-                        onClick={onPlay}
-                     >
-                        <IoIosShuffle className="text-lg" />
-                        Shuffle Play
-                     </button>
-                  ) : playingTrack?.playing ? (
-                     <button
-                        className="flex items-center gap-1 px-5 py-2 my-5 text-sm uppercase bg-dandelion-primary rounded-3xl"
-                        onClick={onPause}
-                     >
-                        <IoMdPause className="text-lg" />
-                        Pause
-                     </button>
-                  ) : (
-                     <button
-                        className="flex items-center gap-1 px-5 py-2 my-5 text-sm uppercase bg-dandelion-primary rounded-3xl"
-                        onClick={onPlay}
-                     >
-                        <IoMdPlay className="text-lg" />
-                        Continue
-                     </button>
-                  )}
-               </div>
-               <div className="flex items-center justify-center gap-4">
+
+               {currentTracks && currentTracks.length && (
+                  <div className="flex items-center justify-center w-full">
+                     {currentPlaylist?.id !== playingPlaylist?.value?.id ? (
+                        <button
+                           className="flex items-center gap-1 px-5 py-2 text-sm uppercase bg-dandelion-primary rounded-3xl"
+                           onClick={onPlay}
+                        >
+                           <IoIosShuffle className="text-lg" />
+                           Shuffle Play
+                        </button>
+                     ) : playingTrack?.playing ? (
+                        <button
+                           className="flex items-center gap-1 px-5 py-2 text-sm uppercase bg-dandelion-primary rounded-3xl"
+                           onClick={onPause}
+                        >
+                           <IoMdPause className="text-lg" />
+                           Pause
+                        </button>
+                     ) : (
+                        <button
+                           className="flex items-center gap-1 px-5 py-2 text-sm uppercase bg-dandelion-primary rounded-3xl"
+                           onClick={onPlay}
+                        >
+                           <IoMdPlay className="text-lg" />
+                           Continue
+                        </button>
+                     )}
+                  </div>
+               )}
+
+               <div className="flex items-center justify-center gap-4 mt-5">
                   <button className="p-2 rounded-full cursor-pointer flex-center bg-alpha">
                      <MdFavorite className="text-lg text-dandelion-primary" />
                   </button>
@@ -234,6 +248,17 @@ const PlaylistDetail = ({ id }) => {
                            onClick={() => dispatch(update(song))}
                         />
                      ))}
+                     <div className="flex w-full gap-2 mt-1 text-sm text-secondary">
+                        <p>
+                           {currentTracks.length > 1
+                              ? `${currentTracks.length} tracks`
+                              : "1 track"}
+                        </p>
+                        <p className="-mt-3 text-2xl font-bold flex-center text-primary">
+                           .
+                        </p>
+                        <p>11 mins</p>
+                     </div>
                   </>
                ) : (
                   <div className="flex-col gap-2 py-4 rounded-md bg-dark-alpha-10 flex-center text-secondary h-60">
@@ -244,11 +269,11 @@ const PlaylistDetail = ({ id }) => {
                   </div>
                )}
 
-               {currentTracks?.length < 10 && (
+               {currentTracks?.length < 15 && (
                   <div className="mt-5">
                      <div className="flex-btw">
                         <div>
-                           <h2 className="text-xl font-semibold">
+                           <h2 className="text-xl font-semibold text-primary">
                               Recommended
                            </h2>
                            <p className="text-sm text-secondary">

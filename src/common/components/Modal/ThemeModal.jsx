@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import { addNewDoc } from "../../utils/firebaseApi";
 import Modal from "./Modal";
-import { updateCreatedPlaylist, updatePlaylists } from "../../slices/userSlice";
+// import { updateCreatedPlaylist, updateUserPlaylists } from "../../slices/userSlice";
 import { applyTheme } from "../../../themes/utils";
 import darkTheme from "../../../themes/dark";
 import baseTheme from "../../../themes/base";

@@ -18,15 +18,15 @@ const PlaylistCoverSkeleton = ({ size = "md" }) => {
 
    return (
       <SkeletonTheme
-         baseColor="#242528"
-         highlightColor="#222226"
+         baseColor="var(--alpha-bg)"
+         highlightColor="var(--dark-alpha-10)"
          //  borderRadius="0.5rem"
          duration={2}
       >
          <div className={`h-auto text-white ${widthSize[size]} -mb-6`}>
             <Skeleton
                borderRadius="0.5rem"
-               className={`overflow-hidden rounded-xl bg-dark-2 ${thumbnailSizes[size]}`}
+               className={`overflow-hidden rounded-xl bg-alpha ${thumbnailSizes[size]}`}
             />
             <div className="flex flex-col">
                <Skeleton className="mt-[10px]" />

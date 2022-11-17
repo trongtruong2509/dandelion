@@ -97,6 +97,24 @@ module.exports = {
             13: "3.25rem",
             15: "3.75rem",
          },
+         keyframes: {
+            spin: {
+               "0%": {
+                  transform: "rotate(0deg)",
+               },
+               "100%": {
+                  transform: "rotate(360deg)",
+               },
+            },
+            spinoff: {
+               "0%": {
+                  transform: "rotate(0deg)",
+               },
+               "100%": {
+                  transform: "rotate(1turn)",
+               },
+            },
+         },
       },
       screens: {
          sm: "640px",

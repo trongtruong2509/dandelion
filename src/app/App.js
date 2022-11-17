@@ -44,7 +44,7 @@ function App() {
 }
 
 function Layout() {
-   const Threshold = 60;
+   const Threshold = 40;
 
    const currentSong = useSelector((state) => state.playing.value)?.info;
    const ref = useRef();

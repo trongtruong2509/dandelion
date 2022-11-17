@@ -1,4 +1,4 @@
-import { addNewDoc, getDocById } from "./firebaseApi";
+import { addNewDoc, getDocById, getDocInList } from "./firebaseApi";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 
 // const updateUserToDb = async (user) => {
