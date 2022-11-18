@@ -46,7 +46,36 @@ export const updateUserLocal = (user) => {
 };
 
 export const getUserLocal = () => {
-   return JSON.parse(localStorage.getItem("currentUser"));
+   let noLoggedUser = null;
+   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+   console.log("[getUserLocal]", currentUser);
+
+   if (currentUser) {
+      return currentUser;
+   } else {
+      noLoggedUser = JSON.parse(localStorage.getItem("noLoggedUser"));
+
+      if (!noLoggedUser) {
+         // if there is noLoggedUser yet. create new one.
+         noLoggedUser = {
+            id: "None",
+            userName: "",
+            mail: "",
+            phone: "",
+            avatar: "",
+            uploaded: [],
+            createdPlaylist: [],
+            recentPlayed: [], //ids of playlist
+            likedSongs: [],
+            likedPlaylists: [],
+            likedAlbums: [],
+         };
+
+         localStorage.setItem("noLoggedUser", JSON.stringify(noLoggedUser));
+      }
+
+      return noLoggedUser;
+   }
 };
 
 export const loginGoogle = async () => {

@@ -43,6 +43,9 @@ const PlaylistDetail = ({ id }) => {
    const [show, setShow] = useState(false);
    const [isPlaying, setIsPlaying] = useState(false);
    const isMounted = useRef(false);
+   const [thumbnailRotateOff, setThumbnailRotateOff] = useState(
+      "rounded-md transition-[border-radius] duration-500 delay-500 ease-out"
+   );
 
    useEffect(() => {
       console.log("[playlist detail] id changed", id);
@@ -84,9 +87,19 @@ const PlaylistDetail = ({ id }) => {
       dispatch(initQueue(shuffledSongs));
    };
 
-   const onPlay = () => {
-      console.log("[onPlay] clicked");
+   const thumbnailRotate =
+      "animate-[spin_12s_linear_infinite] rounded-full transition-[border-radius] duration-[2000ms] ease-out";
+   // let thumbnailRotateOff =
+   //    "rounded-md transition-[border-radius] duration-500 delay-500 ease-out";
 
+   const onPlay = () => {
+      if (!thumbnailRotateOff.includes("animate-[spinoff_0.5s_ease_1]")) {
+         setThumbnailRotateOff(
+            `${thumbnailRotateOff} animate-[spinoff_0.5s_ease_1]`
+         );
+      }
+
+      console.log("[onPlay] clicked");
       if (currentPlaylist?.id !== playingPlaylist?.value?.id) {
          dispatch(updateCurrentToPlaying());
       } else {
@@ -97,11 +110,6 @@ const PlaylistDetail = ({ id }) => {
    const onPause = () => {
       dispatch(pause());
    };
-
-   const thumbnailRotate =
-      "animate-[spin_12s_linear_infinite] rounded-full transition-[border-radius] duration-[2000ms] ease-out";
-   const thumbnailRotateOff =
-      "animate-[spinoff_0.5s_ease_1] rounded-md transition-[border-radius] duration-500 delay-500 ease-out";
 
    useEffect(() => {
       if (isMounted.current) {

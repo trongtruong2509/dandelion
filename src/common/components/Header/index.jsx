@@ -34,8 +34,6 @@ const Header = ({ active }) => {
                console.log("error while get user from db");
                console.log(err);
             });
-      } else {
-         console.log("no current user loggin before");
       }
    }, []);
 
