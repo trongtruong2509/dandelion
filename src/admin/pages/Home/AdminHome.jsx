@@ -37,7 +37,12 @@ const AdminHome = () => {
                   <SwiperSlide key={index}>
                      {songs.map((s) => (
                         <div className="my-1" key={s.id}>
-                           <SongItem info={s} size="13" like={false} />
+                           <SongItem
+                              info={s}
+                              size="13"
+                              like={false}
+                              canDetele
+                           />
                         </div>
                      ))}
                   </SwiperSlide>
