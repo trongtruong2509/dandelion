@@ -3,9 +3,11 @@ import _ from "lodash";
 
 import { getUserLocal, updateUserLocal, updateUserDb } from "../utils/user";
 import * as local from "../utils/localStorage";
+import baseTheme from "../../themes/base";
 
 const initialState = {
    searchHistory: local.getSearchHistory() ?? [],
+   theme: local.getTheme() ?? { theme: "baseTheme" },
 };
 
 export const dandelionSlice = createSlice({
@@ -23,11 +25,16 @@ export const dandelionSlice = createSlice({
          state.searchHistory = [];
          local.writeSearchHistory([]);
       },
+      updateTheme: (state, action) => {
+         const updatedTheme = { theme: action.payload };
+         state.theme = updatedTheme;
+         local.writeTheme(updatedTheme);
+      },
    },
 });
 
 // Action creators are generated for each case reducer function
-export const { updateSearchHistory, clearSearchHistory } =
+export const { updateSearchHistory, clearSearchHistory, updateTheme } =
    dandelionSlice.actions;
 
 export default dandelionSlice.reducer;

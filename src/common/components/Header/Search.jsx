@@ -21,7 +21,7 @@ function removeAccents(str) {
 }
 
 const Search = () => {
-   const user = useSelector((state) => state.user.value);
+   const user = useSelector((state) => state.user.user);
    const searchHistory = useSelector((state) => state.dandelion.searchHistory);
 
    const params = useParams();

@@ -1,6 +1,11 @@
 import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
 import { getDocInList } from "../utils/firebaseApi";
-import { getUserLocal, updateUserLocal, updateUserDb } from "../utils/user";
+import {
+   getUserLocal,
+   updateUserLocal,
+   updateUserDb,
+   getNoLoggedUser,
+} from "../utils/user";
 
 export const fetchUserPlaylist = createAsyncThunk(
    "/user/fetchUserPlaylistStatus",
@@ -23,7 +28,8 @@ export const fetchUserPlaylist = createAsyncThunk(
 );
 
 const initialState = {
-   value: getUserLocal(),
+   user: getUserLocal(),
+   noLogged: getNoLoggedUser(),
    playlist: [],
    pending: false,
 };
@@ -33,67 +39,65 @@ export const userSlice = createSlice({
    initialState,
    reducers: {
       updateUser: (state, action) => {
-         state.value = action.payload;
+         state.user = action.payload;
          updateUserLocal(action.payload);
          updateUserDb(action.payload);
       },
       removeUser: (state) => {
-         state.value = null;
+         state.user = null;
          updateUserLocal(null);
       },
       updateRecentPlay: (state, action) => {
-         const idx = current(state.value.recentPlayed).findIndex(
+         const idx = current(state.user.recentPlayed).findIndex(
             (s) => s.id === action.payload.id
          );
 
          if (idx > -1) {
-            state.value.recentPlayed.splice(idx, 1); // delete in recentplay
+            state.user.recentPlayed.splice(idx, 1); // delete in recentplay
          }
 
-         state.value.recentPlayed.unshift(action.payload); // add to the beginning of array
+         state.user.recentPlayed.unshift(action.payload); // add to the beginning of array
 
-         updateUserLocal(current(state.value));
-         updateUserDb(current(state.value));
+         updateUserLocal(current(state.user));
+         updateUserDb(current(state.user));
       },
       updateLikeSong: (state, action) => {
          console.log(action.payload);
-         const idx = current(state.value.likedSongs).findIndex(
+         const idx = current(state.user.likedSongs).findIndex(
             (t) => t.id === action.payload.id
          );
          if (idx === -1) {
-            state.value.likedSongs.push(action.payload);
+            state.user.likedSongs.push(action.payload);
          } else {
-            state.value.likedSongs.splice(idx, 1); // delete that song in likedSongs
+            state.user.likedSongs.splice(idx, 1); // delete that song in likedSongs
          }
 
-         updateUserLocal(current(state.value));
-         updateUserDb(current(state.value));
+         updateUserLocal(current(state.user));
+         updateUserDb(current(state.user));
       },
       updatePlaylists: (state, action) => {
          const id = action.payload.id;
-         const idx = current(state.value.playlists).indexOf(id);
+         const idx = current(state.user.playlists).indexOf(id);
 
          if (idx === -1) {
-            state.value.playlists.push(id);
+            state.user.playlists.push(id);
          } else {
-            state.value.playlists.splice(idx, 1); // delete it in list
+            state.user.playlists.splice(idx, 1); // delete it in list
          }
 
-         updateUserLocal(current(state.value));
-         updateUserDb(current(state.value));
+         updateUserLocal(current(state.user));
+         updateUserDb(current(state.user));
       },
       updateRecentPlaylist: (state, action) => {
          console.log(action.payload);
-         const idx = current(state.value.recentPlaylist).indexOf(
-            action.payload
-         );
+         const idx = current(state.user.recentPlaylist).indexOf(action.payload);
          if (idx > -1) {
-            state.value.recentPlaylist.splice(idx, 1); // delete in recentplay
+            state.user.recentPlaylist.splice(idx, 1); // delete in recentplay
          }
 
-         state.value.recentPlaylist.splice(0, 0, action.payload); // add to first position of array
-         updateUserLocal(current(state.value));
-         updateUserDb(current(state.value));
+         state.user.recentPlaylist.splice(0, 0, action.payload); // add to first position of array
+         updateUserLocal(current(state.user));
+         updateUserDb(current(state.user));
       },
       initPlaylist: (state, action) => {
          console.log("[initPlaylist]", action.payload);

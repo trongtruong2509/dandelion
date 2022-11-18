@@ -7,7 +7,7 @@ import { getUserDb } from "../../utils/user";
 import { updateUser, removeUser } from "../../slices/userSlice";
 
 const Login = ({ children }) => {
-   const user = useSelector((state) => state.user.value);
+   const user = useSelector((state) => state.user.user);
    const dispatch = useDispatch();
 
    const loginGoogle = async () => {

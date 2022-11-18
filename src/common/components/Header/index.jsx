@@ -4,7 +4,7 @@ import { RiPaintFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
-import defaultAvatar from "./../../../assets/default_avatar.png";
+import defaultAvatar from "./../../../assets/default.jpg";
 import { updateUser, removeUser } from "../../slices/userSlice";
 import { getUserDb, loginGoogle } from "../../utils/user";
 import Search from "./Search";
@@ -16,7 +16,7 @@ import {
 } from "react-icons/io5";
 
 const Header = ({ active }) => {
-   const user = useSelector((state) => state.user.value);
+   const user = useSelector((state) => state.user.user);
    const dispatch = useDispatch();
 
    const [isDefault, setIsDefault] = useState(false);

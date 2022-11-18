@@ -12,7 +12,7 @@ const PlaylistLib = () => {
    const tabStyle = `3xl:px-3 px-2 py-[5px] w-32 text-sm rounded-3xl text-navigation 
       hover:text-dandelion-primary uppercase cursor-pointer text-center outline-none`;
 
-   const currentUser = useSelector((state) => state.user.value);
+   const currentUser = useSelector((state) => state.user.user);
    const userPlaylist = useSelector((state) => state.user.playlist);
    const fetchPending = useSelector((state) => state.user.pending);
    const dispatch = useDispatch();

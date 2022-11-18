@@ -1,6 +1,6 @@
 import { createTheme } from "./utils";
 
-const baseTheme = createTheme({
+export const themeDefault = {
    white: "#fff",
    black: "#32323d",
    yellow: "#f8e71c",
@@ -54,7 +54,9 @@ const baseTheme = createTheme({
    shadowMainBox: "hsla(0,0%,81.2%,0.4)",
    boxShadowQueue:
       "0 1px 0 rgba(0,0,0,0.3),0 1px 6px rgba(0,0,0,0.3),inset 0 1px 1px hsla(0,0%,100%,0.3)",
-});
+};
+
+const baseTheme = createTheme(themeDefault);
 
 export default baseTheme;
 

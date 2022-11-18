@@ -33,7 +33,8 @@ const PlaylistDetail = ({ id }) => {
    const playingPlaylist = useSelector((state) => state.playlist.playing);
    const currentTracks = useSelector((state) => state.playlist.current.tracks);
    const playingTrack = useSelector((state) => state.playing.value);
-   const user = useSelector((state) => state.user.value);
+   const user = useSelector((state) => state.user.user);
+
    // const playqueue = useSelector((state) => state.playqueue.queue);
    // const played = useSelector((state) => state.playqueue.played);
    const dispatch = useDispatch();
@@ -174,7 +175,7 @@ const PlaylistDetail = ({ id }) => {
                   <h1 className="text-2xl font-semibold text-center text-primary">
                      {currentPlaylist?.title}
                   </h1>
-                  {currentPlaylist?.createdByUserId === user.id && (
+                  {currentPlaylist?.createdByUserId === user?.id && (
                      <button
                         className="p-2 rounded-full text-secondary hover:text-primary hover:bg-alpha"
                         onClick={() => setShow(!show)}

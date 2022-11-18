@@ -29,7 +29,7 @@ const SongItem = ({
    const dispatch = useDispatch();
 
    const playingSong = useSelector((state) => state.playing.value);
-   const currentUser = useSelector((state) => state.user.value);
+   const currentUser = useSelector((state) => state.user.user);
    const playingPlaylist = useSelector((state) => state.playlist.playing.value);
    const currentPlaylist = useSelector((state) => state.playlist.current.value);
    const playqueue = useSelector((state) => state.playqueue);

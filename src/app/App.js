@@ -15,12 +15,20 @@ import PlayerQueue from "../common/components/PlayerQueue";
 import Playbar from "../common/components/Playbar/Playbar";
 
 import { applyTheme } from "../themes/utils";
-import baseTheme from "../themes/base";
-import darkTheme from "../themes/dark";
+import themes from "../themes/themes";
 
 function App() {
+   const theme = useSelector((state) => state.dandelion.theme);
+
    useEffect(() => {
-      applyTheme(baseTheme);
+      let loadedTheme = "baseTheme";
+      if (theme) {
+         loadedTheme = theme.theme;
+      }
+
+      console.log("[loadedTheme]", loadedTheme);
+
+      applyTheme(themes[loadedTheme]);
    }, []);
 
    return (

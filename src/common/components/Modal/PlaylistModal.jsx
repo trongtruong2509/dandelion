@@ -7,7 +7,7 @@ import Modal from "./Modal";
 import { updateCreatedPlaylist, updatePlaylists } from "../../slices/userSlice";
 
 const PlaylistModal = ({ ...props }) => {
-   const user = useSelector((state) => state.user.value);
+   const user = useSelector((state) => state.user.user);
    const playlist = useSelector((state) => state.playlist.value);
    const navigate = useNavigate();
    const dispatch = useDispatch();

@@ -1,25 +1,23 @@
-/*
-[data-theme=green-light] {
-    --layout-bg: #ced9d9;
-    --player-bg: #c0d8d8;
-    --sidebar-bg: hsla(0,0%,100%,0.3);
-    --sidebar-popup-bg: #cce0e0;
-    --alpha-bg: hsla(0,0%,100%,0.3);
-    --queue-player-popup-bg: #ced9d9;
-    --blur-queue-bg: rgba(206,217,217,0.9019607843137255);
-    --primary-bg: #e0ebeb;
-    --artist-layout-bg: rgba(206,217,217,0.8);
-    --dandelion-primary: #0e8080;
-    --text-item-hover: #0f7070;
-    --link-text-hover: #0f7070;
-    --chart-bg-img-alpha: rgb(206 217 217/0.9);
-}
-[data-theme=gray], [data-theme=green-light], [data-theme=pink-light] {
-    --box-item-bg: hsla(0,0%,100%,0.3);
-    --tab-active-bg: hsla(0,0%,100%,0.3);
-    --box-hot-item-bg: rgba(254,255,255,0.2);
-    --box-hot-item-bg-hover: rgba(254,255,255,0.3);
-    --text-secondary: #696969;
-}
+import { themeDefault } from "./base";
+import { createTheme } from "./utils";
 
-*/
+const greenLightTheme = createTheme({
+   ...themeDefault,
+   dandelionPrimary: "#0e8080", //
+   bgLayout: "#ced9d9", //
+   bgPlayer: "#c0d8d8", //
+   bgPrimary: "#e0ebeb", //
+   bgAlpha: "hsla(0,0%,100%,0.3)",
+   bgSidebar: "hsla(0,0%,100%,0.3)",
+   bgAlphaLayout: "rgba(115,23,23,0.8)", //
+   //    bgLinearGradient: "linear-gradient(180deg,#941c1c,#961919)", //
+   bgBoxItem: "hsla(0,0%,100%,0.3)", //
+   bgTabActive: "hsla(0,0%,100%,0.3)", //
+   bgArtistLayout: "rgba(206,217,217,0.8)", //
+
+   textSecondary: "#696969", //
+   textItemHover: "#0f7070", //
+   textLinkHover: "#0f7070", //
+});
+
+export default greenLightTheme;

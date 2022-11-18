@@ -24,7 +24,7 @@ const PlaylistCover = ({ info, size = "md", editable = false }) => {
    const dispatch = useDispatch();
 
    const playingPlaylist = useSelector((state) => state.playlist.playing);
-   const currentUser = useSelector((state) => state.user.value);
+   const currentUser = useSelector((state) => state.user.user);
    // const playingTrack = useSelector((state) => state.playlist.value);
 
    const onNavigate = () => {

@@ -32,7 +32,7 @@ const Playbar = () => {
                      </p>
                   </div>
                </div>
-               <SongOptions songInfo={currentSong} />
+               <SongOptions songInfo={currentSong} active />
             </div>
             <Player />
          </div>

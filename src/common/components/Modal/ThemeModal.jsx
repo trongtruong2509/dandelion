@@ -8,7 +8,9 @@ import Modal from "./Modal";
 import { applyTheme } from "../../../themes/utils";
 import darkTheme from "../../../themes/dark";
 import baseTheme from "../../../themes/base";
-import { IoClose, IoCloseOutline } from "react-icons/io5";
+import { IoCheckmarkCircle, IoClose, IoCloseOutline } from "react-icons/io5";
+import { updateTheme } from "../../slices/dandelionSlice";
+import themes from "../../../themes/themes";
 
 const ThemeModal = ({ ...props }) => {
    return (
@@ -32,32 +34,44 @@ const ThemeModal = ({ ...props }) => {
                   <ThemeItem
                      img="https://zmp3-static.zmdcdn.me/skins/zmp3-v6.1/images/theme/dark.jpg"
                      themeName="Dark"
-                     theme={darkTheme}
+                     themeKey="darkTheme"
+                     onClose={props.onClose}
                   />
                   <ThemeItem
                      img="https://zmp3-static.zmdcdn.me/skins/zmp3-v6.1/images/theme/purple.jpg"
                      themeName="Purple"
-                     theme={null}
+                     themeKey="purpleTheme"
+                     onClose={props.onClose}
                   />
                   <ThemeItem
                      img="https://zmp3-static.zmdcdn.me/skins/zmp3-v6.1/images/theme/blue.jpg"
                      themeName="Blue"
-                     theme={null}
+                     themeKey="blueTheme"
+                     onClose={props.onClose}
                   />
                   <ThemeItem
                      img="https://zmp3-static.zmdcdn.me/skins/zmp3-v6.1/images/theme/green.jpg"
                      themeName="Green"
-                     theme={null}
+                     themeKey="greenTheme"
+                     onClose={props.onClose}
+                  />
+                  <ThemeItem
+                     img="https://zmp3-static.zmdcdn.me/skins/zmp3-v6.1/images/theme/brown.jpg"
+                     themeName="Brown"
+                     themeKey="brownTheme"
+                     onClose={props.onClose}
                   />
                   <ThemeItem
                      img="https://zmp3-static.zmdcdn.me/skins/zmp3-v6.1/images/theme/pink.jpg"
                      themeName="Pink"
-                     theme={null}
+                     themeKey="pinkTheme"
+                     onClose={props.onClose}
                   />
                   <ThemeItem
-                     img="https://zmp3-static.zmdcdn.me/skins/zmp3-v6.1/images/theme/pink-light.jpg"
-                     themeName="Pink light"
-                     theme={null}
+                     img="https://zmp3-static.zmdcdn.me/skins/zmp3-v6.1/images/theme/red.jpg"
+                     themeName="Red"
+                     themeKey="redTheme"
+                     onClose={props.onClose}
                   />
                </div>
             </div>
@@ -67,22 +81,32 @@ const ThemeModal = ({ ...props }) => {
                   <ThemeItem
                      img="https://zmp3-static.zmdcdn.me/skins/zmp3-v6.1/images/theme/light.jpg"
                      themeName="Light"
-                     theme={baseTheme}
+                     themeKey="baseTheme"
+                     onClose={props.onClose}
                   />
                   <ThemeItem
                      img="https://zmp3-static.zmdcdn.me/skins/zmp3-v6.1/images/theme/gray.jpg"
                      themeName="Gray"
-                     theme={null}
+                     themeKey="grayTheme"
+                     onClose={props.onClose}
+                  />
+                  <ThemeItem
+                     img="https://zmp3-static.zmdcdn.me/skins/zmp3-v6.1/images/theme/blue-light.jpg"
+                     themeName="Blue light"
+                     themeKey="blueLightTheme"
+                     onClose={props.onClose}
                   />
                   <ThemeItem
                      img="https://zmp3-static.zmdcdn.me/skins/zmp3-v6.1/images/theme/green-light.jpg"
                      themeName="Green light"
-                     theme={null}
+                     themeKey="greenLightTheme"
+                     onClose={props.onClose}
                   />
                   <ThemeItem
                      img="https://zmp3-static.zmdcdn.me/skins/zmp3-v6.1/images/theme/pink-light.jpg"
                      themeName="Pink light"
-                     theme={null}
+                     themeKey="pinkLightTheme"
+                     onClose={props.onClose}
                   />
                </div>
             </div>
@@ -99,7 +123,10 @@ const ThemeModal = ({ ...props }) => {
    );
 };
 
-const ThemeItem = ({ img, themeName, theme }) => {
+const ThemeItem = ({ img, themeName, themeKey, onClose }) => {
+   const dispatch = useDispatch();
+   const currentTheme = useSelector((state) => state.dandelion.theme);
+
    return (
       <div className="rounded-md group">
          <div className="relative">
@@ -110,10 +137,19 @@ const ThemeItem = ({ img, themeName, theme }) => {
             />
             <button
                className="absolute-center hidden px-5 py-[2px] text-sm text-white capitalize transition-all duration-100 ease-out opacity-100 rounded-3xl bg-dandelion-primary group-hover:block hover:opacity-90"
-               onClick={() => applyTheme(theme)}
+               onClick={() => {
+                  onClose();
+                  applyTheme(themes[themeKey]);
+                  dispatch(updateTheme(themeKey));
+               }}
             >
                Apply
             </button>
+            {themeKey === currentTheme?.theme && (
+               <div className="absolute bottom-2 right-2">
+                  <IoCheckmarkCircle className="text-2xl text-dandelion-primary" />
+               </div>
+            )}
          </div>
          <p className="pt-1 text-sm">{themeName}</p>
       </div>

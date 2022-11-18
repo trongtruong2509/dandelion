@@ -19,7 +19,7 @@ import { getDocInList } from "../../common/utils/firebaseApi";
 import { group } from "../../common/utils/common";
 
 const Home = () => {
-   const currentUser = useSelector((state) => state.user.value);
+   const currentUser = useSelector((state) => state.user.user);
 
    const [newReleases, setNewReleases] = useState([]);
    const [recentPlaylist, setRecentPlaylist] = useState([]);
@@ -86,28 +86,35 @@ const Home = () => {
    return (
       <div className="w-full text-primary">
          <div className="w-full h-60">Advertise</div>
-         <div className="w-full">
-            <div className="flex-btw">
-               <div className="flex items-center justify-start gap-4">
-                  <h1 className="text-2xl font-bold text-primary">
-                     Recently Played
-                  </h1>
+         {currentUser && (
+            <div className="w-full">
+               <div className="flex-btw">
+                  <div className="flex items-center justify-start gap-4">
+                     <h1 className="text-2xl font-bold text-primary">
+                        Recently Played
+                     </h1>
+                  </div>
+                  <button className="gap-2 flex-center text-secondary hover:text-primary">
+                     View All
+                     <MdArrowForwardIos />
+                  </button>
                </div>
-               <button className="gap-2 flex-center text-secondary hover:text-primary">
-                  View All
-                  <MdArrowForwardIos />
-               </button>
+               <div className="w-full my-4">
+                  <Swiper
+                     slidesPerView={6}
+                     spaceBetween={30}
+                     className="w-full"
+                  >
+                     {recentPlaylist?.map((p) => (
+                        <SwiperSlide key={p.id}>
+                           <PlaylistCover info={p} size="sm" />
+                        </SwiperSlide>
+                     ))}
+                  </Swiper>
+               </div>
             </div>
-            <div className="w-full my-4">
-               <Swiper slidesPerView={6} spaceBetween={30} className="w-full">
-                  {recentPlaylist?.map((p) => (
-                     <SwiperSlide key={p.id}>
-                        <PlaylistCover info={p} size="sm" />
-                     </SwiperSlide>
-                  ))}
-               </Swiper>
-            </div>
-         </div>
+         )}
+
          <div className="pt-3">
             <div className="flex-btw">
                <div className="flex items-center justify-start gap-4">

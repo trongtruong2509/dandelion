@@ -13,8 +13,9 @@ const SongOptions = ({
    like = true,
    inPlaylistPage = false,
    addPlaylist = false,
+   active = false,
 }) => {
-   const currentUser = useSelector((state) => state.user.value);
+   const currentUser = useSelector((state) => state.user.user);
    const dispatch = useDispatch();
 
    const handleLogin = async () => {
@@ -49,8 +50,12 @@ const SongOptions = ({
       <div className="gap-1 text-lg text-primary flex-center group">
          {like && (
             <div
-               className={`items-center justify-center w-10 h-10 p-2 rounded-full cursor-pointer hover:bg-alpha group-hover:flex ${
-                  notLiked ? "hidden" : "flex"
+               className={`items-center justify-center w-10 h-10 p-2 rounded-full cursor-pointer hover:bg-alpha ${
+                  active
+                     ? "flex"
+                     : notLiked
+                     ? "hidden group-hover:flex"
+                     : "flex"
                }`}
                onClick={() =>
                   currentUser
@@ -69,7 +74,11 @@ const SongOptions = ({
          )}
 
          <SongMenu info={songInfo}>
-            <div className="w-10 h-10 p-2 rounded-full opacity-0 cursor-pointer flex-center group-hover:opacity-100 hover:bg-dark-alpha-10">
+            <div
+               className={`w-10 h-10 p-2 rounded-full  cursor-pointer flex-center hover:bg-alpha ${
+                  active ? "" : "group-hover:opacity-100 opacity-0"
+               }`}
+            >
                <HiOutlineDotsHorizontal className="text-xl" />
             </div>
          </SongMenu>

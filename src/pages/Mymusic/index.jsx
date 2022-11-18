@@ -7,23 +7,27 @@ import { MdArrowForwardIos, MdOutlineAdd } from "react-icons/md";
 import PlaylistModal from "../../common/components/Modal/PlaylistModal";
 import PlaylistCover from "../../common/components/Playlist/PlaylistCover";
 import SongItem from "../../common/components/Song/SongItem";
-import { getDocInList } from "../../common/utils/firebaseApi";
+// import { getDocInList } from "../../common/utils/firebaseApi";
 // import Skeleton from "react-loading-skeleton";
 import PlaylistCoverSkeleton from "../../common/components/Playlist/PlaylistCoverSkeleton";
-import { fetchUserPlaylists } from "../../common/utils/user";
-import { fetchUserPlaylist, initPlaylist } from "../../common/slices/userSlice";
+// import { fetchUserPlaylists } from "../../common/utils/user";
+import { fetchUserPlaylist } from "../../common/slices/userSlice";
 
 const Mymusic = () => {
-   const currentUser = useSelector((state) => state.user.value);
+   const currentUser = useSelector((state) => state.user.user);
    const userPlaylist = useSelector((state) => state.user.playlist);
    const dispatch = useDispatch();
 
    // const [playlists, setPlaylists] = useState([]);
    const [show, setShow] = useState(false);
 
-   useEffect(() => {
-      dispatch(fetchUserPlaylist(currentUser));
-   }, [currentUser?.playlists]);
+   useEffect(
+      () => {
+         dispatch(fetchUserPlaylist(currentUser));
+      },
+      [currentUser?.playlists],
+      currentUser
+   );
 
    return (
       <div className="w-full mt-20 mb-20 text-white ">

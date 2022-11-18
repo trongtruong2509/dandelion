@@ -5,7 +5,8 @@ export const localKeys = {
    playbar: "dan_playbar",
    playqueue: "dan_playqueue",
    playlist: "dan_playlist",
-   dandelion: "dandelion",
+   searchHistory: "searchHistory",
+   theme: "theme",
 };
 
 const write = (key, data) => {
@@ -49,9 +50,17 @@ export const getPlaybar = () => {
 };
 
 export const writeSearchHistory = (data) => {
-   write(localKeys.dandelion, data);
+   write(localKeys.searchHistory, data);
 };
 
 export const getSearchHistory = () => {
-   return get(localKeys.dandelion);
+   return get(localKeys.searchHistory);
+};
+
+export const writeTheme = (data) => {
+   write(localKeys.theme, data);
+};
+
+export const getTheme = () => {
+   return get(localKeys.theme);
 };

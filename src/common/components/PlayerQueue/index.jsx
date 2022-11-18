@@ -15,7 +15,7 @@ const PlayerQueue = () => {
    const playqueue = useSelector((state) => state.playqueue);
    const shuffle = useSelector((state) => state.playbar.shuffle);
    const playingPlaylist = useSelector((state) => state.playlist.playing.value);
-   const user = useSelector((state) => state.user.value);
+   const user = useSelector((state) => state.user.user);
 
    // const activeStyle = "bg-hover-2 text-white";
 
@@ -54,13 +54,13 @@ const PlayerQueue = () => {
       >
          <Tabs
             className="w-full Tabs"
-            selectedTabClassName="text-dandelion-primary bg-tab-active"
+            selectedTabClassName="text-item-hover bg-tab-active outline-none"
          >
             <TabList className="w-fit bg-alpha rounded-3xl p-[3px] flex-center mt-4 ml-10 mb-5">
-               <Tab className="px-2 py-1 text-sm cursor-pointer 3xl:px-3 rounded-3xl text-navigation hover:text-dandelion-primary">
+               <Tab className="px-[10px] py-1 text-sm cursor-pointer 3xl:px-3 rounded-3xl text-navigation hover:text-item-hover outline-none">
                   Playing Queue
                </Tab>
-               <Tab className="px-2 py-1 text-sm cursor-pointer 3xl:px-3 rounded-3xl text-navigation hover:text-dandelion-primary">
+               <Tab className="px-[10px] py-1 text-sm cursor-pointer 3xl:px-3 rounded-3xl text-navigation hover:text-item-hover outline-none">
                   Recently Played
                </Tab>
             </TabList>
