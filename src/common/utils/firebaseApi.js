@@ -35,8 +35,7 @@ export const getDocById = async (collection, id) => {
 };
 
 export const getDocInList = async (document, filter) => {
-   console.log("[getDocInList] filter", filter);
-   const q = query(collection(firestore, document), where("id", "in", filter));
+   // console.log("[getDocInList] filter", filter);
    let reuturnDoc = [];
 
    const filters = group(filter, 10);
@@ -66,11 +65,11 @@ export const getDocInList = async (document, filter) => {
          });
       }
 
-      console.log("[getDocInList] reuturnDoc", reuturnDoc);
+      //console.log("[getDocInList] reuturnDoc", reuturnDoc);
 
       return reuturnDoc;
    } catch (error) {
-      console.log("[getDocInList] error", error);
+      //console.log("[getDocInList] error", error);
 
       return null;
    }
@@ -79,7 +78,7 @@ export const getDocInList = async (document, filter) => {
 export const getLatestSongs = async () => {
    const q = query(
       collection(firestore, "Songs"),
-      where("releaseDate", ">=", Date.now() - 2592000000)
+      where("releaseDate", ">=", Date.now() - 15592000000)
    );
 
    try {

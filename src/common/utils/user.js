@@ -1,4 +1,4 @@
-import { addNewDoc, getDocById } from "./firebaseApi";
+import { addNewDoc, getDocById, getDocInList } from "./firebaseApi";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 
 // const updateUserToDb = async (user) => {
@@ -47,6 +47,31 @@ export const updateUserLocal = (user) => {
 
 export const getUserLocal = () => {
    return JSON.parse(localStorage.getItem("currentUser"));
+};
+
+export const getNoLoggedUser = () => {
+   let noLoggedUser = JSON.parse(localStorage.getItem("noLoggedUser"));
+
+   if (!noLoggedUser) {
+      // if there is noLoggedUser yet. create new one.
+      noLoggedUser = {
+         id: "None",
+         userName: "",
+         mail: "",
+         phone: "",
+         avatar: "",
+         uploaded: [],
+         createdPlaylist: [],
+         recentPlayed: [], //ids of playlist
+         likedSongs: [],
+         likedPlaylists: [],
+         likedAlbums: [],
+      };
+
+      localStorage.setItem("noLoggedUser", JSON.stringify(noLoggedUser));
+   }
+
+   return noLoggedUser;
 };
 
 export const loginGoogle = async () => {

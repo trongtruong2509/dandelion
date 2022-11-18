@@ -1,17 +1,27 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { MdEast, MdSettings, MdUpload, MdWest } from "react-icons/md";
+import { RiPaintFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
-import defaultAvatar from "./../../../assets/default_avatar.png";
-import { updateUser, removeUser } from "../../Reducers/userSlice";
+import defaultAvatar from "./../../../assets/default.jpg";
+import { updateUser, removeUser } from "../../slices/userSlice";
 import { getUserDb, loginGoogle } from "../../utils/user";
 import Search from "./Search";
+import ThemeModal from "../Modal/ThemeModal";
+import {
+   IoCloudUploadOutline,
+   IoColorPaletteOutline,
+   IoSettingsOutline,
+} from "react-icons/io5";
 import axios from "axios";
 
-const Header = () => {
-   const user = useSelector((state) => state.user.value);
+const Header = ({ active }) => {
+   const user = useSelector((state) => state.user.user);
    const dispatch = useDispatch();
+
+   const [isDefault, setIsDefault] = useState(false);
+   const [show, setShow] = useState(false);
 
    useEffect(() => {
       if (user) {
@@ -25,8 +35,6 @@ const Header = () => {
                console.log("error while get user from db");
                console.log(err);
             });
-      } else {
-         console.log("no current user loggin before");
       }
    }, []);
 
@@ -59,28 +67,71 @@ const Header = () => {
       dispatch(removeUser());
    };
 
+   // const handleScroll = useCallback(
+   //    (e) => {
+   //       const window = e.currentTarget;
+   //       console.log("[setActive]");
+
+   //       if (y < Threshold) {
+   //          console.log("[setActive]", y);
+   //          setActive(true);
+   //       } else {
+   //          console.log("[setActive]", y);
+   //          setActive(false);
+   //       }
+
+   //       setY(window.scrollY);
+   //    },
+   //    [y]
+   // );
+
+   // useEffect(() => {
+   //    setY(window.scrollY);
+   //    window.addEventListener("scroll", (e) => handleScroll(e));
+
+   //    return () => {
+   //       // return a cleanup function to unregister our function since its gonna run multiple times
+   //       window.removeEventListener("scroll", (e) => handleScroll(e));
+   //    };
+   // }, [handleScroll]);
+
    return (
-      <div className="flex items-center justify-between w-full py-4 bg-dark-4">
-         <div className="flex items-center justify-center gap-8">
-            <div className="flex items-center justify-center gap-4">
+      <div
+         className={`w-full px-12 py-4 flex-btw ${
+            active ? "shadow-md bg-layout" : "bg-transparent"
+         }`}
+      >
+         <ThemeModal show={show} onClose={() => setShow(false)} />
+
+         <div className="gap-8 flex-center">
+            <div className="gap-4 flex-center">
                <button>
-                  <MdWest className="text-2xl text-white" />
+                  <MdWest className="text-2xl text-primary" />
                </button>
                <button>
-                  <MdEast className="text-2xl text-white opacity-50" />
+                  <MdEast className="text-2xl opacity-50 text-primary" />
                </button>
             </div>
             <Search />
          </div>
-         <div className="flex items-center justify-center gap-3">
+         <div className="gap-3 flex-center">
+            <div
+               className="w-10 h-10 rounded-full cursor-pointer text-primary flex-center bg-alpha hover:text-dandelion-primary"
+               onClick={() => setShow(true)}
+            >
+               <IoColorPaletteOutline className="text-xl" />
+            </div>
             <Link
-               className="flex items-center justify-center w-10 h-10 text-white rounded-full cursor-pointer bg-hover-1"
+               className="w-10 h-10 rounded-full cursor-pointer text-primary flex-center bg-alpha"
                to="/upload"
             >
-               <MdUpload className="text-xl" />
+               <IoCloudUploadOutline className="text-xl" />
             </Link>
-            <div className="flex items-center justify-center w-10 h-10 text-white rounded-full cursor-pointer bg-hover-1">
-               <MdSettings className="text-xl" />
+            <div
+               className="w-10 h-10 rounded-full cursor-pointer text-primary flex-center bg-alpha"
+               // onClick={handleSettings}
+            >
+               <IoSettingsOutline className="text-xl" />
             </div>
             <div
                className="cursor-pointer"

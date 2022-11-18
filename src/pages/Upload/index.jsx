@@ -7,7 +7,7 @@ import SyncLoader from "react-spinners/SyncLoader";
 import _ from "lodash";
 
 import extractAudio from "../../common/utils/extractAudio";
-import { update } from "./../../common/components/Playbar/playingSlice";
+import { update } from "./../../common/slices/playingSlice";
 import { addNewDoc } from "../../common/utils/firebaseApi";
 
 const override = {
@@ -136,8 +136,8 @@ const Upload = () => {
    };
 
    return (
-      <div className="flex items-center justify-center w-full h-full text-white">
-         <div className="w-[500px] min-h-[500px] flex justify-center items-center h-auto border border-hover-1 m-auto rounded-lg">
+      <div className="w-full h-full text-white flex-center">
+         <div className="w-[500px] min-h-[500px] flex-center h-auto border border-secondary m-auto rounded-lg">
             {loading ? (
                <>
                   <SyncLoader
@@ -207,21 +207,19 @@ const Upload = () => {
                      </div>
                   </div>
                   <div className="flex items-center justify-end w-full gap-4 mt-8">
-                     <button
-                        className="flex items-center justify-center gap-1 px-3 py-2 bg-gray-500 rounded-full opacity-50 hover:opacity-100 hover:bg-red-500"
-                     >
+                     <button className="gap-1 px-3 py-2 bg-gray-500 rounded-full opacity-50 flex-center hover:opacity-100 hover:bg-red-500">
                         <MdCancel />
                         Cancel
                      </button>
                      <button
-                        className="flex items-center justify-center gap-1 px-3 py-2 rounded-full bg-amber-500"
+                        className="gap-1 px-3 py-2 rounded-full flex-center bg-amber-500"
                         onClick={handleListen}
                      >
                         <MdMusicNote />
                         Listen
                      </button>
                      <button
-                        className="flex items-center justify-center gap-1 px-3 py-2 bg-teal-500 rounded-full"
+                        className="gap-1 px-3 py-2 bg-teal-500 rounded-full flex-center"
                         onClick={uploadSongInfo}
                      >
                         <MdUpload />
@@ -230,8 +228,8 @@ const Upload = () => {
                   </div>
                </div>
             ) : (
-               <div className="flex items-center justify-center w-full h-full">
-                  <label className="flex flex-col items-center justify-center w-full h-full gap-2 text-xl opacity-50 cursor-pointer text-secondary">
+               <div className="w-full h-full flex-center">
+                  <label className="flex-col w-full h-full gap-2 text-xl opacity-50 cursor-pointer flex-center text-secondary">
                      <p className="">Click here to upload</p>
                      <MdCloudUpload className="w-8 h-8" />
                      <input

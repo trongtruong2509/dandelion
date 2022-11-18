@@ -3,13 +3,11 @@ import { GiMicrophone, GiSpeaker } from "react-icons/gi";
 import { MdQueueMusic } from "react-icons/md";
 import { useSelector, useDispatch } from "react-redux";
 
+// import { Progress } from "./Progress";
+import { toggleQueuebar, toggleQueuebarHidden } from "../../slices/queueSlice";
 import { Progress } from "./Progress";
-import {
-   toggleQueuebar,
-   toggleQueuebarHidden,
-} from "../../Reducers/queueSlice";
 
-const PlaybarOptions = () => {
+const PlaybarOptions = ({ volume, onVolChange }) => {
    const queueState = useSelector((state) => state.queue);
    const dispatch = useDispatch();
 
@@ -32,19 +30,19 @@ const PlaybarOptions = () => {
    };
 
    return (
-      <div className="flex justify-center items-center">
-         <div className="flex justify-center items-center gap-4 pr-3">
-            <button>
+      <div className="flex-center">
+         <div className="gap-4 pr-3 flex-center">
+            {/* <button>
                <GiMicrophone />
-            </button>
-            <div className="w-36 flex gap-2 justify-center items-center">
+            </button> */}
+            <div className="gap-2 flex-center w-36 text-primary">
                <GiSpeaker className="text-3xl" />
-               <Progress value={10} />
+               <Progress value={volume} onChange={onVolChange} />
             </div>
          </div>
-         <div className="2xl:hidden px-3 border-l border-hover-1">
+         <div className="px-3 border-l 2xl:hidden border-secondary">
             <button
-               className="p-[6px] rounded-md text-white flex items-center justify-center bg-hover-1"
+               className="p-[6px] rounded-md text-primary flex-center bg-alpha"
                onClick={handleToggle}
             >
                <MdQueueMusic

@@ -1,12 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { FaPause, FaPlay } from "react-icons/fa";
+import { IoPlay, IoPause } from "react-icons/io5";
 import { useSelector, useDispatch } from "react-redux";
 
 import SongInfo from "../Song/SongInfo";
 import SongOptions from "../Song/SongOptions";
 
-import { play, pause, update } from "../Playbar/playingSlice";
-import { updateRecentPlay } from "../../Reducers/userSlice";
+import { play, pause, update } from "../../slices/playingSlice";
+import { updateRecentPlay, updateRecentPlaylist } from "../../slices/userSlice";
+import { initQueue, updateQueue } from "../../slices/playQueueSlice";
+import {
+   emtpyPlayingPlaylist,
+   updateCurrentToPlaying,
+} from "../../slices/playlistSlice";
+import { IoMdPause, IoMdPlay } from "react-icons/io";
 
 const SongItem = ({
    info,
@@ -14,13 +21,19 @@ const SongItem = ({
    options = true,
    like = true,
    playlistMode = false,
+   isPlaylist = false, //track is in playlist
+   inPlaylistPage = false,
    addPlaylist = false,
    fade = false,
    canDetele = false,
 }) => {
-   const playingSong = useSelector((state) => state.playing.value);
-   const currentUser = useSelector((state) => state.user.value);
    const dispatch = useDispatch();
+
+   const playingSong = useSelector((state) => state.playing.value);
+   const currentUser = useSelector((state) => state.user.user);
+   const playingPlaylist = useSelector((state) => state.playlist.playing.value);
+   const currentPlaylist = useSelector((state) => state.playlist.current.value);
+   const playqueue = useSelector((state) => state.playqueue);
 
    const [current, setCurrent] = useState(false);
 
@@ -30,7 +43,7 @@ const SongItem = ({
       } else {
          setCurrent(false);
       }
-   }, [playingSong]);
+   }, [playingSong, info]);
 
    const playSong = () => {
       if (current) {
@@ -38,6 +51,41 @@ const SongItem = ({
       } else {
          dispatch(update({ info, playing: true }));
          dispatch(updateRecentPlay(info));
+
+         if (playingPlaylist) {
+            console.log("[info]", info);
+            console.log("[isPlaylist]", isPlaylist);
+
+            const inQueue =
+               playqueue.played.find((s) => s.id === info.id) ||
+               playqueue.next.find((s) => s.id === info.id);
+
+            if (!isPlaylist) {
+               // trigger not from the playlist. treat as a single track
+               dispatch(emtpyPlayingPlaylist());
+               dispatch(initQueue([info]));
+            } else if (
+               inPlaylistPage &&
+               playingPlaylist.id !== currentPlaylist.id
+            ) {
+               // in case current playlist not playing playlist even tho trigger song is in both current and playing
+               // trigger new playlist
+               dispatch(updateRecentPlaylist(currentPlaylist.id));
+               dispatch(updateCurrentToPlaying(info));
+            } else if (playingPlaylist.songs.find((s) => s.id === info.id)) {
+               dispatch(updateQueue(info));
+            }
+         } else {
+            if (currentPlaylist?.songs.includes(info.id)) {
+               // trigger new playlist
+               dispatch(updateRecentPlaylist(currentPlaylist.id));
+               dispatch(updateCurrentToPlaying(info));
+            } else {
+               // trigger not from the playlist. treat as a single track
+               dispatch(emtpyPlayingPlaylist());
+               dispatch(initQueue([info]));
+            }
+         }
       }
    };
 
@@ -53,8 +101,8 @@ const SongItem = ({
 
    return (
       <div
-         className={`w-full px-3 py-2  border-hover-1 grid grid-cols-12 relative rounded-md group
-                         ${current ? "bg-hover-1" : "hover:bg-hover-1"} 
+         className={`w-full px-3 py-2  border-secondary grid grid-cols-12 relative rounded-md group
+                         ${current ? "bg-alpha" : "hover:bg-alpha"} 
                          ${playlistMode ? "border-b" : ""}
                          ${
                             fade && !current
@@ -71,16 +119,16 @@ const SongItem = ({
                ${thumbnailSizes[size]}`}
                onClick={playSong}
             >
-               {current && playingSong?.playing ? (
-                  <FaPause className="text-base text-white" />
+               {playingSong?.playing && current ? (
+                  <IoMdPause className="text-xl text-white" />
                ) : (
-                  <FaPlay className="text-base text-white" />
+                  <IoMdPlay className="text-[22px] text-white" />
                )}
             </button>
          </div>
 
          {playlistMode && (
-            <p className="flex items-center col-span-5 text-xs cursor-pointer text-secondary hover:text-teal-500 hover:underline">
+            <p className="flex items-center col-span-5 text-xs cursor-pointer text-secondary hover:text-dandelion-primary hover:underline">
                {info.album}
             </p>
          )}
@@ -91,11 +139,12 @@ const SongItem = ({
                </p>
             )}
             {options && (
-               <div className="absolute hidden -translate-y-1/2 top-1/2 right-3 group-hover:block">
+               <div className="absolute -translate-y-1/2 top-1/2 right-3">
                   <SongOptions
                      songInfo={info}
                      like={like}
                      addPlaylist={addPlaylist}
+                     inPlaylistPage={inPlaylistPage}
                      canDetele={canDetele}
                   />
                </div>

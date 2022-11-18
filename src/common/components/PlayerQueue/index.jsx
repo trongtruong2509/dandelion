@@ -1,65 +1,131 @@
 import React from "react";
+import { useEffect } from "react";
 import { GiAlarmClock } from "react-icons/gi";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { useSelector, useDispatch } from "react-redux";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import { updateNoShuffle, updateShuffle } from "../../slices/playQueueSlice";
 import SongItem from "../Song/SongItem";
 
 const PlayerQueue = () => {
-   const queueState = useSelector((state) => state.queue);
-   const playqueue = useSelector((state) => state.playqueue);
-   const user = useSelector((state) => state.user.value);
+   const dispatch = useDispatch();
 
-   const activeStyle = "bg-hover-2 text-white";
+   const queueState = useSelector((state) => state.queue);
+   const playingTrack = useSelector((state) => state.playing.value);
+   const playqueue = useSelector((state) => state.playqueue);
+   const shuffle = useSelector((state) => state.playbar.shuffle);
+   const playingPlaylist = useSelector((state) => state.playlist.playing.value);
+   const user = useSelector((state) => state.user.user);
+
+   // const activeStyle = "bg-hover-2 text-white";
+
+   useEffect(() => {
+      if (
+         playingPlaylist &&
+         playingPlaylist.songs?.length &&
+         playingTrack?.info
+      ) {
+         if (shuffle) {
+            dispatch(
+               updateShuffle({
+                  tracks: playingPlaylist.songs,
+                  chosen: playingTrack.info,
+               })
+            );
+         } else {
+            dispatch(
+               updateNoShuffle({
+                  tracks: playingPlaylist.songs,
+                  chosen: playingTrack.info,
+               })
+            );
+         }
+      }
+   }, [shuffle]);
 
    return (
       <div
          className={`${queueState.hidden ? "hidden" : "block"} ${
             queueState.animate ? "right-0" : "-right-[320px]"
-         } 2xl:w-96 w-80 2xl:block flex-shrink-0 h-full bg-dark-2 px-2 overflow-y-scroll overscroll-auto scrollbar
+         } 2xl:w-96 w-80 2xl:block flex-shrink-0 h-full border-l border-secondary px-2 overflow-y-scroll overscroll-auto scrollbar
             absolute top-0 2xl:right-0 2xl:relative z-[300]
-            transition-all ease-out duration-500 overflow-y-scroll scrollbar
+            transition-all ease-out duration-500
             `}
       >
-         {/* <header className="py-[14px] flex justify-center items-center 3xl:gap-2 gap-1 w-full h-[72px]"> */}
-         {/* <div className="bg-hover-1 rounded-3xl p-[3px]">
-               <button className="3xl:px-3 px-2 py-1 text-sm rounded-3xl text-navigation hover:text-white">
-                  Playing Queue
-               </button>
-               <button className="3xl:px-3 px-2 py-1 text-sm rounded-3xl bg-hover-2 text-white">
-                  Recently Played
-               </button>
-            </div> */}
          <Tabs
-            className="Tabs w-full"
-            selectedTabClassName="text-white-custom bg-hover-2 hover:text-white"
+            className="w-full Tabs"
+            selectedTabClassName="text-item-hover bg-tab-active outline-none"
          >
-            <TabList className="w-fit bg-hover-1 rounded-3xl p-[3px] flex justify-center items-center mt-4 ml-10 mb-5">
-               <Tab className="3xl:px-3 px-2 py-1 text-sm rounded-3xl text-navigation hover:text-white cursor-pointer">
+            <TabList className="w-fit bg-alpha rounded-3xl p-[3px] flex-center mt-4 ml-10 mb-5">
+               <Tab className="px-[10px] py-1 text-sm cursor-pointer 3xl:px-3 rounded-3xl text-navigation hover:text-item-hover outline-none">
                   Playing Queue
                </Tab>
-               <Tab className="3xl:px-3 px-2 py-1 text-sm rounded-3xl text-navigation hover:text-white cursor-pointer">
+               <Tab className="px-[10px] py-1 text-sm cursor-pointer 3xl:px-3 rounded-3xl text-navigation hover:text-item-hover outline-none">
                   Recently Played
                </Tab>
             </TabList>
 
             <TabPanel className="w-full">
                <div className="">
-                  {user?.recentPlayed?.map((s) => (
-                     <SongItem key={s.id} info={s} fade />
+                  {playqueue?.played?.map((s) => (
+                     <SongItem
+                        key={s.id}
+                        info={s}
+                        fade
+                        isPlaylist={!!playingPlaylist}
+                     />
                   ))}
                </div>
-               <div></div>
+               {playqueue?.next.length > 0 && !!playingPlaylist && (
+                  <div className="mt-4">
+                     <div className="mb-2">
+                        <h2 className="flex gap-2 font-semibold text-primary">
+                           Next from
+                           <span className="font-semibold cursor-pointer text-dandelion-primary hover:underline">
+                              {playingPlaylist?.title}
+                           </span>
+                        </h2>
+                     </div>
+                     <div>
+                        {playqueue?.next?.map((s) => (
+                           <SongItem
+                              key={s.id}
+                              info={s}
+                              isPlaylist={!!playingPlaylist}
+                           />
+                        ))}
+                     </div>
+                  </div>
+               )}
+
+               <div>
+                  <div className="my-2">
+                     <h2 className="flex gap-2 font-semibold text-white">
+                        Suggession
+                        {/* <span className="font-normal cursor-pointer text-primary hover:underline">
+                           {playingPlaylist?.title}
+                        </span> */}
+                     </h2>
+                  </div>
+               </div>
             </TabPanel>
             <TabPanel className="w-full">
-               <p>Tab 5 works!</p>
+               <div className="">
+                  {user?.recentPlayed?.map(
+                     (s, index) =>
+                        (!playingTrack?.info ||
+                           playingTrack?.info?.id !== s?.id) && (
+                           <SongItem key={index} info={s} />
+                        )
+                  )}
+               </div>
             </TabPanel>
          </Tabs>
-         <div className="absolute right-4 top-4 flex gap-2 items-center justify-center">
-            <button className="text-lg bg-hover-1 text-white p-[7px] rounded-full hover:bg-hover-2">
+         <div className="absolute gap-2 flex-center right-2 top-4">
+            <button className="text-lg bg-alpha text-secondary p-[7px] rounded-full bg-alpha">
                <GiAlarmClock />
             </button>
-            <button className="text-lg bg-hover-1 text-white p-[7px] rounded-full hover:bg-hover-2">
+            <button className="text-lg bg-alpha text-secondary p-[7px] rounded-full bg-alpha">
                <HiOutlineDotsHorizontal />
             </button>
          </div>

@@ -1,78 +1,89 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { MdArrowForwardIos, MdOutlineAdd } from "react-icons/md";
 
 import PlaylistModal from "../../common/components/Modal/PlaylistModal";
 import PlaylistCover from "../../common/components/Playlist/PlaylistCover";
 import SongItem from "../../common/components/Song/SongItem";
-import { getDocInList } from "../../common/utils/firebaseApi";
+// import { getDocInList } from "../../common/utils/firebaseApi";
+// import Skeleton from "react-loading-skeleton";
+import PlaylistCoverSkeleton from "../../common/components/Playlist/PlaylistCoverSkeleton";
+// import { fetchUserPlaylists } from "../../common/utils/user";
+import { fetchUserPlaylist } from "../../common/slices/userSlice";
 
 const Mymusic = () => {
-   const currentUser = useSelector((state) => state.user.value);
+   const currentUser = useSelector((state) => state.user.user);
+   const userPlaylist = useSelector((state) => state.user.playlist);
+   const dispatch = useDispatch();
 
-   const [playlists, setPlaylists] = useState([]);
+   // const [playlists, setPlaylists] = useState([]);
    const [show, setShow] = useState(false);
 
-   useEffect(() => {
-      getDocInList("playlists", currentUser.recentPlaylist)
-         .then((result) => {
-            const ordered = [];
-            console.log("[result]", result);
-
-            // correct order for playlist
-            currentUser.recentPlaylist?.forEach((playlistId) => {
-               ordered.push(result.find((s) => s.id === playlistId));
-            });
-
-            setPlaylists(ordered);
-         })
-         .catch((err) => console.log(err));
-   }, [currentUser.recentPlaylist]);
-
-   console.log("[playlists]", playlists);
+   useEffect(
+      () => {
+         dispatch(fetchUserPlaylist(currentUser));
+      },
+      [currentUser?.playlists],
+      currentUser
+   );
 
    return (
-      <div className="w-full mt-20 text-white mb-20 ">
+      <div className="w-full mt-20 mb-20 text-white ">
          <PlaylistModal show={show} onClose={() => setShow(false)} />
 
-         <div className="w-full z-10 relative">
-            <div className="flex justify-between items-center">
-               <div className="flex gap-4 justify-start items-center">
-                  <h1 className="text-xl text-primary font-semibold">
+         <div className="relative z-10 w-full">
+            <div className="flex-btw">
+               <div className="flex items-center justify-start gap-4">
+                  <h1 className="text-xl font-semibold text-primary">
                      MY PLAYLIST
                   </h1>
                   <button
-                     className="p-2 bg-hover-1 hover:text-primary rounded-full outline-none"
+                     className="p-2 rounded-full outline-none bg-alpha hover:text-dandelion-primary text-primary"
                      onClick={() => setShow(!show)}
                   >
                      <MdOutlineAdd className="text-xl" />
                   </button>
                </div>
-               <button className="flex justify-center items-center gap-2 text-secondary hover:text-primary">
+               <Link
+                  className="gap-2 flex-center text-secondary hover:text-primary"
+                  to="/mymusic/playlist"
+               >
                   View All
                   <MdArrowForwardIos />
-               </button>
+               </Link>
             </div>
-            <div className="w-full py-2 flex gap-8 flex-wrap my-6">
-               {playlists?.map((p) => (
-                  <PlaylistCover key={p.id} playlist={p} />
-               ))}
+            <div className="flex flex-wrap w-full gap-8 py-2 my-6">
+               {userPlaylist?.length
+                  ? userPlaylist?.map((p, index) => (
+                       <PlaylistCover key={index} info={p} editable />
+                    ))
+                  : [1, 2, 3, 4].map((loading) => (
+                       <PlaylistCoverSkeleton key={loading} />
+                    ))}
             </div>
          </div>
 
-         <div className="w-full text-white">
-            <div className="w-full border-b border-hover-1 py-2">
-               <p className="uppercase text-lg font-semibold">Songs</p>
+         <div className="w-full text-primary">
+            <div className="w-full py-2 border-secondary">
+               <p className="text-lg font-semibold uppercase">Liked Songs</p>
             </div>
-
+            <div className="grid w-full grid-cols-12 p-3 border-b border-secondary">
+               <p className="col-span-6 text-sm text-secondary">SONG</p>
+               <p className="flex items-center col-span-5 text-sm text-secondary">
+                  ALBUM
+               </p>
+               <p className="flex items-center justify-end col-span-1 text-sm text-secondary">
+                  TIME
+               </p>
+            </div>
             {currentUser?.likedSongs.length > 0 ? (
-               currentUser?.likedSongs.map((song) => (
-                  <SongItem key={song.id} info={song} playlistMode />
+               currentUser?.likedSongs.map((song, index) => (
+                  <SongItem key={index} info={song} playlistMode isPlaylist />
                ))
             ) : (
-               <div className="w-full flex flex-col gap-6 items-center justify-center h-96 text-secondary">
+               <div className="flex-col w-full gap-6 flex-center h-96 text-secondary">
                   <h1 className="text-2xl font-semibold">
                      Songs you like will appear here
                   </h1>
@@ -81,7 +92,7 @@ const Mymusic = () => {
                   </p>
                   <Link
                      to="/"
-                     className="px-4 py-2 rounded-full bg-teal-500 text-white"
+                     className="px-4 py-2 text-white bg-teal-500 rounded-full"
                   >
                      Explore Now
                   </Link>

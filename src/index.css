@@ -3,8 +3,10 @@
 body {
   margin: 0;
   font-family: 'Inter', sans-serif;
+  font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: var(--layout-bg);
 }
 
 code {
@@ -30,7 +32,7 @@ code {
   } */
 
   .scrollbar::-webkit-scrollbar-thumb {
-    background: rgba(255,255,255,0.3);
+    background: rgba(0,0,0,0.1);
     border-radius: 100vh;
     height: 10px;
     /* border: 3px solid #f6f7ed; */
@@ -38,7 +40,7 @@ code {
   }
 
   .scrollbar::-webkit-scrollbar-thumb:hover {
-    background: rgba(255,255,255,0.5);
+    background: rgba(0,0,0,0.3);
   }
 
   .scrollbar::-webkit-scrollbar-track-piece:start {
@@ -48,4 +50,56 @@ code {
   .scrollbar::-webkit-scrollbar-track-piece:end {
     background: transparent;
   }
+
+  .progress {
+    -webkit-appearance: none;
+    height: 4px;
+    border-radius: 6px;
+    background: var(--bg-primary);
+    outline: none;
+    opacity: 1;
+    -webkit-transition: 0.2s;
+    transition: opacity 0.2s;
+  }
+
+  .progress:hover {
+    height: 6px;
+  }
+
+  .progress::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    opacity: 100;
+    width: 0px;
+    height: 0px;
+    border-radius: 50%;
+    background: var(--progressbar-bg);
+    cursor: pointer;
+  }
+
+  .progress-wrapper:hover input[type="range"]::-webkit-slider-thumb {
+    width: 14px;
+    height: 14px;
+    background: var(--text-primary);
+  }
+   
+  .progress::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--volumeSlider);
+    cursor: pointer;
+  }
+}
+
+.flex-center {
+  @apply flex items-center justify-center
+}
+
+.flex-btw {
+  @apply flex items-center justify-between
+}
+
+.absolute-center {
+  @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2
 }

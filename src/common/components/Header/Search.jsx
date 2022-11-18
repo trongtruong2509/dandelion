@@ -9,6 +9,8 @@ import { getAllDocs } from "../../utils/firebaseApi";
 import { artistExample } from "../../../tempData/artists";
 import { useParams } from "react-router-dom";
 import { useRef } from "react";
+import { IoCloseOutline, IoSearchOutline } from "react-icons/io5";
+import { clearSearchHistory } from "../../slices/dandelionSlice";
 
 function removeAccents(str) {
    return str
@@ -19,8 +21,11 @@ function removeAccents(str) {
 }
 
 const Search = () => {
-   const user = useSelector((state) => state.user.value);
+   const user = useSelector((state) => state.user.user);
+   const searchHistory = useSelector((state) => state.dandelion.searchHistory);
+
    const params = useParams();
+   const dispatch = useDispatch();
    const ref = useRef();
 
    const [searchText, setSearchText] = useState("");
@@ -72,25 +77,25 @@ const Search = () => {
       // get matches songs
       results = [...getTop5Matches(songsDb, searchText), ...results];
 
-      console.log("Result after songs: ");
-      console.log(results);
+      // console.log("Result after songs: ");
+      // console.log(results);
 
       // get matches artist
       const artistResults = artistsDb
          .filter((s) =>
             removeAccents(s.name)
                .toLowerCase()
-               .includes(searchText.toLowerCase())
+               .includes(removeAccents(searchText.toLowerCase()))
          )
          .slice(0, 5);
 
-      console.log("artistResults: ");
-      console.log(artistResults);
+      // console.log("artistResults: ");
+      // console.log(artistResults);
 
       results = [...results, ...artistResults];
 
-      console.log("Result after artists: ");
-      console.log(results);
+      // console.log("Result after artists: ");
+      // console.log(results);
 
       // get matches playlist
       // results = [...getTop5Matches(playlistsDb, searchText), ...results];
@@ -101,13 +106,11 @@ const Search = () => {
       setSearchResult(results);
    };
 
-   useEffect(() => {
-      // console.log("[searchResult]", searchResult);
-   }, [searchResult]);
-
    const getTop5Matches = (input, search) => {
       let matches = input.filter((s) =>
-         removeAccents(s.title).toLowerCase().includes(search.toLowerCase())
+         removeAccents(s.title)
+            .toLowerCase()
+            .includes(removeAccents(search.toLowerCase()))
       );
 
       return matches.slice(0, 5);
@@ -140,27 +143,52 @@ const Search = () => {
       borderColor: "red",
    };
 
+   const hideOnInnerButtonPress = {
+      name: "hideOnInnerButtonPress",
+      defaultValue: true,
+      fn(instance) {
+         return {
+            onCreate() {
+               instance.popper.addEventListener("click", (event) => {
+                  if (
+                     instance.props.hideOnInnerButtonPress &&
+                     event.target.getAttribute("hide-on-press") === "false"
+                  ) {
+                     setTimeout(() => instance.hide(), 50);
+                     console.log("[hideOnInnerButtonPress]", "pressed");
+                     return event;
+                  }
+               });
+            },
+         };
+      },
+   };
+
    return (
       <Tippy
          interactive
-         // hideOnClick="toggle"
          placement="bottom"
          appendTo={() => document.body}
          delay={[0, 700]}
+         plugins={[hideOnInnerButtonPress]}
          trigger="click"
-         // reference={ref}
          render={(attrs) => (
             <div
-               className="w-[500px] h-auto min-h-20 pb-3 bg-dark-3 -mt-[11px] rounded-b-2xl text-white px-3"
+               className="w-[500px] h-auto min-h-20 pb-3 bg-primary -mt-1 rounded-2xl shadow-md text-primary px-3"
                tabIndex="-1"
                {...attrs}
             >
                <div className="w-full text-sm">
-                  <div className="pb-2 pt-4">
+                  <div className="pt-4 pb-2">
                      {searchText === "" ? (
-                        <div className="flex justify-between items-center ">
-                           <h2 className="font-semibold">Recent searches</h2>
-                           <button className="text-xs px-3 text-secondary hover:text-primary">
+                        <div className="flex-btw">
+                           <h2 className="font-semibold text-primary">
+                              Recent searches
+                           </h2>
+                           <button
+                              className="px-3 text-xs text-secondary hover:text-primary"
+                              onClick={() => dispatch(clearSearchHistory())}
+                           >
                               Clear
                            </button>
                         </div>
@@ -172,7 +200,7 @@ const Search = () => {
                   </div>
                   <div>
                      {loading ? (
-                        <div className="w-full h-60 flex items-center justify-center">
+                        <div className="w-full h-60 flex-center">
                            <SyncLoader
                               color="rgb(20, 184, 166)"
                               loading={loading}
@@ -181,7 +209,13 @@ const Search = () => {
                            />
                         </div>
                      ) : searchText === "" ? (
-                        <SearchItem infos={artistExample} />
+                        searchHistory.length ? (
+                           <SearchItem infos={searchHistory} />
+                        ) : (
+                           <div className="w-full h-28 flex-center text-secondary">
+                              No search history
+                           </div>
+                        )
                      ) : (
                         <SearchItem infos={searchResult} />
                      )}
@@ -195,11 +229,18 @@ const Search = () => {
                type="text"
                value={searchText}
                onChange={(e) => setSearchText(e.target.value)}
-               className="w-full py-[10px] rounded-2xl outline-none bg-hover-1 pl-10 text-sm text-white 
-                            focus-within:rounded-b-none focus-within:bg-dark-3"
+               className="w-full py-[10px] rounded-3xl outline-none bg-alpha pl-10 text-sm text-search font-normal"
                placeholder="Search for song, artist, album..."
             />
-            <MdSearch className="absolute top-2 left-3 text-2xl text-white opacity-50" />
+            <IoSearchOutline className="absolute text-xl text-placeholder top-[10px] left-3" />
+            {searchText !== "" && (
+               <button
+                  className="absolute text-xl text-placeholder top-[6px] right-3 hover:text-dandelion-primary cursor-pointer p-1 rounded-full"
+                  onClick={() => setSearchText("")}
+               >
+                  <IoCloseOutline className="" />
+               </button>
+            )}
          </div>
       </Tippy>
    );
