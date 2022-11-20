@@ -1,27 +1,22 @@
 import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
+import { getAllDocs } from "../../common/utils/firebaseApi";
 
-// export const getTracks = createAsyncThunk(
-//    "upload/getTracksStatus",
-//    async ({ category, id }) => {
-//       // try {
-//       const response = await zing_getTracks(category, id);
-//       const filtered = response.filter((t) => t.streamingStatus != 2);
-
-//       return {
-//          category,
-//          id,
-//          tracks: filtered.map((t) => ({ ...t, rank: "S" })),
-//       };
-//       // } catch (error) {
-//       //    return [];
-//       // }
-//    }
-// );
+export const fetchAllTracks = createAsyncThunk(
+   "adminTrack/fetchAllTracks",
+   async () => {
+      try {
+         return await getAllDocs("songs");
+      } catch (error) {
+         toast.error(error);
+      }
+   }
+);
 
 const initialState = {
    tracks: [],
    allTracks: [],
+   fetching: false,
 };
 
 export const adminTrackSlice = createSlice({
@@ -36,25 +31,26 @@ export const adminTrackSlice = createSlice({
       },
    },
    extraReducers: (builder) => {
-      // builder
-      //  .addCase(getTracks.pending, (state) => {
-      //     console.log("[getTracks]", "loading");
-      //     toast.info("Querying");
-      //  })
-      //  .addCase(getTracks.fulfilled, (state, action) => {
-      //     console.log("[getTracks] success", action.payload);
-      //     state.tracks = action.payload.tracks;
-      //     state.current.category = action.payload.category;
-      //     state.current.id = action.payload.id;
-      //     toast.info("Query sucessful");
-      //  })
-      //  .addCase(getTracks.rejected, (state, action) => {
-      //     console.log("[getTracks] success", action.payload);
-      //     state.tracks = null;
-      //     state.current.category = "";
-      //     state.current.id = "";
-      //     toast.error("Query failed");
-      //  });
+      builder
+         .addCase(fetchAllTracks.pending, (state) => {
+            console.log("[fetchAllTracks]", "loading");
+            // toast.info("Querying");
+            state.fetching = true;
+         })
+         .addCase(fetchAllTracks.fulfilled, (state, action) => {
+            console.log("[fetchAllTracks] success", action.payload);
+            state.allTracks = action.payload;
+            state.tracks = action.payload;
+            // toast.info("Query tracks sucessful");
+            state.fetching = false;
+         })
+         .addCase(fetchAllTracks.rejected, (state, action) => {
+            console.log("[fetchAllTracks] success", action.payload);
+            state.allTracks = [];
+            state.tracks = [];
+            // toast.error("Query tracks failed");
+            state.fetching = false;
+         });
    },
 });
 

@@ -10,7 +10,7 @@ const SearchItem = ({ infos }) => {
    return (
       <div className="w-full rounded-lg">
          {infos?.map((info, index) => {
-            if (info.artistNames) {
+            if (info.artistsNames) {
                return (
                   <div
                      key={info.id}

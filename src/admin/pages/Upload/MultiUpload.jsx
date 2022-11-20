@@ -41,10 +41,12 @@ const MultiUpload = ({ id }) => {
 
    return (
       <div className="w-full">
-         <div className="flex gap-3 my-6 text-xl text-white">
+         <div className="flex gap-3 my-6 text-xl text-primary">
             <p>From</p>
-            <h2 className="font-semibold">{upload?.current.category}</h2>
-            <h2 className="font-semibold text-primary">{upload?.current.id}</h2>
+            <h2 className="">{upload?.current.category}</h2>
+            <h2 className="font-semibold text-dandelion-primary">
+               {upload?.current.id}
+            </h2>
          </div>
 
          <div className="mt-3">

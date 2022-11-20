@@ -12,7 +12,7 @@ export const getTracks = createAsyncThunk(
       return {
          category,
          id,
-         tracks: filtered.map((t) => ({ ...t, rank: "S" })),
+         tracks: filtered.map((t) => ({ ...t, rank: "Undefined" })),
       };
       // } catch (error) {
       //    return [];

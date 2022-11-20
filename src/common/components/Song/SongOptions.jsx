@@ -1,5 +1,6 @@
 import React, { forwardRef } from "react";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
+import { IoAddOutline, IoTrashOutline } from "react-icons/io5";
 import { MdFavorite, MdFavoriteBorder, MdMoreHoriz } from "react-icons/md";
 import { useSelector, useDispatch } from "react-redux";
 // import Tippy from "@tippyjs/react";
@@ -13,8 +14,10 @@ const SongOptions = ({
    like = true,
    inPlaylistPage = false,
    addPlaylist = false,
+   onAdd,
    active = false,
    canDetele = false,
+   onDelete,
 }) => {
    const currentUser = useSelector((state) => state.user.user);
    const dispatch = useDispatch();
@@ -74,15 +77,34 @@ const SongOptions = ({
             </div>
          )}
 
-         <SongMenu info={songInfo}>
-            <div
-               className={`w-10 h-10 p-2 rounded-full  cursor-pointer flex-center hover:bg-alpha ${
-                  active ? "" : "group-hover:opacity-100 opacity-0"
-               }`}
+         {canDetele && (
+            <button
+               className="w-10 h-10 p-2 rounded-full opacity-0 cursor-pointer flex-center hover:bg-alpha group-hover:opacity-100"
+               onClick={() => onDelete(songInfo)}
             >
-               <HiOutlineDotsHorizontal className="text-xl" />
-            </div>
-         </SongMenu>
+               <IoTrashOutline className="text-xl" />
+            </button>
+         )}
+
+         {addPlaylist && (
+            <button
+               className="w-10 h-10 p-2 rounded-full opacity-100 cursor-pointer flex-center hover:bg-alpha"
+               onClick={() => onAdd(songInfo)}
+            >
+               <IoAddOutline className="text-2xl" />
+            </button>
+         )}
+         {!addPlaylist && (
+            <SongMenu info={songInfo}>
+               <div
+                  className={`w-10 h-10 p-2 rounded-full  cursor-pointer flex-center hover:bg-alpha ${
+                     active ? "" : "group-hover:opacity-100 opacity-0"
+                  }`}
+               >
+                  <HiOutlineDotsHorizontal className="text-xl" />
+               </div>
+            </SongMenu>
+         )}
       </div>
    );
 };

@@ -1,5 +1,6 @@
 import { addNewDoc, getDocById, getDocInList } from "./firebaseApi";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { firebaseCollections } from "../../dataTemplate";
 
 // const updateUserToDb = async (user) => {
 //    // use user.email as id because at the moment we use email for document id!
@@ -38,7 +39,7 @@ export const getUserDb = async (userId) => {
 };
 
 export const getArtistDb = async (id) => {
-   return await getDocById("Artists", id);
+   return await getDocById(firebaseCollections.artists, id);
 };
 
 export const updateUserLocal = (user) => {

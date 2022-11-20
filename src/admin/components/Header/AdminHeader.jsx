@@ -1,20 +1,22 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { MdEast, MdSettings, MdUpload, MdWest } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
-import defaultAvatar from "./../../../assets/default_avatar.png";
-import { updateUser, removeUser } from "../../../common/Reducers/userSlice";
-import { getUserDb, loginGoogle } from "../../../common/utils/user";
-import Search from "../../../common/components/Header/Search";
-import { FaUpload } from "react-icons/fa";
-import { FiUploadCloud } from "react-icons/fi";
 import { GiCloudUpload } from "react-icons/gi";
-import { useState } from "react";
+import { FiUploadCloud } from "react-icons/fi";
+import { FaUpload } from "react-icons/fa";
+
+import { adminPaths } from "../../../app/routes";
 import UploadSingleModal from "../Modals/UploadSingleModal";
 import { getArtistInfo } from "../Upload/uploadZing";
 import UploadMultiModal from "../Modals/UploadMultiModal";
-import { adminPaths } from "../../../app/routes";
+import { updateUser, removeUser } from "../../../common/slices/userSlice";
+import { getUserDb, loginGoogle } from "../../../common/utils/user";
+import defaultAvatar from "./../../../assets/default.jpg";
+import Search from "../../../common/components/Header/Search";
+import ThemeModal from "../../../common/components/Modal/ThemeModal";
+import { IoColorPaletteOutline } from "react-icons/io5";
 
 const AdminHeader = () => {
    const dispatch = useDispatch();
@@ -25,6 +27,7 @@ const AdminHeader = () => {
 
    const [singleShow, setSingleShow] = useState(false);
    const [multiShow, setMultiShow] = useState(false);
+   const [themeShow, setThemeShow] = useState(false);
 
    useEffect(() => {
       if (user) {
@@ -88,6 +91,8 @@ const AdminHeader = () => {
 
    return (
       <div className="flex items-center justify-between w-full py-4 bg-dark-4">
+         <ThemeModal show={themeShow} onClose={() => setThemeShow(false)} />
+
          <UploadSingleModal
             show={singleShow}
             onClose={() => setSingleShow(false)}
@@ -101,31 +106,31 @@ const AdminHeader = () => {
          <div className="flex items-center justify-center gap-8">
             <div className="flex items-center justify-center gap-4">
                <button>
-                  <MdWest className="text-2xl text-white" />
+                  <MdWest className="text-2xl text-primary" />
                </button>
                <button>
-                  <MdEast className="text-2xl text-white opacity-50" />
+                  <MdEast className="text-2xl opacity-50 text-primary" />
                </button>
             </div>
             <Search />
          </div>
          <div className="flex items-center justify-center gap-5">
-            {/* <Link
-               className="flex items-center justify-center w-10 h-10 text-white rounded-full cursor-pointer bg-hover-1"
-               to="/upload"
+            <div
+               className="w-10 h-10 rounded-full cursor-pointer text-primary flex-center bg-alpha hover:text-dandelion-primary"
+               onClick={() => setThemeShow(true)}
             >
-               <MdUpload className="text-xl" />
-            </Link> */}
-            <div className="flex items-center justify-center w-10 h-10 text-white rounded-full cursor-pointer bg-hover-1">
+               <IoColorPaletteOutline className="text-xl" />
+            </div>
+            <div className="flex items-center justify-center w-10 h-10 rounded-full cursor-pointer text-primary bg-alpha">
                <FaUpload className="text-xl" />
             </div>
             <div
-               className="flex items-center justify-center w-10 h-10 text-white rounded-full cursor-pointer bg-hover-1"
+               className="flex items-center justify-center w-10 h-10 rounded-full cursor-pointer text-primary bg-alpha"
                onClick={() => setSingleShow(true)}
             >
                <FiUploadCloud className="text-xl" />
             </div>
-            <div className="flex items-center justify-center w-10 h-10 text-white rounded-full cursor-pointer bg-hover-1">
+            <div className="flex items-center justify-center w-10 h-10 rounded-full cursor-pointer text-primary bg-alpha">
                <GiCloudUpload
                   className="text-xl"
                   onClick={() => setMultiShow(true)}

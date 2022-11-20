@@ -11,10 +11,11 @@ import {
    deleteDoc,
 } from "firebase/firestore";
 import { group } from "./common";
+import { firebaseCollections } from "../../dataTemplate";
 
 export const addNewDoc = async (collection, info, id = `${Date.now()}`) => {
    // console.log(id);
-   // console.log(info);
+   console.log("[addNewDoc]", info);
    await setDoc(doc(firestore, collection, id), info, {
       merge: true,
    });
@@ -77,8 +78,8 @@ export const getDocInList = async (document, filter) => {
 
 export const getLatestSongs = async () => {
    const q = query(
-      collection(firestore, "Songs"),
-      where("releaseDate", ">=", Date.now() - 15592000000)
+      collection(firestore, firebaseCollections.songs),
+      where("uploadDate", ">=", Date.now() - 15592000000)
    );
 
    try {
@@ -91,7 +92,10 @@ export const getLatestSongs = async () => {
          reuturnDoc.push(doc.data());
       });
 
-      return reuturnDoc;
+      return reuturnDoc
+         .sort((a, b) => a.uploadDate - b.uploadDate)
+         .reverse()
+         .slice(0, 20);
    } catch (error) {
       console.log(error);
       return null;
@@ -129,7 +133,7 @@ export const getAllDocs = async (document) => {
 
       let reuturnDoc = [];
       querySnapshot.forEach((doc) => {
-         console.log(doc.data()?.title);
+         // console.log(doc.data()?.title);
          reuturnDoc.push(doc.data());
       });
 

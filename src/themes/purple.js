@@ -22,7 +22,7 @@ const purpleTheme = createTheme({
    bgTabActive: "hsla(0,0%,100%,0.3)",
    //    bgLinearGradient: "linear-gradient(180deg,#740091,#2d1a4c)",
    bgProcessbar: "hsla(0,0%,100%,0.3)",
-   bgArtistLayout: "rgba(12,3,3,0.8)",
+   bgArtistLayout: "rgba(41,21,71,0.8)",
 
    textPrimary: "#fff",
    textSecondary: "hsla(0,0%,100%,0.5)",

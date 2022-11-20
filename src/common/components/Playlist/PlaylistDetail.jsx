@@ -66,7 +66,7 @@ const PlaylistDetail = ({ id }) => {
    useEffect(() => {
       if (currentPlaylist?.songs?.length) {
          console.log("[result.songs]", currentPlaylist.songs);
-         getDocInList("Songs", currentPlaylist.songs)
+         getDocInList("songs", currentPlaylist.songs)
             .then((result) => {
                console.log("[currentPlaylist] result", result);
                // setPlaylistTracks(result);
@@ -191,7 +191,7 @@ const PlaylistDetail = ({ id }) => {
                   </span>
                </p>
 
-               {currentTracks && currentTracks.length && (
+               {currentTracks?.length > 0 && (
                   <div className="flex items-center justify-center w-full">
                      {currentPlaylist?.id !== playingPlaylist?.value?.id ? (
                         <button

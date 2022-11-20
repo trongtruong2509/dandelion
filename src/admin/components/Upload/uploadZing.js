@@ -1,4 +1,4 @@
-import { addNewDoc } from "../../../common/utils/firebaseApi";
+import { addNewDoc, getDocById } from "../../../common/utils/firebaseApi";
 import { firebaseCollections } from "../../../dataTemplate";
 import * as zing from "../../../services/zingApi";
 
@@ -11,6 +11,22 @@ const songInfo = async (id, rank) => {
          return null;
       }
 
+      let artists = [];
+
+      raw.artists.forEach((a) => {
+         artists.push({
+            id: a.alias,
+            name: a.name,
+            alias: a.alias,
+            link: `/artist/${a.alias}`,
+            thumbnail: a.thumbnail,
+            thumbnailM: a.thumbnailM,
+            playlistIds: [],
+            topHits: [],
+            album: [],
+         });
+      });
+
       const songAudio = `http://api.mp3.zing.vn/api/streaming/audio/${id}/320`;
 
       const info = {
@@ -22,13 +38,14 @@ const songInfo = async (id, rank) => {
          isOffical: true,
          username: "dandelion",
          artistsNames: raw.artistsNames,
-         artists: raw.artists,
+         artists,
          thumbnailM: raw.thumbnailM,
          link: `/track/${id}`,
          thumbnail: raw.thumbnail,
          duration: raw.duration,
          isPrivate: raw.isPrivate,
          releaseDate: raw.releaseDate,
+         uploadDate: Date.now().toString(),
          uploadDate: Date.now(),
          genreIds: raw.genreIds,
          radioId: raw.radioId ?? "",
@@ -60,6 +77,17 @@ export const uploadZingById = async (id, rank) => {
             info.id
          );
 
+         for (const artist of info?.artists) {
+            const existDoc = await getDocById(
+               firebaseCollections.artists,
+               artist.id
+            );
+
+            if (!existDoc) {
+               await addNewDoc(firebaseCollections.artists, artist, artist.id);
+            }
+         }
+
          console.log("[uploadZingById] result", result);
          // return Promise.resolve()
       } else {
@@ -83,6 +111,8 @@ export const getArtistInfo = async (name) => {
       return null;
    }
 };
+
+const uploadInitialArtists = async (songInfo) => {};
 
 export const getTracksFromArtist = async (id) => {
    console.log("[getTracksFromArtist] inputId", id);

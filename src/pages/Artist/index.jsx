@@ -16,6 +16,7 @@ import PlaylistCover from "../../common/components/Playlist/PlaylistCover";
 
 import { playlists as tempPlaylists } from "../../tempData/playlists";
 import SongItem from "../../common/components/Song/SongItem";
+import { firebaseCollections } from "../../dataTemplate";
 
 const Artist = () => {
    const params = useParams();
@@ -42,9 +43,11 @@ const Artist = () => {
    }, [params.id]);
 
    useEffect(() => {
-      getDocInList("Songs", artist?.topHits).then((result) => {
-         setTopHits(result);
-      });
+      getDocInList(firebaseCollections.songs, artist?.topHits).then(
+         (result) => {
+            setTopHits(result);
+         }
+      );
    }, [artist]);
 
    const onOverview = () => {
@@ -84,7 +87,7 @@ const Artist = () => {
                   </button>
                </div>
             </div>
-            <div className="z-10 overflow-hidden rounded-full shadow-lg w-72 h-72 drop-shadow-lg">
+            <div className="z-10 overflow-hidden rounded-full w-72 h-72 drop-shadow-sm">
                <img
                   src={artist?.thumbnail}
                   alt={artist?.name}

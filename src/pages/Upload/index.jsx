@@ -9,6 +9,7 @@ import _ from "lodash";
 import extractAudio from "../../common/utils/extractAudio";
 import { update } from "./../../common/slices/playingSlice";
 import { addNewDoc } from "../../common/utils/firebaseApi";
+import { firebaseCollections } from "../../dataTemplate";
 
 const override = {
    display: "block",
@@ -122,7 +123,11 @@ const Upload = () => {
          uploadSong["genreIds"] = genres.split(",");
 
          setTimeout(() => {
-            addNewDoc("Songs", uploadSong.id.toString(), uploadSong);
+            addNewDoc(
+               firebaseCollections.songs,
+               uploadSong.id.toString(),
+               uploadSong
+            );
             setLoading(false);
             clearFields();
          }, 1000);

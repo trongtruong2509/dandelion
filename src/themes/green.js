@@ -21,7 +21,7 @@ const greenTheme = createTheme({
    bgBoxItem: "hsla(0,0%,100%,0.1)",
    bgTabActive: "hsla(0,0%,100%,0.3)",
    bgProcessbar: "hsla(0,0%,100%,0.3)",
-   bgArtistLayout: "rgba(12,3,3,0.8)",
+   bgArtistLayout: "rgba(18,69,52,0.8)",
 
    textPrimary: "#fff",
    textSecondary: "hsla(0,0%,100%,0.5)",

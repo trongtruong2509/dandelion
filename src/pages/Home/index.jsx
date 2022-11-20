@@ -17,6 +17,7 @@ import {
 import SongItem from "../../common/components/Song/SongItem";
 import { getDocInList } from "../../common/utils/firebaseApi";
 import { group } from "../../common/utils/common";
+import { firebaseCollections } from "../../dataTemplate";
 
 const Home = () => {
    const currentUser = useSelector((state) => state.user.user);
@@ -75,7 +76,7 @@ const Home = () => {
       //    .then((err) => console.log(err));
 
       console.log("test fetch serach");
-      getDocumentContains("Songs", "title", "Sau")
+      getDocumentContains(firebaseCollections.songs, "title", "Sau")
          .then((result) => {
             console.log("this is the result");
             console.log(result);
@@ -144,7 +145,7 @@ const Home = () => {
                   onClick={() => pushArtist}
                >
                   <button className="text-2xl font-bold text-primary">
-                     New Releases
+                     New Uploaded
                   </button>
                </div>
                <button className="gap-2 flex-center text-secondary hover:text-primary">
@@ -158,7 +159,7 @@ const Home = () => {
                   spaceBetween={20}
                   className="flex w-full gap-3"
                >
-                  {group(newReleases, 4).map((songs, index) => (
+                  {group(newReleases, 5).map((songs, index) => (
                      <SwiperSlide key={index}>
                         {songs.map((s) => (
                            <div className="my-1" key={s.id}>

@@ -21,7 +21,7 @@ const blueTheme = createTheme({
    bgTabActive: "hsla(0,0%,100%,0.3)",
    bgLinearGradient: "linear-gradient(180deg,#1b2f5a,#182e5d)", //
    bgProcessbar: "hsla(0,0%,100%,0.3)",
-   bgArtistLayout: "rgba(12,3,3,0.8)",
+   bgArtistLayout: "rgba(16,31,63,0.8)",
 
    textPrimary: "#fff",
    textSecondary: "hsla(0,0%,100%,0.5)",

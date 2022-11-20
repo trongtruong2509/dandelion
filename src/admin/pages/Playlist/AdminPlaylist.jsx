@@ -88,7 +88,7 @@ const AdminPlaylist = () => {
       <div className="w-full mt-10">
          <div className="flex gap-8 py-3">
             <button
-               className="px-4 py-2 text-white rounded-xl bg-primary"
+               className="px-4 py-2 text-white rounded-xl bg-dandelion-primary"
                onClick={() => navigate(adminPaths.createPlaylist)}
             >
                Create Playlist

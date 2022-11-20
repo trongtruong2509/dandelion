@@ -66,14 +66,18 @@ const Filters = ({ allTracks }) => {
    };
 
    const getTracksByGenre = (genreId) => {
-      dispatch(updateTracks(allTracks.filter((track) => track.genreIds.includes(genreId))));
+      dispatch(
+         updateTracks(
+            allTracks.filter((track) => track.genreIds.includes(genreId))
+         )
+      );
    };
 
    return (
       <div>
          <div className="flex gap-8 py-3">
             <select
-               className="w-40 px-4 py-[6px] border rounded-lg outline-none bg-dark-4 text-white"
+               className="w-40 px-4 py-[6px] border rounded-lg outline-none bg-dark-4 text-primary"
                onChange={(e) => setCategory(e.target.value)}
             >
                <option defaultValue value="All">
@@ -85,7 +89,7 @@ const Filters = ({ allTracks }) => {
                <option value="Featured">Featured</option>
             </select>
             <select
-               className="w-40 px-4 py-[6px] border rounded-lg outline-none bg-dark-4 text-white"
+               className="w-40 px-4 py-[6px] border rounded-lg outline-none bg-dark-4 text-primary"
                value={categoryItem}
                onChange={(e) => setCategoryItem(e.target.value)}
             >

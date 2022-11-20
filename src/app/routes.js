@@ -7,10 +7,9 @@ import PlaylistLib from "../pages/Mymusic/PlaylistLib";
 import Playlist from "../pages/Playlist";
 import Artist from "../pages/Artist";
 import AdminHome from "../admin/pages/Home/AdminHome";
-import UploadZing from "../admin/pages/Track/UploadZing";
 import MultiUpload from "../admin/pages/Upload/MultiUpload";
 import AdminPlaylist from "../admin/pages/Playlist/AdminPlaylist";
-import AdminCreatePlaylist from "../admin/pages/CreatePlaylist/AdminCreatePlaylist";
+import AdminCreatePlaylist from "../admin/pages/Playlist/AdminCreatePlaylist";
 
 export const paths = {
    home: "/",
@@ -20,7 +19,7 @@ export const paths = {
 };
 
 export const adminPaths = {
-   home: "/admin",
+   home: "/admin/",
    tracks: "/admin/tracks",
    uploadZing: "/admin/track/upload-zing",
    artists: "/admin/artists",

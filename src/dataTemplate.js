@@ -31,6 +31,7 @@ export const firebaseCollections = {
    genres: "genres",
    playlists: "playlists",
    songs: "songs",
+   artists: "artists",
 };
 
 export const genreTemplate = {
@@ -50,6 +51,18 @@ export const userTemplate = {
    likedSongs: [],
    likedPlaylists: [],
    likedAlbums: [],
+};
+
+export const artistTemplate = {
+   id: "",
+   alias: "",
+   // link: "",
+   name: "",
+   thumbnail: "",
+   thumbnailM: "",
+   playlistIds: [],
+   topHits: [],
+   album: [],
 };
 
 /*

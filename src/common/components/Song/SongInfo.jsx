@@ -1,7 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Rank from "../Rank/Rank";
 
-const SongInfo = ({ info, size = "10", onClick }) => {
+const SongInfo = ({ info, size = "10", onClick, badges = false }) => {
    const generateArtists = (artists) => {
       // let display = (
       // )
@@ -31,29 +32,36 @@ const SongInfo = ({ info, size = "10", onClick }) => {
             />
             {/* </div> */}
             <div className="max-w-[220px]">
-               <h1
-                  className="w-full text-sm truncate cursor-pointer text-primary"
-                  onClick={onClick}
-               >
-                  {info?.title}
-               </h1>
-               <div className="text-xs truncate text-secondary">
+               <div className="flex items-center gap-4">
+                  <h1
+                     className="w-full text-sm truncate cursor-pointer text-primary"
+                     onClick={onClick}
+                  >
+                     {info?.title}
+                  </h1>
+               </div>
+               <div className="flex items-center gap-2 mt-1 text-xs truncate text-secondary">
+                  {badges && (
+                     <div>
+                        <Rank rankName={info?.rank} />
+                     </div>
+                  )}
                   {info?.artists.length > 0 ? (
                      <p>
                         {info?.artists.map((artist, index) => (
                            <span key={index}>
                               <Link
                                  className="hover:text-primary hover:underline"
-                                 to={artist.link}
+                                 to={artist?.link}
                               >
-                                 {artist.name}
+                                 {artist?.name}
                               </Link>
-                              {info?.artists.length - 1 !== index && ", "}
+                              {info?.artists?.length - 1 !== index && ", "}
                            </span>
                         ))}
                      </p>
                   ) : (
-                     info?.artistNames
+                     info?.artistsNames
                   )}
                </div>
             </div>

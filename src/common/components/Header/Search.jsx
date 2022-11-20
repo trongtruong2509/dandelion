@@ -11,6 +11,7 @@ import { useParams } from "react-router-dom";
 import { useRef } from "react";
 import { IoCloseOutline, IoSearchOutline } from "react-icons/io5";
 import { clearSearchHistory } from "../../slices/dandelionSlice";
+import { firebaseCollections } from "../../../dataTemplate";
 
 function removeAccents(str) {
    return str
@@ -57,6 +58,7 @@ const Search = () => {
             .then(() => {
                getResults();
                setLoading(false);
+               console.log("[fetchDb]", songsDb);
             })
             .catch((err) => {
                console.log(err);
@@ -118,10 +120,10 @@ const Search = () => {
 
    const fetchDb = async () => {
       try {
-         const songs = await getAllDocs("Songs");
+         const songs = await getAllDocs(firebaseCollections.songs);
          setSongsDb(songs.filter((e) => e !== undefined));
 
-         const artists = await getAllDocs("Artists");
+         const artists = await getAllDocs(firebaseCollections.artists);
          setArtistsDb(artists.filter((e) => e !== undefined));
 
          const albums = await getAllDocs("Albums");

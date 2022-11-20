@@ -14,7 +14,6 @@ import {
    IoColorPaletteOutline,
    IoSettingsOutline,
 } from "react-icons/io5";
-import axios from "axios";
 
 const Header = ({ active }) => {
    const user = useSelector((state) => state.user.user);
@@ -122,13 +121,13 @@ const Header = ({ active }) => {
                <IoColorPaletteOutline className="text-xl" />
             </div>
             <Link
-               className="w-10 h-10 rounded-full cursor-pointer text-primary flex-center bg-alpha"
+               className="w-10 h-10 rounded-full cursor-pointer text-primary flex-center bg-alpha hover:text-dandelion-primary"
                to="/upload"
             >
                <IoCloudUploadOutline className="text-xl" />
             </Link>
             <div
-               className="w-10 h-10 rounded-full cursor-pointer text-primary flex-center bg-alpha"
+               className="w-10 h-10 rounded-full cursor-pointer text-primary flex-center bg-alpha hover:text-dandelion-primary"
                // onClick={handleSettings}
             >
                <IoSettingsOutline className="text-xl" />

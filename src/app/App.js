@@ -161,7 +161,7 @@ function AdminLayout() {
                closeOnClick
                rtl={false}
                draggable
-               theme="dark"
+               // theme="dark"
             />
          </div>
       </>

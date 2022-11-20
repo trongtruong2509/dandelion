@@ -28,7 +28,7 @@ const Playbar = () => {
                         {currentSong?.title}
                      </h1>
                      <p className="text-xs truncate text-secondary">
-                        {currentSong?.artistNames}
+                        {currentSong?.artistsNames}
                      </p>
                   </div>
                </div>

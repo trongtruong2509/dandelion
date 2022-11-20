@@ -24,8 +24,11 @@ const SongItem = ({
    isPlaylist = false, //track is in playlist
    inPlaylistPage = false,
    addPlaylist = false,
+   onAdd,
    fade = false,
    canDetele = false,
+   onDelete,
+   badges = false,
 }) => {
    const dispatch = useDispatch();
 
@@ -111,7 +114,12 @@ const SongItem = ({
                          }`}
       >
          <div className={`${playlistMode ? "col-span-6" : "col-span-10"}`}>
-            <SongInfo info={info} onClick={playSong} size={size} />
+            <SongInfo
+               info={info}
+               onClick={playSong}
+               size={size}
+               badges={badges}
+            />
 
             <button
                className={`items-center justify-center bg-overlay-3 rounded-md absolute top-2 left-3 group-hover:flex 
@@ -122,7 +130,7 @@ const SongItem = ({
                {playingSong?.playing && current ? (
                   <IoMdPause className="text-xl text-white" />
                ) : (
-                  <IoMdPlay className="text-[22px] text-white" />
+                  <IoPlay className="text-[22px] text-white" />
                )}
             </button>
          </div>
@@ -144,8 +152,10 @@ const SongItem = ({
                      songInfo={info}
                      like={like}
                      addPlaylist={addPlaylist}
+                     onAdd={onAdd}
                      inPlaylistPage={inPlaylistPage}
                      canDetele={canDetele}
+                     onDelete={onDelete}
                   />
                </div>
             )}
