@@ -8,6 +8,7 @@ import playbarReducer from "./../common/slices/playbarSlice";
 import dandelionReducer from "./../common/slices/dandelionSlice";
 import uploadReducer from "./../admin/slices/uploadSlice";
 import adminTrackReducer from "./../admin/slices/adminTrackSlice";
+import adminPlaylistReducer from "./../admin/slices/adminPlaylistSlice";
 
 export const store = configureStore({
    reducer: {
@@ -20,5 +21,6 @@ export const store = configureStore({
       dandelion: dandelionReducer,
       upload: uploadReducer,
       adminTrack: adminTrackReducer,
+      adminPlaylist: adminPlaylistReducer,
    },
 });

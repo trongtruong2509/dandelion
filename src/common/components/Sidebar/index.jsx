@@ -8,6 +8,7 @@ import {
 
 import LogoDark from "../../../assets/Dandelion_logo_dark.PNG";
 import {
+   IoAccessibilityOutline,
    IoAlbumsOutline,
    IoBarcodeOutline,
    IoDiamondOutline,
@@ -18,6 +19,7 @@ import {
    IoRadioOutline,
    IoStarOutline,
 } from "react-icons/io5";
+import { adminPaths } from "../../../app/routes";
 // import routes from "./../../../app/routes";
 
 const Sidebar = () => {
@@ -79,6 +81,15 @@ const Sidebar = () => {
             >
                <IoStarOutline className="text-2xl" />
                Top 100
+            </NavLink>
+            <NavLink
+               to={adminPaths.home}
+               className={({ isActive }) =>
+                  isActive ? navActive : navInactive
+               }
+            >
+               <IoAccessibilityOutline className="text-2xl" />
+               Admin
             </NavLink>
          </div>
 

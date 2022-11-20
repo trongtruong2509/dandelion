@@ -49,7 +49,7 @@ const songInfo = async (id, rank) => {
          uploadDate: Date.now(),
          genreIds: raw.genreIds,
          radioId: raw.radioId ?? "",
-         hasLyric: raw.hasLyric,
+         hasLyric: false,
          genres: raw.genres,
          albumId: raw.album?.encodeId ?? null,
          radio: raw.radio ?? null,
@@ -111,8 +111,6 @@ export const getArtistInfo = async (name) => {
       return null;
    }
 };
-
-const uploadInitialArtists = async (songInfo) => {};
 
 export const getTracksFromArtist = async (id) => {
    console.log("[getTracksFromArtist] inputId", id);

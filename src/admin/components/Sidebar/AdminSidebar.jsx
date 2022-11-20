@@ -1,8 +1,9 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
-import { adminPaths } from "../../../app/routes";
+import { adminPaths, paths } from "../../../app/routes";
 import {
+   IoDiscOutline,
    IoGridOutline,
    IoHeadsetOutline,
    IoLayersOutline,
@@ -67,6 +68,15 @@ const AdminSidebar = () => {
             >
                <IoLayersOutline className="text-2xl" />
                Genres
+            </NavLink>
+            <NavLink
+               to={paths.home}
+               className={({ isActive }) =>
+                  isActive ? navActive : navInactive
+               }
+            >
+               <IoDiscOutline className="text-2xl" />
+               Back to user
             </NavLink>
          </div>
       </div>

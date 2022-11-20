@@ -1,27 +1,38 @@
 import React, { useState, useEffect } from "react";
-import { BiRefresh } from "react-icons/bi";
 import { IoIosMusicalNote } from "react-icons/io";
-import { MdCloudUpload, MdSearch } from "react-icons/md";
+import { MdSearch } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { update } from "../../../common/slices/playingSlice";
 import SongItem from "../../../common/components/Song/SongItem";
 import Filters from "../../components/Filter/Filters";
+import Tippy from "@tippyjs/react/headless"; // different import path!
 
 import AlbumDefault from "./../../../assets/album_default.png";
 import { IoCloudUploadOutline } from "react-icons/io5";
 import { fetchAllTracks } from "../../slices/adminTrackSlice";
+import AddLinkModal from "./AddLinkModal";
+import {
+   initPlaylist,
+   resetUploadStatus,
+   uploadPlaylist,
+} from "../../slices/uploadSlice";
+import { useNavigate } from "react-router-dom";
+import { adminPaths } from "../../../app/routes";
 
 const AdminCreatePlaylist = () => {
    const dispatch = useDispatch();
+   const navigate = useNavigate();
 
    const tracks = useSelector((state) => state.adminTrack.allTracks);
-   // const allTracks = useSelector((state) => state.adminTrack.allTracks);
+   const uploadStatus = useSelector((state) => state.upload.uploadStatus);
 
    const [thumbnail, setThumbnail] = useState(null);
    const [name, setName] = useState("");
    const [selected, setSelected] = useState([]);
    const [searchText, setSearchText] = useState("");
    const [availableTracks, setAvailableTracks] = useState([]);
+   const [show, setShow] = useState(false);
+   const [id, setId] = useState(null);
 
    useEffect(() => {
       dispatch(fetchAllTracks());
@@ -30,6 +41,13 @@ const AdminCreatePlaylist = () => {
    useEffect(() => {
       setAvailableTracks(tracks);
    }, [tracks]);
+
+   useEffect(() => {
+      if (uploadStatus) {
+         dispatch(resetUploadStatus());
+         navigate(adminPaths.playlistDetail.replace(":id", id));
+      }
+   }, [uploadStatus]);
 
    const onAddTrack = (info) => {
       setSelected([...selected, info]);
@@ -45,8 +63,72 @@ const AdminCreatePlaylist = () => {
       setAvailableTracks([info, ...availableTracks]);
    };
 
+   const handleLoadFile = async (src) => {
+      console.log("[src]", src);
+
+      let reader = new FileReader();
+      reader.readAsDataURL(src);
+      reader.onload = (e) => {
+         setThumbnail(e.target.result);
+      };
+   };
+
+   const handleLoadLink = (link) => {
+      setThumbnail(link);
+   };
+
+   const onCreate = () => {
+      const playlistId = Date.now().toString();
+      setId(playlistId);
+
+      let playlist = {
+         id: playlistId,
+         title: name,
+         user: "Dandelion",
+         createdBy: "dandelion",
+         description: "",
+         link: `/playlist/${playlistId}`,
+         thumbnail,
+         songs: selected,
+         public: true,
+         shuffle: true,
+      };
+
+      console.log("[onCreate]", playlist);
+
+      dispatch(uploadPlaylist(playlist));
+      dispatch(initPlaylist(playlist));
+   };
+
+   const hideOnInnerButtonPress = {
+      name: "hideOnInnerButtonPress",
+      defaultValue: true,
+      fn(instance) {
+         return {
+            onCreate() {
+               instance.popper.addEventListener("click", (event) => {
+                  if (
+                     instance.props.hideOnInnerButtonPress &&
+                     event.target.getAttribute("hide-on-press") === "false"
+                  ) {
+                     setTimeout(() => instance.hide(), 50);
+                     console.log("[hideOnInnerButtonPress]", "pressed");
+                     return event;
+                  }
+               });
+            },
+         };
+      },
+   };
+
    return (
       <div className="w-full mt-10">
+         <AddLinkModal
+            show={show}
+            onClose={() => setShow(false)}
+            onUpdate={handleLoadLink}
+         />
+
          <div className="grid w-full grid-cols-12 my-4">
             <div className="flex col-span-8 gap-5">
                <div className="flex flex-col items-center">
@@ -55,15 +137,59 @@ const AdminCreatePlaylist = () => {
                         src={thumbnail ? thumbnail : AlbumDefault}
                         className="z-10 object-cover w-full h-full rounded-lg"
                      />
-                     <label className="absolute top-0 left-0 z-20 items-center justify-center hidden w-full h-full text-2xl text-white rounded-lg cursor-pointer bg-dark-alpha-50 group-hover:flex">
-                        <IoCloudUploadOutline className="w-12 h-12" />
-                        <input
-                           type="file"
-                           accept="audio/*"
-                           className="w-0 h-0"
-                           // onChange={(e) => handleLoadFile(e.target.files[0])}
-                        />
-                     </label>
+
+                     <Tippy
+                        interactive
+                        placement="bottom"
+                        appendTo={() => document.body}
+                        delay={[0, 700]}
+                        plugins={[hideOnInnerButtonPress]}
+                        trigger="click"
+                        render={(attrs) => (
+                           <div
+                              className="w-48 h-auto px-2 py-1 rounded-lg shadow-md min-h-20 bg-primary text-primary"
+                              tabIndex="-1"
+                              {...attrs}
+                           >
+                              <div className="w-full text-sm">
+                                 <div className="gap-3 flex-center">
+                                    <button
+                                       className="px-3 py-[6px] rounded-lg hover:text-white hover:bg-dandelion-primary text-primary flex-center"
+                                       hide-on-press="false"
+                                    >
+                                       <label
+                                          className="flex-center"
+                                          hide-on-press="false"
+                                       >
+                                          Storage
+                                          <input
+                                             type="file"
+                                             accept="image/*"
+                                             className="w-0 h-0"
+                                             onChange={(e) =>
+                                                handleLoadFile(
+                                                   e.target.files[0]
+                                                )
+                                             }
+                                          />
+                                       </label>
+                                    </button>
+                                    <button
+                                       className="px-3 py-[6px] rounded-lg hover:text-white hover:bg-dandelion-primary text-primary"
+                                       hide-on-press="false"
+                                       onClick={() => setShow(true)}
+                                    >
+                                       Link
+                                    </button>
+                                 </div>
+                              </div>
+                           </div>
+                        )}
+                     >
+                        <label className="absolute top-0 left-0 z-20 items-center justify-center hidden w-full h-full text-2xl rounded-lg cursor-pointer text-dandelion-primary bg-dark-alpha-50 group-hover:flex">
+                           <IoCloudUploadOutline className="w-12 h-12" />
+                        </label>
+                     </Tippy>
                   </div>
                   <div className="mt-5">
                      <input
@@ -74,9 +200,20 @@ const AdminCreatePlaylist = () => {
                         onChange={(e) => setName(e.target.value)}
                      />
                   </div>
-                  <button className="py-[6px] px-4 rounded-lg bg-dandelion-primary mt-8 text-white">
-                     Create
-                  </button>
+                  <div className="flex gap-5">
+                     <button
+                        className="py-[6px] px-4 rounded-lg bg-alpha text-primary hover:bg-dark-alpha-50 mt-8 hover:text-white"
+                        onClick={() => navigate(adminPaths.playlists)}
+                     >
+                        Cancel
+                     </button>
+                     <button
+                        className="py-[6px] px-4 rounded-lg bg-dandelion-primary mt-8 text-white"
+                        onClick={onCreate}
+                     >
+                        Create
+                     </button>
+                  </div>
                </div>
                <div className="w-full">
                   <div>

@@ -1,13 +1,15 @@
 import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
 import { zing_getTracks } from "../components/Upload/uploadZing";
 import { toast } from "react-toastify";
+import { addNewDoc, getDocById } from "../../common/utils/firebaseApi";
+import { firebaseCollections } from "../../dataTemplate";
 
 export const getTracks = createAsyncThunk(
    "upload/getTracksStatus",
    async ({ category, id }) => {
       // try {
       const response = await zing_getTracks(category, id);
-      const filtered = response.filter((t) => t.streamingStatus != 2);
+      const filtered = response.filter((t) => t.streamingStatus !== 2);
 
       return {
          category,
@@ -20,12 +22,41 @@ export const getTracks = createAsyncThunk(
    }
 );
 
+export const uploadPlaylist = createAsyncThunk(
+   "upload/uploadPlaylist",
+   async (playlist) => {
+      // try {
+      console.log("[uploadPlaylist]", playlist);
+      const response = await addNewDoc(
+         firebaseCollections.playlists,
+         playlist,
+         playlist.id
+      );
+
+      return response;
+      // } catch (error) {
+      //    toast.error(error);
+      //    return Promise.reject("Upload playlist fail");
+      // }
+   }
+);
+
+export const getPlaylistById = createAsyncThunk(
+   "upload/getPlaylistById",
+   async (id) => {
+      // try {
+      return await getDocById(firebaseCollections.playlists, id);
+   }
+);
+
 const initialState = {
    current: {
       category: "",
       id: "",
    },
    tracks: [],
+   playlist: null,
+   uploadStatus: false,
 };
 
 export const upload = createSlice({
@@ -43,6 +74,12 @@ export const upload = createSlice({
             (t) => t.encodeId === action.payload
          );
          state.tracks.splice(index, 1);
+      },
+      resetUploadStatus: (state) => {
+         state.uploadStatus = false;
+      },
+      initPlaylist: (state, action) => {
+         state.playlist = action.payload;
       },
    },
    extraReducers: (builder) => {
@@ -64,18 +101,40 @@ export const upload = createSlice({
             state.current.category = "";
             state.current.id = "";
             toast.error("Query failed");
+         })
+         .addCase(uploadPlaylist.pending, (state) => {
+            console.log("[uploadPlaylist]", "loading");
+            toast.info("Uploading playlist");
+         })
+         .addCase(uploadPlaylist.fulfilled, (state, action) => {
+            console.log("[uploadPlaylist] success", action.payload);
+            state.uploadStatus = true;
+            toast.info("Upload playlist sucessful");
+         })
+         .addCase(uploadPlaylist.rejected, (state, action) => {
+            console.log("[uploadPlaylist] fail", action.payload);
+            state.uploadStatus = false;
+            toast.error("Query failed " + action.payload);
+         })
+         .addCase(getPlaylistById.pending, (state) => {
+            console.log("[getPlaylistById]", "loading");
+            // toast.info("Uploading playlist");
+         })
+         .addCase(getPlaylistById.fulfilled, (state, action) => {
+            console.log("[getPlaylistById] success", action.payload);
+            state.playlist = action.payload;
+            // toast.info("Upload playlist sucessful");
+         })
+         .addCase(getPlaylistById.rejected, (state, action) => {
+            console.log("[getPlaylistById] fail", action.payload);
+            state.playlist = action.null;
+            // toast.error("Query failed " + action.payload);
          });
    },
 });
 
 // Action creators are generated for each case reducer function
-export const {
-   updateRank,
-   deleteTrack,
-   // updateQueue,
-   // addASongToPlayed,
-   // removeASongFromPlayed,
-   // updatePlayed,
-} = upload.actions;
+export const { updateRank, deleteTrack, resetUploadStatus, initPlaylist } =
+   upload.actions;
 
 export default upload.reducer;

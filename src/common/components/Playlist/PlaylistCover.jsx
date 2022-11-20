@@ -18,8 +18,14 @@ import {
 } from "../../slices/playlistSlice";
 
 import DefaultThumbnail from "../../../assets/album_default.png";
+import { adminPaths } from "../../../app/routes";
 
-const PlaylistCover = ({ info, size = "md", editable = false }) => {
+const PlaylistCover = ({
+   info,
+   size = "md",
+   editable = false,
+   admin = false,
+}) => {
    const navigate = useNavigate();
    const dispatch = useDispatch();
 
@@ -28,8 +34,12 @@ const PlaylistCover = ({ info, size = "md", editable = false }) => {
    // const playingTrack = useSelector((state) => state.playlist.value);
 
    const onNavigate = () => {
-      dispatch(updateCurrentPlaylist(info));
-      navigate(info.link);
+      if (admin) {
+         navigate(adminPaths.playlistDetail.replace(":id", info.id));
+      } else {
+         dispatch(updateCurrentPlaylist(info));
+         navigate(info.link);
+      }
    };
 
    const onPlay = () => {
