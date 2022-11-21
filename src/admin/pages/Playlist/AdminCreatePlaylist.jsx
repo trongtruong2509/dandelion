@@ -9,7 +9,6 @@ import Tippy from "@tippyjs/react/headless"; // different import path!
 
 import AlbumDefault from "./../../../assets/album_default.png";
 import { IoCloudUploadOutline } from "react-icons/io5";
-import { fetchAllTracks } from "../../slices/adminTrackSlice";
 import AddLinkModal from "./AddLinkModal";
 import {
    initPlaylist,
@@ -18,12 +17,13 @@ import {
 } from "../../slices/uploadSlice";
 import { useNavigate } from "react-router-dom";
 import { adminPaths } from "../../../app/routes";
+import { removeAccents } from "../../../common/utils/common";
 
 const AdminCreatePlaylist = () => {
    const dispatch = useDispatch();
    const navigate = useNavigate();
 
-   const tracks = useSelector((state) => state.adminTrack.allTracks);
+   const tracks = useSelector((state) => state.adminTrack.tracks);
    const uploadStatus = useSelector((state) => state.upload.uploadStatus);
 
    const [thumbnail, setThumbnail] = useState(null);
@@ -31,15 +31,23 @@ const AdminCreatePlaylist = () => {
    const [selected, setSelected] = useState([]);
    const [searchText, setSearchText] = useState("");
    const [availableTracks, setAvailableTracks] = useState([]);
+   const [searchResult, setSearchResult] = useState([]);
    const [show, setShow] = useState(false);
    const [id, setId] = useState(null);
 
    useEffect(() => {
-      dispatch(fetchAllTracks());
-   }, []);
+      if (tracks?.length) {
+         let available = [];
 
-   useEffect(() => {
-      setAvailableTracks(tracks);
+         tracks?.forEach((g) => {
+            if (!selected.find((t) => t.id === g.id)) {
+               available.push(g);
+            }
+         });
+
+         setSearchText("");
+         setAvailableTracks(available);
+      }
    }, [tracks]);
 
    useEffect(() => {
@@ -48,6 +56,30 @@ const AdminCreatePlaylist = () => {
          navigate(adminPaths.playlistDetail.replace(":id", id));
       }
    }, [uploadStatus]);
+
+   useEffect(() => {
+      // if (searchText !== "") {
+      const searhTerm = removeAccents(searchText.toLowerCase());
+
+      console.log("[searhTerm]", searhTerm);
+
+      const filteredTracks = availableTracks?.filter((s) =>
+         removeAccents(s.title).toLowerCase().includes(searhTerm)
+      );
+
+      const filterArtist = availableTracks?.filter((s) =>
+         removeAccents(s.artistsNames).toLowerCase().includes(searhTerm)
+      );
+
+      // remove tracks duplicated in filterArtist
+      filterArtist?.forEach((g) => {
+         if (!filteredTracks.find((t) => t.id === g.id)) {
+            filteredTracks.push(g);
+         }
+      });
+
+      setSearchResult([...filteredTracks]);
+   }, [searchText]);
 
    const onAddTrack = (info) => {
       setSelected([...selected, info]);
@@ -269,7 +301,7 @@ const AdminCreatePlaylist = () => {
                   <Filters allTracks={availableTracks} />
                </div>
                <div className="overflow-y-auto max-h-[650px] scrollbar">
-                  {availableTracks.map((s) => (
+                  {searchResult?.map((s) => (
                      <div className="my-1" key={s.id}>
                         <SongItem
                            info={s}

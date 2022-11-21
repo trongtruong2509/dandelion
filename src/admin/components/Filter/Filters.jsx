@@ -1,51 +1,154 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllDocs } from "../../../common/utils/firebaseApi";
-import { updateTracks } from "../../slices/adminTrackSlice";
+import { updateDeleting, updateTracks } from "../../slices/adminTrackSlice";
+import {
+   getTracksByCountry,
+   getTracksByGenre,
+   getTracksByRank,
+} from "./filterApi";
 
-const Filters = ({ allTracks }) => {
+const Content = {
+   country: {
+      category: "Country",
+      items: [
+         {
+            id: "IWZ9Z08I",
+            title: "Vpop",
+         },
+         {
+            id: "IWZ9Z08O",
+            title: "US-UK",
+         },
+         {
+            id: "IWZ9Z08W",
+            title: "Kpop",
+         },
+      ],
+   },
+   genre: {
+      category: "Genres",
+      items: [],
+   },
+   rank: {
+      category: "Classification",
+      items: [
+         {
+            id: "S+",
+            title: "S+",
+         },
+         {
+            id: "S",
+            title: "S",
+         },
+         {
+            id: "A+",
+            title: "A+",
+         },
+         {
+            id: "A",
+            title: "A",
+         },
+         {
+            id: "B",
+            title: "B",
+         },
+         {
+            id: "Undefined",
+            title: "Undefined",
+         },
+      ],
+   },
+   artist: {
+      category: "Artist",
+      items: [],
+   },
+   featured: {
+      category: "Featured",
+      items: [],
+   },
+};
+
+const Filters = () => {
    const dispatch = useDispatch();
 
-   const tracks = useSelector((state) => state.adminTrack.tracks);
+   const adminTrack = useSelector((state) => state.adminTrack);
 
-   //    const [tracks, setTracks] = useState([]);
-   const [category, setCategory] = useState("All");
-   const [categoryItem, setCategoryItem] = useState("");
-   const [items, setItems] = useState([]);
+   const [category, setCategory] = useState(Content.country.category);
+   const [categoryItems, setCategoryItems] = useState(Content.country.items);
+   const [selectedItem, setSelectedItem] = useState("");
 
    useEffect(() => {
       switch (category) {
-         case "Genre":
+         case Content.genre.category:
             getGenreItems();
             break;
-         case "All":
-            setItems([]);
-            dispatch(updateTracks(allTracks));
+         case Content.artist.category:
+            setCategoryItems(Content.artist.items);
             break;
-
+         case Content.rank.category:
+            setCategoryItems(Content.rank.items);
+            break;
+         case Content.country.category:
          default:
-            setItems([]);
-            dispatch(updateTracks(allTracks));
+            setCategoryItems(Content.country.items);
             break;
       }
    }, [category]);
 
    useEffect(() => {
-      switch (category) {
-         case "Genre":
-            getTracksByGenre(categoryItem);
-            break;
+      if (categoryItems?.length) {
+         setSelectedItem(categoryItems[0].id);
+      }
+   }, [categoryItems]);
 
+   useEffect(() => {
+      updateDisplayTrack();
+   }, [selectedItem]);
+
+   useEffect(() => {
+      if (adminTrack?.deleting) {
+         updateDisplayTrack();
+         dispatch(updateDeleting(false));
+      }
+   }, [adminTrack?.deleting]);
+
+   const updateDisplayTrack = async () => {
+      switch (category) {
+         case Content.country.category:
          default:
-            // getTracksByGenre(categoryItem);
-            dispatch(updateTracks(allTracks));
+            await fetchTracksByCountry(selectedItem);
+            break;
+         case Content.genre.category:
+            fetchTracksByGenre(selectedItem);
+            break;
+         case Content.rank.category:
+            await fetchTracksByRank(selectedItem);
             break;
       }
-   }, [categoryItem]);
+   };
+
+   const fetchTracksByCountry = async (id) => {
+      const tracks = await getTracksByCountry(id);
+      dispatch(updateTracks(tracks));
+   };
+
+   const fetchTracksByRank = async (id) => {
+      const tracks = await getTracksByRank(id);
+      dispatch(updateTracks(tracks));
+   };
+
+   const fetchTracksByGenre = async (id) => {
+      const tracks = await getTracksByCountry(id);
+      dispatch(updateTracks(tracks));
+   };
 
    const getGenreItems = async () => {
+      console.log("[getGenreItems]", " Entering");
       getAllDocs("genres")
          .then((result) => {
+            console.log("[getGenreItems]", result);
+
             const newItems = result.map((r) => ({
                id: r.id,
                title: r.title,
@@ -60,17 +163,11 @@ const Filters = ({ allTracks }) => {
                }
             });
 
-            setItems(newItems);
+            setCategoryItems(newItems);
          })
-         .catch((err) => console.log(err));
-   };
-
-   const getTracksByGenre = (genreId) => {
-      dispatch(
-         updateTracks(
-            allTracks.filter((track) => track.genreIds.includes(genreId))
-         )
-      );
+         .catch((err) => {
+            console.log("[getGenreItems]", err);
+         });
    };
 
    return (
@@ -80,20 +177,28 @@ const Filters = ({ allTracks }) => {
                className="w-40 px-4 py-[6px] border rounded-lg outline-none bg-dark-4 text-primary"
                onChange={(e) => setCategory(e.target.value)}
             >
-               <option defaultValue value="All">
-                  All
+               <option defaultValue value={Content.country.category}>
+                  {Content.country.category}
                </option>
-               <option value="Genre">Genre</option>
-               <option value="Artist">Artist</option>
-               <option value="Tier">Tier</option>
-               <option value="Featured">Featured</option>
+               <option value={Content.genre.category}>
+                  {Content.genre.category}
+               </option>
+               <option value={Content.artist.category}>
+                  {Content.artist.category}
+               </option>
+               <option value={Content.rank.category}>
+                  {Content.rank.category}
+               </option>
+               <option value={Content.featured.category}>
+                  {Content.featured.category}
+               </option>
             </select>
             <select
                className="w-40 px-4 py-[6px] border rounded-lg outline-none bg-dark-4 text-primary"
-               value={categoryItem}
-               onChange={(e) => setCategoryItem(e.target.value)}
+               value={selectedItem}
+               onChange={(e) => setSelectedItem(e.target.value)}
             >
-               {items?.map((item) => (
+               {categoryItems?.map((item) => (
                   <option value={item.id} key={item.id}>
                      {item.title}
                   </option>

@@ -41,7 +41,7 @@ const SinglePlaylist = () => {
    const [id, setId] = useState("");
 
    useEffect(() => {
-      dispatch(fetchAllTracks());
+      // dispatch(fetchAllTracks());
    }, []);
 
    useEffect(() => {

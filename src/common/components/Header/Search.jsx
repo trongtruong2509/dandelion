@@ -12,14 +12,7 @@ import { useRef } from "react";
 import { IoCloseOutline, IoSearchOutline } from "react-icons/io5";
 import { clearSearchHistory } from "../../slices/dandelionSlice";
 import { firebaseCollections } from "../../../dataTemplate";
-
-function removeAccents(str) {
-   return str
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .replace(/đ/g, "d")
-      .replace(/Đ/g, "D");
-}
+import { removeAccents } from "../../utils/common";
 
 const Search = () => {
    const user = useSelector((state) => state.user.user);

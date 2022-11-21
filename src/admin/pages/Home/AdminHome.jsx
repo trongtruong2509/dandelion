@@ -12,12 +12,9 @@ import { group } from "../../../common/utils/common";
 import SongItem from "../../../common/components/Song/SongItem";
 import Filters from "../../components/Filter/Filters";
 import { useDispatch, useSelector } from "react-redux";
-import {
-   fetchAllTracks,
-   initTracks,
-   updateTracks,
-} from "../../slices/adminTrackSlice";
+import { updateDeleting, updateTracks } from "../../slices/adminTrackSlice";
 import { firebaseCollections } from "../../../dataTemplate";
+import { uploadAllExistGenres } from "../../components/Filter/filterApi";
 
 const AdminHome = () => {
    const dispatch = useDispatch();
@@ -25,10 +22,9 @@ const AdminHome = () => {
    const adminTrack = useSelector((state) => state.adminTrack);
    // const allTracks = useSelector((state) => state.adminTrack.allTracks);
 
-   useEffect(() => {
-      // fetchAllSongs();
-      dispatch(fetchAllTracks());
-   }, []);
+   // useEffect(() => {
+   //    uploadAllExistGenres();
+   // }, []);
 
    const deleteSongById = async (songInfo) => {
       const result = await toast.promise(
@@ -51,13 +47,13 @@ const AdminHome = () => {
       );
 
       // fetch data after deleting a song
-      fetchAllSongs();
+      dispatch(updateDeleting(true));
    };
 
    const fetchAllSongs = async () => {
       getAllDocs("songs")
          .then((result) => {
-            dispatch(initTracks(result));
+            // dispatch(initTracks(result));
             dispatch(updateTracks(result));
          })
          .catch((err) => {
@@ -67,7 +63,7 @@ const AdminHome = () => {
 
    return (
       <div className="w-full mt-10">
-         <Filters allTracks={adminTrack?.allTracks} />
+         <Filters />
          <div className="w-full my-4">
             {adminTrack?.fetching ? (
                <div className="h-[600px] flex-center">
@@ -88,25 +84,24 @@ const AdminHome = () => {
                   spaceBetween={20}
                   className="flex w-full gap-3"
                >
-                  {group(
-                     adminTrack?.allTracks,
-                     adminTrack?.allTracks.length / 4
-                  ).map((songs, index) => (
-                     <SwiperSlide key={index}>
-                        {songs.map((s) => (
-                           <div className="my-1" key={s.id}>
-                              <SongItem
-                                 info={s}
-                                 size="13"
-                                 like={false}
-                                 canDetele
-                                 badges
-                                 onDelete={deleteSongById}
-                              />
-                           </div>
-                        ))}
-                     </SwiperSlide>
-                  ))}
+                  {group(adminTrack?.tracks, adminTrack?.tracks.length / 4).map(
+                     (songs, index) => (
+                        <SwiperSlide key={index}>
+                           {songs.map((s) => (
+                              <div className="my-1" key={s.id}>
+                                 <SongItem
+                                    info={s}
+                                    size="13"
+                                    like={false}
+                                    canDetele
+                                    badges
+                                    onDelete={deleteSongById}
+                                 />
+                              </div>
+                           ))}
+                        </SwiperSlide>
+                     )
+                  )}
                </Swiper>
             )}
          </div>
