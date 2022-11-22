@@ -147,7 +147,7 @@ const PlaylistCover = ({
                </h1>
                {size == "md" && (
                   <p className="text-sm text-secondary">
-                     {info?.songs.length} tracks
+                     {info?.songs?.length} tracks
                   </p>
                )}
             </div>

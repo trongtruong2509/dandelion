@@ -59,7 +59,7 @@ const SinglePlaylist = () => {
 
          if (currentPlaylist.songs?.length) {
             currentPlaylist.songs.forEach((s) => {
-               initTracks = initTracks.filter((t) => t.id !== s.id);
+               initTracks = initTracks?.filter((t) => t.id !== s.id);
             });
          }
 
@@ -116,6 +116,7 @@ const SinglePlaylist = () => {
          description: "",
          link: `/playlist/${id}`,
          thumbnail,
+         updateDate: Date.now(),
          songs: selected,
          public: true,
          shuffle: true,
@@ -242,23 +243,24 @@ const SinglePlaylist = () => {
                      </button>
                   </div>
                </div>
-               <div className="w-full">
+               <div className="w-full ">
                   <div>
                      {selected?.length > 0 ? (
                         <>
                            <PlaylistRowHeader />
-
-                           {selected?.map((song, index) => (
-                              <SongItem
-                                 key={index}
-                                 info={song}
-                                 // playlistMode
-                                 like={false}
-                                 canDetele
-                                 onDelete={onRemove}
-                                 onClick={() => dispatch(update(song))}
-                              />
-                           ))}
+                           <div className="overflow-y-auto max-h-[700px] scrollbar">
+                              {selected?.map((song, index) => (
+                                 <SongItem
+                                    key={index}
+                                    info={song}
+                                    // playlistMode
+                                    like={false}
+                                    canDetele
+                                    onDelete={onRemove}
+                                    onClick={() => dispatch(update(song))}
+                                 />
+                              ))}
+                           </div>
                         </>
                      ) : (
                         <div className="flex flex-col items-center justify-center gap-2 py-4 rounded-lg bg-alpha text-secondary h-72">
@@ -286,7 +288,7 @@ const SinglePlaylist = () => {
                   <Filters allTracks={availableTracks} />
                </div>
                <div className="overflow-y-auto max-h-[650px] scrollbar">
-                  {availableTracks.map((s) => (
+                  {availableTracks?.map((s) => (
                      <div className="my-1" key={s.id}>
                         <SongItem
                            info={s}

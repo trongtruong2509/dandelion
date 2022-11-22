@@ -18,6 +18,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { adminPaths } from "../../../app/routes";
 import { removeAccents } from "../../../common/utils/common";
+import PlaylistRowHeader from "../../../common/components/Playlist/PlaylistRowHeader";
 
 const AdminCreatePlaylist = () => {
    const dispatch = useDispatch();
@@ -31,24 +32,8 @@ const AdminCreatePlaylist = () => {
    const [selected, setSelected] = useState([]);
    const [searchText, setSearchText] = useState("");
    const [availableTracks, setAvailableTracks] = useState([]);
-   const [searchResult, setSearchResult] = useState([]);
    const [show, setShow] = useState(false);
    const [id, setId] = useState(null);
-
-   useEffect(() => {
-      if (tracks?.length) {
-         let available = [];
-
-         tracks?.forEach((g) => {
-            if (!selected.find((t) => t.id === g.id)) {
-               available.push(g);
-            }
-         });
-
-         setSearchText("");
-         setAvailableTracks(available);
-      }
-   }, [tracks]);
 
    useEffect(() => {
       if (uploadStatus) {
@@ -58,41 +43,38 @@ const AdminCreatePlaylist = () => {
    }, [uploadStatus]);
 
    useEffect(() => {
-      // if (searchText !== "") {
-      const searhTerm = removeAccents(searchText.toLowerCase());
+      if (searchText !== "") {
+         const searhTerm = removeAccents(searchText.toLowerCase());
 
-      console.log("[searhTerm]", searhTerm);
+         console.log("[searhTerm]", searhTerm);
 
-      const filteredTracks = availableTracks?.filter((s) =>
-         removeAccents(s.title).toLowerCase().includes(searhTerm)
-      );
+         const filteredTracks = tracks?.filter((s) =>
+            removeAccents(s.title).toLowerCase().includes(searhTerm)
+         );
 
-      const filterArtist = availableTracks?.filter((s) =>
-         removeAccents(s.artistsNames).toLowerCase().includes(searhTerm)
-      );
+         const filterArtist = tracks?.filter((s) =>
+            removeAccents(s.artistsNames).toLowerCase().includes(searhTerm)
+         );
 
-      // remove tracks duplicated in filterArtist
-      filterArtist?.forEach((g) => {
-         if (!filteredTracks.find((t) => t.id === g.id)) {
-            filteredTracks.push(g);
-         }
-      });
-
-      setSearchResult([...filteredTracks]);
-   }, [searchText]);
+         // remove tracks duplicated in filterArtist
+         filterArtist?.forEach((g) => {
+            if (!filteredTracks.find((t) => t.id === g.id)) {
+               filteredTracks.push(g);
+            }
+         });
+         setAvailableTracks([...filteredTracks]);
+      } else {
+         setAvailableTracks(tracks);
+      }
+   }, [searchText, tracks]);
 
    const onAddTrack = (info) => {
       setSelected([...selected, info]);
-
-      // remove selected in available tracks
-      setAvailableTracks(availableTracks.filter((t) => t.id !== info.id));
    };
 
    const onRemove = (info) => {
       // remove selected in available tracks
       setSelected(selected.filter((t) => t.id !== info.id));
-
-      setAvailableTracks([info, ...availableTracks]);
    };
 
    const handleLoadFile = async (src) => {
@@ -122,6 +104,7 @@ const AdminCreatePlaylist = () => {
          link: `/playlist/${playlistId}`,
          thumbnail,
          songs: selected,
+         updateDate: Date.now(),
          public: true,
          shuffle: true,
       };
@@ -130,6 +113,12 @@ const AdminCreatePlaylist = () => {
 
       dispatch(uploadPlaylist(playlist));
       dispatch(initPlaylist(playlist));
+   };
+
+   const filterSelected = () => {
+      return availableTracks.filter(
+         (s) => !selected.find((t) => t.id === s.id)
+      );
    };
 
    const hideOnInnerButtonPress = {
@@ -251,18 +240,7 @@ const AdminCreatePlaylist = () => {
                   <div>
                      {selected.length > 0 ? (
                         <>
-                           <div className="grid w-full grid-cols-12 px-3 py-3 border-b border-primary">
-                              <p className="col-span-6 text-sm text-secondary">
-                                 SONG
-                              </p>
-                              <p className="flex items-center col-span-5 text-sm text-secondary">
-                                 ALBUM
-                              </p>
-                              <p className="flex items-center justify-end col-span-1 text-sm text-secondary">
-                                 TIME
-                              </p>
-                           </div>
-
+                           <PlaylistRowHeader />
                            {selected?.map((song, index) => (
                               <SongItem
                                  key={index}
@@ -301,7 +279,7 @@ const AdminCreatePlaylist = () => {
                   <Filters allTracks={availableTracks} />
                </div>
                <div className="overflow-y-auto max-h-[650px] scrollbar">
-                  {searchResult?.map((s) => (
+                  {filterSelected()?.map((s) => (
                      <div className="my-1" key={s.id}>
                         <SongItem
                            info={s}

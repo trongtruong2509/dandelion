@@ -98,7 +98,7 @@ const Filters = () => {
 
    useEffect(() => {
       if (categoryItems?.length) {
-         setSelectedItem(categoryItems[0].id);
+         setSelectedItem(categoryItems[1].id);
       }
    }, [categoryItems]);
 

@@ -159,7 +159,7 @@ const Home = () => {
                   spaceBetween={20}
                   className="flex w-full gap-3"
                >
-                  {group(newReleases, 5).map((songs, index) => (
+                  {group(newReleases, 5)?.map((songs, index) => (
                      <SwiperSlide key={index}>
                         {songs.map((s) => (
                            <div className="my-1" key={s.id}>

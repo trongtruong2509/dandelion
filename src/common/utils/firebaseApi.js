@@ -92,6 +92,8 @@ export const getLatestSongs = async () => {
          reuturnDoc.push(doc.data());
       });
 
+      console.log("[getLatestSongs]", reuturnDoc);
+
       return reuturnDoc
          .sort((a, b) => a.uploadDate - b.uploadDate)
          .reverse()
