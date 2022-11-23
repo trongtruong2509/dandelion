@@ -31,6 +31,7 @@ const Home = () => {
 
       getLatestPlaylists()
          .then((s) => {
+            console.log("[getLatestPlaylists]", s);
             setNewPlaylists(s);
          })
          .catch((err) => console.log(err));
@@ -55,26 +56,19 @@ const Home = () => {
 
    return (
       <div className="w-full text-primary">
-         <div className="w-full h-60">Advertise</div>
-         {currentUser && (
-            <div className="w-full">
-               <div className="flex-btw">
+         {currentUser?.recentPlaylist.length > 0 && (
+            <div className="w-full mt-7">
+               <div className="mb-3 flex-btw">
                   <div className="flex items-center justify-start gap-4">
-                     <h1 className="text-2xl font-bold text-primary">
-                        Recently Played
-                     </h1>
+                     <h1 className="text-xl font-bold text-primary">Recently Played</h1>
                   </div>
                   <button className="gap-2 flex-center text-secondary hover:text-primary">
                      View All
                      <MdArrowForwardIos />
                   </button>
                </div>
-               <div className="w-full my-4">
-                  <Swiper
-                     slidesPerView={6}
-                     spaceBetween={30}
-                     className="w-full"
-                  >
+               <div className="w-full">
+                  <Swiper slidesPerView={6} spaceBetween={30} className="w-full">
                      {recentPlaylist?.map((p) => (
                         <SwiperSlide key={p.id}>
                            <PlaylistCover info={p} size="sm" />
@@ -84,20 +78,17 @@ const Home = () => {
                </div>
             </div>
          )}
-
-         <div className="pt-3">
-            <div className="flex-btw">
+         <div className="pt-5">
+            <div className="mb-3 flex-btw">
                <div className="flex items-center justify-start gap-4">
-                  <h1 className="text-2xl font-bold text-primary">
-                     Your Top Mixes
-                  </h1>
+                  <h1 className="text-xl font-bold text-primary">Your Top Mixes</h1>
                </div>
                <button className="gap-2 flex-center text-secondary hover:text-primary">
                   View All
                   <MdArrowForwardIos />
                </button>
             </div>
-            <div className="w-full my-4">
+            <div className="w-full">
                <Swiper slidesPerView={5} spaceBetween={120} className="w-full">
                   {newPlaylists?.map((p) => (
                      <SwiperSlide key={p.id}>
@@ -107,24 +98,18 @@ const Home = () => {
                </Swiper>
             </div>
          </div>
-         <div className="pt-3">
-            <div className="flex-btw">
+         <div className="pt-5">
+            <div className="mb-3 flex-btw">
                <div className="flex items-center justify-start gap-4">
-                  <button className="text-2xl font-bold text-primary">
-                     New Uploaded
-                  </button>
+                  <button className="text-xl font-bold text-primary">New Uploaded</button>
                </div>
                <button className="gap-2 flex-center text-secondary hover:text-primary">
                   View All
                   <MdArrowForwardIos />
                </button>
             </div>
-            <div className="w-full my-4">
-               <Swiper
-                  slidesPerView={3}
-                  spaceBetween={20}
-                  className="flex w-full gap-3"
-               >
+            <div className="w-full">
+               <Swiper slidesPerView={3} spaceBetween={20} className="flex w-full gap-3">
                   {group(newReleases, 5)?.map((songs, index) => (
                      <SwiperSlide key={index}>
                         {songs.map((s) => (
@@ -137,7 +122,7 @@ const Home = () => {
                </Swiper>
             </div>
          </div>
-         <p>Popular artist</p>
+         <p className="mt-5 mb-32 text-xl font-bold text-primary">Popular artist</p>
       </div>
    );
 };

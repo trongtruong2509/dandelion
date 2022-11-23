@@ -28,6 +28,7 @@ export const playlistTemplate = {
 };
 
 export const firebaseCollections = {
+   users: "Users",
    genres: "genres",
    playlists: "playlists",
    songs: "songs",

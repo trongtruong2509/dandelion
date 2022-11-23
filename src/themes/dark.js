@@ -7,7 +7,7 @@ const darkTheme = createTheme({
    hoverTooltip: "hsla(0,0%,100%,0.3)",
    //    dandelionPrimary: "#14b8a6",
 
-   bgPrimary: "#fff",
+   bgPrimary: "#333",
    bgLayout: "#1e1e1e",
    bgSidebar: "hsla(0,0%,100%,0.05)",
    bgAlpha: "hsla(0,0%,100%,0.1)",

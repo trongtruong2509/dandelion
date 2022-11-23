@@ -7,7 +7,7 @@ import { firestore } from "../../firebase.config";
 export const getLatestPlaylists = async () => {
    const q = query(
       collection(firestore, firebaseCollections.playlists),
-      where("uploadDate", ">=", Date.now() - 15592000000)
+      where("updateDate", ">=", Date.now() - 15592000000)
    );
 
    try {

@@ -13,8 +13,8 @@ const firebaseConfig = {
    projectId: "dandelion-6b7ff",
    storageBucket: "dandelion-6b7ff.appspot.com",
    messagingSenderId: "205939508866",
-   appId: "1:205939508866:web:2ddd63ca92ac49f949569b",
-   measurementId: "G-N38JNWYGDC",
+   appId: "1:205939508866:web:42687f0414768efa49569b",
+   measurementId: "G-PD64GYFMD1",
 };
 
 // Initialize Firebase

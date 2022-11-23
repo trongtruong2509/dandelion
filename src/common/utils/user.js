@@ -1,34 +1,6 @@
-import { addNewDoc, getDocById, getDocInList } from "./firebaseApi";
+import { addNewDoc, getDocById, getDocInList, updateDocField } from "./firebaseApi";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { firebaseCollections } from "../../dataTemplate";
-
-// const updateUserToDb = async (user) => {
-//    // use user.email as id because at the moment we use email for document id!
-//    const existingUser = await getDocById("Users", user.email);
-
-//    let userInfo = {
-//       id: user.email,
-//       name: user.displayName,
-//       avatar: user.photoURL,
-//       phone: user.phoneNumber,
-//       uploaded: [],
-//       likedSongs: [],
-//       createdPlaylist: [],
-//       recentPlayed: [], //ids of playlist
-//       likedPlaylists: [],
-//       likedAlbums: [],
-//    };
-
-//    if (!existingUser) {
-//       addNewDoc("Users", user.email, userInfo);
-//       console.log("added new user");
-//    } else {
-//       console.log("user already exist");
-//       userInfo = { ...existingUser };
-//    }
-
-//    return userInfo;
-// };
 
 export const updateUserDb = (user) => {
    addNewDoc("Users", user, user.id);
@@ -36,6 +8,11 @@ export const updateUserDb = (user) => {
 
 export const getUserDb = async (userId) => {
    return await getDocById("Users", userId);
+};
+
+export const updateUserRecentPlayed = async (user) => {
+   console.log("[updateUserRecentPlayed] user", user);
+   await updateDocField(firebaseCollections.users, user.id, { recentPlayed: user.recentPlayed });
 };
 
 export const getArtistDb = async (id) => {

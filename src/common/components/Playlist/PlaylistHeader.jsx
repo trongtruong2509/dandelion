@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { IoIosShuffle, IoMdPause, IoMdPlay } from "react-icons/io";
 import { FiEdit3 } from "react-icons/fi";
@@ -15,20 +15,18 @@ const PlaylistHeader = () => {
 
    const currentPlaylist = useSelector((state) => state.playlist.current.value);
    const playingPlaylist = useSelector((state) => state.playlist.playing);
-   const currentTracks = useSelector((state) => state.playlist.current.tracks);
    const playingTrack = useSelector((state) => state.playing.value);
    const user = useSelector((state) => state.user.user);
 
    const [show, setShow] = useState(false);
+   // const [isCurrentPlaying, setIsCurrentPlaying] = useState(false);
    const [thumbnailRotateOff, setThumbnailRotateOff] = useState(
       "rounded-md transition-[border-radius] duration-500 delay-500 ease-out"
    );
 
    const onPlay = () => {
       if (!thumbnailRotateOff.includes("animate-[spinoff_0.5s_ease_1]")) {
-         setThumbnailRotateOff(
-            `${thumbnailRotateOff} animate-[spinoff_0.5s_ease_1]`
-         );
+         setThumbnailRotateOff(`${thumbnailRotateOff} animate-[spinoff_0.5s_ease_1]`);
       }
 
       console.log("[onPlay] clicked");
@@ -43,6 +41,16 @@ const PlaylistHeader = () => {
       dispatch(pause());
    };
 
+   // useEffect(() => {
+   //    setIsCurrentPlaying(
+   //       currentPlaylist?.id === playingPlaylist?.value?.id && playingTrack?.playing
+   //    );
+   // }, [currentPlaylist, playingPlaylist, playingTrack]);
+
+   const isCurrentPlaying = () => {
+      return currentPlaylist?.id === playingPlaylist?.value?.id && playingTrack?.playing;
+   };
+
    const thumbnailRotate =
       "animate-[spin_12s_linear_infinite] rounded-full transition-[border-radius] duration-[2000ms] ease-out";
 
@@ -50,22 +58,18 @@ const PlaylistHeader = () => {
       <div className="sticky flex-shrink-0 text-white w-72 top-10 h-fit">
          <div
             className={`overflow-hidden shadow-lg w-72 group h-72 hover:cursor-pointer ${
-               playingTrack?.playing ? thumbnailRotate : thumbnailRotateOff
+               isCurrentPlaying() ? thumbnailRotate : thumbnailRotateOff
             }`}
             onClick={playingTrack?.playing ? onPause : onPlay}
          >
             <img
                className="object-cover w-full h-full transition-all duration-500 ease-out group-hover:scale-105"
-               src={
-                  currentPlaylist?.thumbnail
-                     ? currentPlaylist?.thumbnail
-                     : AlbumDefault
-               }
+               src={currentPlaylist?.thumbnail ? currentPlaylist?.thumbnail : AlbumDefault}
                alt="Playlist Cover"
             />
-            {currentTracks?.length && (
+            {currentPlaylist?.songs?.length && (
                <div className="absolute top-0 left-0 items-center justify-center hidden gap-6 text-white rounded-md w-72 h-72 group-hover:flex">
-                  {playingTrack?.playing ? (
+                  {isCurrentPlaying() ? (
                      <button className="hover:text-dandelion-primary">
                         <FaPause className="text-3xl cursor-pointer" />
                      </button>
@@ -99,7 +103,7 @@ const PlaylistHeader = () => {
                </span>
             </p>
 
-            {currentTracks?.length > 0 && (
+            {currentPlaylist?.songs?.length > 0 && (
                <div className="flex items-center justify-center w-full">
                   {currentPlaylist?.id !== playingPlaylist?.value?.id ? (
                      <button

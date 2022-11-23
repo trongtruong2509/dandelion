@@ -5,27 +5,25 @@ import {
    updateUserLocal,
    updateUserDb,
    getNoLoggedUser,
+   updateUserRecentPlayed,
 } from "../utils/user";
 
-export const fetchUserPlaylist = createAsyncThunk(
-   "/user/fetchUserPlaylistStatus",
-   async (user) => {
-      try {
-         const playlist = await getDocInList("playlists", user.playlists);
-         const ordered = [];
+export const fetchUserPlaylist = createAsyncThunk("/user/fetchUserPlaylistStatus", async (user) => {
+   try {
+      const playlist = await getDocInList("playlists", user.playlists);
+      const ordered = [];
 
-         // correct order for playlist
-         user.playlists?.forEach((id) => {
-            ordered.push(playlist.find((s) => s.id === id));
-         });
+      // correct order for playlist
+      user.playlists?.forEach((id) => {
+         ordered.push(playlist.find((s) => s.id === id));
+      });
 
-         return ordered;
-      } catch (error) {
-         console.log(error);
-         return [];
-      }
+      return ordered;
+   } catch (error) {
+      console.log(error);
+      return [];
    }
-);
+});
 
 const initialState = {
    user: getUserLocal(),
@@ -48,24 +46,21 @@ export const userSlice = createSlice({
          updateUserLocal(null);
       },
       updateRecentPlay: (state, action) => {
-         const idx = current(state.user.recentPlayed).findIndex(
-            (s) => s.id === action.payload.id
-         );
+         const idx = current(state.user.recentPlayed).findIndex((s) => s.id === action.payload.id);
 
          if (idx > -1) {
             state.user.recentPlayed.splice(idx, 1); // delete in recentplay
          }
 
          state.user.recentPlayed.unshift(action.payload); // add to the beginning of array
+         state.user.recentPlayed = state.user.recentPlayed.slice(0, 30);
 
          updateUserLocal(current(state.user));
-         updateUserDb(current(state.user));
+         updateUserRecentPlayed(current(state.user)); //TODO: only update RecentPlay field
       },
       updateLikeSong: (state, action) => {
          console.log(action.payload);
-         const idx = current(state.user.likedSongs).findIndex(
-            (t) => t.id === action.payload.id
-         );
+         const idx = current(state.user.likedSongs).findIndex((t) => t.id === action.payload.id);
          if (idx === -1) {
             state.user.likedSongs.push(action.payload);
          } else {

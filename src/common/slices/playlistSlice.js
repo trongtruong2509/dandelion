@@ -4,18 +4,6 @@ import { getDocById, getDocInList } from "../utils/firebaseApi";
 
 import * as local from "../utils/localStorage";
 
-export const fetchPlayingPlaylist = createAsyncThunk(
-   "/playlist/fetchPlayingPlaylistStatus",
-   async (playlist) => {
-      const songDetails = await getDocInList(
-         firebaseCollections.songs,
-         playlist.songs
-      );
-
-      return { ...playlist, songs: songDetails };
-   }
-);
-
 export const fetchCurrentPlaylistInfo = createAsyncThunk(
    "/playlist/fetchCurrentPlaylistInfo",
    async (id) => {
@@ -24,15 +12,9 @@ export const fetchCurrentPlaylistInfo = createAsyncThunk(
    }
 );
 
-// export const fetchCurrentTracks = createAsyncThunk("/playlist/fetchCurrentTracks", async (playlist) => {
-//    const tracks = await getDocInList("Songs", playlist?.songs);
-//    return tracks;
-// })
-
 const initialState = {
    current: {
       value: null,
-      tracks: null,
       pending: false,
       success: false,
    },
@@ -58,15 +40,8 @@ export const playlistSlice = createSlice({
          state.playing.value = action.payload;
          local.updatePlaylist(current(state.playing)?.value);
       },
-      updatePlayingTracks: (state, action) => {
-         state.playing.value.songs = action.payload;
-         local.updatePlaylist(current(state.playing)?.value);
-      },
       updateCurrentToPlaying: (state, action) => {
-         state.playing.value = {
-            ...current(state.current.value),
-            songs: current(state.current.tracks),
-         };
+         state.playing.value = state.current.value;
          state.playing.chosenTrack = action.payload;
          local.updatePlaylist(current(state.playing)?.value);
       },
@@ -90,20 +65,6 @@ export const playlistSlice = createSlice({
    },
    extraReducers: (builder) => {
       builder
-         .addCase(fetchPlayingPlaylist.pending, (state, action) => {
-            console.log("[fetchPlayingPlaylist]", "loading");
-            state.playing.pending = true;
-         })
-         .addCase(fetchPlayingPlaylist.fulfilled, (state, action) => {
-            console.log("[fetchPlayingPlaylist]", action.payload);
-            state.playing.value = action.payload;
-            local.updatePlaylist(current(state.playing)?.value);
-         })
-         .addCase(fetchPlayingPlaylist.rejected, (state, action) => {
-            console.log("[fetchPlayingPlaylist]", "rejected");
-            state.playing.value = null;
-            local.updatePlaylist(current(state.playing)?.value);
-         })
          .addCase(fetchCurrentPlaylistInfo.pending, (state, action) => {
             console.log("[fetchCurrentPlaylistInfo]", "loading");
             state.current.pending = true;
@@ -128,7 +89,7 @@ export const {
    setCurrentTracks,
    updateCurrentToPlaying,
    updatePlayingPlaylist,
-   updatePlayingTracks,
+   // updatePlayingTracks,
    emtpyPlayingPlaylist,
    remove,
    removeASong,
