@@ -1,14 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Rank from "../Rank/Rank";
+import { RankItem, RankMenu } from "../../../admin/components/Rank/Rank";
+import { updateRank } from "../../../common/utils/songs";
 
 const SongInfo = ({ info, size = "10", onClick, badges = false }) => {
-   const generateArtists = (artists) => {
-      // let display = (
-      // )
-      //  display;
-   };
-
    const thumbnailSizes = {
       10: "w-10 h-10",
       11: "w-11 h-11",
@@ -17,6 +12,10 @@ const SongInfo = ({ info, size = "10", onClick, badges = false }) => {
       14: "w-14 h-14",
       15: "w-15 h-15",
       16: "w-16 h-16",
+   };
+
+   const onRankUpdate = (rank) => {
+      updateRank(info, rank);
    };
 
    return (
@@ -43,7 +42,10 @@ const SongInfo = ({ info, size = "10", onClick, badges = false }) => {
                <div className="flex items-center gap-2 mt-1 text-xs truncate text-secondary">
                   {badges && (
                      <div>
-                        <Rank rankName={info?.rank} />
+                        <RankMenu
+                           rankInput={info?.rank}
+                           onRankChange={onRankUpdate}
+                        />
                      </div>
                   )}
                   {info?.artists.length > 0 ? (

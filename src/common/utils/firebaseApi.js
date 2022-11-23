@@ -9,6 +9,7 @@ import {
    setDoc,
    collection,
    deleteDoc,
+   updateDoc,
 } from "firebase/firestore";
 import { group } from "./common";
 import { firebaseCollections } from "../../dataTemplate";
@@ -76,34 +77,6 @@ export const getDocInList = async (document, filter) => {
    }
 };
 
-export const getLatestSongs = async () => {
-   const q = query(
-      collection(firestore, firebaseCollections.songs),
-      where("uploadDate", ">=", Date.now() - 15592000000)
-   );
-
-   try {
-      const querySnapshot = await getDocs(q);
-
-      let reuturnDoc = [];
-      querySnapshot.forEach((doc) => {
-         // doc.data() is never undefined for query doc snapshots
-         // console.log(doc.id, " => ", doc.data());
-         reuturnDoc.push(doc.data());
-      });
-
-      console.log("[getLatestSongs]", reuturnDoc);
-
-      return reuturnDoc
-         .sort((a, b) => a.uploadDate - b.uploadDate)
-         .reverse()
-         .slice(0, 20);
-   } catch (error) {
-      console.log(error);
-      return null;
-   }
-};
-
 export const getDocumentContains = async (document, property, subtext) => {
    console.log(document + " " + property + " " + subtext);
    const q = query(
@@ -149,13 +122,9 @@ export const getAllDocs = async (document) => {
 export const deleteDocById = async (collection, docId) => {
    const ref = doc(firestore, collection, docId);
    return deleteDoc(ref);
+};
 
-   try {
-      console.log("[deleteDocById] res ", doc);
-
-      return doc;
-   } catch (error) {
-      console.log(error);
-      return null;
-   }
+export const updateDocById = async (collection, id, data) => {
+   const docRef = doc(firestore, collection, id);
+   return updateDoc(docRef, data);
 };

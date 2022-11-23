@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 
 import Modal from "../../../common/components/Modal/Modal";
-import Rank from "../../../common/components/Rank/Rank";
+import { RankItem } from "../Rank/Rank";
 import { uploadZingById } from "../Upload/uploadZing";
 
 const UploadSingleModal = ({ ...props }) => {

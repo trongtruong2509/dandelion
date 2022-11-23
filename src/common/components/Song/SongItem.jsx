@@ -104,7 +104,7 @@ const SongItem = ({
 
    return (
       <div
-         className={`w-full px-3 py-2  border-secondary grid grid-cols-12 relative rounded-md group
+         className={`w-full px-3 py-2 border-secondary grid grid-cols-12 relative rounded-md group
                          ${current ? "bg-alpha" : "hover:bg-alpha"} 
                          ${playlistMode ? "border-b" : ""}
                          ${

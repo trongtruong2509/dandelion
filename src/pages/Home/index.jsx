@@ -8,33 +8,32 @@ import "swiper/css";
 import "swiper/css/pagination";
 
 import PlaylistCover from "../../common/components/Playlist/PlaylistCover";
-import { playlists as tempPlaylists } from "../../tempData/playlists";
-import {
-   getDocumentContains,
-   getLatestSongs,
-} from "../../common/utils/firebaseApi";
+import { getLatestSongs } from "../../common/utils/songs";
+import { getLatestPlaylists } from "../../common/utils/playlist";
 
 import SongItem from "../../common/components/Song/SongItem";
 import { getDocInList } from "../../common/utils/firebaseApi";
 import { group } from "../../common/utils/common";
-import { firebaseCollections } from "../../dataTemplate";
 
 const Home = () => {
    const currentUser = useSelector((state) => state.user.user);
 
    const [newReleases, setNewReleases] = useState([]);
+   const [newPlaylists, setNewPlaylists] = useState([]);
    const [recentPlaylist, setRecentPlaylist] = useState([]);
 
    useEffect(() => {
       getLatestSongs()
          .then((s) => {
             setNewReleases(s);
-            console.log(s);
-            console.log(group(s, 4));
          })
          .catch((err) => console.log(err));
 
-      // pushArtist();
+      getLatestPlaylists()
+         .then((s) => {
+            setNewPlaylists(s);
+         })
+         .catch((err) => console.log(err));
    }, []);
 
    useEffect(() => {
@@ -42,7 +41,6 @@ const Home = () => {
          getDocInList("playlists", currentUser.recentPlaylist)
             .then((result) => {
                const ordered = [];
-               // console.log("[result]", result);
 
                // correct order for playlist
                currentUser.recentPlaylist?.forEach((playlistId) => {
@@ -54,35 +52,6 @@ const Home = () => {
             .catch((err) => console.log(err));
       }
    }, [currentUser]);
-
-   const pushArtist = () => {
-      // console.log("clicked");
-      // for (const artist of artistExample) {
-      //    try {
-      //       setTimeout(() => {
-      //          addNewDoc("Artists", artist, artist.id);
-      //       }, 1000);
-      //    } catch (error) {
-      //       console.log(error);
-      //    }
-      // }
-      // for crawl api testing
-      // zing
-      //    .get_song_info("ZW6EZDII")
-      //    .then((result) => console.log(result))
-      //    .catch((err) => console.log(err));
-      // ZingMp3.getFullInfo("ZWBOW9CO")
-      //    .then((result) => console.log(result))
-      //    .then((err) => console.log(err));
-
-      console.log("test fetch serach");
-      getDocumentContains(firebaseCollections.songs, "title", "Sau")
-         .then((result) => {
-            console.log("this is the result");
-            console.log(result);
-         })
-         .catch((err) => console.log(err));
-   };
 
    return (
       <div className="w-full text-primary">
@@ -130,7 +99,7 @@ const Home = () => {
             </div>
             <div className="w-full my-4">
                <Swiper slidesPerView={5} spaceBetween={120} className="w-full">
-                  {tempPlaylists.map((p) => (
+                  {newPlaylists?.map((p) => (
                      <SwiperSlide key={p.id}>
                         <PlaylistCover info={p} />
                      </SwiperSlide>
@@ -140,10 +109,7 @@ const Home = () => {
          </div>
          <div className="pt-3">
             <div className="flex-btw">
-               <div
-                  className="flex items-center justify-start gap-4"
-                  onClick={() => pushArtist}
-               >
+               <div className="flex items-center justify-start gap-4">
                   <button className="text-2xl font-bold text-primary">
                      New Uploaded
                   </button>
