@@ -2,11 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllDocs } from "../../../common/utils/firebaseApi";
 import { updateDeleting, updateTracks } from "../../slices/adminTrackSlice";
-import {
-   getTracksByCountry,
-   getTracksByGenre,
-   getTracksByRank,
-} from "./filterApi";
+import { getTracksByCountry, getTracksByRank } from "./filterApi";
 
 const Content = {
    country: {
@@ -14,7 +10,7 @@ const Content = {
       items: [
          {
             id: "IWZ9Z08I",
-            title: "Vpop",
+            title: "VietNam",
          },
          {
             id: "IWZ9Z08O",

@@ -12,7 +12,11 @@ import {
 import { MdRepeatOne } from "react-icons/md";
 
 import { play, pause, updateAndPlay } from "../../slices/playingSlice";
-import { initQueue, updateQueue } from "../../slices/playQueueSlice";
+import {
+   getSuggestionToPlay,
+   initQueue,
+   updateQueue,
+} from "../../slices/playQueueSlice";
 import { updateRecentPlay } from "../../slices/userSlice";
 
 import { Progress } from "./Progress";
@@ -31,6 +35,7 @@ const Player = () => {
    const currentPlaylist = useSelector((state) => state.playlist.value);
    const playqueue = useSelector((state) => state.playqueue.next);
    const played = useSelector((state) => state.playqueue.played);
+   const playqueueSlice = useSelector((state) => state.playqueue);
    const queueState = useSelector((state) => state.queue);
    const playbarSlice = useSelector((state) => state.playbar);
 
@@ -92,9 +97,6 @@ const Player = () => {
 
    // start playing audio when audio src has been changed
    useEffect(() => {
-      // console.log(audio);
-      // console.log(currentSong?.info?.audio);
-      // console.log(currentSong?.playing);
       if (audio && currentSong?.info?.audio && currentSong?.playing) {
          setPlaying(true);
       }
@@ -117,7 +119,6 @@ const Player = () => {
                dispatch(play());
             }
          } else {
-            // console.log("vo day chac luon");
             audio?.pause();
 
             if (currentSong?.playing) {
@@ -141,17 +142,21 @@ const Player = () => {
 
          if (playbarSlice.repeat === 2) {
             setTimeout(() => {
-               console.log("trigger play again");
                setPlaying(true);
             }, 500);
-         } else if (playbarSlice.repeat === 1 || playqueue.length > 0) {
+         } else {
             changeTrack();
          }
       }
    }, [end]);
 
    const changeTrack = () => {
-      if (playqueue.length > 0) {
+      console.log(
+         "[changeTrack] playbarSlice.repeat ",
+         playbarSlice.repeat,
+         playqueueSlice?.autoplay
+      );
+      if (playqueue.length) {
          dispatch(updateAndPlay(playqueue[0]));
          dispatch(updateRecentPlay(playqueue[0]));
          dispatch(updateQueue(playqueue[0]));
@@ -160,22 +165,37 @@ const Player = () => {
             setPlaying(true);
          }, 500);
       } else {
-         const newShuffe = [...played];
-         shuffleArray(newShuffe);
+         if (playbarSlice.repeat === 0 && playqueueSlice?.autoplay) {
+            const suggestion = playqueueSlice?.suggestion;
 
-         dispatch(updateAndPlay(newShuffe[0]));
-         dispatch(updateRecentPlay(newShuffe[0]));
-         dispatch(initQueue(newShuffe));
+            if (suggestion?.length) {
+               dispatch(getSuggestionToPlay());
+               dispatch(updateAndPlay(suggestion[0]));
+               dispatch(updateRecentPlay(suggestion[0]));
 
-         setTimeout(() => {
-            setPlaying(true);
-         }, 500);
+               setTimeout(() => {
+                  setPlaying(true);
+               }, 500);
+            }
+         } else if (playbarSlice.repeat === 1) {
+            const newShuffe = [...played];
+            shuffleArray(newShuffe);
+
+            dispatch(updateAndPlay(newShuffe[0]));
+            dispatch(updateRecentPlay(newShuffe[0]));
+            dispatch(initQueue(newShuffe));
+
+            setTimeout(() => {
+               setPlaying(true);
+            }, 500);
+         }
       }
    };
 
    const nextSong = () => {
       changeTrack();
 
+      // click nextSong button will force reset repeat state
       if (playbarSlice.repeat === 2) {
          dispatch(updateRepeat(0));
       }
@@ -261,14 +281,14 @@ const Player = () => {
 
                {playbarSlice.repeat === 2 ? (
                   <button
-                     className="p-2 rounded-full hover:bg-alpha text-accent"
+                     className="p-2 rounded-full hover:bg-alpha text-dandelion-primary"
                      onClick={() => dispatch(updateRepeat(0))}
                   >
                      <MdRepeatOne />
                   </button>
                ) : playbarSlice.repeat === 1 ? (
                   <button
-                     className="p-2 rounded-full hover:bg-alpha text-accent"
+                     className="p-2 rounded-full hover:bg-alpha text-dandelion-primary"
                      onClick={() => dispatch(updateRepeat(2))}
                   >
                      <IoRepeatOutline />

@@ -51,7 +51,7 @@ const songInfo = async (id, rank) => {
          radioId: raw.radioId ?? "",
          hasLyric: false,
          genres: raw.genres,
-         albumId: raw.album?.encodeId ?? null,
+         album: raw.album ?? null,
          radio: raw.radio ?? null,
          like: 0,
          listen: 0,

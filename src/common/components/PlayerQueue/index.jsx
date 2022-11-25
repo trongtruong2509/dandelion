@@ -1,11 +1,18 @@
-import React from "react";
-import { useEffect } from "react";
-import { GiAlarmClock } from "react-icons/gi";
-import { HiOutlineDotsHorizontal } from "react-icons/hi";
+import React, { useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import { updateNoShuffle, updateShuffle } from "../../slices/playQueueSlice";
+
+import { GiAlarmClock } from "react-icons/gi";
+import { HiOutlineDotsHorizontal } from "react-icons/hi";
+
+import {
+   fetchSuggested,
+   updateAutoplay,
+   updateNoShuffle,
+   updateShuffle,
+} from "../../slices/playQueueSlice";
 import SongItem from "../Song/SongItem";
+import Switch from "../Kits/Switch";
 
 const PlayerQueue = () => {
    const dispatch = useDispatch();
@@ -16,8 +23,7 @@ const PlayerQueue = () => {
    const shuffle = useSelector((state) => state.playbar.shuffle);
    const playingPlaylist = useSelector((state) => state.playlist.playing.value);
    const user = useSelector((state) => state.user.user);
-
-   // const activeStyle = "bg-hover-2 text-white";
+   const isMounted = useRef(false);
 
    useEffect(() => {
       if (
@@ -25,23 +31,37 @@ const PlayerQueue = () => {
          playingPlaylist.songs?.length &&
          playingTrack?.info
       ) {
-         if (shuffle) {
-            dispatch(
-               updateShuffle({
-                  tracks: playingPlaylist.songs,
-                  chosen: playingTrack.info,
-               })
-            );
+         if (isMounted.current) {
+            if (shuffle) {
+               dispatch(
+                  updateShuffle({
+                     tracks: playingPlaylist.songs,
+                     chosen: playingTrack.info,
+                  })
+               );
+            } else {
+               dispatch(
+                  updateNoShuffle({
+                     tracks: playingPlaylist.songs,
+                     chosen: playingTrack.info,
+                  })
+               );
+            }
          } else {
-            dispatch(
-               updateNoShuffle({
-                  tracks: playingPlaylist.songs,
-                  chosen: playingTrack.info,
-               })
-            );
+            isMounted.current = true;
          }
       }
    }, [shuffle]);
+
+   useEffect(() => {
+      dispatch(fetchSuggested(playingTrack.info));
+   }, [playingTrack?.info, dispatch]);
+
+   const isInPlaylist = () => {
+      return playingPlaylist?.songs?.find(
+         (t) => t.id === playingTrack?.info.id
+      );
+   };
 
    return (
       <div
@@ -76,15 +96,20 @@ const PlayerQueue = () => {
                      />
                   ))}
                </div>
-               {playqueue?.next.length > 0 && !!playingPlaylist && (
+               {playqueue?.next.length > 0 && (
                   <div className="mt-4">
-                     <div className="mb-2">
+                     <div className="pl-2 mb-1">
                         <h2 className="flex gap-2 font-semibold text-primary">
-                           Next from
-                           <span className="font-semibold cursor-pointer text-dandelion-primary hover:underline">
-                              {playingPlaylist?.title}
-                           </span>
+                           Play next
                         </h2>
+                        {isInPlaylist() && (
+                           <p className="text-sm text-secondary">
+                              From playlist{" "}
+                              <span className="font-semibold cursor-pointer text-dandelion-primary hover:underline">
+                                 {playingPlaylist?.title}
+                              </span>
+                           </p>
+                        )}
                      </div>
                      <div>
                         {playqueue?.next?.map((s) => (
@@ -98,14 +123,38 @@ const PlayerQueue = () => {
                   </div>
                )}
 
-               <div>
-                  <div className="my-2">
-                     <h2 className="flex gap-2 font-semibold text-white">
-                        Suggession
-                        {/* <span className="font-normal cursor-pointer text-primary hover:underline">
-                           {playingPlaylist?.title}
-                        </span> */}
-                     </h2>
+               <div
+                  className={`mt-4 ${
+                     playqueue?.autoplay ? "opacity-100" : "opacity-50"
+                  }`}
+               >
+                  <div className="flex items-center justify-between pr-3">
+                     <div className="pl-2 mb-1">
+                        <h2 className="flex gap-2 font-semibold text-primary">
+                           Autoplay
+                        </h2>
+                        <p className="text-sm text-secondary">
+                           Suggestion based on playing
+                        </p>
+                     </div>
+                     <Switch
+                        init={playqueue?.autoplay}
+                        onSwitchChange={() => {
+                           dispatch(updateAutoplay(!playqueue?.autoplay));
+                        }}
+                     />
+                  </div>
+                  <div>
+                     {playqueue?.suggestion?.map((s) => (
+                        <SongItem
+                           key={s.id}
+                           info={s}
+                           addPlayQueue
+                           activeDots
+                           like={false}
+                           isPlaylist={!!playingPlaylist}
+                        />
+                     ))}
                   </div>
                </div>
             </TabPanel>
@@ -121,11 +170,11 @@ const PlayerQueue = () => {
                </div>
             </TabPanel>
          </Tabs>
-         <div className="absolute gap-2 flex-center right-2 top-4">
-            <button className="text-lg bg-alpha text-secondary p-[7px] rounded-full bg-alpha">
+         <div className="absolute gap-2 flex-center right-5 top-4">
+            {/* <button className="text-lg text-secondary p-[7px] rounded-full bg-alpha">
                <GiAlarmClock />
-            </button>
-            <button className="text-lg bg-alpha text-secondary p-[7px] rounded-full bg-alpha">
+            </button> */}
+            <button className="text-lg text-secondary p-[7px] rounded-full bg-alpha hover:text-dandelion-primary">
                <HiOutlineDotsHorizontal />
             </button>
          </div>

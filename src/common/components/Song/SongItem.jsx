@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { FaPause, FaPlay } from "react-icons/fa";
-import { IoPlay, IoPause } from "react-icons/io5";
+import { IoPlay } from "react-icons/io5";
+import { IoMdPause } from "react-icons/io";
 import { useSelector, useDispatch } from "react-redux";
 
 import SongInfo from "../Song/SongInfo";
@@ -8,12 +8,17 @@ import SongOptions from "../Song/SongOptions";
 
 import { play, pause, update } from "../../slices/playingSlice";
 import { updateRecentPlay, updateRecentPlaylist } from "../../slices/userSlice";
-import { initQueue, updateQueue } from "../../slices/playQueueSlice";
+import {
+   addSuggestionToQueue,
+   addToPlay,
+   initQueue,
+   triggerFromSuggested,
+   updateQueue,
+} from "../../slices/playQueueSlice";
 import {
    emtpyPlayingPlaylist,
    updateCurrentToPlaying,
 } from "../../slices/playlistSlice";
-import { IoMdPause, IoMdPlay } from "react-icons/io";
 
 const SongItem = ({
    info,
@@ -21,19 +26,21 @@ const SongItem = ({
    options = true,
    like = true,
    playlistMode = false,
-   isPlaylist = false, //track is in playlist
    inPlaylistPage = false,
    addPlaylist = false,
    onAdd,
+   addPlayQueue = false,
    fade = false,
    canDetele = false,
    onDelete,
    badges = false,
+   activeLike = false,
+   activeDots = false,
 }) => {
    const dispatch = useDispatch();
 
    const playingSong = useSelector((state) => state.playing.value);
-   const currentUser = useSelector((state) => state.user.user);
+   // const currentUser = useSelector((state) => state.user.user);
    const playingPlaylist = useSelector((state) => state.playlist.playing.value);
    const currentPlaylist = useSelector((state) => state.playlist.current.value);
    const playqueue = useSelector((state) => state.playqueue);
@@ -55,41 +62,69 @@ const SongItem = ({
          dispatch(update({ info, playing: true }));
          dispatch(updateRecentPlay(info));
 
-         if (playingPlaylist) {
-            console.log("[info]", info);
-            console.log("[isPlaylist]", isPlaylist);
-
-            const inQueue =
-               playqueue.played.find((s) => s.id === info.id) ||
-               playqueue.next.find((s) => s.id === info.id);
-
-            if (!isPlaylist) {
-               // trigger not from the playlist. treat as a single track
-               dispatch(emtpyPlayingPlaylist());
-               dispatch(initQueue([info]));
-            } else if (
-               inPlaylistPage &&
-               playingPlaylist.id !== currentPlaylist.id
-            ) {
-               // in case current playlist not playing playlist even tho trigger song is in both current and playing
-               // trigger new playlist
-               dispatch(updateRecentPlaylist(currentPlaylist.id));
-               dispatch(updateCurrentToPlaying(info));
-            } else if (playingPlaylist.songs.find((s) => s.id === info.id)) {
-               dispatch(updateQueue(info));
-            }
+         if (playqueue?.suggestion.find((t) => t.id === info.id)) {
+            console.log("[playSong] is in suggestion");
+            dispatch(addToPlay(info));
+            dispatch(triggerFromSuggested(info));
          } else {
-            if (currentPlaylist?.songs.includes(info.id)) {
-               // trigger new playlist
-               dispatch(updateRecentPlaylist(currentPlaylist.id));
-               dispatch(updateCurrentToPlaying(info));
+            if (playingPlaylist) {
+               const inPlaying = playingPlaylist.songs?.find(
+                  (t) => t.id === info.id
+               );
+               const inCurrent = currentPlaylist?.songs?.find(
+                  (t) => t.id === info.id
+               );
+
+               if (!(inPlaying && inCurrent)) {
+                  // trigger not from the playlist. treat as a single track
+                  console.log(
+                     "[playSong] triggered track not from the playlist. treat as a single track"
+                  );
+
+                  dispatch(emtpyPlayingPlaylist());
+                  dispatch(initQueue([info]));
+               } else if (
+                  inCurrent &&
+                  playingPlaylist.id !== currentPlaylist.id
+               ) {
+                  // incase current playlist is not playing playlist even tho trigger song is in both current and playing => trigger new playlist
+                  dispatch(updateRecentPlaylist(currentPlaylist.id));
+                  dispatch(updateCurrentToPlaying(info));
+                  console.log(
+                     "[playSong] incase current playlist is not playing playlist even tho trigger song is in both current and playing => trigger new playlist"
+                  );
+               } else if (inPlaying) {
+                  // track is in queue. simply update it to playing.
+                  console.log(
+                     "[playSong] track is in queue. simply update it to playing."
+                  );
+
+                  dispatch(updateQueue(info));
+               }
+            } else if (
+               playqueue?.next?.find((t) => t.id === info.id) ||
+               playqueue?.played?.find((t) => t.id === info.id)
+            ) {
+               // in queue
+               dispatch(updateQueue(info));
             } else {
-               // trigger not from the playlist. treat as a single track
-               dispatch(emtpyPlayingPlaylist());
-               dispatch(initQueue([info]));
+               if (currentPlaylist?.songs.includes(info.id)) {
+                  // trigger new playlist
+                  console.log("[playSong] trigger new playlist");
+                  dispatch(updateRecentPlaylist(currentPlaylist.id));
+                  dispatch(updateCurrentToPlaying(info));
+               } else {
+                  // trigger not from the playlist. treat as a single track
+                  dispatch(emtpyPlayingPlaylist());
+                  dispatch(initQueue([info]));
+               }
             }
          }
       }
+   };
+
+   const onAddQueue = (info) => {
+      dispatch(addSuggestionToQueue(info));
    };
 
    const thumbnailSizes = {
@@ -153,8 +188,12 @@ const SongItem = ({
                      like={like}
                      addPlaylist={addPlaylist}
                      onAdd={onAdd}
+                     addPlayQueue={addPlayQueue}
+                     onAddPlayQueue={onAddQueue}
                      inPlaylistPage={inPlaylistPage}
                      canDetele={canDetele}
+                     activeLike={activeLike}
+                     activeDots={activeDots}
                      onDelete={onDelete}
                   />
                </div>

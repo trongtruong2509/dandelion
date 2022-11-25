@@ -1,14 +1,14 @@
 import React from "react";
 import Tippy from "@tippyjs/react/headless"; // different import path!
-import { BsDownload, BsShare } from "react-icons/bs";
+
+import { BsDownload } from "react-icons/bs";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { IoTrashSharp } from "react-icons/io5";
 import { AiOutlineComment } from "react-icons/ai";
+import { GiMicrophone } from "react-icons/gi";
+import { MdArrowForwardIos, MdBlock, MdQueueMusic } from "react-icons/md";
 
 import SongInfo from "../Song/SongInfo";
-import { MdArrowForwardIos, MdBlock, MdQueueMusic } from "react-icons/md";
-import { GiMicrophone } from "react-icons/gi";
-import { useDispatch } from "react-redux";
 import { deleteTrackById } from "../../../services/trackService";
 
 const SongMenu = ({ children, info, canDetele = false }) => {
@@ -31,8 +31,8 @@ const SongMenu = ({ children, info, canDetele = false }) => {
          placement="auto-end"
          render={(attrs) => (
             <div
-               className="w-[280px] h-[300px] flex flex-col bg-layout
-                py-4 shadow-lg drop-shadow-lg rounded-xl"
+               className="w-[280px] h-[300px] flex flex-col bg-primary
+                py-4 shadow-md rounded-xl"
                tabIndex="-1"
                {...attrs}
             >

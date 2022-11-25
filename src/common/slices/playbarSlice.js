@@ -3,7 +3,7 @@ import * as local from "../utils/localStorage";
 
 const initialState = local.getPlaybar() ?? {
    shuffle: true,
-   repeat: 0,
+   repeat: 0, // 0: no repeat, 1: repeat playlist, 2: repeat 1 track
    volume: 1,
 };
 

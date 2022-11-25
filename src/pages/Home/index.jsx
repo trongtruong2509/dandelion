@@ -60,7 +60,9 @@ const Home = () => {
             <div className="w-full mt-7">
                <div className="mb-3 flex-btw">
                   <div className="flex items-center justify-start gap-4">
-                     <h1 className="text-xl font-bold text-primary">Recently Played</h1>
+                     <h1 className="text-xl font-bold text-primary">
+                        Recently Played
+                     </h1>
                   </div>
                   <button className="gap-2 flex-center text-secondary hover:text-primary">
                      View All
@@ -68,7 +70,11 @@ const Home = () => {
                   </button>
                </div>
                <div className="w-full">
-                  <Swiper slidesPerView={6} spaceBetween={30} className="w-full">
+                  <Swiper
+                     slidesPerView={6}
+                     spaceBetween={30}
+                     className="w-full"
+                  >
                      {recentPlaylist?.map((p) => (
                         <SwiperSlide key={p.id}>
                            <PlaylistCover info={p} size="sm" />
@@ -81,7 +87,9 @@ const Home = () => {
          <div className="pt-5">
             <div className="mb-3 flex-btw">
                <div className="flex items-center justify-start gap-4">
-                  <h1 className="text-xl font-bold text-primary">Your Top Mixes</h1>
+                  <h1 className="text-xl font-bold text-primary">
+                     Your Top Mixes
+                  </h1>
                </div>
                <button className="gap-2 flex-center text-secondary hover:text-primary">
                   View All
@@ -101,7 +109,9 @@ const Home = () => {
          <div className="pt-5">
             <div className="mb-3 flex-btw">
                <div className="flex items-center justify-start gap-4">
-                  <button className="text-xl font-bold text-primary">New Uploaded</button>
+                  <button className="text-xl font-bold text-primary">
+                     New Uploaded
+                  </button>
                </div>
                <button className="gap-2 flex-center text-secondary hover:text-primary">
                   View All
@@ -109,7 +119,11 @@ const Home = () => {
                </button>
             </div>
             <div className="w-full">
-               <Swiper slidesPerView={3} spaceBetween={20} className="flex w-full gap-3">
+               <Swiper
+                  slidesPerView={3}
+                  spaceBetween={20}
+                  className="flex w-full gap-3"
+               >
                   {group(newReleases, 5)?.map((songs, index) => (
                      <SwiperSlide key={index}>
                         {songs.map((s) => (
@@ -122,7 +136,9 @@ const Home = () => {
                </Swiper>
             </div>
          </div>
-         <p className="mt-5 mb-32 text-xl font-bold text-primary">Popular artist</p>
+         <p className="mt-5 mb-32 text-xl font-bold text-primary">
+            Popular artist
+         </p>
       </div>
    );
 };

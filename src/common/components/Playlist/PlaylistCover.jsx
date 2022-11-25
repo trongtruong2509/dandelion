@@ -1,23 +1,31 @@
 import React from "react";
-import { FaPlay } from "react-icons/fa";
-import { MdFavorite, MdFavoriteBorder } from "react-icons/md";
-import { IoHeartOutline, IoHeart, IoCloseOutline, IoClose } from "react-icons/io5";
-import { HiOutlineDotsHorizontal } from "react-icons/hi";
-import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
+import { FaPlay } from "react-icons/fa";
+import { HiOutlineDotsHorizontal } from "react-icons/hi";
+import { IoHeartOutline, IoHeart, IoClose } from "react-icons/io5";
+
 import { updatePlaylists, updateRecentPlaylist } from "../../slices/userSlice";
-import { updateCurrentPlaylist, updatePlayingPlaylist } from "../../slices/playlistSlice";
+import {
+   updateCurrentPlaylist,
+   updatePlayingPlaylist,
+} from "../../slices/playlistSlice";
 
 import DefaultThumbnail from "../../../assets/album_default.png";
 import { adminPaths } from "../../../app/routes";
 
-const PlaylistCover = ({ info, size = "md", editable = false, admin = false }) => {
+const PlaylistCover = ({
+   info,
+   size = "md",
+   editable = false,
+   admin = false,
+}) => {
    const navigate = useNavigate();
    const dispatch = useDispatch();
 
    const playingPlaylist = useSelector((state) => state.playlist.playing);
    const currentUser = useSelector((state) => state.user.user);
-   // const playingTrack = useSelector((state) => state.playlist.value);
 
    const onNavigate = () => {
       if (admin) {
@@ -31,13 +39,9 @@ const PlaylistCover = ({ info, size = "md", editable = false, admin = false }) =
    const onPlay = () => {
       onNavigate();
 
-      // console.log("[onPlay playlist]", info);
-
       if (playingPlaylist?.value?.id !== info?.id) {
-         // console.log("[playingPlaylist?.value?.id]");
-
-         // dispatch(fetchPlayingPlaylist(info));
          dispatch(updateRecentPlaylist(info?.id));
+         dispatch(updatePlayingPlaylist(info));
       }
    };
 
@@ -61,7 +65,9 @@ const PlaylistCover = ({ info, size = "md", editable = false, admin = false }) =
       return (
          <button
             className="w-full h-full rounded-full cursor-pointer hover:bg-hover-tooltip flex-center"
-            onClick={() => (currentUser ? dispatch(updatePlaylists(info?.id)) : handleLogin())}
+            onClick={() =>
+               currentUser ? dispatch(updatePlaylists(info?.id)) : handleLogin()
+            }
          >
             {currentUser?.playlists?.find((p) => p === info?.id) ? (
                <IoHeart className="text-2xl text-dandelion-primary" />
@@ -101,10 +107,16 @@ const PlaylistCover = ({ info, size = "md", editable = false, admin = false }) =
                className="z-10 object-cover w-full h-full transition-all duration-500 ease-out group-hover:scale-105"
             />
             <div className="absolute top-0 left-0 z-50 items-center justify-center hidden w-full h-full text-primary group-hover:flex bg-dark-alpha-50">
-               <div className="gap-6 flex-center" onClick={(e) => e.stopPropagation()}>
+               <div
+                  className="gap-6 flex-center"
+                  onClick={(e) => e.stopPropagation()}
+               >
                   <div className="w-10 h-10 ">{displayIcon()}</div>
 
-                  <button className="text-white hover:text-dandelion-primary" onClick={onPlay}>
+                  <button
+                     className="text-white hover:text-dandelion-primary"
+                     onClick={onPlay}
+                  >
                      <FaPlay className="text-3xl cursor-pointer" />
                   </button>
 
@@ -116,9 +128,13 @@ const PlaylistCover = ({ info, size = "md", editable = false, admin = false }) =
          </div>
          <div className="w-full">
             <div className="w-full mt-2 flex-btw">
-               <h1 className="w-40 font-semibold truncate text-primary">{info?.title}</h1>
-               {size == "md" && (
-                  <p className="text-sm text-secondary">{info?.songs?.length} tracks</p>
+               <h1 className="w-40 font-semibold truncate text-primary">
+                  {info?.title}
+               </h1>
+               {size === "md" && (
+                  <p className="text-sm text-secondary">
+                     {info?.songs?.length} tracks
+                  </p>
                )}
             </div>
             <p className="mt-1 text-xs text-secondary">{info?.user}</p>
