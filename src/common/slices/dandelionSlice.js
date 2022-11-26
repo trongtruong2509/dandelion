@@ -8,6 +8,12 @@ import baseTheme from "../../themes/base";
 const initialState = {
    searchHistory: local.getSearchHistory() ?? [],
    theme: local.getTheme() ?? { theme: "baseTheme" },
+   homePage: {
+      newReleases: [],
+      newPlaylists: [],
+      recentPlaylist: [],
+      artists: [],
+   },
 };
 
 export const dandelionSlice = createSlice({
@@ -30,11 +36,30 @@ export const dandelionSlice = createSlice({
          state.theme = updatedTheme;
          local.writeTheme(updatedTheme);
       },
+      updateNewReleases: (state, action) => {
+         state.homePage.newReleases = action.payload;
+      },
+      updateNewPlaylists: (state, action) => {
+         state.homePage.newPlaylists = action.payload;
+      },
+      updateRecentPlaylist: (state, action) => {
+         state.homePage.recentPlaylist = action.payload;
+      },
+      updateArtists: (state, action) => {
+         state.homePage.artists = action.payload;
+      },
    },
 });
 
 // Action creators are generated for each case reducer function
-export const { updateSearchHistory, clearSearchHistory, updateTheme } =
-   dandelionSlice.actions;
+export const {
+   updateSearchHistory,
+   clearSearchHistory,
+   updateTheme,
+   updateNewReleases,
+   updateNewPlaylists,
+   updateRecentPlaylist,
+   updateArtists,
+} = dandelionSlice.actions;
 
 export default dandelionSlice.reducer;

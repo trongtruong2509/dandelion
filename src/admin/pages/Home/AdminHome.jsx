@@ -79,30 +79,20 @@ const AdminHome = () => {
                   />
                </div>
             ) : (
-               <Swiper
-                  slidesPerView={4}
-                  spaceBetween={20}
-                  className="flex w-full gap-3"
-               >
-                  {group(adminTrack?.tracks, adminTrack?.tracks.length / 4).map(
-                     (songs, index) => (
-                        <SwiperSlide key={index}>
-                           {songs.map((s) => (
-                              <div className="my-1" key={s.id}>
-                                 <SongItem
-                                    info={s}
-                                    size="13"
-                                    like={false}
-                                    canDetele
-                                    badges
-                                    onDelete={deleteSongById}
-                                 />
-                              </div>
-                           ))}
-                        </SwiperSlide>
-                     )
-                  )}
-               </Swiper>
+               <div className="grid w-full grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+                  {adminTrack?.tracks?.map((s) => (
+                     <div className="col-span-1 my-1" key={s.id}>
+                        <SongItem
+                           info={s}
+                           size="13"
+                           like={false}
+                           canDetele
+                           badges
+                           onDelete={deleteSongById}
+                        />
+                     </div>
+                  ))}
+               </div>
             )}
          </div>
       </div>

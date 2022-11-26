@@ -107,6 +107,14 @@ export const playQueue = createSlice({
       },
       updateAutoplay: (state, action) => {
          state.autoplay = action.payload;
+         local.updateQueue(current(state));
+      },
+      emptyQueue: (state) => {
+         state.played = [];
+         state.next = [];
+         state.suggestion = [];
+
+         local.updateQueue(current(state));
       },
    },
    extraReducers: (builder) => {
@@ -137,6 +145,7 @@ export const playQueue = createSlice({
 // Action creators are generated for each case reducer function
 export const {
    initQueue,
+   emptyQueue,
    addToQueue,
    addToPlay,
    triggerFromSuggested,

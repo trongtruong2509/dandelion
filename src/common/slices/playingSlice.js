@@ -23,23 +23,24 @@ export const playingSlice = createSlice({
       },
 
       play: (state) => {
-         // console.log("dispatch play");
          state.value.playing = true;
-         // console.log(state.value.playing);
       },
       pause: (state) => {
-         // console.log("dispatch pause");
          state.value.playing = false;
-         // state.value = { info: state.value.info, playing: false };
-         // console.log(state.value.playing);
       },
-      // remove: (state, action) => {
-      //    state.value += action.payload;
-      // },
+      emptyPlayingTrack: (state) => {
+         state.value = {
+            info: null,
+            playing: false,
+         };
+
+         local.updatePlaying(null);
+      },
    },
 });
 
 // Action creators are generated for each case reducer function
-export const { update, updateAndPlay, play, pause } = playingSlice.actions;
+export const { update, updateAndPlay, play, pause, emptyPlayingTrack } =
+   playingSlice.actions;
 
 export default playingSlice.reducer;

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { MdArrowForwardIos } from "react-icons/md";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 // Import Swiper styles
 import "swiper/css";
@@ -14,33 +14,68 @@ import { getLatestPlaylists } from "../../common/utils/playlist";
 import SongItem from "../../common/components/Song/SongItem";
 import { getDocInList } from "../../common/utils/firebaseApi";
 import { group } from "../../common/utils/common";
+import { getSuggestedArtists } from "../../common/utils/artists";
+import ArtistCover from "../../common/components/Artist/ArtistCover";
+import {
+   updateArtists,
+   updateNewPlaylists,
+   updateNewReleases,
+   updateRecentPlaylist,
+} from "../../common/slices/dandelionSlice";
 
 const Home = () => {
-   const currentUser = useSelector((state) => state.user.user);
+   const dispatch = useDispatch();
 
-   const [newReleases, setNewReleases] = useState([]);
-   const [newPlaylists, setNewPlaylists] = useState([]);
-   const [recentPlaylist, setRecentPlaylist] = useState([]);
+   const currentUser = useSelector((state) => state.user.user);
+   const newReleases = useSelector(
+      (state) => state.dandelion.homePage.newReleases
+   );
+   const newPlaylists = useSelector(
+      (state) => state.dandelion.homePage.newPlaylists
+   );
+   const recentPlaylist = useSelector(
+      (state) => state.dandelion.homePage.recentPlaylist
+   );
+   const artists = useSelector((state) => state.dandelion.homePage.artists);
 
    useEffect(() => {
-      getLatestSongs()
-         .then((s) => {
-            setNewReleases(s);
-         })
-         .catch((err) => console.log(err));
+      if (!newReleases) {
+         getLatestSongs()
+            .then((s) => {
+               dispatch(updateNewReleases(s));
+            })
+            .catch((err) => console.log(err));
+      }
 
-      getLatestPlaylists()
-         .then((s) => {
-            console.log("[getLatestPlaylists]", s);
-            setNewPlaylists(s);
-         })
-         .catch((err) => console.log(err));
+      if (!newPlaylists) {
+         getLatestPlaylists()
+            .then((s) => {
+               console.log("[getLatestPlaylists]", s);
+               dispatch(updateNewPlaylists(s));
+            })
+            .catch((err) => console.log(err));
+      }
+
+      if (!artists) {
+         getSuggestedArtists()
+            .then((result) => {
+               console.log("[getSuggestedArtists]", result);
+
+               dispatch(updateArtists(result));
+            })
+            .catch((err) => console.log(err));
+      }
    }, []);
 
    useEffect(() => {
       if (currentUser) {
          getDocInList("playlists", currentUser.recentPlaylist)
             .then((result) => {
+               console.log(
+                  "[getDocInList(playlists, currentUser.recentPlaylist)]",
+                  result
+               );
+
                const ordered = [];
 
                // correct order for playlist
@@ -48,7 +83,7 @@ const Home = () => {
                   ordered.push(result.find((s) => s.id === playlistId));
                });
 
-               setRecentPlaylist(ordered);
+               dispatch(updateRecentPlaylist(ordered));
             })
             .catch((err) => console.log(err));
       }
@@ -136,9 +171,22 @@ const Home = () => {
                </Swiper>
             </div>
          </div>
-         <p className="mt-5 mb-32 text-xl font-bold text-primary">
-            Popular artist
-         </p>
+         <div className="py-5 mb-10">
+            <div className="mb-3 flex-btw">
+               <div className="flex items-center justify-start gap-4">
+                  <p className="text-xl font-bold text-primary">
+                     Popular Artists
+                  </p>
+               </div>
+            </div>
+            <div className="flex flex-wrap w-full gap-7">
+               {artists?.map((s) => (
+                  <div className="my-1" key={s.id}>
+                     <ArtistCover info={s} />
+                  </div>
+               ))}
+            </div>
+         </div>
       </div>
    );
 };
