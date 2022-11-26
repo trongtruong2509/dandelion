@@ -64,7 +64,10 @@ const AdminHome = () => {
    return (
       <div className="w-full mt-10">
          <Filters />
-         <div className="w-full my-4">
+         <div className="w-full my-2">
+            <p className="text-sm text-secondary">
+               {adminTrack?.tracks?.length} tracks
+            </p>
             {adminTrack?.fetching ? (
                <div className="h-[600px] flex-center">
                   <SyncLoader

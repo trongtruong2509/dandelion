@@ -39,7 +39,7 @@ const Home = () => {
    const artists = useSelector((state) => state.dandelion.homePage.artists);
 
    useEffect(() => {
-      if (!newReleases) {
+      if (!newReleases.length) {
          getLatestSongs()
             .then((s) => {
                dispatch(updateNewReleases(s));
@@ -47,7 +47,7 @@ const Home = () => {
             .catch((err) => console.log(err));
       }
 
-      if (!newPlaylists) {
+      if (!newPlaylists.length) {
          getLatestPlaylists()
             .then((s) => {
                console.log("[getLatestPlaylists]", s);
@@ -56,7 +56,7 @@ const Home = () => {
             .catch((err) => console.log(err));
       }
 
-      if (!artists) {
+      if (!artists.length) {
          getSuggestedArtists()
             .then((result) => {
                console.log("[getSuggestedArtists]", result);
@@ -71,10 +71,10 @@ const Home = () => {
       if (currentUser) {
          getDocInList("playlists", currentUser.recentPlaylist)
             .then((result) => {
-               console.log(
-                  "[getDocInList(playlists, currentUser.recentPlaylist)]",
-                  result
-               );
+               // console.log(
+               //    "[getDocInList(playlists, currentUser.recentPlaylist)]",
+               //    result
+               // );
 
                const ordered = [];
 
