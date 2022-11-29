@@ -41,10 +41,7 @@ const SongInfo = ({ info, size = "10", onClick, badges = false }) => {
                <div className="flex items-center gap-2 mt-1 text-xs truncate text-secondary">
                   {badges && (
                      <div>
-                        <RankMenu
-                           rankInput={info?.rank}
-                           onRankChange={onRankUpdate}
-                        />
+                        <RankMenu rankInput={info?.rank} onRankChange={onRankUpdate} />
                      </div>
                   )}
                   {info?.artists.length > 0 ? (

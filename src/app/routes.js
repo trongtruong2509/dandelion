@@ -22,7 +22,7 @@ export const paths = {
    genre: "/genre/:id",
    playHistory: "/mymusic/history",
    playHistoryId: "/mymusic/history/:id",
-   newRelease: "/new-release",
+   newRelease: "/new-release/:id",
 };
 
 export const adminPaths = {

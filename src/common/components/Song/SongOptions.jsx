@@ -1,12 +1,12 @@
 import React, { forwardRef } from "react";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
-import { IoAddOutline, IoTrashOutline } from "react-icons/io5";
 import {
-   MdFavorite,
-   MdFavoriteBorder,
-   MdMoreHoriz,
-   MdOutlinePlaylistAdd,
-} from "react-icons/md";
+   IoAddOutline,
+   IoEllipsisHorizontalOutline,
+   IoEllipsisHorizontalSharp,
+   IoTrashOutline,
+} from "react-icons/io5";
+import { MdFavorite, MdFavoriteBorder, MdMoreHoriz, MdOutlinePlaylistAdd } from "react-icons/md";
 import { useSelector, useDispatch } from "react-redux";
 // import Tippy from "@tippyjs/react";
 
@@ -55,30 +55,19 @@ const SongOptions = ({
    };
 
    const notLiked =
-      !currentUser ||
-      currentUser?.likedSongs.findIndex((t) => t.id === songInfo?.id) === -1;
+      !currentUser || currentUser?.likedSongs.findIndex((t) => t.id === songInfo?.id) === -1;
 
    return (
       <div className="gap-1 text-lg text-primary flex-center group">
          {like && (
             <div
                className={`items-center justify-center w-10 h-10 p-2 rounded-full cursor-pointer hover:bg-alpha ${
-                  activeLike
-                     ? "flex"
-                     : notLiked
-                     ? "hidden group-hover:flex"
-                     : "flex"
+                  activeLike ? "flex" : notLiked ? "hidden group-hover:flex" : "flex"
                }`}
-               onClick={() =>
-                  currentUser
-                     ? dispatch(updateLikeSong(songInfo))
-                     : handleLogin()
-               }
+               onClick={() => (currentUser ? dispatch(updateLikeSong(songInfo)) : handleLogin())}
             >
                {notLiked ? (
-                  <MdFavoriteBorder
-                     className={`text-lg hover:text-dandelion-primary`}
-                  />
+                  <MdFavoriteBorder className={`text-lg hover:text-dandelion-primary`} />
                ) : (
                   <MdFavorite className="text-lg text-dandelion-primary" />
                )}
@@ -113,13 +102,13 @@ const SongOptions = ({
          {!addPlaylist && (
             <SongMenu info={songInfo}>
                <div
-                  className={`rounded-full text-secondary hover:text-primary cursor-pointer flex-center hover:bg-alpha ${
+                  className={`rounded-full text-primary hover:text-primary cursor-pointer flex-center hover:bg-alpha ${
                      activeDots
                         ? "w-8 h-8 p-[6px]"
                         : "group-hover:opacity-100 opacity-0 w-10 h-10 p-2"
                   }`}
                >
-                  <HiOutlineDotsHorizontal className="text-xl" />
+                  <IoEllipsisHorizontalSharp className="" />
                </div>
             </SongMenu>
          )}

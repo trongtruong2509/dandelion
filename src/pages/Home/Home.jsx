@@ -33,15 +33,9 @@ const Home = () => {
 
    const currentUser = useSelector((state) => state.user.user);
    const homePage = useSelector((state) => state.dandelion.homePage);
-   const newReleases = useSelector(
-      (state) => state.dandelion.homePage.newReleases
-   );
-   const newPlaylists = useSelector(
-      (state) => state.dandelion.homePage.newPlaylists
-   );
-   const recentPlaylist = useSelector(
-      (state) => state.dandelion.homePage.recentPlaylist
-   );
+   const newReleases = useSelector((state) => state.dandelion.homePage.newReleases);
+   const newPlaylists = useSelector((state) => state.dandelion.homePage.newPlaylists);
+   const recentPlaylist = useSelector((state) => state.dandelion.homePage.recentPlaylist);
    const artists = useSelector((state) => state.dandelion.homePage.artists);
 
    useEffect(() => {
@@ -82,9 +76,7 @@ const Home = () => {
                   <div className="w-full mt-7">
                      <div className="mb-3 flex-btw">
                         <div className="flex items-center justify-start gap-4">
-                           <h1 className="text-xl font-bold text-primary">
-                              Recently Played
-                           </h1>
+                           <h1 className="text-xl font-bold text-primary">Recently Played</h1>
                         </div>
                         <Link
                            className="gap-1 text-sm flex-center text-secondary hover:text-dandelion-primary"
@@ -95,11 +87,7 @@ const Home = () => {
                         </Link>
                      </div>
                      <div className="w-full">
-                        <Swiper
-                           slidesPerView={6}
-                           spaceBetween={30}
-                           className="w-full"
-                        >
+                        <Swiper slidesPerView={6} spaceBetween={30} className="w-full">
                            {recentPlaylist?.map((p) => (
                               <SwiperSlide key={p.id}>
                                  <PlaylistCover info={p} size="sm" />
@@ -112,22 +100,19 @@ const Home = () => {
                <div className="pt-5">
                   <div className="mb-3 flex-btw">
                      <div className="flex items-center justify-start gap-4">
-                        <h1 className="text-xl font-bold text-primary">
-                           Your Top Mixes
-                        </h1>
+                        <h1 className="text-xl font-bold text-primary">Your Top Mixes</h1>
                      </div>
-                     <button className="gap-1 text-sm flex-center text-secondary hover:text-dandelion-primary">
+                     <Link
+                        className="gap-1 text-sm flex-center text-secondary hover:text-dandelion-primary"
+                        to={paths.newRelease.replace(":id", "playlist")}
+                     >
                         View All
                         <IoChevronForward />
-                     </button>
+                     </Link>
                   </div>
                   <div className="w-full">
                      {
-                        <Swiper
-                           slidesPerView={5}
-                           spaceBetween={120}
-                           className="w-full"
-                        >
+                        <Swiper slidesPerView={5} spaceBetween={120} className="w-full">
                            {newPlaylists?.map((p) => (
                               <SwiperSlide key={p.id}>
                                  <PlaylistCover info={p} />
@@ -140,24 +125,18 @@ const Home = () => {
                <div className="pt-5">
                   <div className="mb-3 flex-btw">
                      <div className="flex items-center justify-start gap-4">
-                        <button className="text-xl font-bold text-primary">
-                           New Uploaded
-                        </button>
+                        <button className="text-xl font-bold text-primary">New Uploaded</button>
                      </div>
                      <Link
                         className="gap-1 text-sm flex-center text-secondary hover:text-dandelion-primary"
-                        to={paths.newRelease}
+                        to={paths.newRelease.replace(":id", "song")}
                      >
                         View All
                         <IoChevronForward />
                      </Link>
                   </div>
                   <div className="w-full">
-                     <Swiper
-                        slidesPerView={3}
-                        spaceBetween={20}
-                        className="flex w-full gap-3"
-                     >
+                     <Swiper slidesPerView={3} spaceBetween={20} className="flex w-full gap-3">
                         {group(newReleases, 5)?.map((songs, index) => (
                            <SwiperSlide key={index}>
                               {songs.map((s) => (
@@ -173,9 +152,7 @@ const Home = () => {
                <div className="py-5 mb-10">
                   <div className="mb-3 flex-btw">
                      <div className="flex items-center justify-start gap-4">
-                        <p className="text-xl font-bold text-primary">
-                           Popular Artists
-                        </p>
+                        <p className="text-xl font-bold text-primary">Popular Artists</p>
                      </div>
                   </div>
                   <div className="flex flex-wrap w-full gap-7">

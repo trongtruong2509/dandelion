@@ -39,8 +39,9 @@ export function removeAccents(str) {
       .replace(/Đ/g, "D");
 }
 
-export const convertTimeToStr = (input) => {
-   let minutes = Math.floor(input / 60);
+export const convertTimeToStr = (input, truncate = false) => {
+   let hour = Math.floor(input / 3600);
+   let minutes = Math.floor((input % 3600) / 60);
    let seconds = input % 60;
 
    if (minutes < 10) {
@@ -51,5 +52,15 @@ export const convertTimeToStr = (input) => {
       seconds = `0${seconds}`;
    }
 
-   return `${minutes}:${seconds}`;
+   let output = `${minutes}:${seconds}`;
+
+   if (truncate) {
+      if (hour) {
+         output = `${hour}h ${Math.ceil((input % 3600) / 60)} mins`;
+      } else {
+         output = `${Math.ceil((input % 3600) / 60)} mins`;
+      }
+   }
+
+   return output;
 };

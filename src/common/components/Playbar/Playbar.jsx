@@ -14,8 +14,8 @@ const Playbar = () => {
                         text-white z-[600]"
       >
          <div className="relative h-full flex-btw">
-            <div className="gap-3 flex-center">
-               <div className="flex items-center gap-3 text-white">
+            <div className="gap-3 flex-center ">
+               <div className="flex items-center gap-3 text-white ">
                   <div>
                      <img
                         src={currentSong?.thumbnail}
@@ -23,16 +23,14 @@ const Playbar = () => {
                         className="object-cover w-16 h-16 rounded-md"
                      />
                   </div>
-                  <div className="max-w-[240px]">
+                  <div className="max-w-[240px] min-w-[120px] shrink-0">
                      <h1 className="text-sm font-semibold truncate text-player">
                         {currentSong?.title}
                      </h1>
-                     <p className="text-xs truncate text-secondary">
-                        {currentSong?.artistsNames}
-                     </p>
+                     <p className="text-xs truncate text-secondary">{currentSong?.artistsNames}</p>
                   </div>
                </div>
-               <SongOptions songInfo={currentSong} active />
+               <SongOptions songInfo={currentSong} activeLike activeDots />
             </div>
             <Player />
          </div>

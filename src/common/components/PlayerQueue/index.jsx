@@ -27,11 +27,7 @@ const PlayerQueue = () => {
    const isMounted = useRef(false);
 
    useEffect(() => {
-      if (
-         playingPlaylist &&
-         playingPlaylist.songs?.length &&
-         playingTrack?.info
-      ) {
+      if (playingPlaylist && playingPlaylist.songs?.length && playingTrack?.info) {
          if (isMounted.current) {
             if (shuffle) {
                dispatch(
@@ -59,9 +55,7 @@ const PlayerQueue = () => {
    }, [playingTrack?.info, dispatch]);
 
    const isInPlaylist = () => {
-      return playingPlaylist?.songs?.find(
-         (t) => t.id === playingTrack?.info.id
-      );
+      return playingPlaylist?.songs?.find((t) => t.id === playingTrack?.info.id);
    };
 
    return (
@@ -77,7 +71,7 @@ const PlayerQueue = () => {
             className="w-full Tabs"
             selectedTabClassName="text-item-hover bg-tab-active outline-none"
          >
-            <TabList className="w-fit bg-alpha rounded-3xl p-[3px] flex-center mt-4 mb-5 lg:ml-0 -ml-3">
+            <TabList className="w-fit bg-alpha rounded-3xl p-[3px] flex-center mt-4 mb-5 lg:ml-0 -ml-3 2xl:ml-7">
                <Tab className="px-[10px] py-1 text-sm cursor-pointer 3xl:px-3 rounded-3xl text-navigation hover:text-item-hover outline-none">
                   Playing Queue
                </Tab>
@@ -89,20 +83,13 @@ const PlayerQueue = () => {
             <TabPanel className="w-full">
                <div className="">
                   {playqueue?.played?.map((s) => (
-                     <SongItem
-                        key={s.id}
-                        info={s}
-                        fade
-                        isPlaylist={!!playingPlaylist}
-                     />
+                     <SongItem key={s.id} info={s} fade isPlaylist={!!playingPlaylist} />
                   ))}
                </div>
                {playqueue?.next.length > 0 && (
                   <div className="mt-4">
                      <div className="pl-2 mb-1">
-                        <h2 className="flex gap-2 font-semibold text-primary">
-                           Play next
-                        </h2>
+                        <h2 className="flex gap-2 font-semibold text-primary">Play next</h2>
                         {isInPlaylist() && (
                            <p className="text-sm text-secondary">
                               From playlist{" "}
@@ -114,30 +101,18 @@ const PlayerQueue = () => {
                      </div>
                      <div>
                         {playqueue?.next?.map((s) => (
-                           <SongItem
-                              key={s.id}
-                              info={s}
-                              isPlaylist={!!playingPlaylist}
-                           />
+                           <SongItem key={s.id} info={s} isPlaylist={!!playingPlaylist} />
                         ))}
                      </div>
                   </div>
                )}
 
                {playqueue?.suggestion?.length > 0 && (
-                  <div
-                     className={`mt-4 ${
-                        playqueue?.autoplay ? "opacity-100" : "opacity-50"
-                     }`}
-                  >
+                  <div className={`mt-4 ${playqueue?.autoplay ? "opacity-100" : "opacity-50"}`}>
                      <div className="flex items-center justify-between pr-3">
                         <div className="pl-2 mb-1">
-                           <h2 className="flex gap-2 font-semibold text-primary">
-                              Autoplay
-                           </h2>
-                           <p className="text-sm text-secondary">
-                              Suggestion based on playing
-                           </p>
+                           <h2 className="flex gap-2 font-semibold text-primary">Autoplay</h2>
+                           <p className="text-sm text-secondary">Suggestion based on playing</p>
                         </div>
                         <Switch
                            init={playqueue?.autoplay}
@@ -165,8 +140,7 @@ const PlayerQueue = () => {
                <div className="">
                   {user?.recentPlayed?.map(
                      (s, index) =>
-                        (!playingTrack?.info ||
-                           playingTrack?.info?.id !== s?.id) && (
+                        (!playingTrack?.info || playingTrack?.info?.id !== s?.id) && (
                            <SongItem key={index} info={s} />
                         )
                   )}
