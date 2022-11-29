@@ -19,6 +19,7 @@ import {
    emtpyPlayingPlaylist,
    updateCurrentToPlaying,
 } from "../../slices/playlistSlice";
+import { convertTimeToStr } from "../../utils/common";
 
 const SongItem = ({
    info,
@@ -157,7 +158,7 @@ const SongItem = ({
             />
 
             <button
-               className={`items-center justify-center bg-overlay-3 rounded-md absolute top-2 left-3 group-hover:flex 
+               className={`items-center justify-center bg-dark-alpha-50 rounded-md absolute top-2 left-3 group-hover:flex 
                ${current ? "flex" : "hidden"} 
                ${thumbnailSizes[size]}`}
                onClick={playSong}
@@ -172,13 +173,13 @@ const SongItem = ({
 
          {playlistMode && (
             <p className="flex items-center col-span-5 text-xs cursor-pointer text-secondary hover:text-dandelion-primary hover:underline">
-               {info.album}
+               {info?.album?.title ?? ""}
             </p>
          )}
          <div className="flex items-center justify-end">
             {playlistMode && (
                <p className="flex items-center justify-end col-span-1 text-xs text-right text-secondary group-hover:opacity-0">
-                  {info.time}
+                  {convertTimeToStr(info.duration)}
                </p>
             )}
             {options && (

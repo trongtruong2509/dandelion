@@ -1,14 +1,40 @@
 import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
 import _ from "lodash";
+import { toast } from "react-toastify";
+import { getSuggestedArtists } from "../utils/artists";
 
-import { getUserLocal, updateUserLocal, updateUserDb } from "../utils/user";
 import * as local from "../utils/localStorage";
-import baseTheme from "../../themes/base";
+import { getLatestPlaylists } from "../utils/playlist";
+import { getLatestSongs } from "../utils/songs";
+
+export const fetchHomepage = createAsyncThunk(
+   "/dandelion/fetchHomepage",
+   async () => {
+      try {
+         console.log("[fetchHomepage] enter", Date.now());
+         const songs = await getLatestSongs();
+         const playlists = await getLatestPlaylists();
+         const artists = await getSuggestedArtists();
+         console.log("[fetchHomepage] exit", Date.now());
+
+         return {
+            newReleases: songs,
+            newPlaylists: playlists,
+            artists: artists,
+         };
+      } catch (error) {
+         toast.error("Get latest songs fail!");
+         return [];
+      }
+   }
+);
 
 const initialState = {
    searchHistory: local.getSearchHistory() ?? [],
    theme: local.getTheme() ?? { theme: "baseTheme" },
    homePage: {
+      pending: false,
+      recentPlaylistPending: false,
       newReleases: [],
       newPlaylists: [],
       recentPlaylist: [],
@@ -48,6 +74,22 @@ export const dandelionSlice = createSlice({
       updateArtists: (state, action) => {
          state.homePage.artists = action.payload;
       },
+   },
+   extraReducers: (builder) => {
+      builder
+         .addCase(fetchHomepage.pending, (state) => {
+            state.homePage.pending = true;
+         })
+         .addCase(fetchHomepage.fulfilled, (state, action) => {
+            state.homePage = {
+               ...current(state.homePage),
+               ...action.payload,
+            };
+            state.homePage.pending = false;
+         })
+         .addCase(fetchHomepage.rejected, (state) => {
+            state.homePage.pending = false;
+         });
    },
 });
 

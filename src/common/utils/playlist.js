@@ -1,13 +1,14 @@
 import { firebaseCollections } from "../../dataTemplate";
 import { updateDocById } from "./firebaseApi";
 import { toast } from "react-toastify";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, getDocs, limit, orderBy, query } from "firebase/firestore";
 import { firestore } from "../../firebase.config";
 
 export const getLatestPlaylists = async () => {
    const q = query(
       collection(firestore, firebaseCollections.playlists),
-      where("updateDate", ">=", Date.now() - 15592000000)
+      orderBy("updateDate"),
+      limit(20)
    );
 
    try {

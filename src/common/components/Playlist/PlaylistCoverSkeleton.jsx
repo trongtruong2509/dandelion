@@ -18,9 +18,8 @@ const PlaylistCoverSkeleton = ({ size = "md" }) => {
 
    return (
       <SkeletonTheme
-         baseColor="var(--alpha-bg)"
+         baseColor="var(--loading-bg)"
          highlightColor="var(--dark-alpha-10)"
-         //  borderRadius="0.5rem"
          duration={2}
       >
          <div className={`h-auto text-white ${widthSize[size]} -mb-6`}>

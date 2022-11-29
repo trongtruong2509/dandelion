@@ -38,3 +38,18 @@ export function removeAccents(str) {
       .replace(/đ/g, "d")
       .replace(/Đ/g, "D");
 }
+
+export const convertTimeToStr = (input) => {
+   let minutes = Math.floor(input / 60);
+   let seconds = input % 60;
+
+   if (minutes < 10) {
+      minutes = `0${minutes}`;
+   }
+
+   if (seconds < 10) {
+      seconds = `0${seconds}`;
+   }
+
+   return `${minutes}:${seconds}`;
+};

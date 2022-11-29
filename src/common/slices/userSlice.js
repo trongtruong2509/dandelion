@@ -8,27 +8,51 @@ import {
    updateUserRecentPlayed,
 } from "../utils/user";
 
-export const fetchUserPlaylist = createAsyncThunk("/user/fetchUserPlaylistStatus", async (user) => {
-   try {
-      const playlist = await getDocInList("playlists", user.playlists);
-      const ordered = [];
+export const fetchUserPlaylist = createAsyncThunk(
+   "/user/fetchUserPlaylistStatus",
+   async (user) => {
+      try {
+         const playlist = await getDocInList("playlists", user.playlists);
+         const ordered = [];
 
-      // correct order for playlist
-      user.playlists?.forEach((id) => {
-         ordered.push(playlist.find((s) => s.id === id));
-      });
+         // correct order for playlist
+         user.playlists?.forEach((id) => {
+            ordered.push(playlist.find((s) => s.id === id));
+         });
 
-      return ordered;
-   } catch (error) {
-      console.log(error);
-      return [];
+         return ordered;
+      } catch (error) {
+         console.log(error);
+         return [];
+      }
    }
-});
+);
+
+export const fetchUserRecentPlaylist = createAsyncThunk(
+   "/user/fetchUserRecentPlaylist",
+   async (user) => {
+      try {
+         const playlist = await getDocInList("playlists", user.recentPlaylist);
+         const ordered = [];
+
+         // correct order for playlist
+         user.recentPlaylist?.forEach((id) => {
+            ordered.push(playlist.find((s) => s.id === id));
+         });
+
+         return ordered;
+      } catch (error) {
+         console.log(error);
+         return [];
+      }
+   }
+);
 
 const initialState = {
    user: getUserLocal(),
    noLogged: getNoLoggedUser(),
    playlist: [],
+   recentPlaylists: [],
    pending: false,
 };
 
@@ -46,7 +70,9 @@ export const userSlice = createSlice({
          updateUserLocal(null);
       },
       updateRecentPlay: (state, action) => {
-         const idx = current(state.user.recentPlayed).findIndex((s) => s.id === action.payload.id);
+         const idx = current(state.user.recentPlayed).findIndex(
+            (s) => s.id === action.payload.id
+         );
 
          if (idx > -1) {
             state.user.recentPlayed.splice(idx, 1); // delete in recentplay
@@ -60,7 +86,9 @@ export const userSlice = createSlice({
       },
       updateLikeSong: (state, action) => {
          console.log(action.payload);
-         const idx = current(state.user.likedSongs).findIndex((t) => t.id === action.payload.id);
+         const idx = current(state.user.likedSongs).findIndex(
+            (t) => t.id === action.payload.id
+         );
          if (idx === -1) {
             state.user.likedSongs.push(action.payload);
          } else {
@@ -111,8 +139,18 @@ export const userSlice = createSlice({
             state.pending = false;
          })
          .addCase(fetchUserPlaylist.rejected, (state) => {
-            // console.log("[fetchUserPlaylist]", "rejected");
             state.playlist = [];
+            state.pending = false;
+         })
+         .addCase(fetchUserRecentPlaylist.pending, (state, action) => {
+            state.pending = true;
+         })
+         .addCase(fetchUserRecentPlaylist.fulfilled, (state, action) => {
+            state.recentPlaylists = action.payload;
+            state.pending = false;
+         })
+         .addCase(fetchUserRecentPlaylist.rejected, (state) => {
+            state.recentPlaylists = [];
             state.pending = false;
          });
    },

@@ -1,7 +1,14 @@
 import { firebaseCollections } from "../../dataTemplate";
 import { updateDocField } from "./firebaseApi";
 import { toast } from "react-toastify";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import {
+   collection,
+   getDocs,
+   limit,
+   orderBy,
+   query,
+   where,
+} from "firebase/firestore";
 import { firestore } from "../../firebase.config";
 
 export const updateRank = async (songInfo, newRank) => {
@@ -34,7 +41,8 @@ export const updateRank = async (songInfo, newRank) => {
 export const getLatestSongs = async () => {
    const q = query(
       collection(firestore, firebaseCollections.songs),
-      where("uploadDate", ">=", Date.now() - 15592000000)
+      orderBy("uploadDate", "desc"),
+      limit(20)
    );
 
    try {

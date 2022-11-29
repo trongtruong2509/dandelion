@@ -55,7 +55,7 @@ const Mymusic = () => {
                </Link>
             </div>
             <div className="flex flex-wrap w-full gap-8 py-2 my-6">
-               {userPlaylist?.length
+               {userPlaylist?.length > 0
                   ? userPlaylist?.map((p, index) => (
                        <PlaylistCover key={index} info={p} editable />
                     ))
