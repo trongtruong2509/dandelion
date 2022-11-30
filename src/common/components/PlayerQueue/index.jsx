@@ -14,6 +14,7 @@ import {
 import SongItem from "../Song/SongItem";
 import Switch from "../Kits/Switch";
 import QueueMenu from "../Popers/QueueMenu";
+import { Link } from "react-router-dom";
 
 const PlayerQueue = () => {
    const dispatch = useDispatch();
@@ -93,9 +94,12 @@ const PlayerQueue = () => {
                         {isInPlaylist() && (
                            <p className="text-sm text-secondary">
                               From playlist{" "}
-                              <span className="font-semibold cursor-pointer text-dandelion-primary hover:underline">
+                              <Link
+                                 className="font-semibold cursor-pointer text-dandelion-primary hover:underline"
+                                 to={playingPlaylist.link}
+                              >
                                  {playingPlaylist?.title}
-                              </span>
+                              </Link>
                            </p>
                         )}
                      </div>

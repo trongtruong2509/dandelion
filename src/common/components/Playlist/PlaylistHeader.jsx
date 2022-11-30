@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { IoIosShuffle, IoMdPause, IoMdPlay } from "react-icons/io";
 import { FiEdit3 } from "react-icons/fi";
 
-import AlbumDefault from "./../../../assets/album_default.png";
 import { pause, play } from "../../slices/playingSlice";
 import { updateCurrentToPlaying } from "../../slices/playlistSlice";
 import { MdFavorite, MdFavoriteBorder } from "react-icons/md";
@@ -11,6 +10,7 @@ import { FaPause, FaPlay } from "react-icons/fa";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { updatePlaylists } from "../../slices/userSlice";
 import Login from "../Header/Login";
+import PlaylistThumbnail from "./PlaylistThumbnail";
 
 const playingMixIcon =
    "https://zmp3-static.zmdcdn.me/skins/zmp3-v6.1/images/icons/icon-playing.gif";
@@ -64,11 +64,7 @@ const PlaylistHeader = () => {
                }`}
                onClick={playingTrack?.playing ? onPause : onPlay}
             >
-               <img
-                  className="object-cover w-full h-full transition-all duration-500 ease-out group-hover:scale-105"
-                  src={currentPlaylist?.thumbnail ? currentPlaylist?.thumbnail : AlbumDefault}
-                  alt="Playlist Cover"
-               />
+               <PlaylistThumbnail playlist={currentPlaylist} size="playlist" />
                {currentPlaylist?.songs?.length && (
                   <div className="absolute top-0 left-0 items-center justify-center hidden gap-6 text-white rounded-md w-72 h-72 group-hover:flex">
                      {isCurrentPlaying() ? (

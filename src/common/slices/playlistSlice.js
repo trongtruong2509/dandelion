@@ -30,6 +30,23 @@ export const addTrackToPlaylist = createAsyncThunk(
    }
 );
 
+export const removeTrackFromPlaylist = createAsyncThunk(
+   "/playlist/removeTrackFromPlaylist",
+   async ({ playlist, track }) => {
+      const result = await updateDocField(firebaseCollections.playlists, playlist.id, {
+         songs: playlist.songs.filter((t) => t.id !== track.id),
+      });
+
+      if (result) {
+         toast.info(`Deleted ${track.title} from playlist`);
+      } else {
+         toast.error(`Deleted ${track.title} to playlist fail`);
+      }
+
+      return result;
+   }
+);
+
 const initialState = {
    current: {
       value: null,
@@ -105,14 +122,26 @@ export const playlistSlice = createSlice({
             state.current.pending = true;
          })
          .addCase(addTrackToPlaylist.fulfilled, (state, action) => {
-            const track = action.payload;
-            console.log("[addTrackToPlaylist]", track);
-            state.current.value = track;
+            state.current.value = action.payload;
             state.current.pending = false;
             state.current.success = true;
          })
          .addCase(addTrackToPlaylist.rejected, (state, action) => {
             console.log("[addTrackToPlaylist]", "rejected");
+            // state.current.value = null;
+            state.current.success = false;
+         })
+         .addCase(removeTrackFromPlaylist.pending, (state, action) => {
+            console.log("[removeTrackFromPlaylist]", "loading");
+            state.current.pending = true;
+         })
+         .addCase(removeTrackFromPlaylist.fulfilled, (state, action) => {
+            state.current.value = action.payload;
+            state.current.pending = false;
+            state.current.success = true;
+         })
+         .addCase(removeTrackFromPlaylist.rejected, (state, action) => {
+            console.log("[removeTrackFromPlaylist]", "rejected");
             // state.current.value = null;
             state.current.success = false;
          });

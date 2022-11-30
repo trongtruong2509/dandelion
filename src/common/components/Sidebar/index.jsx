@@ -1,10 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import {
-   MdOutlineLibraryMusic,
-   MdOutlineAlbum,
-   MdOutlineBarChart,
-} from "react-icons/md";
+import { MdOutlineLibraryMusic, MdOutlineAlbum, MdOutlineBarChart } from "react-icons/md";
 
 import LogoDark from "../../../assets/Dandelion_logo_dark.PNG";
 import {
@@ -19,7 +15,7 @@ import {
    IoRadioOutline,
    IoStarOutline,
 } from "react-icons/io5";
-import { adminPaths } from "../../../app/routes";
+import { adminPaths, paths } from "../../../app/routes";
 import { useSelector } from "react-redux";
 import Login from "../Header/Login";
 
@@ -39,20 +35,16 @@ const Sidebar = () => {
 
          <div className="flex flex-col">
             <NavLink
-               to="/"
-               className={({ isActive }) =>
-                  isActive ? navActive : navInactive
-               }
+               to={paths.home}
+               className={({ isActive }) => (isActive ? navActive : navInactive)}
             >
                <IoDiscOutline className="text-2xl" />
                Explore
             </NavLink>
             {currentUser ? (
                <NavLink
-                  to="/mymusic"
-                  className={({ isActive }) =>
-                     isActive ? navActive : navInactive
-                  }
+                  to={paths.mymusic}
+                  className={({ isActive }) => (isActive ? navActive : navInactive)}
                >
                   <IoAlbumsOutline className="text-2xl" />
                   My Music
@@ -69,38 +61,24 @@ const Sidebar = () => {
             )}
 
             <NavLink
-               to="/22"
-               className={({ isActive }) =>
-                  isActive ? navActive : navInactive
-               }
+               to={paths.genres}
+               className={({ isActive }) => (isActive ? navActive : navInactive)}
             >
                <IoMusicalNotesOutline className="text-2xl" />
                Genres
             </NavLink>
-            <NavLink
-               to="/123"
-               className={({ isActive }) =>
-                  isActive ? navActive : navInactive
-               }
-            >
+            <NavLink to="/123" className={({ isActive }) => (isActive ? navActive : navInactive)}>
                <IoRadioOutline className="text-2xl" />
                Radio
             </NavLink>
 
-            <NavLink
-               to="/123"
-               className={({ isActive }) =>
-                  isActive ? navActive : navInactive
-               }
-            >
+            <NavLink to="/123" className={({ isActive }) => (isActive ? navActive : navInactive)}>
                <IoStarOutline className="text-2xl" />
                Top 100
             </NavLink>
             <NavLink
                to={adminPaths.home}
-               className={({ isActive }) =>
-                  isActive ? navActive : navInactive
-               }
+               className={({ isActive }) => (isActive ? navActive : navInactive)}
             >
                <IoAccessibilityOutline className="text-2xl" />
                Admin

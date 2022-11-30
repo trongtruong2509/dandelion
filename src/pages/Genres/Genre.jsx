@@ -43,11 +43,9 @@ const Genre = () => {
    }, [params.id]);
 
    useEffect(() => {
-      getDocInList(firebaseCollections.songs, artist?.topHits).then(
-         (result) => {
-            setTopHits(result);
-         }
-      );
+      getDocInList(firebaseCollections.songs, artist?.topHits).then((result) => {
+         setTopHits(result);
+      });
    }, [artist]);
 
    const onOverview = () => {
@@ -73,9 +71,7 @@ const Genre = () => {
                </div>
             )}
             <div className="z-10 flex flex-col items-start">
-               <h1 className="py-12 font-bold text-7xl text-primary">
-                  {artist?.name}
-               </h1>
+               <h1 className="py-12 font-bold text-7xl text-primary">{artist?.name}</h1>
                <div className="gap-4 flex-center">
                   <button className="gap-2 px-6 py-2 rounded-full flex-center bg-dandelion-primary">
                      <FaPlay />
@@ -121,12 +117,7 @@ const Genre = () => {
 
                         <div className="w-full h-[285px] overflow-auto scrollbar">
                            {topHits?.map((hit) => (
-                              <SongItem
-                                 key={hit.id}
-                                 info={hit}
-                                 playlistMode
-                                 isPlaylist
-                              />
+                              <SongItem key={hit.id} info={hit} playlistMode isPlaylist />
                            ))}
                         </div>
                      </div>
@@ -134,9 +125,7 @@ const Genre = () => {
                   <section className="py-5">
                      <div className="pb-6 flex-btw">
                         <div className="flex items-center justify-start gap-4">
-                           <h1 className="text-2xl font-bold text-white">
-                              Albums
-                           </h1>
+                           <h1 className="text-2xl font-bold text-white">Albums</h1>
                         </div>
                         <button className="gap-2 flex-center text-secondary hover:text-primary">
                            View All
@@ -144,11 +133,7 @@ const Genre = () => {
                         </button>
                      </div>
 
-                     <Swiper
-                        slidesPerView={5}
-                        spaceBetween={30}
-                        className="w-full"
-                     >
+                     <Swiper slidesPerView={5} spaceBetween={30} className="w-full">
                         {tempPlaylists.map((p) => (
                            <SwiperSlide key={p.id}>
                               <PlaylistCover info={p} />
@@ -159,9 +144,7 @@ const Genre = () => {
                   <section className="py-5">
                      <div className="pb-6 flex-btw">
                         <div className="flex items-center justify-start gap-4">
-                           <h1 className="text-2xl font-bold text-white">
-                              Collections
-                           </h1>
+                           <h1 className="text-2xl font-bold text-white">Collections</h1>
                         </div>
                         <button className="gap-2 flex-center text-secondary hover:text-primary">
                            View All
@@ -169,11 +152,7 @@ const Genre = () => {
                         </button>
                      </div>
 
-                     <Swiper
-                        slidesPerView={5}
-                        spaceBetween={30}
-                        className="w-full"
-                     >
+                     <Swiper slidesPerView={5} spaceBetween={30} className="w-full">
                         {tempPlaylists.map((p) => (
                            <SwiperSlide key={p.id}>
                               <PlaylistCover info={p} />
@@ -184,9 +163,7 @@ const Genre = () => {
                   <section className="py-5">
                      <div className="pb-6 flex-btw">
                         <div className="flex items-center justify-start gap-4">
-                           <h1 className="text-2xl font-bold text-white">
-                              Appear On
-                           </h1>
+                           <h1 className="text-2xl font-bold text-white">Appear On</h1>
                         </div>
                         <button className="gap-2 flex-center text-secondary hover:text-primary">
                            View All
@@ -194,11 +171,7 @@ const Genre = () => {
                         </button>
                      </div>
 
-                     <Swiper
-                        slidesPerView={5}
-                        spaceBetween={30}
-                        className="w-full"
-                     >
+                     <Swiper slidesPerView={5} spaceBetween={30} className="w-full">
                         {tempPlaylists.map((p) => (
                            <SwiperSlide key={p.id}>
                               <PlaylistCover info={p} />
@@ -207,9 +180,7 @@ const Genre = () => {
                      </Swiper>
                   </section>
                   <section className="w-full h-32 py-5">
-                     <h1 className="text-2xl font-bold text-white">
-                        Maybe You Like
-                     </h1>
+                     <h1 className="text-2xl font-bold text-white">Maybe You Like</h1>
                   </section>
                </TabPanel>
                <TabPanel className="w-full">

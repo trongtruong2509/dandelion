@@ -13,6 +13,7 @@ import {
    fetchCurrentPlaylistInfo,
    addTrackToCurrent,
    addTrackToPlaylist,
+   removeTrackFromPlaylist,
 } from "../../slices/playlistSlice";
 import { updateRecentPlay } from "../../slices/userSlice";
 import { initQueue } from "../../slices/playQueueSlice";
@@ -32,9 +33,14 @@ const PlaylistDetail = ({ id }) => {
    const isMounted = useRef(false);
 
    useEffect(() => {
-      console.log("[user?.recentPlayed]", user?.recentPlayed);
-      setSuggestSongs(user?.recentPlayed);
-   }, [user?.recentPlayed]);
+      let filtered = [...suggestSongs];
+
+      currentPlaylist?.songs.forEach((s) => {
+         filtered = filtered.filter((t) => t.id !== s.id);
+      });
+
+      setSuggestSongs(filtered);
+   }, [user?.recentPlayed, currentPlaylist?.songs]);
 
    useEffect(() => {
       console.log("[playlist detail] id changed", id);
@@ -45,18 +51,6 @@ const PlaylistDetail = ({ id }) => {
          dispatch(fetchCurrentPlaylistInfo(id));
       }
    }, [id]);
-
-   // useEffect(() => {
-   //    if (currentPlaylist?.songs?.length) {
-   //       console.log("[result.songs]", currentPlaylist.songs);
-   //       getDocInList("songs", currentPlaylist.songs)
-   //          .then((result) => {
-   //             console.log("[currentPlaylist] result", result);
-   //             dispatch(setCurrentTracks(result));
-   //          })
-   //          .catch((err) => console.log("[err] when setPlaylistTracks", err));
-   //    }
-   // }, [currentPlaylist]);
 
    const shuffleAndPlay = (songs, shuffle, chosen) => {
       let shuffledSongs = [...songs];
@@ -95,15 +89,14 @@ const PlaylistDetail = ({ id }) => {
       return convertTimeToStr(total, true);
    };
 
-   const handleAddToPlaylist = (songInfo) => {
-      let newSuggestion = [...suggestSongs];
-      newSuggestion.splice(
-         suggestSongs.findIndex((t) => t.id === songInfo.id),
-         1
-      );
-      setSuggestSongs(newSuggestion);
+   const handleAddToPlaylist = (track) => {
+      setSuggestSongs([...suggestSongs].filter((t) => t.id !== track.id));
+      dispatch(addTrackToPlaylist({ playlist: currentPlaylist, track }));
+   };
 
-      dispatch(addTrackToPlaylist({ playlist: currentPlaylist, track: songInfo }));
+   const handeDelete = (track) => {
+      setSuggestSongs([track, ...suggestSongs]);
+      dispatch(removeTrackFromPlaylist({ playlist: currentPlaylist, track }));
    };
 
    return (
@@ -130,6 +123,8 @@ const PlaylistDetail = ({ id }) => {
                            playlistMode
                            isPlaylist
                            inPlaylistPage
+                           canDetele={currentPlaylist?.createdBy === user.id ? true : false}
+                           onDelete={handeDelete}
                            onClick={() => dispatch(update(song))}
                         />
                      ))}
@@ -150,7 +145,7 @@ const PlaylistDetail = ({ id }) => {
                   </div>
                )}
 
-               {currentPlaylist?.songs?.length < 20 && (
+               {currentPlaylist?.createdBy === user.id && currentPlaylist?.songs?.length < 20 && (
                   <div className="mt-5">
                      <div className="flex-btw">
                         <div>

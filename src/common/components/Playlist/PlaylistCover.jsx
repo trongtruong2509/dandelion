@@ -9,8 +9,8 @@ import { IoHeartOutline, IoHeart, IoClose } from "react-icons/io5";
 import { updatePlaylists, updateRecentPlaylist } from "../../slices/userSlice";
 import { updateCurrentPlaylist, updatePlayingPlaylist } from "../../slices/playlistSlice";
 
-import DefaultThumbnail from "../../../assets/album_default.png";
 import { adminPaths } from "../../../app/routes";
+import PlaylistThumbnail from "./PlaylistThumbnail";
 
 const PlaylistCover = ({ info, size = "md", editable = false, admin = false }) => {
    const navigate = useNavigate();
@@ -99,11 +99,8 @@ const PlaylistCover = ({ info, size = "md", editable = false, admin = false }) =
             className={`group relative overflow-hidden rounded-md cursor-pointer ${thumbnailSizes[size]} z-10`}
             onClick={onNavigate}
          >
-            <img
-               src={info?.thumbnail ? info?.thumbnail : DefaultThumbnail}
-               alt={info?.title}
-               className="z-10 object-cover w-full h-full transition-all duration-500 ease-out group-hover:scale-105"
-            />
+            <PlaylistThumbnail playlist={info} className="z-10" />
+
             <div className="absolute top-0 left-0 z-50 items-center justify-center hidden w-full h-full text-primary group-hover:flex bg-dark-alpha-50">
                <div
                   className={`${size === "sm" ? "gap-4" : "gap-6"} flex-center`}

@@ -5,7 +5,8 @@ import Mymusic from "../pages/Mymusic";
 import PlaylistLib from "../pages/Mymusic/PlaylistLib";
 import Playlist from "../pages/Playlist";
 import Artist from "../pages/Artist";
-import Genre from "../pages/Genre/Genre";
+import Genres from "../pages/Genres/Genres";
+import Genre from "../pages/Genres/Genre";
 import AdminHome from "../admin/pages/Home/AdminHome";
 import MultiUpload from "../admin/pages/Upload/MultiUpload";
 import AdminPlaylist from "../admin/pages/Playlist/AdminPlaylist";
@@ -19,7 +20,8 @@ export const paths = {
    mymusic: "/mymusic",
    playlist: "/playlist/:id",
    artist: "/artist/:id",
-   genre: "/genre/:id",
+   genre: "/genres/:id",
+   genres: "/genres",
    playHistory: "/mymusic/history",
    playHistoryId: "/mymusic/history/:id",
    newRelease: "/new-release/:id",
@@ -47,6 +49,7 @@ const routes = [
    { path: paths.playHistory, component: PlayHistory },
    { path: paths.playHistoryId, component: PlayHistory },
    { path: paths.newRelease, component: NewRelease },
+   { path: paths.genres, component: Genres },
    { path: "/playlist/:id", component: Playlist },
    { path: "/artist/:id", component: Artist },
    { path: paths.genre, component: Genre },
