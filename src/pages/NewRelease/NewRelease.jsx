@@ -20,7 +20,7 @@ const NewRelease = () => {
       uppercase cursor-pointer text-center outline-none`;
 
    const dispatch = useDispatch();
-   // const navigate = useNavigate();
+   const navigate = useNavigate();
    const params = useParams();
 
    const currentUser = useSelector((state) => state.user.user);
@@ -57,14 +57,21 @@ const NewRelease = () => {
 
    return (
       <div className="relative">
-         <header className="w-full py-4 text-3xl font-bold top-3 text-primary">New Release</header>
+         <header className="w-full py-4 text-3xl font-bold top-3 text-primary">
+            New Release
+         </header>
          <Tabs
             className="w-full pt-7 Tabs"
             selectedTabClassName="text-tab-active border-b-2 border-dandelion-primary"
             defaultIndex={tabActive()}
          >
             <TabList className="flex w-full gap-3 bg-transparent border-b border-primary">
-               <Tab className={tabStyle} onClick={() => fetchSongs()}>
+               <Tab
+                  className={tabStyle}
+                  onClick={() =>
+                     navigate(paths.newRelease.replace(":id", "song"))
+                  }
+               >
                   SONGS
                </Tab>
                <Tab className={tabStyle} onClick={() => fetchNewPlaylist()}>
@@ -78,16 +85,28 @@ const NewRelease = () => {
                   defaultIndex={0}
                >
                   <TabList className="flex w-full gap-4 bg-transparent">
-                     <Tab className={tabChildStyle} onClick={() => setSongFilter()}>
+                     <Tab
+                        className={tabChildStyle}
+                        onClick={() => setSongFilter()}
+                     >
                         ALL
                      </Tab>
-                     <Tab className={tabChildStyle} onClick={() => setSongFilter("IWZ9Z08I")}>
+                     <Tab
+                        className={tabChildStyle}
+                        onClick={() => setSongFilter("IWZ9Z08I")}
+                     >
                         VIETNAM
                      </Tab>
-                     <Tab className={tabChildStyle} onClick={() => setSongFilter("IWZ9Z08O")}>
+                     <Tab
+                        className={tabChildStyle}
+                        onClick={() => setSongFilter("IWZ9Z08O")}
+                     >
                         US-UK
                      </Tab>
-                     <Tab className={tabChildStyle} onClick={() => setSongFilter("IWZ9Z08W")}>
+                     <Tab
+                        className={tabChildStyle}
+                        onClick={() => setSongFilter("IWZ9Z08W")}
+                     >
                         Kpop
                      </Tab>
                   </TabList>
@@ -108,9 +127,9 @@ const NewRelease = () => {
             <TabPanel className="w-full">
                <div className="grid w-full grid-cols-1 gap-6 py-2 my-6 xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3">
                   {isLoading
-                     ? Array.from({ length: 15 }, (v, i) => i).map((loading) => (
-                          <PlaylistCoverSkeleton key={loading} />
-                       ))
+                     ? Array.from({ length: 15 }, (v, i) => i).map(
+                          (loading) => <PlaylistCoverSkeleton key={loading} />
+                       )
                      : newRelease?.map((p, index) => (
                           <PlaylistCover key={index} info={p} editable />
                        ))}
@@ -129,7 +148,9 @@ const TrackContent = ({ loading, tracks }) => {
                ? Array.from({ length: 15 }, (v, i) => i).map((loading) => (
                     <SongSkeleton key={loading} />
                  ))
-               : tracks?.map((s) => <SongItem info={s} playlistMode canDetele key={s.id} />)}
+               : tracks?.map((s) => (
+                    <SongItem info={s} playlistMode canDetele key={s.id} />
+                 ))}
          </div>
       </>
    );

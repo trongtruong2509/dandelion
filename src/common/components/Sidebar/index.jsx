@@ -20,9 +20,12 @@ import {
    IoStarOutline,
 } from "react-icons/io5";
 import { adminPaths } from "../../../app/routes";
-// import routes from "./../../../app/routes";
+import { useSelector } from "react-redux";
+import Login from "../Header/Login";
 
 const Sidebar = () => {
+   const currentUser = useSelector((state) => state.user.user);
+
    const navActive =
       "bg-dark-alpha-10 border-l-4 border-dandelion-primary px-6 py-2 flex gap-2 items-center opacity-100 text-dandelion-primary font-semibold";
    const navInactive =
@@ -44,15 +47,26 @@ const Sidebar = () => {
                <IoDiscOutline className="text-2xl" />
                Explore
             </NavLink>
-            <NavLink
-               to="/mymusic"
-               className={({ isActive }) =>
-                  isActive ? navActive : navInactive
-               }
-            >
-               <IoAlbumsOutline className="text-2xl" />
-               My Music
-            </NavLink>
+            {currentUser ? (
+               <NavLink
+                  to="/mymusic"
+                  className={({ isActive }) =>
+                     isActive ? navActive : navInactive
+                  }
+               >
+                  <IoAlbumsOutline className="text-2xl" />
+                  My Music
+               </NavLink>
+            ) : (
+               <Login
+                  children={
+                     <button className="flex items-center w-full gap-2 px-6 py-2 border-l-4 border-transparent hover:bg-alpha hover:text-dandelion-primary opacity-80 text-primary">
+                        <IoAlbumsOutline className="text-2xl" />
+                        My Music
+                     </button>
+                  }
+               />
+            )}
 
             <NavLink
                to="/22"

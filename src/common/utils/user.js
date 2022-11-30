@@ -1,5 +1,6 @@
-import { addNewDoc, getDocById, getDocInList, updateDocField } from "./firebaseApi";
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+
+import { addNewDoc, getDocById, updateDocField } from "./firebaseApi";
 import { firebaseCollections } from "../../dataTemplate";
 
 export const updateUserDb = (user) => {
@@ -12,7 +13,9 @@ export const getUserDb = async (userId) => {
 
 export const updateUserRecentPlayed = async (user) => {
    console.log("[updateUserRecentPlayed] user", user);
-   await updateDocField(firebaseCollections.users, user.id, { recentPlayed: user.recentPlayed });
+   await updateDocField(firebaseCollections.users, user.id, {
+      recentPlayed: user.recentPlayed,
+   });
 };
 
 export const getArtistDb = async (id) => {
@@ -54,6 +57,7 @@ export const getNoLoggedUser = () => {
 
 export const loginGoogle = async () => {
    const provider = new GoogleAuthProvider();
+   provider.setCustomParameters({ prompt: "select_account" });
    const auth = getAuth();
 
    try {
@@ -70,7 +74,7 @@ export const loginGoogle = async () => {
       // The AuthCredential type that was used.
       // const credential = GoogleAuthProvider.credentialFromError(error);
       // ...
-      console.log("errorrrrrrrrrrrr");
+      console.log("[loginGoogle] error", error);
       return null;
    }
 };

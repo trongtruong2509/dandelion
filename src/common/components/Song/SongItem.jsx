@@ -21,6 +21,9 @@ import {
 } from "../../slices/playlistSlice";
 import { convertTimeToStr } from "../../utils/common";
 
+const playingMixIcon =
+   "https://zmp3-static.zmdcdn.me/skins/zmp3-v6.1/images/icons/icon-playing.gif";
+
 const SongItem = ({
    info,
    size = "10",
@@ -158,13 +161,19 @@ const SongItem = ({
             />
 
             <button
-               className={`items-center justify-center bg-dark-alpha-50 rounded-md absolute top-2 left-3 group-hover:flex 
+               className={`items-center justify-center bg-dark-alpha-50 rounded-md absolute top-2 left-3 group-hover:flex group
                ${current ? "flex" : "hidden"} 
                ${thumbnailSizes[size]}`}
                onClick={playSong}
             >
                {playingSong?.playing && current ? (
-                  <IoMdPause className="text-xl text-white" />
+                  <div className="group">
+                     <img
+                        src={playingMixIcon}
+                        className="w-[18px] h-[18px] group-hover:opacity-0"
+                     />
+                     <IoMdPause className="text-xl text-white opacity-0 group-hover:opacity-100 absolute-center" />
+                  </div>
                ) : (
                   <IoPlay className="text-[22px] text-white" />
                )}

@@ -14,6 +14,7 @@ import {
    IoColorPaletteOutline,
    IoSettingsOutline,
 } from "react-icons/io5";
+import Login from "./Login";
 
 const Header = ({ active }) => {
    const user = useSelector((state) => state.user.user);
@@ -37,62 +38,10 @@ const Header = ({ active }) => {
       }
    }, []);
 
-   const handleLogin = async () => {
-      const user = await loginGoogle();
-      const userDb = await getUserDb(user.email);
-
-      if (userDb) {
-         dispatch(updateUser(userDb));
-      } else {
-         dispatch(
-            updateUser({
-               id: user.email,
-               name: user.displayName,
-               avatar: user.photoURL,
-               phone: user.phoneNumber,
-               uploaded: [],
-               likedSongs: [],
-               createdPlaylist: [],
-               recentPlayed: [],
-               likedPlaylists: [],
-               likedAlbums: [],
-            })
-         );
-      }
-   };
-
    const handleLogout = () => {
       console.log("logging out...");
       dispatch(removeUser());
    };
-
-   // const handleScroll = useCallback(
-   //    (e) => {
-   //       const window = e.currentTarget;
-   //       console.log("[setActive]");
-
-   //       if (y < Threshold) {
-   //          console.log("[setActive]", y);
-   //          setActive(true);
-   //       } else {
-   //          console.log("[setActive]", y);
-   //          setActive(false);
-   //       }
-
-   //       setY(window.scrollY);
-   //    },
-   //    [y]
-   // );
-
-   // useEffect(() => {
-   //    setY(window.scrollY);
-   //    window.addEventListener("scroll", (e) => handleScroll(e));
-
-   //    return () => {
-   //       // return a cleanup function to unregister our function since its gonna run multiple times
-   //       window.removeEventListener("scroll", (e) => handleScroll(e));
-   //    };
-   // }, [handleScroll]);
 
    return (
       <div
@@ -132,15 +81,25 @@ const Header = ({ active }) => {
             >
                <IoSettingsOutline className="text-xl" />
             </div>
-            <div
-               className="cursor-pointer"
-               onClick={user ? handleLogout : handleLogin}
-            >
-               <img
-                  src={user?.avatar ? user.avatar : defaultAvatar}
-                  alt="Avatar"
-                  className="object-cover w-10 h-10 rounded-full"
-               />
+            <div className="cursor-pointer">
+               {user ? (
+                  <img
+                     src={user?.avatar ? user.avatar : defaultAvatar}
+                     alt="Avatar"
+                     onClick={handleLogout}
+                     className="object-cover w-10 h-10 rounded-full"
+                  />
+               ) : (
+                  <Login
+                     children={
+                        <img
+                           src={defaultAvatar}
+                           alt="Avatar"
+                           className="object-cover w-10 h-10 rounded-full"
+                        />
+                     }
+                  />
+               )}
             </div>
          </div>
       </div>

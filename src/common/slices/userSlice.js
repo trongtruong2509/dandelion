@@ -63,7 +63,7 @@ export const userSlice = createSlice({
       updateUser: (state, action) => {
          state.user = action.payload;
          updateUserLocal(action.payload);
-         updateUserDb(action.payload);
+         updateUserDb(action.payload); //TODO: only update if difference with db
       },
       removeUser: (state) => {
          state.user = null;
@@ -103,7 +103,7 @@ export const userSlice = createSlice({
          const idx = current(state.user.playlists).indexOf(id);
 
          if (idx === -1) {
-            state.user.playlists.push(id);
+            state.user.playlists.unshift(id);
          } else {
             state.user.playlists.splice(idx, 1); // delete it in list
          }

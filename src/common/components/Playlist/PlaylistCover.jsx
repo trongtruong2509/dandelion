@@ -64,15 +64,25 @@ const PlaylistCover = ({
    const likeIcon = () => {
       return (
          <button
-            className="w-full h-full rounded-full cursor-pointer hover:bg-hover-tooltip flex-center"
+            className={`${
+               size === "sm" ? "p-[6px]" : "p-2"
+            } rounded-full cursor-pointer hover:bg-hover-tooltip flex-center"`}
             onClick={() =>
-               currentUser ? dispatch(updatePlaylists(info?.id)) : handleLogin()
+               currentUser ? dispatch(updatePlaylists(info)) : handleLogin()
             }
          >
             {currentUser?.playlists?.find((p) => p === info?.id) ? (
-               <IoHeart className="text-2xl text-dandelion-primary" />
+               <IoHeart
+                  className={`${
+                     size === "sm" ? "text-[22px]" : "text-2xl"
+                  } text-dandelion-primary`}
+               />
             ) : (
-               <IoHeartOutline className="text-2xl text-white hover:text-dandelion-primary" />
+               <IoHeartOutline
+                  className={`${
+                     size === "sm" ? "text-[22px]" : "text-2xl"
+                  } text-white hover:text-dandelion-primary`}
+               />
             )}
          </button>
       );
@@ -86,7 +96,7 @@ const PlaylistCover = ({
                   className="w-10 h-10 rounded-full cursor-pointer flex-center hover:bg-hover-tooltip"
                   onClick={() => dispatch(updatePlaylists(info.id))}
                >
-                  <IoClose className="text-3xl text-white" />
+                  <IoClose className="text-2xl text-white" />
                </button>
             )
          );
@@ -108,10 +118,10 @@ const PlaylistCover = ({
             />
             <div className="absolute top-0 left-0 z-50 items-center justify-center hidden w-full h-full text-primary group-hover:flex bg-dark-alpha-50">
                <div
-                  className="gap-6 flex-center"
+                  className={`${size === "sm" ? "gap-4" : "gap-6"} flex-center`}
                   onClick={(e) => e.stopPropagation()}
                >
-                  <div className="w-10 h-10 ">{displayIcon()}</div>
+                  <div>{displayIcon()}</div>
 
                   <button
                      className="text-white hover:text-dandelion-primary"
@@ -120,8 +130,16 @@ const PlaylistCover = ({
                      <FaPlay className="text-3xl cursor-pointer" />
                   </button>
 
-                  <button className="p-2 text-white rounded-full hover:bg-hover-tooltip">
-                     <HiOutlineDotsHorizontal className="text-2xl cursor-pointer" />
+                  <button
+                     className={`${
+                        size === "sm" ? "p-[6px]" : "p-2"
+                     } text-white rounded-full hover:bg-hover-tooltip`}
+                  >
+                     <HiOutlineDotsHorizontal
+                        className={`${
+                           size === "sm" ? "text-xl" : "text-2xl"
+                        }  cursor-pointer`}
+                     />
                   </button>
                </div>
             </div>

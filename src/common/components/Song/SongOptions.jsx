@@ -1,17 +1,24 @@
 import React, { forwardRef } from "react";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import {
+   IoAccessibilityOutline,
    IoAddOutline,
    IoEllipsisHorizontalOutline,
    IoEllipsisHorizontalSharp,
    IoTrashOutline,
 } from "react-icons/io5";
-import { MdFavorite, MdFavoriteBorder, MdMoreHoriz, MdOutlinePlaylistAdd } from "react-icons/md";
+import {
+   MdFavorite,
+   MdFavoriteBorder,
+   MdMoreHoriz,
+   MdOutlinePlaylistAdd,
+} from "react-icons/md";
 import { useSelector, useDispatch } from "react-redux";
 // import Tippy from "@tippyjs/react";
 
 import { updateLikeSong, updateUser } from "../../slices/userSlice";
 import { getUserDb, loginGoogle } from "../../utils/user";
+import Login from "../Header/Login";
 import SongMenu from "../Popers/SongMenu";
 
 const SongOptions = ({
@@ -30,46 +37,40 @@ const SongOptions = ({
    const currentUser = useSelector((state) => state.user.user);
    const dispatch = useDispatch();
 
-   const handleLogin = async () => {
-      const user = await loginGoogle();
-      const userDb = await getUserDb(user.email);
-
-      if (userDb) {
-         dispatch(updateUser(userDb));
-      } else {
-         dispatch(
-            updateUser({
-               id: user.email,
-               name: user.displayName,
-               avatar: user.photoURL,
-               phone: user.phoneNumber,
-               uploaded: [],
-               likedSongs: [],
-               createdPlaylist: [],
-               recentPlayed: [],
-               likedPlaylists: [],
-               likedAlbums: [],
-            })
-         );
-      }
-   };
-
    const notLiked =
-      !currentUser || currentUser?.likedSongs.findIndex((t) => t.id === songInfo?.id) === -1;
+      !currentUser ||
+      currentUser?.likedSongs.findIndex((t) => t.id === songInfo?.id) === -1;
 
    return (
       <div className="gap-1 text-lg text-primary flex-center group">
          {like && (
             <div
                className={`items-center justify-center w-10 h-10 p-2 rounded-full cursor-pointer hover:bg-alpha ${
-                  activeLike ? "flex" : notLiked ? "hidden group-hover:flex" : "flex"
+                  activeLike
+                     ? "flex"
+                     : notLiked
+                     ? "hidden group-hover:flex"
+                     : "flex"
                }`}
-               onClick={() => (currentUser ? dispatch(updateLikeSong(songInfo)) : handleLogin())}
             >
-               {notLiked ? (
-                  <MdFavoriteBorder className={`text-lg hover:text-dandelion-primary`} />
+               {currentUser ? (
+                  <div onClick={() => dispatch(updateLikeSong(songInfo))}>
+                     {notLiked ? (
+                        <MdFavoriteBorder
+                           className={`text-lg hover:text-dandelion-primary`}
+                        />
+                     ) : (
+                        <MdFavorite className="text-lg text-dandelion-primary" />
+                     )}
+                  </div>
                ) : (
-                  <MdFavorite className="text-lg text-dandelion-primary" />
+                  <Login
+                     children={
+                        <MdFavoriteBorder
+                           className={`text-lg hover:text-dandelion-primary`}
+                        />
+                     }
+                  />
                )}
             </div>
          )}

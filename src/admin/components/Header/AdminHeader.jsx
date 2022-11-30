@@ -52,30 +52,6 @@ const AdminHeader = () => {
       }
    }, [upload?.tracks]);
 
-   const handleLogin = async () => {
-      const user = await loginGoogle();
-      const userDb = await getUserDb(user.email);
-
-      if (userDb) {
-         dispatch(updateUser(userDb));
-      } else {
-         dispatch(
-            updateUser({
-               id: user.email,
-               name: user.displayName,
-               avatar: user.photoURL,
-               phone: user.phoneNumber,
-               uploaded: [],
-               likedSongs: [],
-               createdPlaylist: [],
-               recentPlayed: [],
-               likedPlaylists: [],
-               likedAlbums: [],
-            })
-         );
-      }
-   };
-
    const handleLogout = () => {
       console.log("logging out...");
       dispatch(removeUser());
@@ -138,7 +114,7 @@ const AdminHeader = () => {
             </div>
             <div
                className="cursor-pointer"
-               onClick={user ? handleLogout : handleLogin}
+               // onClick={user ? handleLogout : handleLogin}
             >
                <img
                   src={user?.avatar ? user.avatar : defaultAvatar}
