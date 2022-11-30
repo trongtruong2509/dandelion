@@ -42,8 +42,8 @@ export const themeDefault = {
    textNavigation: "#32323d",
    textSidebarTitle: "rgba(0,0,0,0.7)",
    textPlayer: "#32323d",
-   textItemHover: "#8d22c3",
-   textLinkHover: "#8d22c3",
+   textItemHover: "#14b8a6",
+   textLinkHover: "#14b8a6",
 
    borderPrimary: "rgba(0,0,0,0.1)",
    borderSecondary: "rgba(0,0,0,0.05)",

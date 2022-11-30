@@ -31,9 +31,7 @@ const PlaylistHeader = () => {
 
    const onPlay = () => {
       if (!thumbnailRotateOff.includes("animate-[spinoff_0.5s_ease_1]")) {
-         setThumbnailRotateOff(
-            `${thumbnailRotateOff} animate-[spinoff_0.5s_ease_1]`
-         );
+         setThumbnailRotateOff(`${thumbnailRotateOff} animate-[spinoff_0.5s_ease_1]`);
       }
 
       console.log("[onPlay] clicked");
@@ -49,14 +47,10 @@ const PlaylistHeader = () => {
    };
 
    const isCurrentPlaying = () => {
-      return (
-         currentPlaylist?.id === playingPlaylist?.value?.id &&
-         playingTrack?.playing
-      );
+      return currentPlaylist?.id === playingPlaylist?.value?.id && playingTrack?.playing;
    };
 
-   const notLiked =
-      !user || !user?.playlists.find((t) => t === currentPlaylist?.id);
+   const notLiked = !user || !user?.playlists.find((t) => t === currentPlaylist?.id);
 
    const thumbnailRotate =
       "animate-[spin_12s_linear_infinite] rounded-full transition-[border-radius] duration-[2000ms] ease-out";
@@ -72,11 +66,7 @@ const PlaylistHeader = () => {
             >
                <img
                   className="object-cover w-full h-full transition-all duration-500 ease-out group-hover:scale-105"
-                  src={
-                     currentPlaylist?.thumbnail
-                        ? currentPlaylist?.thumbnail
-                        : AlbumDefault
-                  }
+                  src={currentPlaylist?.thumbnail ? currentPlaylist?.thumbnail : AlbumDefault}
                   alt="Playlist Cover"
                />
                {currentPlaylist?.songs?.length && (
@@ -119,7 +109,7 @@ const PlaylistHeader = () => {
             <p className="mt-1 mb-5 text-xs text-center text-secondary">
                Created by{" "}
                <span className="font-semibold cursor-pointer text-primary hover:text-dandelion-primary">
-                  {currentPlaylist?.createdBy}
+                  {currentPlaylist?.user}
                </span>
             </p>
 
@@ -156,11 +146,7 @@ const PlaylistHeader = () => {
             <div className="flex items-center justify-center gap-4 mt-5">
                <div className="p-2 rounded-full cursor-pointer flex-center bg-alpha">
                   {user ? (
-                     <div
-                        onClick={() =>
-                           dispatch(updatePlaylists(currentPlaylist))
-                        }
-                     >
+                     <div onClick={() => dispatch(updatePlaylists(currentPlaylist))}>
                         {notLiked ? (
                            <MdFavoriteBorder
                               className={`text-lg hover:text-dandelion-primary text-primary`}

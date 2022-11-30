@@ -26,7 +26,6 @@ export const getDocById = async (collection, id) => {
    const ref = doc(firestore, collection, id);
 
    try {
-      // console.log(ref);
       const doc = await getDoc(ref);
 
       return doc.data();
@@ -53,10 +52,7 @@ export const getDocInList = async (document, filter) => {
    try {
       for (const filter of filters) {
          // console.log(filter);
-         const q = query(
-            collection(firestore, document),
-            where("id", "in", filter)
-         );
+         const q = query(collection(firestore, document), where("id", "in", filter));
 
          const querySnapshot = await getDocs(q);
 
@@ -79,10 +75,7 @@ export const getDocInList = async (document, filter) => {
 
 export const getDocumentContains = async (document, property, subtext) => {
    console.log(document + " " + property + " " + subtext);
-   const q = query(
-      collection(firestore, document),
-      where(property, ">=", subtext)
-   );
+   const q = query(collection(firestore, document), where(property, ">=", subtext));
 
    try {
       const querySnapshot = await getDocs(q);
@@ -123,6 +116,14 @@ export const deleteDocById = async (collection, docId) => {
 };
 
 export const updateDocField = async (collection, id, data) => {
-   const docRef = doc(firestore, collection, id);
-   return updateDoc(docRef, data);
+   try {
+      const docRef = doc(firestore, collection, id);
+      await updateDoc(docRef, data);
+
+      return await getDocById(firebaseCollections.playlists, id);
+   } catch (error) {
+      console.log("[updateDocField]", error);
+
+      return null;
+   }
 };

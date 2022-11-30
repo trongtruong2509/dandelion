@@ -84,10 +84,15 @@ export const getSuggestedSongs = async (playing) => {
          (g) => !["IWZ9Z08I", "IWZ9Z08O", "IWZ9Z08W"].includes(g)
       );
 
+      console.log("[getSuggestedSongs]", playing.genreIds, genresFiltered);
+
       if (genresFiltered.length) {
          const queryByGenres = query(
             collection(firestore, firebaseCollections.songs),
-            where("genreIds", "array-contains-any", genresFiltered)
+            where("genreIds", "array-contains-any", genresFiltered),
+            where("releaseDate", "<", playing.releaseDate + 31556926),
+            where("releaseDate", ">", playing.releaseDate - 31556926),
+            limit(20)
          );
 
          const querySnapshotGenres = await getDocs(queryByGenres);
@@ -101,7 +106,7 @@ export const getSuggestedSongs = async (playing) => {
       }
 
       // TODO: random before slice to 20
-      return result.slice(0, 20);
+      return result;
    } catch (error) {
       console.log(error);
       return [];

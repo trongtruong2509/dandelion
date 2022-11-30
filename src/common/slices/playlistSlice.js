@@ -1,14 +1,32 @@
 import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 import { firebaseCollections } from "../../dataTemplate";
-import { getDocById, getDocInList } from "../utils/firebaseApi";
+import { getDocById, getDocInList, updateDocField } from "../utils/firebaseApi";
 
 import * as local from "../utils/localStorage";
 
 export const fetchCurrentPlaylistInfo = createAsyncThunk(
    "/playlist/fetchCurrentPlaylistInfo",
    async (id) => {
-      const playlist = await getDocById("playlists", id);
+      const playlist = await getDocById(firebaseCollections.playlists, id);
       return playlist;
+   }
+);
+
+export const addTrackToPlaylist = createAsyncThunk(
+   "/playlist/addTrackToPlaylist",
+   async ({ playlist, track }) => {
+      const result = await updateDocField(firebaseCollections.playlists, playlist.id, {
+         songs: [...playlist.songs, track],
+      });
+
+      if (result) {
+         toast.info(`Added ${track.title} to playlist successfully`);
+      } else {
+         toast.error(`Added ${track.title} to playlist fail`);
+      }
+
+      return result;
    }
 );
 
@@ -33,8 +51,10 @@ export const playlistSlice = createSlice({
       updateCurrentPlaylist: (state, action) => {
          state.current.value = action.payload;
       },
-      setCurrentTracks: (state, action) => {
-         state.current.tracks = action.payload;
+      addTrackToCurrent: (state, action) => {
+         state.current.value.songs.push(action.payload);
+
+         // TODO: update to DB
       },
       updatePlayingPlaylist: (state, action) => {
          state.playing.value = action.payload;
@@ -79,6 +99,22 @@ export const playlistSlice = createSlice({
             console.log("[fetchCurrentPlaylistInfo]", "rejected");
             state.current.value = null;
             state.current.success = false;
+         })
+         .addCase(addTrackToPlaylist.pending, (state, action) => {
+            console.log("[addTrackToPlaylist]", "loading");
+            state.current.pending = true;
+         })
+         .addCase(addTrackToPlaylist.fulfilled, (state, action) => {
+            const track = action.payload;
+            console.log("[addTrackToPlaylist]", track);
+            state.current.value = track;
+            state.current.pending = false;
+            state.current.success = true;
+         })
+         .addCase(addTrackToPlaylist.rejected, (state, action) => {
+            console.log("[addTrackToPlaylist]", "rejected");
+            // state.current.value = null;
+            state.current.success = false;
          });
    },
 });
@@ -86,10 +122,9 @@ export const playlistSlice = createSlice({
 // Action creators are generated for each case reducer function
 export const {
    updateCurrentPlaylist,
-   setCurrentTracks,
+   addTrackToCurrent,
    updateCurrentToPlaying,
    updatePlayingPlaylist,
-   // updatePlayingTracks,
    emtpyPlayingPlaylist,
    remove,
    removeASong,

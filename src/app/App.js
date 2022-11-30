@@ -1,10 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import {
-   BrowserRouter as Router,
-   Routes,
-   Route,
-   Outlet,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import { ToastContainer } from "react-toastify";
@@ -41,26 +36,12 @@ function App() {
          <Routes>
             <Route exact path="/" element={<Layout />}>
                {routes.map(({ component: Component, path }) => {
-                  return (
-                     <Route
-                        exact
-                        key={path}
-                        path={path}
-                        element={<Component />}
-                     />
-                  );
+                  return <Route exact key={path} path={path} element={<Component />} />;
                })}
             </Route>
             <Route exact path={adminPaths.home} element={<AdminLayout />}>
                {adminRoutes.map(({ component: Component, path }) => {
-                  return (
-                     <Route
-                        exact
-                        key={path}
-                        path={path}
-                        element={<Component />}
-                     />
-                  );
+                  return <Route exact key={path} path={path} element={<Component />} />;
                })}
             </Route>
          </Routes>
@@ -126,6 +107,16 @@ function Layout() {
                <PlayerQueue />
             </div>
             {currentSong && <Playbar />}
+            <ToastContainer
+               position="top-right"
+               autoClose={2000}
+               hideProgressBar={true}
+               newestOnTop={false}
+               closeOnClick
+               rtl={false}
+               draggable
+               // theme="dark"
+            />
          </div>
       </>
    );

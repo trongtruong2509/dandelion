@@ -7,12 +7,7 @@ import {
    IoEllipsisHorizontalSharp,
    IoTrashOutline,
 } from "react-icons/io5";
-import {
-   MdFavorite,
-   MdFavoriteBorder,
-   MdMoreHoriz,
-   MdOutlinePlaylistAdd,
-} from "react-icons/md";
+import { MdFavorite, MdFavoriteBorder, MdMoreHoriz, MdOutlinePlaylistAdd } from "react-icons/md";
 import { useSelector, useDispatch } from "react-redux";
 // import Tippy from "@tippyjs/react";
 
@@ -38,27 +33,20 @@ const SongOptions = ({
    const dispatch = useDispatch();
 
    const notLiked =
-      !currentUser ||
-      currentUser?.likedSongs.findIndex((t) => t.id === songInfo?.id) === -1;
+      !currentUser || currentUser?.likedSongs.findIndex((t) => t.id === songInfo?.id) === -1;
 
    return (
       <div className="gap-1 text-lg text-primary flex-center group">
          {like && (
             <div
                className={`items-center justify-center w-10 h-10 p-2 rounded-full cursor-pointer hover:bg-alpha ${
-                  activeLike
-                     ? "flex"
-                     : notLiked
-                     ? "hidden group-hover:flex"
-                     : "flex"
+                  activeLike ? "flex" : notLiked ? "hidden group-hover:flex" : "flex"
                }`}
             >
                {currentUser ? (
                   <div onClick={() => dispatch(updateLikeSong(songInfo))}>
                      {notLiked ? (
-                        <MdFavoriteBorder
-                           className={`text-lg hover:text-dandelion-primary`}
-                        />
+                        <MdFavoriteBorder className={`text-lg hover:text-dandelion-primary`} />
                      ) : (
                         <MdFavorite className="text-lg text-dandelion-primary" />
                      )}
@@ -66,9 +54,7 @@ const SongOptions = ({
                ) : (
                   <Login
                      children={
-                        <MdFavoriteBorder
-                           className={`text-lg hover:text-dandelion-primary`}
-                        />
+                        <MdFavoriteBorder className={`text-lg hover:text-dandelion-primary`} />
                      }
                   />
                )}
@@ -86,7 +72,7 @@ const SongOptions = ({
 
          {addPlaylist && (
             <button
-               className="w-10 h-10 p-2 rounded-full opacity-100 cursor-pointer flex-center hover:bg-alpha"
+               className="w-10 h-10 p-2 rounded-full opacity-0 ursor-pointer flex-center hover:bg-alpha group-hover:opacity-100"
                onClick={() => onAdd(songInfo)}
             >
                <IoAddOutline className="text-2xl" />

@@ -7,20 +7,12 @@ import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { IoHeartOutline, IoHeart, IoClose } from "react-icons/io5";
 
 import { updatePlaylists, updateRecentPlaylist } from "../../slices/userSlice";
-import {
-   updateCurrentPlaylist,
-   updatePlayingPlaylist,
-} from "../../slices/playlistSlice";
+import { updateCurrentPlaylist, updatePlayingPlaylist } from "../../slices/playlistSlice";
 
 import DefaultThumbnail from "../../../assets/album_default.png";
 import { adminPaths } from "../../../app/routes";
 
-const PlaylistCover = ({
-   info,
-   size = "md",
-   editable = false,
-   admin = false,
-}) => {
+const PlaylistCover = ({ info, size = "md", editable = false, admin = false }) => {
    const navigate = useNavigate();
    const dispatch = useDispatch();
 
@@ -67,15 +59,11 @@ const PlaylistCover = ({
             className={`${
                size === "sm" ? "p-[6px]" : "p-2"
             } rounded-full cursor-pointer hover:bg-hover-tooltip flex-center"`}
-            onClick={() =>
-               currentUser ? dispatch(updatePlaylists(info)) : handleLogin()
-            }
+            onClick={() => (currentUser ? dispatch(updatePlaylists(info)) : handleLogin())}
          >
             {currentUser?.playlists?.find((p) => p === info?.id) ? (
                <IoHeart
-                  className={`${
-                     size === "sm" ? "text-[22px]" : "text-2xl"
-                  } text-dandelion-primary`}
+                  className={`${size === "sm" ? "text-[22px]" : "text-2xl"} text-dandelion-primary`}
                />
             ) : (
                <IoHeartOutline
@@ -94,7 +82,7 @@ const PlaylistCover = ({
             editable && (
                <button
                   className="w-10 h-10 rounded-full cursor-pointer flex-center hover:bg-hover-tooltip"
-                  onClick={() => dispatch(updatePlaylists(info.id))}
+                  onClick={() => dispatch(updatePlaylists(info))}
                >
                   <IoClose className="text-2xl text-white" />
                </button>
@@ -123,10 +111,7 @@ const PlaylistCover = ({
                >
                   <div>{displayIcon()}</div>
 
-                  <button
-                     className="text-white hover:text-dandelion-primary"
-                     onClick={onPlay}
-                  >
+                  <button className="text-white hover:text-dandelion-primary" onClick={onPlay}>
                      <FaPlay className="text-3xl cursor-pointer" />
                   </button>
 
@@ -136,9 +121,7 @@ const PlaylistCover = ({
                      } text-white rounded-full hover:bg-hover-tooltip`}
                   >
                      <HiOutlineDotsHorizontal
-                        className={`${
-                           size === "sm" ? "text-xl" : "text-2xl"
-                        }  cursor-pointer`}
+                        className={`${size === "sm" ? "text-xl" : "text-2xl"}  cursor-pointer`}
                      />
                   </button>
                </div>
@@ -146,13 +129,9 @@ const PlaylistCover = ({
          </div>
          <div className="w-full">
             <div className="w-full mt-2 flex-btw">
-               <h1 className="w-40 font-semibold truncate text-primary">
-                  {info?.title}
-               </h1>
+               <h1 className="w-40 font-semibold truncate text-primary">{info?.title}</h1>
                {size === "md" && (
-                  <p className="text-sm text-secondary">
-                     {info?.songs?.length} tracks
-                  </p>
+                  <p className="text-sm text-secondary">{info?.songs?.length} tracks</p>
                )}
             </div>
             <p className="mt-1 text-xs text-secondary">{info?.user}</p>

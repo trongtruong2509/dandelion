@@ -12,19 +12,11 @@ import {
 import { MdRepeatOne } from "react-icons/md";
 
 import { play, pause, updateAndPlay } from "../../slices/playingSlice";
-import {
-   getSuggestionToPlay,
-   initQueue,
-   updateQueue,
-} from "../../slices/playQueueSlice";
+import { getSuggestionToPlay, initQueue, updateQueue } from "../../slices/playQueueSlice";
 import { updateRecentPlay } from "../../slices/userSlice";
 
 import { Progress } from "./Progress";
-import {
-   updateRepeat,
-   updateShuffle,
-   updateVolume,
-} from "../../slices/playbarSlice";
+import { updateRepeat, updateShuffle, updateVolume } from "../../slices/playbarSlice";
 import { shuffleArray } from "../../utils/common";
 import PlaybarOptions from "./PlaybarOptions";
 
@@ -65,9 +57,7 @@ const Player = () => {
       const setAudioTime = () => {
          const curTime = _audio.currentTime;
          setTime(curTime);
-         setSlider(
-            curTime ? ((curTime * 100) / _audio.duration).toFixed(1) : 0
-         );
+         setSlider(curTime ? ((curTime * 100) / _audio.duration).toFixed(1) : 0);
       };
 
       const setAudioVolume = () => setVolume(_audio.volume);
@@ -253,8 +243,8 @@ const Player = () => {
                <button
                   className={`p-2 hover:bg-alpha rounded-full ${
                      playbarSlice?.shuffle
-                        ? "text-accent opacity-100"
-                        : "opacity-70"
+                        ? "text-dandelion-primary"
+                        : "text-secondary hover:text-primary"
                   }`}
                   onClick={() => {
                      dispatch(updateShuffle(!playbarSlice?.shuffle));
@@ -303,9 +293,7 @@ const Player = () => {
                )}
             </div>
             <div className="gap-2 font-semibold flex-center text-primary">
-               <p className="w-8 text-xs text-secondary">
-                  {!time ? "0:00" : fmtMSS(time)}
-               </p>
+               <p className="w-8 text-xs text-secondary">{!time ? "0:00" : fmtMSS(time)}</p>
                <div className="w-[600px]">
                   <Progress
                      value={slider}
@@ -317,9 +305,7 @@ const Player = () => {
                      onTouchEnd={() => setPlaying(true)}
                   />
                </div>
-               <p className="w-8 text-xs text-right ">
-                  {!!length ? fmtMSS(length) : "0:00"}
-               </p>
+               <p className="w-8 text-xs text-right ">{!!length ? fmtMSS(length) : "0:00"}</p>
             </div>
          </div>
          <PlaybarOptions

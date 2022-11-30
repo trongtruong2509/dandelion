@@ -24,8 +24,8 @@ const PlaylistModal = ({ ...props }) => {
       const newPlaylist = {
          id,
          title,
-         createdByUserId: user.id,
-         createdBy: user.name,
+         user: user.name,
+         createdBy: user.id,
          description: desc,
          link: `/playlist/${id}`,
          thumbnail: "",
@@ -46,7 +46,7 @@ const PlaylistModal = ({ ...props }) => {
             setLoading(true);
          });
 
-      dispatch(updatePlaylists(id));
+      dispatch(updatePlaylists(newPlaylist));
    };
 
    const onUpdate = () => {
