@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
@@ -17,12 +17,14 @@ const PlayHistory = () => {
    const params = useParams();
 
    const currentUser = useSelector((state) => state.user.user);
-   const userRecentPlaylist = useSelector((state) => state.user.recentPlaylists);
+   const userRecentPlaylist = useSelector(
+      (state) => state.user.recentPlaylists
+   );
    const fetchPending = useSelector((state) => state.user.pending);
 
    useEffect(() => {
       dispatch(fetchUserRecentPlaylist(currentUser));
-   }, [currentUser?.recentPlaylist]);
+   }, [currentUser]);
 
    const tabActive = () => {
       return params.id === "songs" ? 0 : 1;
@@ -41,13 +43,17 @@ const PlayHistory = () => {
             <TabList className="w-fit bg-alpha rounded-3xl p-[3px] flex-center mx-auto mb-5">
                <Tab
                   className={tabStyle}
-                  onClick={() => navigate(paths.playHistoryId.replace(":id", "songs"))}
+                  onClick={() =>
+                     navigate(paths.playHistoryId.replace(":id", "songs"))
+                  }
                >
                   SONGS
                </Tab>
                <Tab
                   className={tabStyle}
-                  onClick={() => navigate(paths.playHistoryId.replace(":id", "playlists"))}
+                  onClick={() =>
+                     navigate(paths.playHistoryId.replace(":id", "playlists"))
+                  }
                >
                   PLAYLISTS
                </Tab>

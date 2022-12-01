@@ -9,7 +9,7 @@ import { MdArrowForwardIos } from "react-icons/md";
 import "swiper/css";
 import "swiper/css/pagination";
 
-import { getDocById, getDocInList } from "../../common/utils/firebaseApi";
+import { getDocInList } from "../../common/utils/firebaseApi";
 import { getArtistDb } from "../../common/utils/user";
 import AlbumDefault from "./../../assets/album_default.png";
 import PlaylistCover from "../../common/components/Playlist/PlaylistCover";
@@ -23,8 +23,6 @@ const Artist = () => {
 
    const [artist, setArtist] = useState(null);
    const [topHits, setTopHits] = useState(null);
-   // const [tab, setTab] = useState(<Overview />);
-   // const [tabIndex, setTabIndex] = useState(0);
 
    const tabStyle = `3xl:px-3 px-2 py-[5px] w-32 text-sm rounded-3xl text-navigation 
                      hover:text-dandelion-primary uppercase cursor-pointer text-center`;
@@ -49,12 +47,6 @@ const Artist = () => {
          }
       );
    }, [artist]);
-
-   const onOverview = () => {
-      const topHits = [];
-
-      // setTab(<Overview />);
-   };
 
    return (
       <div className="relative w-full px-3 mt-8 text-white">
@@ -229,14 +221,5 @@ const Artist = () => {
       </div>
    );
 };
-
-const Overview = (
-   <div className="w-full">
-      <div>
-         <h2 className="py-6 text-3xl font-semibold capitalize ">Top Hits</h2>
-         {}
-      </div>
-   </div>
-);
 
 export default Artist;

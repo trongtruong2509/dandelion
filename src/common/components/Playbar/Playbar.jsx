@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 import Player from "./Player";
 import SongOptions from "../Song/SongOptions";
@@ -27,7 +27,9 @@ const Playbar = () => {
                      <h1 className="text-sm font-semibold truncate text-player">
                         {currentSong?.title}
                      </h1>
-                     <p className="text-xs truncate text-secondary">{currentSong?.artistsNames}</p>
+                     <p className="text-xs truncate text-secondary">
+                        {currentSong?.artistsNames}
+                     </p>
                   </div>
                </div>
                <SongOptions songInfo={currentSong} activeLike activeDots />

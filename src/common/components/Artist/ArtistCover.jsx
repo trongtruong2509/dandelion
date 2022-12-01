@@ -3,14 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
 import { FaPlay } from "react-icons/fa";
-import { HiOutlineDotsHorizontal } from "react-icons/hi";
-import { IoHeartOutline, IoHeart, IoClose } from "react-icons/io5";
 
-import { updatePlaylists, updateRecentPlaylist } from "../../slices/userSlice";
-import {
-   updateCurrentPlaylist,
-   updatePlayingPlaylist,
-} from "../../slices/playlistSlice";
+import { updateCurrentPlaylist } from "../../slices/playlistSlice";
 
 import DefaultThumbnail from "../../../assets/album_default.png";
 import { adminPaths } from "../../../app/routes";
@@ -18,8 +12,6 @@ import { adminPaths } from "../../../app/routes";
 const ArtistCover = ({ info, size = "md", admin = false }) => {
    const navigate = useNavigate();
    const dispatch = useDispatch();
-
-   const playingPlaylist = useSelector((state) => state.playlist.playing);
 
    const onNavigate = () => {
       if (admin) {

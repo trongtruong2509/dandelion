@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { RankItem, RankMenu } from "../../../admin/components/Rank/Rank";
+import { RankMenu } from "../../../admin/components/Rank/Rank";
 import { updateRank } from "../../../common/utils/songs";
 
 const SongInfo = ({ info, size = "10", onClick, badges = false }) => {

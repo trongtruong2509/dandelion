@@ -1,30 +1,22 @@
-import React, { useEffect, useState } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
-// Import Swiper styles
+import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 
 import PlaylistCover from "../../common/components/Playlist/PlaylistCover";
-import { getLatestSongs } from "../../common/utils/songs";
-import { getLatestPlaylists } from "../../common/utils/playlist";
-
 import SongItem from "../../common/components/Song/SongItem";
 import { getDocInList } from "../../common/utils/firebaseApi";
 import { group } from "../../common/utils/common";
-import { getSuggestedArtists } from "../../common/utils/artists";
 import ArtistCover from "../../common/components/Artist/ArtistCover";
 import {
    fetchHomepage,
-   updateArtists,
-   updateNewPlaylists,
-   updateNewReleases,
    updateRecentPlaylist,
 } from "../../common/slices/dandelionSlice";
-import PlaylistCoverSkeleton from "../../common/components/Playlist/PlaylistCoverSkeleton";
+
 import HomeSkeleton from "./HomeSkeleton";
-import { Link } from "react-router-dom";
 import { paths } from "../../app/routes";
 import { IoChevronForward } from "react-icons/io5";
 
@@ -33,9 +25,15 @@ const Home = () => {
 
    const currentUser = useSelector((state) => state.user.user);
    const homePage = useSelector((state) => state.dandelion.homePage);
-   const newReleases = useSelector((state) => state.dandelion.homePage.newReleases);
-   const newPlaylists = useSelector((state) => state.dandelion.homePage.newPlaylists);
-   const recentPlaylist = useSelector((state) => state.dandelion.homePage.recentPlaylist);
+   const newReleases = useSelector(
+      (state) => state.dandelion.homePage.newReleases
+   );
+   const newPlaylists = useSelector(
+      (state) => state.dandelion.homePage.newPlaylists
+   );
+   const recentPlaylist = useSelector(
+      (state) => state.dandelion.homePage.recentPlaylist
+   );
    const artists = useSelector((state) => state.dandelion.homePage.artists);
 
    useEffect(() => {
@@ -48,14 +46,8 @@ const Home = () => {
       if (currentUser) {
          getDocInList("playlists", currentUser.recentPlaylist)
             .then((result) => {
-               // console.log(
-               //    "[getDocInList(playlists, currentUser.recentPlaylist)]",
-               //    result
-               // );
-
-               const ordered = [];
-
                // correct order for playlist
+               const ordered = [];
                currentUser.recentPlaylist?.forEach((playlistId) => {
                   ordered.push(result.find((s) => s.id === playlistId));
                });
@@ -76,7 +68,9 @@ const Home = () => {
                   <div className="w-full mt-7">
                      <div className="mb-3 flex-btw">
                         <div className="flex items-center justify-start gap-4">
-                           <h1 className="text-xl font-bold text-primary">Recently Played</h1>
+                           <h1 className="text-xl font-bold text-primary">
+                              Recently Played
+                           </h1>
                         </div>
                         <Link
                            className="gap-1 text-sm flex-center text-secondary hover:text-dandelion-primary"
@@ -87,7 +81,11 @@ const Home = () => {
                         </Link>
                      </div>
                      <div className="w-full">
-                        <Swiper slidesPerView={6} spaceBetween={30} className="w-full">
+                        <Swiper
+                           slidesPerView={6}
+                           spaceBetween={30}
+                           className="w-full"
+                        >
                            {recentPlaylist?.map((p) => (
                               <SwiperSlide key={p.id}>
                                  <PlaylistCover info={p} size="sm" />
@@ -100,7 +98,9 @@ const Home = () => {
                <div className="pt-5">
                   <div className="mb-3 flex-btw">
                      <div className="flex items-center justify-start gap-4">
-                        <h1 className="text-xl font-bold text-primary">Your Top Mixes</h1>
+                        <h1 className="text-xl font-bold text-primary">
+                           Your Top Mixes
+                        </h1>
                      </div>
                      <Link
                         className="gap-1 text-sm flex-center text-secondary hover:text-dandelion-primary"
@@ -112,7 +112,11 @@ const Home = () => {
                   </div>
                   <div className="w-full">
                      {
-                        <Swiper slidesPerView={5} spaceBetween={120} className="w-full">
+                        <Swiper
+                           slidesPerView={5}
+                           spaceBetween={120}
+                           className="w-full"
+                        >
                            {newPlaylists?.map((p) => (
                               <SwiperSlide key={p.id}>
                                  <PlaylistCover info={p} />
@@ -125,7 +129,9 @@ const Home = () => {
                <div className="pt-5">
                   <div className="mb-3 flex-btw">
                      <div className="flex items-center justify-start gap-4">
-                        <button className="text-xl font-bold text-primary">New Uploaded</button>
+                        <button className="text-xl font-bold text-primary">
+                           New Uploaded
+                        </button>
                      </div>
                      <Link
                         className="gap-1 text-sm flex-center text-secondary hover:text-dandelion-primary"
@@ -136,7 +142,11 @@ const Home = () => {
                      </Link>
                   </div>
                   <div className="w-full">
-                     <Swiper slidesPerView={3} spaceBetween={20} className="flex w-full gap-3">
+                     <Swiper
+                        slidesPerView={3}
+                        spaceBetween={20}
+                        className="flex w-full gap-3"
+                     >
                         {group(newReleases, 5)?.map((songs, index) => (
                            <SwiperSlide key={index}>
                               {songs.map((s) => (
@@ -152,7 +162,9 @@ const Home = () => {
                <div className="py-5 mb-10">
                   <div className="mb-3 flex-btw">
                      <div className="flex items-center justify-start gap-4">
-                        <p className="text-xl font-bold text-primary">Popular Artists</p>
+                        <p className="text-xl font-bold text-primary">
+                           Popular Artists
+                        </p>
                      </div>
                   </div>
                   <div className="flex flex-wrap w-full gap-7">

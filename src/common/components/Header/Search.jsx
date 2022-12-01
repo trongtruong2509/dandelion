@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Tippy from "@tippyjs/react/headless"; // different import path!
-import { MdSearch } from "react-icons/md";
 import { useSelector, useDispatch } from "react-redux";
 import SyncLoader from "react-spinners/SyncLoader";
 
 import SearchItem from "./SearchItem";
 import { getAllDocs } from "../../utils/firebaseApi";
-import { artistExample } from "../../../tempData/artists";
 import { useParams } from "react-router-dom";
 import { useRef } from "react";
 import { IoCloseOutline, IoSearchOutline } from "react-icons/io5";
@@ -15,12 +13,10 @@ import { firebaseCollections } from "../../../dataTemplate";
 import { removeAccents } from "../../utils/common";
 
 const Search = () => {
-   const user = useSelector((state) => state.user.user);
    const searchHistory = useSelector((state) => state.dandelion.searchHistory);
 
    const params = useParams();
    const dispatch = useDispatch();
-   const ref = useRef();
 
    const [searchText, setSearchText] = useState("");
    const [searchResult, setSearchResult] = useState([]);
@@ -78,7 +74,9 @@ const Search = () => {
       // get matches artist
       const artistResults = artistsDb
          .filter((s) =>
-            removeAccents(s.name).toLowerCase().includes(removeAccents(searchText.toLowerCase()))
+            removeAccents(s.name)
+               .toLowerCase()
+               .includes(removeAccents(searchText.toLowerCase()))
          )
          .slice(0, 5);
 
@@ -101,7 +99,9 @@ const Search = () => {
 
    const getTop5Matches = (input, search) => {
       let matches = input.filter((s) =>
-         removeAccents(s.title).toLowerCase().includes(removeAccents(search.toLowerCase()))
+         removeAccents(s.title)
+            .toLowerCase()
+            .includes(removeAccents(search.toLowerCase()))
       );
 
       return matches.slice(0, 5);
@@ -173,7 +173,9 @@ const Search = () => {
                   <div className="pt-4 pb-2">
                      {searchText === "" ? (
                         <div className="flex-btw">
-                           <h2 className="font-semibold text-primary">Recent searches</h2>
+                           <h2 className="font-semibold text-primary">
+                              Recent searches
+                           </h2>
                            <button
                               className="px-3 text-xs text-secondary hover:text-primary"
                               onClick={() => dispatch(clearSearchHistory())}

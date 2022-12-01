@@ -1,17 +1,4 @@
-import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
-import { toast } from "react-toastify";
-import { getAllDocs } from "../../common/utils/firebaseApi";
-
-// export const fetchAllTracks = createAsyncThunk(
-//    "adminTrack/fetchAllTracks",
-//    async () => {
-//       try {
-//          return await getAllDocs("songs");
-//       } catch (error) {
-//          toast.error(error);
-//       }
-//    }
-// );
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
    tracks: [],

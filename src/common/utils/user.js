@@ -2,6 +2,7 @@ import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 import { addNewDoc, getDocById, updateDocField } from "./firebaseApi";
 import { firebaseCollections } from "../../dataTemplate";
+import { localKeys } from "./localStorage";
 
 export const updateUserDb = (user) => {
    addNewDoc("Users", user, user.id);
@@ -12,7 +13,6 @@ export const getUserDb = async (userId) => {
 };
 
 export const updateUserRecentPlayed = async (user) => {
-   console.log("[updateUserRecentPlayed] user", user);
    await updateDocField(firebaseCollections.users, user.id, {
       recentPlayed: user.recentPlayed,
    });
@@ -22,16 +22,16 @@ export const getArtistDb = async (id) => {
    return await getDocById(firebaseCollections.artists, id);
 };
 
-export const updateUserLocal = (user) => {
-   localStorage.setItem("currentUser", JSON.stringify(user));
+export const updateUserLocal = (type, user) => {
+   localStorage.setItem(type, JSON.stringify(user));
 };
 
 export const getUserLocal = () => {
-   return JSON.parse(localStorage.getItem("currentUser"));
+   return JSON.parse(localStorage.getItem(localKeys.user));
 };
 
 export const getNoLoggedUser = () => {
-   let noLoggedUser = JSON.parse(localStorage.getItem("noLoggedUser"));
+   let noLoggedUser = JSON.parse(localStorage.getItem(localKeys.nonUser));
 
    if (!noLoggedUser) {
       // if there is noLoggedUser yet. create new one.
@@ -49,7 +49,7 @@ export const getNoLoggedUser = () => {
          likedAlbums: [],
       };
 
-      localStorage.setItem("noLoggedUser", JSON.stringify(noLoggedUser));
+      localStorage.setItem(localKeys.nonUser, JSON.stringify(noLoggedUser));
    }
 
    return noLoggedUser;

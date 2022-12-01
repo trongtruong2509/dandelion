@@ -2,9 +2,6 @@ import React, { useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 
-import { GiAlarmClock } from "react-icons/gi";
-import { HiOutlineDotsHorizontal } from "react-icons/hi";
-
 import {
    fetchSuggested,
    updateAutoplay,
@@ -24,11 +21,16 @@ const PlayerQueue = () => {
    const playqueue = useSelector((state) => state.playqueue);
    const shuffle = useSelector((state) => state.playbar.shuffle);
    const playingPlaylist = useSelector((state) => state.playlist.playing.value);
-   const user = useSelector((state) => state.user.user);
+   const currentUser = useSelector((state) => state.user.user);
+   const nonUser = useSelector((state) => state.user.noLogged);
    const isMounted = useRef(false);
 
    useEffect(() => {
-      if (playingPlaylist && playingPlaylist.songs?.length && playingTrack?.info) {
+      if (
+         playingPlaylist &&
+         playingPlaylist.songs?.length &&
+         playingTrack?.info
+      ) {
          if (isMounted.current) {
             if (shuffle) {
                dispatch(
@@ -53,10 +55,16 @@ const PlayerQueue = () => {
 
    useEffect(() => {
       dispatch(fetchSuggested(playingTrack.info));
-   }, [playingTrack?.info, dispatch]);
+   }, [playingTrack?.info]);
 
    const isInPlaylist = () => {
-      return playingPlaylist?.songs?.find((t) => t.id === playingTrack?.info.id);
+      return playingPlaylist?.songs?.find(
+         (t) => t.id === playingTrack?.info.id
+      );
+   };
+
+   const user = () => {
+      return currentUser ?? nonUser;
    };
 
    return (
@@ -84,13 +92,20 @@ const PlayerQueue = () => {
             <TabPanel className="w-full">
                <div className="">
                   {playqueue?.played?.map((s) => (
-                     <SongItem key={s.id} info={s} fade isPlaylist={!!playingPlaylist} />
+                     <SongItem
+                        key={s.id}
+                        info={s}
+                        fade
+                        isPlaylist={!!playingPlaylist}
+                     />
                   ))}
                </div>
                {playqueue?.next.length > 0 && (
                   <div className="mt-4">
                      <div className="pl-2 mb-1">
-                        <h2 className="flex gap-2 font-semibold text-primary">Play next</h2>
+                        <h2 className="flex gap-2 font-semibold text-primary">
+                           Play next
+                        </h2>
                         {isInPlaylist() && (
                            <p className="text-sm text-secondary">
                               From playlist{" "}
@@ -105,18 +120,30 @@ const PlayerQueue = () => {
                      </div>
                      <div>
                         {playqueue?.next?.map((s) => (
-                           <SongItem key={s.id} info={s} isPlaylist={!!playingPlaylist} />
+                           <SongItem
+                              key={s.id}
+                              info={s}
+                              isPlaylist={!!playingPlaylist}
+                           />
                         ))}
                      </div>
                   </div>
                )}
 
                {playqueue?.suggestion?.length > 0 && (
-                  <div className={`mt-4 ${playqueue?.autoplay ? "opacity-100" : "opacity-50"}`}>
+                  <div
+                     className={`mt-4 ${
+                        playqueue?.autoplay ? "opacity-100" : "opacity-50"
+                     }`}
+                  >
                      <div className="flex items-center justify-between pr-3">
                         <div className="pl-2 mb-1">
-                           <h2 className="flex gap-2 font-semibold text-primary">Autoplay</h2>
-                           <p className="text-sm text-secondary">Suggestion based on playing</p>
+                           <h2 className="flex gap-2 font-semibold text-primary">
+                              Autoplay
+                           </h2>
+                           <p className="text-sm text-secondary">
+                              Suggestion based on playing
+                           </p>
                         </div>
                         <Switch
                            init={playqueue?.autoplay}
@@ -142,9 +169,10 @@ const PlayerQueue = () => {
             </TabPanel>
             <TabPanel className="w-full">
                <div className="">
-                  {user?.recentPlayed?.map(
+                  {user()?.recentPlayed?.map(
                      (s, index) =>
-                        (!playingTrack?.info || playingTrack?.info?.id !== s?.id) && (
+                        (!playingTrack?.info ||
+                           playingTrack?.info?.id !== s?.id) && (
                            <SongItem key={index} info={s} />
                         )
                   )}

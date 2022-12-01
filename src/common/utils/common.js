@@ -17,7 +17,7 @@ export const shuffleArray = (array, chosen = null) => {
    if (chosen) {
       const idx = array.findIndex((s) => s.id === chosen.id);
 
-      if (idx != -1) {
+      if (idx !== -1) {
          array.splice(idx, 1);
          array.unshift(chosen);
       }

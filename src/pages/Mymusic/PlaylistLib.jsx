@@ -5,8 +5,7 @@ import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import PlaylistModal from "../../common/components/Modal/PlaylistModal";
 import PlaylistCover from "../../common/components/Playlist/PlaylistCover";
 import PlaylistCoverSkeleton from "../../common/components/Playlist/PlaylistCoverSkeleton";
-import { fetchUserPlaylist, initPlaylist } from "../../common/slices/userSlice";
-import { fetchUserPlaylists } from "../../common/utils/user";
+import { fetchUserPlaylist } from "../../common/slices/userSlice";
 
 const PlaylistLib = () => {
    const tabStyle = `3xl:px-3 px-2 py-[5px] w-32 text-sm rounded-3xl text-navigation 

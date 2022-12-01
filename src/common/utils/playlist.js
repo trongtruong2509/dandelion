@@ -1,8 +1,7 @@
-import { firebaseCollections } from "../../dataTemplate";
-import { updateDocById } from "./firebaseApi";
-import { toast } from "react-toastify";
 import { collection, getDocs, limit, orderBy, query } from "firebase/firestore";
 import { firestore } from "../../firebase.config";
+
+import { firebaseCollections } from "../../dataTemplate";
 
 export const getLatestPlaylists = async () => {
    const q = query(

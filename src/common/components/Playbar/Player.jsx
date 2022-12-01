@@ -12,11 +12,19 @@ import {
 import { MdRepeatOne } from "react-icons/md";
 
 import { play, pause, updateAndPlay } from "../../slices/playingSlice";
-import { getSuggestionToPlay, initQueue, updateQueue } from "../../slices/playQueueSlice";
+import {
+   getSuggestionToPlay,
+   initQueue,
+   updateQueue,
+} from "../../slices/playQueueSlice";
 import { updateRecentPlay } from "../../slices/userSlice";
 
 import { Progress } from "./Progress";
-import { updateRepeat, updateShuffle, updateVolume } from "../../slices/playbarSlice";
+import {
+   updateRepeat,
+   updateShuffle,
+   updateVolume,
+} from "../../slices/playbarSlice";
 import { shuffleArray } from "../../utils/common";
 import PlaybarOptions from "./PlaybarOptions";
 
@@ -24,11 +32,9 @@ const Player = () => {
    const dispatch = useDispatch();
 
    const currentSong = useSelector((state) => state.playing.value);
-   const currentPlaylist = useSelector((state) => state.playlist.value);
    const playqueue = useSelector((state) => state.playqueue.next);
    const played = useSelector((state) => state.playqueue.played);
    const playqueueSlice = useSelector((state) => state.playqueue);
-   const queueState = useSelector((state) => state.queue);
    const playbarSlice = useSelector((state) => state.playbar);
 
    const [audio, setAudio] = useState(null);
@@ -57,7 +63,9 @@ const Player = () => {
       const setAudioTime = () => {
          const curTime = _audio.currentTime;
          setTime(curTime);
-         setSlider(curTime ? ((curTime * 100) / _audio.duration).toFixed(1) : 0);
+         setSlider(
+            curTime ? ((curTime * 100) / _audio.duration).toFixed(1) : 0
+         );
       };
 
       const setAudioVolume = () => setVolume(_audio.volume);
@@ -141,11 +149,6 @@ const Player = () => {
    }, [end]);
 
    const changeTrack = () => {
-      console.log(
-         "[changeTrack] playbarSlice.repeat ",
-         playbarSlice.repeat,
-         playqueueSlice?.autoplay
-      );
       if (playqueue.length) {
          dispatch(updateAndPlay(playqueue[0]));
          dispatch(updateRecentPlay(playqueue[0]));
@@ -198,35 +201,14 @@ const Player = () => {
          setTimeout(() => {
             dispatch(updateAndPlay(played[0]));
          }, 200);
-         // dispatch(addToQueue(played[played.length - 1]));
-         // dispatch(removeASongFromPlayed(played[played.length - 1]));
       } else {
          const lastPlay = played.at(-2);
-         console.log("[lastPlay]", lastPlay);
          dispatch(updateAndPlay(lastPlay));
 
          dispatch(updateRecentPlay(lastPlay));
          dispatch(updateQueue(lastPlay));
       }
    };
-
-   // const handleToggle = () => {
-   //    if (queueState.hidden) {
-   //       dispatch(toggleQueuebarHidden(false));
-   //    } else {
-   //       setTimeout(() => {
-   //          dispatch(toggleQueuebarHidden(true));
-   //       }, 500);
-   //    }
-
-   //    if (queueState.animate) {
-   //       dispatch(toggleQueuebar(false));
-   //    } else {
-   //       setTimeout(() => {
-   //          dispatch(toggleQueuebar(true));
-   //       }, 50);
-   //    }
-   // };
 
    useEffect(() => {
       if (audio) {
@@ -293,7 +275,9 @@ const Player = () => {
                )}
             </div>
             <div className="gap-2 font-semibold flex-center text-primary">
-               <p className="w-8 text-xs text-secondary">{!time ? "0:00" : fmtMSS(time)}</p>
+               <p className="w-8 text-xs text-secondary">
+                  {!time ? "0:00" : fmtMSS(time)}
+               </p>
                <div className="w-[600px]">
                   <Progress
                      value={slider}
@@ -305,7 +289,9 @@ const Player = () => {
                      onTouchEnd={() => setPlaying(true)}
                   />
                </div>
-               <p className="w-8 text-xs text-right ">{!!length ? fmtMSS(length) : "0:00"}</p>
+               <p className="w-8 text-xs text-right ">
+                  {!!length ? fmtMSS(length) : "0:00"}
+               </p>
             </div>
          </div>
          <PlaybarOptions

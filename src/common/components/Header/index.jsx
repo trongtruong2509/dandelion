@@ -1,12 +1,11 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { MdEast, MdSettings, MdUpload, MdWest } from "react-icons/md";
-import { RiPaintFill } from "react-icons/ri";
+import React, { useEffect, useState } from "react";
+import { MdEast, MdWest } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
 import defaultAvatar from "./../../../assets/default.jpg";
 import { updateUser, removeUser } from "../../slices/userSlice";
-import { getUserDb, loginGoogle } from "../../utils/user";
+import { getUserDb } from "../../utils/user";
 import Search from "./Search";
 import ThemeModal from "../Modal/ThemeModal";
 import {
@@ -20,7 +19,6 @@ const Header = ({ active }) => {
    const user = useSelector((state) => state.user.user);
    const dispatch = useDispatch();
 
-   const [isDefault, setIsDefault] = useState(false);
    const [show, setShow] = useState(false);
 
    useEffect(() => {
@@ -39,7 +37,6 @@ const Header = ({ active }) => {
    }, []);
 
    const handleLogout = () => {
-      console.log("logging out...");
       dispatch(removeUser());
    };
 

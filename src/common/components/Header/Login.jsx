@@ -1,10 +1,10 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 
 import { getUserDb } from "../../utils/user";
 
-import { updateUser, removeUser } from "../../slices/userSlice";
+import { updateUser } from "../../slices/userSlice";
 
 const loginGoogle = async () => {
    const provider = new GoogleAuthProvider();
@@ -35,7 +35,6 @@ const Login = ({ children }) => {
 
    const handleLogin = async () => {
       const user = await loginGoogle();
-      console.log("[handleLogin] user", user);
       const userDb = await getUserDb(user.email);
 
       if (userDb) {

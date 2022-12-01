@@ -1,14 +1,12 @@
-import { async } from "@firebase/util";
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+
 import { paths } from "../../app/routes";
 import PlaylistCover from "../../common/components/Playlist/PlaylistCover";
 import PlaylistCoverSkeleton from "../../common/components/Playlist/PlaylistCoverSkeleton";
 import SongItem from "../../common/components/Song/SongItem";
 import SongSkeleton from "../../common/components/Song/SongSkeleton";
-import { fetchUserRecentPlaylist } from "../../common/slices/userSlice";
 import { getLatestPlaylists } from "../../common/utils/playlist";
 import { getLatestSongs } from "../../common/utils/songs";
 
@@ -19,11 +17,8 @@ const NewRelease = () => {
    const tabChildStyle = `px-4 py-1 text-navigation hover:text-item-hover text-xs rounded-full border
       uppercase cursor-pointer text-center outline-none`;
 
-   const dispatch = useDispatch();
    const navigate = useNavigate();
    const params = useParams();
-
-   const currentUser = useSelector((state) => state.user.user);
 
    const [songFilter, setSongFilter] = useState("All");
    const [newRelease, setNewRelease] = useState([]);

@@ -1,14 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 
-import { addNewDoc } from "../../utils/firebaseApi";
 import Modal from "./Modal";
-// import { updateCreatedPlaylist, updateUserPlaylists } from "../../slices/userSlice";
 import { applyTheme } from "../../../themes/utils";
-import darkTheme from "../../../themes/dark";
-import baseTheme from "../../../themes/base";
-import { IoCheckmarkCircle, IoClose, IoCloseOutline } from "react-icons/io5";
+import { IoCheckmarkCircle, IoCloseOutline } from "react-icons/io5";
 import { updateTheme } from "../../slices/dandelionSlice";
 import themes from "../../../themes/themes";
 

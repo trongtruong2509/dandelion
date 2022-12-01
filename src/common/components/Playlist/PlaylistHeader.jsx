@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { IoIosShuffle, IoMdPause, IoMdPlay } from "react-icons/io";
 import { FiEdit3 } from "react-icons/fi";
@@ -6,7 +6,7 @@ import { FiEdit3 } from "react-icons/fi";
 import { pause, play } from "../../slices/playingSlice";
 import { updateCurrentToPlaying } from "../../slices/playlistSlice";
 import { MdFavorite, MdFavoriteBorder } from "react-icons/md";
-import { FaPause, FaPlay } from "react-icons/fa";
+import { FaPlay } from "react-icons/fa";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { updatePlaylists } from "../../slices/userSlice";
 import Login from "../Header/Login";
@@ -24,14 +24,15 @@ const PlaylistHeader = () => {
    const user = useSelector((state) => state.user.user);
 
    const [show, setShow] = useState(false);
-   // const [isCurrentPlaying, setIsCurrentPlaying] = useState(false);
    const [thumbnailRotateOff, setThumbnailRotateOff] = useState(
       "rounded-md transition-[border-radius] duration-500 delay-500 ease-out"
    );
 
    const onPlay = () => {
       if (!thumbnailRotateOff.includes("animate-[spinoff_0.5s_ease_1]")) {
-         setThumbnailRotateOff(`${thumbnailRotateOff} animate-[spinoff_0.5s_ease_1]`);
+         setThumbnailRotateOff(
+            `${thumbnailRotateOff} animate-[spinoff_0.5s_ease_1]`
+         );
       }
 
       console.log("[onPlay] clicked");
@@ -47,10 +48,14 @@ const PlaylistHeader = () => {
    };
 
    const isCurrentPlaying = () => {
-      return currentPlaylist?.id === playingPlaylist?.value?.id && playingTrack?.playing;
+      return (
+         currentPlaylist?.id === playingPlaylist?.value?.id &&
+         playingTrack?.playing
+      );
    };
 
-   const notLiked = !user || !user?.playlists.find((t) => t === currentPlaylist?.id);
+   const notLiked =
+      !user || !user?.playlists.find((t) => t === currentPlaylist?.id);
 
    const thumbnailRotate =
       "animate-[spin_12s_linear_infinite] rounded-full transition-[border-radius] duration-[2000ms] ease-out";
@@ -142,7 +147,11 @@ const PlaylistHeader = () => {
             <div className="flex items-center justify-center gap-4 mt-5">
                <div className="p-2 rounded-full cursor-pointer flex-center bg-alpha">
                   {user ? (
-                     <div onClick={() => dispatch(updatePlaylists(currentPlaylist))}>
+                     <div
+                        onClick={() =>
+                           dispatch(updatePlaylists(currentPlaylist))
+                        }
+                     >
                         {notLiked ? (
                            <MdFavoriteBorder
                               className={`text-lg hover:text-dandelion-primary text-primary`}

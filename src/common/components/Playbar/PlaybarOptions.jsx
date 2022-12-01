@@ -1,9 +1,8 @@
 import React from "react";
-import { GiMicrophone, GiSpeaker } from "react-icons/gi";
+import { GiSpeaker } from "react-icons/gi";
 import { MdQueueMusic } from "react-icons/md";
 import { useSelector, useDispatch } from "react-redux";
 
-// import { Progress } from "./Progress";
 import { toggleQueuebar, toggleQueuebarHidden } from "../../slices/queueSlice";
 import { Progress } from "./Progress";
 
@@ -32,9 +31,6 @@ const PlaybarOptions = ({ volume, onVolChange }) => {
    return (
       <div className="flex-center">
          <div className="gap-4 pr-3 flex-center">
-            {/* <button>
-               <GiMicrophone />
-            </button> */}
             <div className="gap-2 flex-center w-36 text-primary">
                <GiSpeaker className="text-3xl" />
                <Progress value={volume} onChange={onVolChange} />
