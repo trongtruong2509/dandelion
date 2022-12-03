@@ -14,6 +14,7 @@ import SinglePlaylist from "../admin/pages/Playlist/SinglePlaylist";
 import AdminCreatePlaylist from "../admin/pages/Playlist/AdminCreatePlaylist";
 import PlayHistory from "../pages/Mymusic/PlayHistory";
 import NewRelease from "../pages/NewRelease/NewRelease";
+import Radio from "../pages/Radio/Radio";
 
 export const paths = {
    home: "/",
@@ -25,6 +26,8 @@ export const paths = {
    playHistory: "/mymusic/history",
    playHistoryId: "/mymusic/history/:id",
    newRelease: "/new-release/:id",
+   radio: "/radio",
+   top100: "/top100",
 };
 
 export const adminPaths = {
@@ -53,6 +56,8 @@ const routes = [
    { path: "/playlist/:id", component: Playlist },
    { path: "/artist/:id", component: Artist },
    { path: paths.genre, component: Genre },
+   { path: paths.radio, component: Radio },
+   { path: paths.top100, component: Radio },
 ];
 
 export const adminRoutes = [

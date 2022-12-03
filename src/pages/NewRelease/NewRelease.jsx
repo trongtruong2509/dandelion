@@ -144,7 +144,7 @@ const TrackContent = ({ loading, tracks }) => {
                     <SongSkeleton key={loading} />
                  ))
                : tracks?.map((s) => (
-                    <SongItem info={s} playlistMode canDetele key={s.id} />
+                    <SongItem info={s} playlistMode key={s.id} />
                  ))}
          </div>
       </>

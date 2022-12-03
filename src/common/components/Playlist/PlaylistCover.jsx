@@ -7,12 +7,20 @@ import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { IoHeartOutline, IoHeart, IoClose } from "react-icons/io5";
 
 import { updatePlaylists, updateRecentPlaylist } from "../../slices/userSlice";
-import { updateCurrentPlaylist, updatePlayingPlaylist } from "../../slices/playlistSlice";
+import {
+   updateCurrentPlaylist,
+   updatePlayingPlaylist,
+} from "../../slices/playlistSlice";
 
 import { adminPaths } from "../../../app/routes";
 import PlaylistThumbnail from "./PlaylistThumbnail";
 
-const PlaylistCover = ({ info, size = "md", editable = false, admin = false }) => {
+const PlaylistCover = ({
+   info,
+   size = "md",
+   editable = false,
+   admin = false,
+}) => {
    const navigate = useNavigate();
    const dispatch = useDispatch();
 
@@ -38,15 +46,15 @@ const PlaylistCover = ({ info, size = "md", editable = false, admin = false }) =
    };
 
    const thumbnailSizes = {
-      sm: "w-40 h-40",
-      md: "w-56 h-56",
-      lg: "w-[300px] h-[300px]",
+      sm: "max-w-40 max-h-40",
+      md: "max-w-56 ",
+      lg: "max-w-[300px] h-[300px]",
    };
 
    const widthSize = {
-      sm: "w-40",
-      md: "w-56",
-      lg: "w-[300px]",
+      sm: "max-w-40",
+      md: "max-w-56",
+      lg: "max-w-[300px]",
    };
 
    const handleLogin = () => {
@@ -59,11 +67,15 @@ const PlaylistCover = ({ info, size = "md", editable = false, admin = false }) =
             className={`${
                size === "sm" ? "p-[6px]" : "p-2"
             } rounded-full cursor-pointer hover:bg-hover-tooltip flex-center"`}
-            onClick={() => (currentUser ? dispatch(updatePlaylists(info)) : handleLogin())}
+            onClick={() =>
+               currentUser ? dispatch(updatePlaylists(info)) : handleLogin()
+            }
          >
             {currentUser?.playlists?.find((p) => p === info?.id) ? (
                <IoHeart
-                  className={`${size === "sm" ? "text-[22px]" : "text-2xl"} text-dandelion-primary`}
+                  className={`${
+                     size === "sm" ? "text-[22px]" : "text-2xl"
+                  } text-dandelion-primary`}
                />
             ) : (
                <IoHeartOutline
@@ -96,7 +108,7 @@ const PlaylistCover = ({ info, size = "md", editable = false, admin = false }) =
    return (
       <div className={`h-auto text-white ${widthSize[size]}`}>
          <div
-            className={`group relative overflow-hidden rounded-md cursor-pointer ${thumbnailSizes[size]} z-10`}
+            className={`group relative overflow-hidden rounded-md cursor-pointer ${widthSize[size]} z-10 aspect-square`}
             onClick={onNavigate}
          >
             <PlaylistThumbnail playlist={info} className="z-10" />
@@ -108,7 +120,10 @@ const PlaylistCover = ({ info, size = "md", editable = false, admin = false }) =
                >
                   <div>{displayIcon()}</div>
 
-                  <button className="text-white hover:text-dandelion-primary" onClick={onPlay}>
+                  <button
+                     className="text-white hover:text-dandelion-primary"
+                     onClick={onPlay}
+                  >
                      <FaPlay className="text-3xl cursor-pointer" />
                   </button>
 
@@ -118,7 +133,9 @@ const PlaylistCover = ({ info, size = "md", editable = false, admin = false }) =
                      } text-white rounded-full hover:bg-hover-tooltip`}
                   >
                      <HiOutlineDotsHorizontal
-                        className={`${size === "sm" ? "text-xl" : "text-2xl"}  cursor-pointer`}
+                        className={`${
+                           size === "sm" ? "text-xl" : "text-2xl"
+                        }  cursor-pointer`}
                      />
                   </button>
                </div>
@@ -126,9 +143,13 @@ const PlaylistCover = ({ info, size = "md", editable = false, admin = false }) =
          </div>
          <div className="w-full">
             <div className="w-full mt-2 flex-btw">
-               <h1 className="w-40 font-semibold truncate text-primary">{info?.title}</h1>
+               <h1 className="w-40 font-semibold truncate text-primary">
+                  {info?.title}
+               </h1>
                {size === "md" && (
-                  <p className="text-sm text-secondary">{info?.songs?.length} tracks</p>
+                  <p className="text-sm text-secondary">
+                     {info?.songs?.length} tracks
+                  </p>
                )}
             </div>
             <p className="mt-1 text-xs text-secondary">{info?.user}</p>

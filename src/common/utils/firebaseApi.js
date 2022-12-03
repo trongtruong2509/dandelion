@@ -40,19 +40,14 @@ export const getDocInList = async (document, filter) => {
    let reuturnDoc = [];
 
    const filters = group(filter, 10);
-   // console.log("[getDocInList] querySnapshot", querySnapshot);
-
-   // let reuturnDoc = [];
-   // querySnapshot.forEach((doc) => {
-   //    // doc.data() is never undefined for query doc snapshots
-   //    // console.log(doc.id, " => ", doc.data());
-   //    reuturnDoc.push(doc.data());
-   // });
 
    try {
       for (const filter of filters) {
          // console.log(filter);
-         const q = query(collection(firestore, document), where("id", "in", filter));
+         const q = query(
+            collection(firestore, document),
+            where("id", "in", filter)
+         );
 
          const querySnapshot = await getDocs(q);
 
@@ -75,7 +70,10 @@ export const getDocInList = async (document, filter) => {
 
 export const getDocumentContains = async (document, property, subtext) => {
    console.log(document + " " + property + " " + subtext);
-   const q = query(collection(firestore, document), where(property, ">=", subtext));
+   const q = query(
+      collection(firestore, document),
+      where(property, ">=", subtext)
+   );
 
    try {
       const querySnapshot = await getDocs(q);

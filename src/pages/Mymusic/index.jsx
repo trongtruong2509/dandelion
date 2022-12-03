@@ -14,6 +14,11 @@ import PlaylistCoverSkeleton from "../../common/components/Playlist/PlaylistCove
 import { fetchUserPlaylist } from "../../common/slices/userSlice";
 import useBreakPointDetect from "../../common/hooks/useBreakPointDetect";
 
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/pagination";
+import { playlistBreakpoins } from "../../common/utils/common";
+
 const Mymusic = () => {
    const currentUser = useSelector((state) => state.user.user);
    const userPlaylist = useSelector((state) => state.user.playlist);
@@ -31,19 +36,19 @@ const Mymusic = () => {
       currentUser
    );
 
-   useEffect(() => {
-      if (breakPointChange === 1) {
-         setPlaylists(userPlaylist.slice(0, 1));
-      } else if (breakPointChange === 3 || breakPointChange === 2) {
-         setPlaylists(userPlaylist.slice(0, 2));
-      } else if (breakPointChange === 4) {
-         setPlaylists(userPlaylist.slice(0, 3));
-      } else if (breakPointChange === 5) {
-         setPlaylists(userPlaylist.slice(0, 4));
-      } else {
-         setPlaylists(userPlaylist.slice(0, 5));
-      }
-   }, [breakPointChange, userPlaylist]);
+   // useEffect(() => {
+   //    if (breakPointChange === 1) {
+   //       setPlaylists(userPlaylist.slice(0, 1));
+   //    } else if (breakPointChange === 3 || breakPointChange === 2) {
+   //       setPlaylists(userPlaylist.slice(0, 2));
+   //    } else if (breakPointChange === 4) {
+   //       setPlaylists(userPlaylist.slice(0, 3));
+   //    } else if (breakPointChange === 5) {
+   //       setPlaylists(userPlaylist.slice(0, 4));
+   //    } else {
+   //       setPlaylists(userPlaylist.slice(0, 5));
+   //    }
+   // }, [breakPointChange, userPlaylist]);
 
    return (
       <div className="w-full mt-20 mb-20 text-white ">
@@ -52,7 +57,9 @@ const Mymusic = () => {
          <div className="relative z-10 w-full">
             <div className="flex-btw">
                <div className="flex items-center justify-start gap-4">
-                  <h1 className="text-xl font-semibold text-primary">MY PLAYLIST</h1>
+                  <h1 className="text-xl font-semibold text-primary">
+                     MY PLAYLIST
+                  </h1>
                   <button
                      className="p-2 rounded-full outline-none bg-alpha hover:text-dandelion-primary text-primary"
                      onClick={() => setShow(!show)}
@@ -69,9 +76,20 @@ const Mymusic = () => {
                </Link>
             </div>
             <div className="flex w-full gap-8 py-2 my-6">
-               {playlists?.length > 0
-                  ? playlists?.map((p, index) => <PlaylistCover key={index} info={p} editable />)
-                  : [1, 2, 3, 4].map((loading) => <PlaylistCoverSkeleton key={loading} />)}
+               {userPlaylist?.length > 0 ? (
+                  <Swiper className="w-full" breakpoints={playlistBreakpoins}>
+                     {userPlaylist?.map((p, index) => (
+                        <SwiperSlide key={p.id}>
+                           <PlaylistCover key={index} info={p} editable />
+                        </SwiperSlide>
+                     ))}
+                  </Swiper>
+               ) : (
+                  //  playlists?.map((p, index) => <PlaylistCover key={index} info={p} editable />)
+                  [1, 2, 3, 4].map((loading) => (
+                     <PlaylistCoverSkeleton key={loading} />
+                  ))
+               )}
             </div>
          </div>
 
@@ -81,7 +99,9 @@ const Mymusic = () => {
             </div>
             <div className="grid w-full grid-cols-12 p-3 border-b border-secondary">
                <p className="col-span-6 text-sm text-secondary">SONG</p>
-               <p className="flex items-center col-span-5 text-sm text-secondary">ALBUM</p>
+               <p className="flex items-center col-span-5 text-sm text-secondary">
+                  ALBUM
+               </p>
                <p className="flex items-center justify-end col-span-1 text-sm text-secondary">
                   TIME
                </p>
@@ -92,9 +112,16 @@ const Mymusic = () => {
                ))
             ) : (
                <div className="flex-col w-full gap-6 flex-center h-96 text-secondary">
-                  <h1 className="text-2xl font-semibold">Songs you like will appear here</h1>
-                  <p className="text-sm">Save songs by tapping the heart icon.</p>
-                  <Link to="/" className="px-4 py-2 text-white bg-teal-500 rounded-full">
+                  <h1 className="text-2xl font-semibold">
+                     Songs you like will appear here
+                  </h1>
+                  <p className="text-sm">
+                     Save songs by tapping the heart icon.
+                  </p>
+                  <Link
+                     to="/"
+                     className="px-4 py-2 text-white bg-teal-500 rounded-full"
+                  >
                      Explore Now
                   </Link>
                </div>

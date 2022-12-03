@@ -5,7 +5,7 @@ const blueTheme = createTheme({
    ...themeDefault,
    contrastColor: "rgba(20,20,20,0.8)",
    hoverTooltip: "hsla(0,0%,100%,0.3)",
-   dandelionPrimary: "#158370", //
+   dandelionPrimary: "#3b68ef", //
 
    bgPrimary: "#173b45", //
    bgLayout: "#0f1a2e", //

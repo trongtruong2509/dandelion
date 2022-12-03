@@ -33,6 +33,7 @@ export const firebaseCollections = {
    playlists: "playlists",
    songs: "songs",
    artists: "artists",
+   topics: "topics",
 };
 
 export const genreTemplate = {

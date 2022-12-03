@@ -69,7 +69,7 @@ const Sidebar = () => {
                Genres
             </NavLink>
             <NavLink
-               to="/123"
+               to={paths.radio}
                className={({ isActive }) =>
                   isActive ? navActive : navInactive
                }
@@ -79,7 +79,7 @@ const Sidebar = () => {
             </NavLink>
 
             <NavLink
-               to="/123"
+               to={paths.top100}
                className={({ isActive }) =>
                   isActive ? navActive : navInactive
                }

@@ -9,7 +9,7 @@ import "swiper/css/pagination";
 import PlaylistCover from "../../common/components/Playlist/PlaylistCover";
 import SongItem from "../../common/components/Song/SongItem";
 import { getDocInList } from "../../common/utils/firebaseApi";
-import { group } from "../../common/utils/common";
+import { group, playlistBreakpoins } from "../../common/utils/common";
 import ArtistCover from "../../common/components/Artist/ArtistCover";
 import {
    fetchHomepage,
@@ -19,6 +19,7 @@ import {
 import HomeSkeleton from "./HomeSkeleton";
 import { paths } from "../../app/routes";
 import { IoChevronForward } from "react-icons/io5";
+import { firebaseCollections } from "../../dataTemplate";
 
 const Home = () => {
    const dispatch = useDispatch();
@@ -44,7 +45,7 @@ const Home = () => {
 
    useEffect(() => {
       if (currentUser) {
-         getDocInList("playlists", currentUser.recentPlaylist)
+         getDocInList(firebaseCollections.playlists, currentUser.recentPlaylist)
             .then((result) => {
                // correct order for playlist
                const ordered = [];
@@ -113,9 +114,8 @@ const Home = () => {
                   <div className="w-full">
                      {
                         <Swiper
-                           slidesPerView={5}
-                           spaceBetween={120}
                            className="w-full"
+                           breakpoints={playlistBreakpoins}
                         >
                            {newPlaylists?.map((p) => (
                               <SwiperSlide key={p.id}>

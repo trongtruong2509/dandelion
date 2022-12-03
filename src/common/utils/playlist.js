@@ -6,7 +6,7 @@ import { firebaseCollections } from "../../dataTemplate";
 export const getLatestPlaylists = async () => {
    const q = query(
       collection(firestore, firebaseCollections.playlists),
-      orderBy("updateDate"),
+      orderBy("updateDate"), //TODO: desc order
       limit(20)
    );
 
@@ -18,10 +18,7 @@ export const getLatestPlaylists = async () => {
          reuturnDoc.push(doc.data());
       });
 
-      return reuturnDoc
-         .sort((a, b) => a.uploadDate - b.uploadDate)
-         .reverse()
-         .slice(0, 20);
+      return reuturnDoc;
    } catch (error) {
       console.log(error);
       return null;

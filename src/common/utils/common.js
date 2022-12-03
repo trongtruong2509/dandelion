@@ -1,3 +1,34 @@
+export const playlistBreakpoins = {
+   640: {
+      slidesPerView: 1,
+      spaceBetween: 10,
+   },
+   768: {
+      slidesPerView: 2,
+      spaceBetween: 20,
+   },
+   1024: {
+      slidesPerView: 3,
+      spaceBetween: 40,
+   },
+   1320: {
+      slidesPerView: 4,
+      spaceBetween: 40,
+   },
+   1540: {
+      slidesPerView: 3,
+      spaceBetween: 40,
+   },
+   1650: {
+      slidesPerView: 4,
+      spaceBetween: 28,
+   },
+   1850: {
+      slidesPerView: 5,
+      spaceBetween: 24,
+   },
+};
+
 export const shuffleArray = (array, chosen = null) => {
    var m = array.length,
       t,
