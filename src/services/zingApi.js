@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "https://apizingmp3.herokuapp.com/api/";
+const BASE_URL = "https://zing-mp3-api.vercel.app/api/";
 
 const zingRequest = axios.create({
    baseURL: BASE_URL,
@@ -12,11 +12,11 @@ const get = async (path, params = {}) => {
 };
 
 export const getSongInfo = async (id) => {
-   const res = await get(`infosong?id=${id}`);
+   const res = await get(`song/info/${id}`);
    return res?.data;
 };
 
 export const getArtistInfo = async (name) => {
-   const res = await get(`artist?name=${name}`);
+   const res = await get(`artist/${name}`);
    return res?.data;
 };
