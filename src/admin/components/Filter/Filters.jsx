@@ -9,12 +9,12 @@ const Content = {
       category: "Country",
       items: [
          {
-            id: "IWZ9Z08I",
-            title: "VietNam",
-         },
-         {
             id: "IWZ9Z08O",
             title: "US-UK",
+         },
+         {
+            id: "IWZ9Z08I",
+            title: "VietNam",
          },
          {
             id: "IWZ9Z08W",
@@ -29,6 +29,10 @@ const Content = {
    rank: {
       category: "Classification",
       items: [
+         {
+            id: "Undefined",
+            title: "Undefined",
+         },
          {
             id: "S+",
             title: "S+",
@@ -49,10 +53,6 @@ const Content = {
             id: "B",
             title: "B",
          },
-         {
-            id: "Undefined",
-            title: "Undefined",
-         },
       ],
    },
    artist: {
@@ -70,8 +70,8 @@ const Filters = () => {
 
    const adminTrack = useSelector((state) => state.adminTrack);
 
-   const [category, setCategory] = useState(Content.country.category);
-   const [categoryItems, setCategoryItems] = useState(Content.country.items);
+   const [category, setCategory] = useState(Content.rank.category);
+   const [categoryItems, setCategoryItems] = useState(Content.rank.items);
    const [selectedItem, setSelectedItem] = useState("");
 
    useEffect(() => {
@@ -94,7 +94,7 @@ const Filters = () => {
 
    useEffect(() => {
       if (categoryItems?.length) {
-         setSelectedItem(categoryItems[1].id);
+         setSelectedItem(categoryItems[0].id);
       }
    }, [categoryItems]);
 
