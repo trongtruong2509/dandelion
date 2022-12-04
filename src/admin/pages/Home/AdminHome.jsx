@@ -13,7 +13,7 @@ import SongItem from "../../../common/components/Song/SongItem";
 import Filters from "../../components/Filter/Filters";
 import { useDispatch, useSelector } from "react-redux";
 import { updateDeleting, updateTracks } from "../../slices/adminTrackSlice";
-import { firebaseCollections } from "../../../dataTemplate";
+import { firebaseKeys } from "../../../dataTemplate";
 import { uploadAllExistGenres } from "../../components/Filter/filterApi";
 
 const AdminHome = () => {
@@ -28,7 +28,7 @@ const AdminHome = () => {
 
    const deleteSongById = async (songInfo) => {
       const result = await toast.promise(
-         deleteDocById(firebaseCollections.songs, songInfo?.id),
+         deleteDocById(firebaseKeys.songs, songInfo?.id),
          {
             pending: `Deleting ${songInfo?.title}...`,
             success: `Song ${songInfo?.title} is deleted`,

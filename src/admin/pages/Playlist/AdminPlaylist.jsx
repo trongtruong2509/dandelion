@@ -10,7 +10,7 @@ import SongItem from "../../../common/components/Song/SongItem";
 import { adminPaths } from "../../../app/routes";
 import Filters from "../../components/Filter/Filters";
 import { fetchAllPlaylist } from "../../slices/adminPlaylistSlice";
-import PlaylistCover from "../../../common/components/Playlist/PlaylistCover";
+import PlaylistCover from "../../../common/components/PlaylistCover/PlaylistCover";
 
 const AdminPlaylist = () => {
    const navigate = useNavigate();

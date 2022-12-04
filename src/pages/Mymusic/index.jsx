@@ -1,23 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 import { MdArrowForwardIos, MdOutlineAdd } from "react-icons/md";
 
-import PlaylistModal from "../../common/components/Modal/PlaylistModal";
-import PlaylistCover from "../../common/components/Playlist/PlaylistCover";
-import SongItem from "../../common/components/Song/SongItem";
-// import { getDocInList } from "../../common/utils/firebaseApi";
-// import Skeleton from "react-loading-skeleton";
-import PlaylistCoverSkeleton from "../../common/components/Playlist/PlaylistCoverSkeleton";
-// import { fetchUserPlaylists } from "../../common/utils/user";
 import { fetchUserPlaylist } from "../../common/slices/userSlice";
-import useBreakPointDetect from "../../common/hooks/useBreakPointDetect";
 
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/pagination";
-import { playlistBreakpoins } from "../../common/utils/common";
+import SongItem from "../../common/components/Song/SongItem";
+import PlaylistModal from "../../common/components/Modal/PlaylistModal";
+import PlaylistCoverCarousel from "../../common/components/PlaylistCover/PlaylistCoverCarousel";
+import PlaylistCoverCarouselSkeleton from "../../common/components/PlaylistCover/PlaylistCoverCarouselSkeleton";
 
 const Mymusic = () => {
    const currentUser = useSelector((state) => state.user.user);
@@ -25,8 +17,6 @@ const Mymusic = () => {
    const dispatch = useDispatch();
 
    const [show, setShow] = useState(false);
-   const [playlists, setPlaylists] = useState([]);
-   const breakPointChange = useBreakPointDetect();
 
    useEffect(
       () => {
@@ -35,20 +25,6 @@ const Mymusic = () => {
       [currentUser?.playlists],
       currentUser
    );
-
-   // useEffect(() => {
-   //    if (breakPointChange === 1) {
-   //       setPlaylists(userPlaylist.slice(0, 1));
-   //    } else if (breakPointChange === 3 || breakPointChange === 2) {
-   //       setPlaylists(userPlaylist.slice(0, 2));
-   //    } else if (breakPointChange === 4) {
-   //       setPlaylists(userPlaylist.slice(0, 3));
-   //    } else if (breakPointChange === 5) {
-   //       setPlaylists(userPlaylist.slice(0, 4));
-   //    } else {
-   //       setPlaylists(userPlaylist.slice(0, 5));
-   //    }
-   // }, [breakPointChange, userPlaylist]);
 
    return (
       <div className="w-full mt-20 mb-20 text-white ">
@@ -77,18 +53,9 @@ const Mymusic = () => {
             </div>
             <div className="flex w-full gap-8 py-2 my-6">
                {userPlaylist?.length > 0 ? (
-                  <Swiper className="w-full" breakpoints={playlistBreakpoins}>
-                     {userPlaylist?.map((p, index) => (
-                        <SwiperSlide key={p.id}>
-                           <PlaylistCover key={index} info={p} editable />
-                        </SwiperSlide>
-                     ))}
-                  </Swiper>
+                  <PlaylistCoverCarousel playlist={userPlaylist} />
                ) : (
-                  //  playlists?.map((p, index) => <PlaylistCover key={index} info={p} editable />)
-                  [1, 2, 3, 4].map((loading) => (
-                     <PlaylistCoverSkeleton key={loading} />
-                  ))
+                  <PlaylistCoverCarouselSkeleton />
                )}
             </div>
          </div>

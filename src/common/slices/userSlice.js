@@ -119,9 +119,8 @@ export const userSlice = createSlice({
 
          // remove first
          user.recentPlaylist = current(user.recentPlaylist).filter(
-            (t) => t.id !== action.payload.id
+            (t) => t !== action.payload.id
          );
-
          user.recentPlaylist.unshift(action.payload); // add to first position of array
 
          if (state.user) {

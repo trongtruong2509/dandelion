@@ -12,7 +12,7 @@ import {
    updateDoc,
 } from "firebase/firestore";
 import { group } from "./common";
-import { firebaseCollections } from "../../dataTemplate";
+import { firebaseKeys } from "../../dataTemplate";
 
 export const addNewDoc = async (collection, info, id = `${Date.now()}`) => {
    // console.log(id);
@@ -40,6 +40,14 @@ export const getDocInList = async (document, filter) => {
    let reuturnDoc = [];
 
    const filters = group(filter, 10);
+   // console.log("[getDocInList] querySnapshot", querySnapshot);
+
+   // let reuturnDoc = [];
+   // querySnapshot.forEach((doc) => {
+   //    // doc.data() is never undefined for query doc snapshots
+   //    // console.log(doc.id, " => ", doc.data());
+   //    reuturnDoc.push(doc.data());
+   // });
 
    try {
       for (const filter of filters) {
@@ -118,7 +126,7 @@ export const updateDocField = async (collection, id, data) => {
       const docRef = doc(firestore, collection, id);
       await updateDoc(docRef, data);
 
-      return await getDocById(firebaseCollections.playlists, id);
+      return await getDocById(firebaseKeys.playlists, id);
    } catch (error) {
       console.log("[updateDocField]", error);
 

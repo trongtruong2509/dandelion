@@ -1,11 +1,11 @@
 import { collection, getDocs, limit, orderBy, query } from "firebase/firestore";
 import { firestore } from "../../firebase.config";
 
-import { firebaseCollections } from "../../dataTemplate";
+import { firebaseKeys } from "../../dataTemplate";
 
 export const getLatestPlaylists = async () => {
    const q = query(
-      collection(firestore, firebaseCollections.playlists),
+      collection(firestore, firebaseKeys.playlists),
       orderBy("updateDate"), //TODO: desc order
       limit(20)
    );

@@ -1,7 +1,14 @@
-import { firebaseCollections } from "../../dataTemplate";
+import { firebaseKeys } from "../../dataTemplate";
 import { updateDocField } from "./firebaseApi";
 import { toast } from "react-toastify";
-import { collection, getDocs, limit, orderBy, query, where } from "firebase/firestore";
+import {
+   collection,
+   getDocs,
+   limit,
+   orderBy,
+   query,
+   where,
+} from "firebase/firestore";
 import { firestore } from "../../firebase.config";
 
 export const updateRank = async (songInfo, newRank) => {
@@ -11,7 +18,7 @@ export const updateRank = async (songInfo, newRank) => {
       rank: newRank,
    };
 
-   await toast.promise(updateDocField(firebaseCollections.songs, songInfo.id, data), {
+   await toast.promise(updateDocField(firebaseKeys.songs, songInfo.id, data), {
       pending: `Updating rank of ${songInfo.title} to ${newRank}...`,
       success: `${songInfo.title} rank is updated to ${newRank}`,
       error: {
@@ -30,7 +37,7 @@ export const updateRank = async (songInfo, newRank) => {
 
 export const getLatestSongs = async (genreId) => {
    let q = query(
-      collection(firestore, firebaseCollections.songs),
+      collection(firestore, firebaseKeys.songs),
       orderBy("uploadDate", "desc"),
       limit(20)
    );
@@ -38,7 +45,7 @@ export const getLatestSongs = async (genreId) => {
    if (genreId && genreId !== "All") {
       console.log("[genreId]", genreId);
       q = query(
-         collection(firestore, firebaseCollections.songs),
+         collection(firestore, firebaseKeys.songs),
          where("genreIds", "array-contains", genreId),
          orderBy("uploadDate", "desc"),
          limit(20)
@@ -69,7 +76,7 @@ export const getSuggestedSongs = async (playing) => {
    let result = [];
 
    const queryByArtist = query(
-      collection(firestore, firebaseCollections.songs),
+      collection(firestore, firebaseKeys.songs),
       where("artistsNames", ">=", playing.artistsNames),
       where("artistsNames", "<=", playing.artistsNames + "\uf8ff")
    );
@@ -88,7 +95,7 @@ export const getSuggestedSongs = async (playing) => {
 
       if (genresFiltered.length) {
          const queryByGenres = query(
-            collection(firestore, firebaseCollections.songs),
+            collection(firestore, firebaseKeys.songs),
             where("genreIds", "array-contains-any", genresFiltered),
             where("releaseDate", "<", playing.releaseDate + 31556926),
             where("releaseDate", ">", playing.releaseDate - 31556926),

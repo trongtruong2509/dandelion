@@ -13,7 +13,7 @@ import {
 } from "../../slices/playlistSlice";
 
 import { adminPaths } from "../../../app/routes";
-import PlaylistThumbnail from "./PlaylistThumbnail";
+import PlaylistThumbnail from "../Playlist/PlaylistThumbnail";
 
 const PlaylistCover = ({
    info,

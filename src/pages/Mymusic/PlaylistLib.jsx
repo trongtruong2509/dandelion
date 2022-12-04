@@ -3,8 +3,8 @@ import { IoAddCircleOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import PlaylistModal from "../../common/components/Modal/PlaylistModal";
-import PlaylistCover from "../../common/components/Playlist/PlaylistCover";
-import PlaylistCoverSkeleton from "../../common/components/Playlist/PlaylistCoverSkeleton";
+import PlaylistCover from "../../common/components/PlaylistCover/PlaylistCover";
+import PlaylistCoverSkeleton from "../../common/components/PlaylistCover/PlaylistCoverSkeleton";
 import { fetchUserPlaylist } from "../../common/slices/userSlice";
 
 const PlaylistLib = () => {

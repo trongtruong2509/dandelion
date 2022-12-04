@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
-import { firebaseCollections } from "../../dataTemplate";
+import { firebaseKeys } from "../../dataTemplate";
 import { getDocById, getDocInList, updateDocField } from "../utils/firebaseApi";
 
 import * as local from "../utils/localStorage";
@@ -8,7 +8,7 @@ import * as local from "../utils/localStorage";
 export const fetchCurrentPlaylistInfo = createAsyncThunk(
    "/playlist/fetchCurrentPlaylistInfo",
    async (id) => {
-      const playlist = await getDocById(firebaseCollections.playlists, id);
+      const playlist = await getDocById(firebaseKeys.playlists, id);
       return playlist;
    }
 );
@@ -16,7 +16,7 @@ export const fetchCurrentPlaylistInfo = createAsyncThunk(
 export const addTrackToPlaylist = createAsyncThunk(
    "/playlist/addTrackToPlaylist",
    async ({ playlist, track }) => {
-      const result = await updateDocField(firebaseCollections.playlists, playlist.id, {
+      const result = await updateDocField(firebaseKeys.playlists, playlist.id, {
          songs: [...playlist.songs, track],
       });
 
@@ -33,7 +33,7 @@ export const addTrackToPlaylist = createAsyncThunk(
 export const removeTrackFromPlaylist = createAsyncThunk(
    "/playlist/removeTrackFromPlaylist",
    async ({ playlist, track }) => {
-      const result = await updateDocField(firebaseCollections.playlists, playlist.id, {
+      const result = await updateDocField(firebaseKeys.playlists, playlist.id, {
          songs: playlist.songs.filter((t) => t.id !== track.id),
       });
 

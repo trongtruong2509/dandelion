@@ -1,12 +1,12 @@
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { paths } from "../../../app/routes";
 import { addNewDoc, getAllDocs } from "../../../common/utils/firebaseApi";
-import { firebaseCollections } from "../../../dataTemplate";
+import { firebaseKeys } from "../../../dataTemplate";
 import { firestore } from "../../../firebase.config";
 
 export const getTracksByCountry = async (country) => {
    const q = query(
-      collection(firestore, firebaseCollections.songs),
+      collection(firestore, firebaseKeys.songs),
       where("genreIds", "array-contains", country)
    );
 
@@ -29,7 +29,7 @@ export const getTracksByCountry = async (country) => {
 
 export const getTracksByRank = async (rank) => {
    const q = query(
-      collection(firestore, firebaseCollections.songs),
+      collection(firestore, firebaseKeys.songs),
       where("rank", "==", rank)
    );
 
@@ -52,7 +52,7 @@ export const getTracksByRank = async (rank) => {
 
 export const getTracksByGenre = async (id) => {
    const q = query(
-      collection(firestore, firebaseCollections.songs),
+      collection(firestore, firebaseKeys.songs),
       where("rank", "==", id)
    );
 
@@ -74,7 +74,7 @@ export const getTracksByGenre = async (id) => {
 };
 
 export const uploadAllExistGenres = async () => {
-   const alltracks = await getAllDocs(firebaseCollections.songs);
+   const alltracks = await getAllDocs(firebaseKeys.songs);
 
    let allGenres = [];
 
@@ -96,6 +96,6 @@ export const uploadAllExistGenres = async () => {
    });
 
    distinctGenres.forEach((genre) => {
-      addNewDoc(firebaseCollections.genres, genre, genre.id);
+      addNewDoc(firebaseKeys.genres, genre, genre.id);
    });
 };

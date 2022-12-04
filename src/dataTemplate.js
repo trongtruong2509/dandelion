@@ -27,13 +27,15 @@ export const playlistTemplate = {
    shuffle: true,
 };
 
-export const firebaseCollections = {
+export const firebaseKeys = {
    users: "Users",
    genres: "genres",
    playlists: "playlists",
    songs: "songs",
    artists: "artists",
    topics: "topics",
+   topGenres: "topGenres",
+   countryGenres: "countryGenres",
 };
 
 export const genreTemplate = {

@@ -9,7 +9,7 @@ import { useParams } from "react-router-dom";
 import { useRef } from "react";
 import { IoCloseOutline, IoSearchOutline } from "react-icons/io5";
 import { clearSearchHistory } from "../../slices/dandelionSlice";
-import { firebaseCollections } from "../../../dataTemplate";
+import { firebaseKeys } from "../../../dataTemplate";
 import { removeAccents } from "../../utils/common";
 
 const Search = () => {
@@ -109,10 +109,10 @@ const Search = () => {
 
    const fetchDb = async () => {
       try {
-         const songs = await getAllDocs(firebaseCollections.songs);
+         const songs = await getAllDocs(firebaseKeys.songs);
          setSongsDb(songs.filter((e) => e !== undefined));
 
-         const artists = await getAllDocs(firebaseCollections.artists);
+         const artists = await getAllDocs(firebaseKeys.artists);
          setArtistsDb(artists.filter((e) => e !== undefined));
 
          const albums = await getAllDocs("Albums");

@@ -1,13 +1,46 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { paths } from "../../app/routes";
+import { getAllDocs, getDocInList } from "../../common/utils/firebaseApi";
 import { CountryGenres, TopicGenres } from "../../data";
+import { firebaseKeys } from "../../dataTemplate";
+
 import TopicItem from "./TopicItem";
 import CountryItem from "./CountryItem";
+import PlaylistCoverCarousel from "../../common/components/PlaylistCover/PlaylistCoverCarousel";
+import SectionTitleSkeleton from "../../common/components/SectionTitle/SectionTitleSkeleton";
+import PlaylistCoverCarouselSkeleton from "../../common/components/PlaylistCover/PlaylistCoverCarouselSkeleton";
 
 const Genres = () => {
    const [displayAll, setDisplayAll] = useState(false);
+
+   const [loading, setLoading] = useState(false);
+   const [topGenres, setTopGenres] = useState(null);
+
+   useEffect(() => {
+      const fetchTopGenres = async () => {
+         setLoading(true);
+         const genres = await getAllDocs(firebaseKeys.topGenres);
+
+         const playlistIds = genres.map((g) => g.topPlaylist).flat();
+         const playlists = await getDocInList(
+            firebaseKeys.playlists,
+            playlistIds
+         );
+
+         genres.forEach((genre) => {
+            const fullPlaylist = genre.topPlaylist.map((id) =>
+               playlists.find((p) => p.id === id)
+            );
+            genre.topPlaylist = fullPlaylist;
+         });
+
+         setTopGenres(genres);
+         setLoading(false);
+      };
+
+      fetchTopGenres();
+   }, []);
 
    return (
       <div className="w-full text-primary">
@@ -56,7 +89,7 @@ const Genres = () => {
                )}
             </div>
          </div>
-         <div className="pt-7">
+         <div className="py-7">
             <h1 className="mb-5 text-xl font-bold text-primary">By Country</h1>
             <div className="grid w-full grid-cols-4 gap-6">
                {CountryGenres.map((t, index) => (
@@ -65,38 +98,38 @@ const Genres = () => {
                      className="col-span-1 "
                      thumbnail={t.thumbnail}
                      topic={t.name}
-                     to={paths.genre.replace(":id", t.id)}
+                     to={paths.countryGenre.replace(":id", t.id)}
                   />
                ))}
             </div>
          </div>
-         <div className="pt-7">
-            <h1 className="mb-5 text-xl font-bold text-primary">
-               Trữ Tình & Bolero
-            </h1>
-         </div>
-         <div className="pt-7">
-            <h1 className="mb-5 text-xl font-bold text-primary">
-               Acoustic & Cover
-            </h1>
-         </div>
-         <div className="pt-7">
-            <h1 className="mb-5 text-xl font-bold text-primary">Indie</h1>
-         </div>
-         <div className="pt-7">
-            <h1 className="mb-5 text-xl font-bold text-primary">EDM</h1>
-         </div>
-         <div className="pt-7">
-            <h1 className="mb-5 text-xl font-bold text-primary">Hip-Hop</h1>
-         </div>
-         <div className="pt-7">
-            <h1 className="mb-5 text-xl font-bold text-primary">R&B</h1>
-         </div>
-         <div className="pt-7">
-            <h1 className="mb-5 text-xl font-bold text-primary">Nhạc Phim</h1>
-         </div>
 
-         <div className="pt-40"></div>
+         {loading ? (
+            <>
+               {[1, 2, 3, 4, 5].map((genre) => (
+                  <div className="pt-7" key={genre}>
+                     <SectionTitleSkeleton />
+                     <PlaylistCoverCarouselSkeleton />
+                  </div>
+               ))}
+            </>
+         ) : (
+            <>
+               {topGenres?.map((genre) => (
+                  <div className="pt-7" key={genre.id}>
+                     <h1 className="mb-5 text-xl font-bold text-primary">
+                        {genre.name}
+                     </h1>
+
+                     <div>
+                        <PlaylistCoverCarousel playlist={genre?.topPlaylist} />
+                     </div>
+                  </div>
+               ))}
+            </>
+         )}
+
+         <div className="pt-20"></div>
       </div>
    );
 };

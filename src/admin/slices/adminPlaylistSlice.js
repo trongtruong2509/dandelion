@@ -1,13 +1,13 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 import { getAllDocs } from "../../common/utils/firebaseApi";
-import { firebaseCollections } from "../../dataTemplate";
+import { firebaseKeys } from "../../dataTemplate";
 
 export const fetchAllPlaylist = createAsyncThunk(
    "adminTrack/fetchAllPlaylist",
    async () => {
       try {
-         return await getAllDocs(firebaseCollections.playlists);
+         return await getAllDocs(firebaseKeys.playlists);
       } catch (error) {
          toast.error(error);
       }

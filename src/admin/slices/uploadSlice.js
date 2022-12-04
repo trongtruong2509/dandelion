@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
 import { zing_getTracks } from "../components/Upload/uploadZing";
 import { toast } from "react-toastify";
 import { addNewDoc, getDocById } from "../../common/utils/firebaseApi";
-import { firebaseCollections } from "../../dataTemplate";
+import { firebaseKeys } from "../../dataTemplate";
 
 export const getTracks = createAsyncThunk(
    "upload/getTracksStatus",
@@ -28,7 +28,7 @@ export const uploadPlaylist = createAsyncThunk(
       // try {
       console.log("[uploadPlaylist]", playlist);
       const response = await addNewDoc(
-         firebaseCollections.playlists,
+         firebaseKeys.playlists,
          playlist,
          playlist.id
       );
@@ -45,7 +45,7 @@ export const getPlaylistById = createAsyncThunk(
    "upload/getPlaylistById",
    async (id) => {
       // try {
-      return await getDocById(firebaseCollections.playlists, id);
+      return await getDocById(firebaseKeys.playlists, id);
    }
 );
 

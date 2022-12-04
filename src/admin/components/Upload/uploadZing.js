@@ -1,5 +1,5 @@
 import { addNewDoc, getDocById } from "../../../common/utils/firebaseApi";
-import { firebaseCollections } from "../../../dataTemplate";
+import { firebaseKeys } from "../../../dataTemplate";
 import * as zing from "../../../services/zingApi";
 
 const songInfo = async (id, rank) => {
@@ -71,20 +71,13 @@ export const uploadZingById = async (id, rank) => {
 
    try {
       if (info) {
-         const result = await addNewDoc(
-            firebaseCollections.songs,
-            info,
-            info.id
-         );
+         const result = await addNewDoc(firebaseKeys.songs, info, info.id);
 
          for (const artist of info?.artists) {
-            const existDoc = await getDocById(
-               firebaseCollections.artists,
-               artist.id
-            );
+            const existDoc = await getDocById(firebaseKeys.artists, artist.id);
 
             if (!existDoc) {
-               await addNewDoc(firebaseCollections.artists, artist, artist.id);
+               await addNewDoc(firebaseKeys.artists, artist, artist.id);
             }
          }
 

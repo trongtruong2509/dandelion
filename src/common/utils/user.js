@@ -1,7 +1,7 @@
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 import { addNewDoc, getDocById, updateDocField } from "./firebaseApi";
-import { firebaseCollections } from "../../dataTemplate";
+import { firebaseKeys } from "../../dataTemplate";
 import { localKeys } from "./localStorage";
 
 export const updateUserDb = (user) => {
@@ -13,13 +13,13 @@ export const getUserDb = async (userId) => {
 };
 
 export const updateUserRecentPlayed = async (user) => {
-   await updateDocField(firebaseCollections.users, user.id, {
+   await updateDocField(firebaseKeys.users, user.id, {
       recentPlayed: user.recentPlayed,
    });
 };
 
 export const getArtistDb = async (id) => {
-   return await getDocById(firebaseCollections.artists, id);
+   return await getDocById(firebaseKeys.artists, id);
 };
 
 export const updateUserLocal = (type, user) => {

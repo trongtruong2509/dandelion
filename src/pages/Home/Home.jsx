@@ -6,10 +6,10 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 
-import PlaylistCover from "../../common/components/Playlist/PlaylistCover";
+import PlaylistCover from "../../common/components/PlaylistCover/PlaylistCover";
 import SongItem from "../../common/components/Song/SongItem";
 import { getDocInList } from "../../common/utils/firebaseApi";
-import { group, playlistBreakpoins } from "../../common/utils/common";
+import { group } from "../../common/utils/common";
 import ArtistCover from "../../common/components/Artist/ArtistCover";
 import {
    fetchHomepage,
@@ -19,7 +19,8 @@ import {
 import HomeSkeleton from "./HomeSkeleton";
 import { paths } from "../../app/routes";
 import { IoChevronForward } from "react-icons/io5";
-import { firebaseCollections } from "../../dataTemplate";
+import { firebaseKeys } from "../../dataTemplate";
+import PlaylistCoverCarousel from "../../common/components/PlaylistCover/PlaylistCoverCarousel";
 
 const Home = () => {
    const dispatch = useDispatch();
@@ -45,7 +46,7 @@ const Home = () => {
 
    useEffect(() => {
       if (currentUser) {
-         getDocInList(firebaseCollections.playlists, currentUser.recentPlaylist)
+         getDocInList(firebaseKeys.playlists, currentUser.recentPlaylist)
             .then((result) => {
                // correct order for playlist
                const ordered = [];
@@ -112,18 +113,7 @@ const Home = () => {
                      </Link>
                   </div>
                   <div className="w-full">
-                     {
-                        <Swiper
-                           className="w-full"
-                           breakpoints={playlistBreakpoins}
-                        >
-                           {newPlaylists?.map((p) => (
-                              <SwiperSlide key={p.id}>
-                                 <PlaylistCover info={p} />
-                              </SwiperSlide>
-                           ))}
-                        </Swiper>
-                     }
+                     <PlaylistCoverCarousel playlist={newPlaylists} />
                   </div>
                </div>
                <div className="pt-5">

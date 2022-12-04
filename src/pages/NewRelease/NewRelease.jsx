@@ -3,8 +3,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 
 import { paths } from "../../app/routes";
-import PlaylistCover from "../../common/components/Playlist/PlaylistCover";
-import PlaylistCoverSkeleton from "../../common/components/Playlist/PlaylistCoverSkeleton";
+import PlaylistCover from "../../common/components/PlaylistCover/PlaylistCover";
+import PlaylistCoverSkeleton from "../../common/components/PlaylistCover/PlaylistCoverSkeleton";
 import SongItem from "../../common/components/Song/SongItem";
 import SongSkeleton from "../../common/components/Song/SongSkeleton";
 import { getLatestPlaylists } from "../../common/utils/playlist";

@@ -12,11 +12,11 @@ import "swiper/css/pagination";
 import { getDocInList } from "../../common/utils/firebaseApi";
 import { getArtistDb } from "../../common/utils/user";
 import AlbumDefault from "./../../assets/album_default.png";
-import PlaylistCover from "../../common/components/Playlist/PlaylistCover";
+import PlaylistCover from "../../common/components/PlaylistCover/PlaylistCover";
 
 import { playlists as tempPlaylists } from "../../tempData/playlists";
 import SongItem from "../../common/components/Song/SongItem";
-import { firebaseCollections } from "../../dataTemplate";
+import { firebaseKeys } from "../../dataTemplate";
 
 const Artist = () => {
    const params = useParams();
@@ -41,11 +41,9 @@ const Artist = () => {
    }, [params.id]);
 
    useEffect(() => {
-      getDocInList(firebaseCollections.songs, artist?.topHits).then(
-         (result) => {
-            setTopHits(result);
-         }
-      );
+      getDocInList(firebaseKeys.songs, artist?.topHits).then((result) => {
+         setTopHits(result);
+      });
    }, [artist]);
 
    return (
