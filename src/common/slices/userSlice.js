@@ -1,53 +1,41 @@
 import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
 import { getDocInList } from "../utils/firebaseApi";
 import { localKeys } from "../utils/localStorage";
-import {
-   getUserLocal,
-   updateUserLocal,
-   updateUserDb,
-   getNoLoggedUser,
-   updateUserRecentPlayed,
-} from "../utils/user";
+import { getUserLocal, updateUserLocal, updateUserDb, getNoLoggedUser, updateUserRecentPlayed } from "../utils/user";
 
-export const fetchUserPlaylist = createAsyncThunk(
-   "/user/fetchUserPlaylistStatus",
-   async (user) => {
-      try {
-         const playlist = await getDocInList("playlists", user.playlists);
-         const ordered = [];
+export const fetchUserPlaylist = createAsyncThunk("/user/fetchUserPlaylistStatus", async (user) => {
+   try {
+      const playlist = await getDocInList("playlists", user.playlists);
+      const ordered = [];
 
-         // correct order for playlist
-         user.playlists?.forEach((id) => {
-            ordered.push(playlist.find((s) => s.id === id));
-         });
+      // correct order for playlist
+      user.playlists?.forEach((id) => {
+         ordered.push(playlist.find((s) => s.id === id));
+      });
 
-         return ordered;
-      } catch (error) {
-         console.log(error);
-         return [];
-      }
+      return ordered;
+   } catch (error) {
+      console.log(error);
+      return [];
    }
-);
+});
 
-export const fetchUserRecentPlaylist = createAsyncThunk(
-   "/user/fetchUserRecentPlaylist",
-   async (user) => {
-      try {
-         const playlist = await getDocInList("playlists", user.recentPlaylist);
-         const ordered = [];
+export const fetchUserRecentPlaylist = createAsyncThunk("/user/fetchUserRecentPlaylist", async (user) => {
+   try {
+      const playlist = await getDocInList("playlists", user.recentPlaylist);
+      const ordered = [];
 
-         // correct order for playlist
-         user.recentPlaylist?.forEach((id) => {
-            ordered.push(playlist.find((s) => s.id === id));
-         });
+      // correct order for playlist
+      user.recentPlaylist?.forEach((id) => {
+         ordered.push(playlist.find((s) => s.id === id));
+      });
 
-         return ordered;
-      } catch (error) {
-         console.log(error);
-         return [];
-      }
+      return ordered;
+   } catch (error) {
+      console.log(error);
+      return [];
    }
-);
+});
 
 const initialState = {
    user: getUserLocal(),
@@ -74,9 +62,7 @@ export const userSlice = createSlice({
          const user = state.user ?? state.noLogged;
 
          // remove first
-         user.recentPlayed = current(user.recentPlayed).filter(
-            (t) => t.id !== action.payload.id
-         );
+         user.recentPlayed = current(user.recentPlayed).filter((t) => t.id !== action.payload.id);
 
          user.recentPlayed.unshift(action.payload); // add to the beginning of array
          user.recentPlayed = user.recentPlayed.slice(0, 30);
@@ -88,10 +74,20 @@ export const userSlice = createSlice({
             updateUserLocal(localKeys.nonUser, current(user));
          }
       },
+      updateRecentPlaylist: (state, action) => {
+         const user = state.user ?? state.noLogged;
+
+         // remove first
+         user.recentPlaylist = current(user.recentPlaylist).filter((t) => t !== action.payload);
+         user.recentPlaylist.unshift(action.payload); // add to first position of array
+
+         if (state.user) {
+            updateUserLocal(current(state.user));
+            updateUserDb(current(state.user));
+         }
+      },
       updateLikeSong: (state, action) => {
-         const idx = current(state.user.likedSongs).findIndex(
-            (t) => t.id === action.payload.id
-         );
+         const idx = current(state.user.likedSongs).findIndex((t) => t.id === action.payload.id);
          if (idx === -1) {
             state.user.likedSongs.push(action.payload);
          } else {
@@ -114,20 +110,7 @@ export const userSlice = createSlice({
          updateUserLocal(current(state.user));
          updateUserDb(current(state.user));
       },
-      updateRecentPlaylist: (state, action) => {
-         const user = state.user ?? state.noLogged;
 
-         // remove first
-         user.recentPlaylist = current(user.recentPlaylist).filter(
-            (t) => t !== action.payload.id
-         );
-         user.recentPlaylist.unshift(action.payload); // add to first position of array
-
-         if (state.user) {
-            updateUserLocal(current(state.user));
-            updateUserDb(current(state.user));
-         }
-      },
       initPlaylist: (state, action) => {
          state.playlist = action.payload;
       },

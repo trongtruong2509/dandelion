@@ -15,14 +15,10 @@ import {
    triggerFromSuggested,
    updateQueue,
 } from "../../slices/playQueueSlice";
-import {
-   emtpyPlayingPlaylist,
-   updateCurrentToPlaying,
-} from "../../slices/playlistSlice";
+import { emtpyPlayingPlaylist, updateCurrentToPlaying } from "../../slices/playlistSlice";
 import { convertTimeToStr } from "../../utils/common";
 
-const playingMixIcon =
-   "https://zmp3-static.zmdcdn.me/skins/zmp3-v6.1/images/icons/icon-playing.gif";
+const playingMixIcon = "https://zmp3-static.zmdcdn.me/skins/zmp3-v6.1/images/icons/icon-playing.gif";
 
 const SongItem = ({
    info,
@@ -44,7 +40,6 @@ const SongItem = ({
    const dispatch = useDispatch();
 
    const playingSong = useSelector((state) => state.playing.value);
-   // const currentUser = useSelector((state) => state.user.user);
    const playingPlaylist = useSelector((state) => state.playlist.playing.value);
    const currentPlaylist = useSelector((state) => state.playlist.current.value);
    const playqueue = useSelector((state) => state.playqueue);
@@ -72,25 +67,16 @@ const SongItem = ({
             dispatch(triggerFromSuggested(info));
          } else {
             if (playingPlaylist) {
-               const inPlaying = playingPlaylist.songs?.find(
-                  (t) => t.id === info.id
-               );
-               const inCurrent = currentPlaylist?.songs?.find(
-                  (t) => t.id === info.id
-               );
+               const inPlaying = playingPlaylist.songs?.find((t) => t.id === info.id);
+               const inCurrent = currentPlaylist?.songs?.find((t) => t.id === info.id);
 
                if (!(inPlaying && inCurrent)) {
                   // trigger not from the playlist. treat as a single track
-                  console.log(
-                     "[playSong] triggered track not from the playlist. treat as a single track"
-                  );
+                  console.log("[playSong] triggered track not from the playlist. treat as a single track");
 
                   dispatch(emtpyPlayingPlaylist());
                   dispatch(initQueue([info]));
-               } else if (
-                  inCurrent &&
-                  playingPlaylist.id !== currentPlaylist.id
-               ) {
+               } else if (inCurrent && playingPlaylist.id !== currentPlaylist.id) {
                   // incase current playlist is not playing playlist even tho trigger song is in both current and playing => trigger new playlist
                   dispatch(updateRecentPlaylist(currentPlaylist.id));
                   dispatch(updateCurrentToPlaying(info));
@@ -99,9 +85,7 @@ const SongItem = ({
                   );
                } else if (inPlaying) {
                   // track is in queue. simply update it to playing.
-                  console.log(
-                     "[playSong] track is in queue. simply update it to playing."
-                  );
+                  console.log("[playSong] track is in queue. simply update it to playing.");
 
                   dispatch(updateQueue(info));
                }
@@ -146,19 +130,10 @@ const SongItem = ({
          className={`w-full px-3 py-2 border-secondary grid grid-cols-12 relative rounded-md group
                          ${current ? "bg-alpha" : "hover:bg-alpha"} 
                          ${playlistMode ? "border-b" : ""}
-                         ${
-                            fade && !current
-                               ? "opacity-50 hover:opacity-100"
-                               : ""
-                         }`}
+                         ${fade && !current ? "opacity-50 hover:opacity-100" : ""}`}
       >
          <div className={`${playlistMode ? "col-span-6" : "col-span-10"}`}>
-            <SongInfo
-               info={info}
-               onClick={playSong}
-               size={size}
-               badges={badges}
-            />
+            <SongInfo info={info} onClick={playSong} size={size} badges={badges} />
 
             <button
                className={`items-center justify-center bg-dark-alpha-50 rounded-md absolute top-2 left-3 group-hover:flex group
@@ -168,10 +143,7 @@ const SongItem = ({
             >
                {playingSong?.playing && current ? (
                   <div className="group">
-                     <img
-                        src={playingMixIcon}
-                        className="w-[18px] h-[18px] group-hover:opacity-0"
-                     />
+                     <img src={playingMixIcon} className="w-[18px] h-[18px] group-hover:opacity-0" />
                      <IoMdPause className="text-xl text-white opacity-0 group-hover:opacity-100 absolute-center" />
                   </div>
                ) : (

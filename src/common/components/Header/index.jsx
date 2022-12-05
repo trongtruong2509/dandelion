@@ -82,7 +82,7 @@ const Header = ({ active }) => {
                {user ? (
                   <img
                      src={user?.avatar ? user.avatar : defaultAvatar}
-                     alt="Avatar"
+                     alt={user?.name}
                      onClick={handleLogout}
                      className="object-cover w-10 h-10 rounded-full"
                   />
