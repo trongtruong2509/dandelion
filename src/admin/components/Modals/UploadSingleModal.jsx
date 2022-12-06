@@ -2,36 +2,46 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 
 import Modal from "../../../common/components/Modal/Modal";
+import { uploadSong } from "../../../services/nctService";
 import { RankItem } from "../Rank/Rank";
 import { uploadZingById } from "../Upload/uploadZing";
 
 const UploadSingleModal = ({ ...props }) => {
    const [songId, setSongId] = useState("");
    const [rank, setRank] = useState("Undefined");
+   const [vendor, setVendor] = useState("zm3");
 
    const onUpload = async () => {
       props.onClose();
 
-      await toast.promise(uploadZingById(songId, rank), {
-         pending: `[${rank}] Uploading song ${songId}...`,
-         success: `[${rank}] Song ${songId} uploaded`,
-         error: {
-            render({ data }) {
-               // When the promise reject, data will contains the error
-               return (
-                  <div>
-                     <h2 className="text-sm">{`Song ${songId} uploaded fail with error: `}</h2>
-                     <p className="mt-2 text-xs">{data.message}</p>
-                  </div>
-               );
+      if (vendor === "zm3") {
+         await toast.promise(uploadZingById(songId, rank), {
+            pending: `[${rank}] Uploading song ${songId}...`,
+            success: `[${rank}] Song ${songId} uploaded`,
+            error: {
+               render({ data }) {
+                  // When the promise reject, data will contains the error
+                  return (
+                     <div>
+                        <h2 className="text-sm">{`Song ${songId} uploaded fail with error: `}</h2>
+                        <p className="mt-2 text-xs">{data.message}</p>
+                     </div>
+                  );
+               },
             },
-         },
-      });
+         });
+      } else if (vendor === "nct") {
+         const res = await uploadSong(songId);
+         console.log("[onUpload] nct", res.data);
+      } else {
+         toast.error("Not supported vendor");
+      }
    };
 
    const cleanUp = () => {
       setSongId("");
       setRank("Undefined");
+      setVendor("zm3");
    };
 
    return (
@@ -39,7 +49,7 @@ const UploadSingleModal = ({ ...props }) => {
          <header className="flex items-center justify-center w-full py-1 header">
             <h4 className="text-xl font-semibold">Add new song with Zing Id</h4>
          </header>
-         <main className="flex flex-col w-full gap-4 py-3">
+         <main className="flex flex-col w-full gap-3 py-3">
             <input
                type="text"
                value={songId}
@@ -59,6 +69,16 @@ const UploadSingleModal = ({ ...props }) => {
                <option value="A+">A+</option>
                <option value="S">S</option>
                <option value="S+">S+</option>
+            </select>
+            <select
+               className="w-40 px-4 py-[6px] border border-secondary rounded-lg outline-none bg-alpha text-primary"
+               onChange={(e) => setVendor(e.target.value)}
+            >
+               <option defaultValue value="zm3">
+                  ZingMp3
+               </option>
+               <option value="nct">NCT</option>
+               <option value="csn">CSN</option>
             </select>
          </main>
          <div className="flex items-center justify-end w-full gap-6 px-4 pt-4 pb-2">
