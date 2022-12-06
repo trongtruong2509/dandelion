@@ -143,7 +143,7 @@ const SongItem = ({
             >
                {playingSong?.playing && current ? (
                   <div className="group">
-                     <img src={playingMixIcon} className="w-[18px] h-[18px] group-hover:opacity-0" />
+                     <img src={playingMixIcon} className="w-[18px] h-[18px] group-hover:opacity-0" alt="" />
                      <IoMdPause className="text-xl text-white opacity-0 group-hover:opacity-100 absolute-center" />
                   </div>
                ) : (

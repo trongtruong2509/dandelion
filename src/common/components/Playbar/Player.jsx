@@ -1,30 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import {
-   IoPlaySkipForward,
-   IoPlaySkipBack,
-   IoPlay,
-   IoPause,
-   IoShuffleOutline,
-   IoRepeatOutline,
-} from "react-icons/io5";
+import { IoPlaySkipForward, IoPlaySkipBack, IoPlay, IoPause, IoShuffleOutline, IoRepeatOutline } from "react-icons/io5";
 import { MdRepeatOne } from "react-icons/md";
 
 import { play, pause, updateAndPlay } from "../../slices/playingSlice";
-import {
-   getSuggestionToPlay,
-   initQueue,
-   updateQueue,
-} from "../../slices/playQueueSlice";
+import { getSuggestionToPlay, initQueue, updateQueue } from "../../slices/playQueueSlice";
 import { updateRecentPlay } from "../../slices/userSlice";
 
 import { Progress } from "./Progress";
-import {
-   updateRepeat,
-   updateShuffle,
-   updateVolume,
-} from "../../slices/playbarSlice";
+import { updateRepeat, updateShuffle, updateVolume } from "../../slices/playbarSlice";
 import { shuffleArray } from "../../utils/common";
 import PlaybarOptions from "./PlaybarOptions";
 
@@ -63,9 +48,7 @@ const Player = () => {
       const setAudioTime = () => {
          const curTime = _audio.currentTime;
          setTime(curTime);
-         setSlider(
-            curTime ? ((curTime * 100) / _audio.duration).toFixed(1) : 0
-         );
+         setSlider(curTime ? ((curTime * 100) / _audio.duration).toFixed(1) : 0);
       };
 
       const setAudioVolume = () => setVolume(_audio.volume);
@@ -224,9 +207,7 @@ const Player = () => {
             <div className="flex items-center gap-4 text-xl text-player">
                <button
                   className={`p-2 hover:bg-alpha rounded-full ${
-                     playbarSlice?.shuffle
-                        ? "text-dandelion-primary"
-                        : "text-secondary hover:text-primary"
+                     playbarSlice?.shuffle ? "text-dandelion-primary" : "text-secondary hover:text-primary"
                   }`}
                   onClick={() => {
                      dispatch(updateShuffle(!playbarSlice?.shuffle));
@@ -235,20 +216,16 @@ const Player = () => {
                   <IoShuffleOutline />
                </button>
 
-               <button className="p-2 rounded-full hover:bg-alpha">
-                  <IoPlaySkipBack className="text-xl" onClick={prevSong} />
+               <button className="p-2 text-xl rounded-full hover:bg-alpha" onClick={prevSong}>
+                  <IoPlaySkipBack />
                </button>
 
                <button onClick={() => setPlaying(!playing)}>
-                  {playing ? (
-                     <IoPause className="text-[40px]" />
-                  ) : (
-                     <IoPlay className="text-[40px]" />
-                  )}
+                  {playing ? <IoPause className="text-[40px]" /> : <IoPlay className="text-[40px]" />}
                </button>
 
-               <button className="p-2 rounded-full hover:bg-alpha">
-                  <IoPlaySkipForward className="text-xl" onClick={nextSong} />
+               <button className="p-2 text-xl rounded-full hover:bg-alpha" onClick={nextSong}>
+                  <IoPlaySkipForward />
                </button>
 
                {playbarSlice.repeat === 2 ? (
@@ -275,9 +252,7 @@ const Player = () => {
                )}
             </div>
             <div className="gap-2 font-semibold flex-center text-primary">
-               <p className="w-8 text-xs text-secondary">
-                  {!time ? "0:00" : fmtMSS(time)}
-               </p>
+               <p className="w-8 text-xs text-secondary">{!time ? "0:00" : fmtMSS(time)}</p>
                <div className="w-[600px]">
                   <Progress
                      value={slider}
@@ -289,15 +264,10 @@ const Player = () => {
                      onTouchEnd={() => setPlaying(true)}
                   />
                </div>
-               <p className="w-8 text-xs text-right ">
-                  {!!length ? fmtMSS(length) : "0:00"}
-               </p>
+               <p className="w-8 text-xs text-right ">{!!length ? fmtMSS(length) : "0:00"}</p>
             </div>
          </div>
-         <PlaybarOptions
-            volume={volume * 100}
-            onVolChange={(e) => setVolume(e.target.value / 100)}
-         />
+         <PlaybarOptions volume={volume * 100} onVolChange={(e) => setVolume(e.target.value / 100)} />
       </div>
    );
 };

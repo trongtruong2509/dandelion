@@ -15,6 +15,7 @@ import { IoMdPause } from "react-icons/io";
 import { pause, play, update } from "../../slices/playingSlice";
 import { initQueue } from "../../slices/playQueueSlice";
 import { shuffleArray } from "../../utils/common";
+import Login from "../Header/Login";
 
 const playingMixIcon = "https://zmp3-static.zmdcdn.me/skins/zmp3-v6.1/images/icons/icon-playing.gif";
 
@@ -87,6 +88,12 @@ const PlaylistCover = ({ info, size = "md", editable = false, admin = false }) =
       console.log("[TODO] handleLogin");
    };
 
+   const likeIconOutline = () => (
+      <IoHeartOutline
+         className={`${size === "sm" ? "text-[22px]" : "text-2xl"} text-white hover:text-dandelion-primary`}
+      />
+   );
+
    const likeIcon = () => {
       return (
          <button
@@ -95,12 +102,16 @@ const PlaylistCover = ({ info, size = "md", editable = false, admin = false }) =
             } rounded-full cursor-pointer hover:bg-hover-tooltip flex-center"`}
             onClick={() => (currentUser ? dispatch(updatePlaylists(info)) : handleLogin())}
          >
-            {currentUser?.playlists?.find((p) => p === info?.id) ? (
-               <IoHeart className={`${size === "sm" ? "text-[22px]" : "text-2xl"} text-dandelion-primary`} />
+            {currentUser ? (
+               <>
+                  {currentUser?.playlists?.find((p) => p === info?.id) ? (
+                     <IoHeart className={`${size === "sm" ? "text-[22px]" : "text-2xl"} text-dandelion-primary`} />
+                  ) : (
+                     likeIconOutline()
+                  )}
+               </>
             ) : (
-               <IoHeartOutline
-                  className={`${size === "sm" ? "text-[22px]" : "text-2xl"} text-white hover:text-dandelion-primary`}
-               />
+               <Login children={likeIconOutline()} />
             )}
          </button>
       );
@@ -109,14 +120,12 @@ const PlaylistCover = ({ info, size = "md", editable = false, admin = false }) =
    const displayIcon = () => {
       if (info?.createdBy === currentUser?.id) {
          return (
-            editable && (
-               <button
-                  className="w-10 h-10 rounded-full cursor-pointer flex-center hover:bg-hover-tooltip"
-                  onClick={() => dispatch(updatePlaylists(info))}
-               >
-                  <IoClose className="text-2xl text-white" />
-               </button>
-            )
+            <button
+               className="w-10 h-10 rounded-full cursor-pointer flex-center hover:bg-hover-tooltip"
+               onClick={() => dispatch(updatePlaylists(info))}
+            >
+               <IoClose className="text-2xl text-white" />
+            </button>
          );
       } else {
          return likeIcon();
@@ -137,25 +146,23 @@ const PlaylistCover = ({ info, size = "md", editable = false, admin = false }) =
                }`}
             >
                <div
-                  className={`${size === "sm" ? "gap-4" : "gap-6"} flex-center z-30`}
+                  className={`${size === "sm" ? "gap-4" : "gap-6"} text-white flex-center z-30`}
                   onClick={(e) => e.stopPropagation()}
                >
                   <div>{displayIcon()}</div>
                   <button
-                     className={`text-white hover:text-dandelion-primary flex-center
+                     className={`hover:text-dandelion-primary flex-center
                         ${thumbnailSizes[size]}`}
                      onClick={onPlay}
                   >
                      {currentPlaying() ? (
-                        <IoMdPause className="text-4xl text-white opacity-0 group-hover:opacity-100" />
+                        <IoMdPause className="text-4xl opacity-0 group-hover:opacity-100" />
                      ) : (
-                        <IoPlay className="text-5xl text-white" />
+                        <IoPlay className={size === "sm" ? "text-4xl" : "text-5xl"} />
                      )}
                   </button>
-                  <button
-                     className={`${size === "sm" ? "p-[6px]" : "p-2"} text-white rounded-full hover:bg-hover-tooltip`}
-                  >
-                     <HiOutlineDotsHorizontal className={`${size === "sm" ? "text-xl" : "text-2xl"}  cursor-pointer`} />
+                  <button className={`${size === "sm" ? "p-[6px]" : "p-2"} rounded-full hover:bg-hover-tooltip`}>
+                     <HiOutlineDotsHorizontal className={`${size === "sm" ? "text-xl" : "text-2xl"} cursor-pointer`} />
                   </button>
                </div>
             </div>

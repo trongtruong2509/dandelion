@@ -2,9 +2,12 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { addNewDoc } from "../../utils/firebaseApi";
+import { addNewDoc, updateDocField } from "../../utils/firebaseApi";
 import Modal from "./Modal";
 import { updateCreatedPlaylist, updatePlaylists } from "../../slices/userSlice";
+import { toast } from "react-toastify";
+import { firebaseKeys } from "../../../dataTemplate";
+import { updateCurrentPlaylist } from "../../slices/playlistSlice";
 
 const PlaylistModal = ({ ...props }) => {
    const user = useSelector((state) => state.user.user);
@@ -12,8 +15,8 @@ const PlaylistModal = ({ ...props }) => {
    const navigate = useNavigate();
    const dispatch = useDispatch();
 
-   const [title, setTitle] = useState("");
-   const [desc, setDesc] = useState("");
+   const [title, setTitle] = useState(props.update ? props.info?.title : "");
+   const [desc, setDesc] = useState(props.update ? props.info?.description : "");
    const [loading, setLoading] = useState(false);
 
    const onCreate = () => {
@@ -49,30 +52,32 @@ const PlaylistModal = ({ ...props }) => {
       dispatch(updatePlaylists(newPlaylist));
    };
 
-   const onUpdate = () => {
-      const updatedPlaylist = {
-         ...playlist,
+   const onUpdate = async () => {
+      props.onClose();
+
+      const updatedProperties = {
          title,
-         desc,
-         //@todo: shuffle and autoplay?
+         description: desc,
       };
 
-      // addNewDoc("playlists", updatedPlaylist, playlist.id)
-      //    .then(() => {
-      //       setLoading(false);
-      //    })
-      //    .catch((err) => {
-      //       console.log(err);
-      //       setLoading(true);
-      //    });
+      try {
+         const result = await updateDocField(firebaseKeys.playlists, props.info?.id, updatedProperties);
 
-      console.log("update playlist...");
+         if (result) {
+            toast.info("Playlist is updated");
+            dispatch(updateCurrentPlaylist(result));
+         } else {
+            toast.error(`Update playlist ${props.info.title} failed`);
+         }
+      } catch (error) {
+         toast.error(`Update playlist ${props.info.title} fail with error: ${error}`);
+      }
    };
 
    return (
-      <Modal {...props} className="p-4 text-white bg-layout w-96 rounded-xl">
+      <Modal {...props} className="p-3 text-white bg-layout w-96 rounded-xl">
          <header className="w-full py-1 flex-center header text-primary">
-            <h4 className="text-xl font-semibold">Create New Playlist</h4>
+            <h4 className="text-xl font-semibold">{props.update ? "Update playlist" : "Create New Playlist"}</h4>
          </header>
          <main className="flex flex-col w-full gap-4 py-3 text-primary">
             <input
@@ -90,7 +95,7 @@ const PlaylistModal = ({ ...props }) => {
                rows={5}
             />
          </main>
-         <div className="flex items-center justify-end w-full gap-6 px-4 pt-4 pb-2">
+         <div className="flex items-center justify-end w-full gap-6 pt-4 pb-1">
             <button
                className="w-20 px-3 py-2 rounded-lg bg-dark-alpha-10 text-navigation hover:text-white hover:bg-dark-alpha-50 hover:opacity-100"
                onClick={props.onClose}
@@ -101,7 +106,7 @@ const PlaylistModal = ({ ...props }) => {
                className="w-20 px-3 py-2 text-white bg-teal-500 rounded-lg"
                onClick={props.update ? onUpdate : onCreate}
             >
-               Create
+               {props.update ? "Update" : "Create"}
             </button>
          </div>
       </Modal>

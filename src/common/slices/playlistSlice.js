@@ -5,30 +5,24 @@ import { getDocById, getDocInList, updateDocField } from "../utils/firebaseApi";
 
 import * as local from "../utils/localStorage";
 
-export const fetchCurrentPlaylistInfo = createAsyncThunk(
-   "/playlist/fetchCurrentPlaylistInfo",
-   async (id) => {
-      const playlist = await getDocById(firebaseKeys.playlists, id);
-      return playlist;
+export const fetchCurrentPlaylistInfo = createAsyncThunk("/playlist/fetchCurrentPlaylistInfo", async (id) => {
+   const playlist = await getDocById(firebaseKeys.playlists, id);
+   return playlist;
+});
+
+export const addTrackToPlaylist = createAsyncThunk("/playlist/addTrackToPlaylist", async ({ playlist, track }) => {
+   const result = await updateDocField(firebaseKeys.playlists, playlist.id, {
+      songs: [...playlist.songs, track],
+   });
+
+   if (result) {
+      toast.info(`Added ${track.title} to playlist successfully`);
+   } else {
+      toast.error(`Added ${track.title} to playlist fail`);
    }
-);
 
-export const addTrackToPlaylist = createAsyncThunk(
-   "/playlist/addTrackToPlaylist",
-   async ({ playlist, track }) => {
-      const result = await updateDocField(firebaseKeys.playlists, playlist.id, {
-         songs: [...playlist.songs, track],
-      });
-
-      if (result) {
-         toast.info(`Added ${track.title} to playlist successfully`);
-      } else {
-         toast.error(`Added ${track.title} to playlist fail`);
-      }
-
-      return result;
-   }
-);
+   return result;
+});
 
 export const removeTrackFromPlaylist = createAsyncThunk(
    "/playlist/removeTrackFromPlaylist",
@@ -50,6 +44,7 @@ export const removeTrackFromPlaylist = createAsyncThunk(
 const initialState = {
    current: {
       value: null,
+      loading: false,
       pending: false,
       success: false,
    },
@@ -104,17 +99,18 @@ export const playlistSlice = createSlice({
       builder
          .addCase(fetchCurrentPlaylistInfo.pending, (state, action) => {
             console.log("[fetchCurrentPlaylistInfo]", "loading");
-            state.current.pending = true;
+            state.current.loading = true;
          })
          .addCase(fetchCurrentPlaylistInfo.fulfilled, (state, action) => {
             console.log("[fetchCurrentPlaylistInfo]", action.payload);
             state.current.value = action.payload;
-            state.current.pending = false;
+            state.current.loading = false;
             state.current.success = true;
          })
          .addCase(fetchCurrentPlaylistInfo.rejected, (state, action) => {
             console.log("[fetchCurrentPlaylistInfo]", "rejected");
             state.current.value = null;
+            state.current.loading = false;
             state.current.success = false;
          })
          .addCase(addTrackToPlaylist.pending, (state, action) => {

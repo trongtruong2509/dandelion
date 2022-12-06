@@ -1,19 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { IoIosShuffle, IoMdPause, IoMdPlay } from "react-icons/io";
 import { FiEdit3 } from "react-icons/fi";
 
-import { pause, play } from "../../slices/playingSlice";
+import { pause, play, update } from "../../slices/playingSlice";
 import { updateCurrentToPlaying } from "../../slices/playlistSlice";
 import { MdFavorite, MdFavoriteBorder } from "react-icons/md";
 import { FaPlay } from "react-icons/fa";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
-import { updatePlaylists } from "../../slices/userSlice";
+import { updatePlaylists, updateRecentPlay } from "../../slices/userSlice";
 import Login from "../Header/Login";
 import PlaylistThumbnail from "./PlaylistThumbnail";
+import { initQueue } from "../../slices/playQueueSlice";
+import { shuffleArray } from "../../utils/common";
+import { useRef } from "react";
+import PlaylistModal from "../Modal/PlaylistModal";
 
-const playingMixIcon =
-   "https://zmp3-static.zmdcdn.me/skins/zmp3-v6.1/images/icons/icon-playing.gif";
+const playingMixIcon = "https://zmp3-static.zmdcdn.me/skins/zmp3-v6.1/images/icons/icon-playing.gif";
 
 const PlaylistHeader = () => {
    const dispatch = useDispatch();
@@ -22,20 +25,49 @@ const PlaylistHeader = () => {
    const playingPlaylist = useSelector((state) => state.playlist.playing);
    const playingTrack = useSelector((state) => state.playing.value);
    const user = useSelector((state) => state.user.user);
+   const isMounted = useRef(false);
 
    const [show, setShow] = useState(false);
    const [thumbnailRotateOff, setThumbnailRotateOff] = useState(
       "rounded-md transition-[border-radius] duration-500 delay-500 ease-out"
    );
 
-   const onPlay = () => {
-      if (!thumbnailRotateOff.includes("animate-[spinoff_0.5s_ease_1]")) {
-         setThumbnailRotateOff(
-            `${thumbnailRotateOff} animate-[spinoff_0.5s_ease_1]`
-         );
+   const shuffleAndPlay = (songs, shuffle, chosen) => {
+      let shuffledSongs = [...songs];
+
+      if (shuffle) {
+         shuffleArray(shuffledSongs, chosen);
       }
 
-      console.log("[onPlay] clicked");
+      dispatch(update({ info: shuffledSongs[0], playing: true }));
+      dispatch(updateRecentPlay(shuffledSongs[0]));
+      dispatch(initQueue(shuffledSongs));
+   };
+
+   useEffect(() => {
+      const playing = playingPlaylist.value;
+      const track = playingPlaylist?.chosenTrack;
+
+      if (isMounted.current) {
+         if (currentPlaylist?.id === playing?.id) {
+            if (track) {
+               shuffleAndPlay(playing?.songs, playing.shuffle, track);
+            } else {
+               if (playing?.songs.length > 0) {
+                  shuffleAndPlay(playing?.songs, playing.shuffle);
+               }
+            }
+         }
+      } else {
+         isMounted.current = true;
+      }
+   }, [playingPlaylist?.value]);
+
+   const onPlay = () => {
+      if (!thumbnailRotateOff.includes("animate-[spinoff_0.5s_ease_1]")) {
+         setThumbnailRotateOff(`${thumbnailRotateOff} animate-[spinoff_0.5s_ease_1]`);
+      }
+
       if (currentPlaylist?.id !== playingPlaylist?.value?.id) {
          dispatch(updateCurrentToPlaying());
       } else {
@@ -44,24 +76,26 @@ const PlaylistHeader = () => {
    };
 
    const onPause = () => {
-      dispatch(pause());
+      if (isCurrentPlaying()) {
+         dispatch(pause());
+      } else {
+         onPlay();
+      }
    };
 
    const isCurrentPlaying = () => {
-      return (
-         currentPlaylist?.id === playingPlaylist?.value?.id &&
-         playingTrack?.playing
-      );
+      return currentPlaylist?.id === playingPlaylist?.value?.id && playingTrack?.playing;
    };
 
-   const notLiked =
-      !user || !user?.playlists.find((t) => t === currentPlaylist?.id);
+   const notLiked = !user || !user?.playlists.find((t) => t === currentPlaylist?.id);
 
    const thumbnailRotate =
       "animate-[spin_12s_linear_infinite] rounded-full transition-[border-radius] duration-[2000ms] ease-out";
 
    return (
       <div className="sticky flex-shrink-0 text-white top-24 w-72 h-fit">
+         <PlaylistModal show={show} update info={currentPlaylist} onClose={() => setShow(false)} />
+
          <div className="relative overflow-hidden w-72 h-72 group">
             <div
                className={`overflow-hidden shadow-lg w-72 group h-72 hover:cursor-pointer ${
@@ -87,7 +121,7 @@ const PlaylistHeader = () => {
             {isCurrentPlaying() && (
                <div className="absolute-center w-72 h-72 group-hover:hidden flex-center">
                   <div className="w-10 h-10 border border-white rounded-full flex-center">
-                     <img src={playingMixIcon} className="w-4 h-4" />
+                     <img src={playingMixIcon} className="w-4 h-4" alt="" />
                   </div>
                </div>
             )}
@@ -95,9 +129,7 @@ const PlaylistHeader = () => {
 
          <div>
             <div className="relative gap-1 mt-4 flex-center">
-               <h1 className="text-2xl font-semibold text-center text-primary">
-                  {currentPlaylist?.title}
-               </h1>
+               <h1 className="text-2xl font-semibold text-center text-primary">{currentPlaylist?.title}</h1>
                {currentPlaylist?.createdBy === user?.id && (
                   <button
                      className="p-2 rounded-full text-secondary hover:text-primary hover:bg-alpha"
@@ -147,26 +179,16 @@ const PlaylistHeader = () => {
             <div className="flex items-center justify-center gap-4 mt-5">
                <div className="p-2 rounded-full cursor-pointer flex-center bg-alpha">
                   {user ? (
-                     <div
-                        onClick={() =>
-                           dispatch(updatePlaylists(currentPlaylist))
-                        }
-                     >
+                     <div onClick={() => dispatch(updatePlaylists(currentPlaylist))}>
                         {notLiked ? (
-                           <MdFavoriteBorder
-                              className={`text-lg hover:text-dandelion-primary text-primary`}
-                           />
+                           <MdFavoriteBorder className={`text-lg hover:text-dandelion-primary text-primary`} />
                         ) : (
                            <MdFavorite className="text-lg text-dandelion-primary" />
                         )}
                      </div>
                   ) : (
                      <Login
-                        children={
-                           <MdFavoriteBorder
-                              className={`text-lg hover:text-dandelion-primary text-primary`}
-                           />
-                        }
+                        children={<MdFavoriteBorder className={`text-lg hover:text-dandelion-primary text-primary`} />}
                      />
                   )}
                   {/* <MdFavorite className="text-lg text-dandelion-primary" /> */}
