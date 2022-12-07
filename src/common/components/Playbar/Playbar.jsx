@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 
 import Player from "./Player";
 import SongOptions from "../Song/SongOptions";
+import { Link } from "react-router-dom";
 
 const Playbar = () => {
    const currentSong = useSelector((state) => state.playing.value)?.info;
@@ -27,9 +28,25 @@ const Playbar = () => {
                      <h1 className="text-sm font-semibold truncate text-player">
                         {currentSong?.title}
                      </h1>
-                     <p className="text-xs truncate text-secondary">
-                        {currentSong?.artistsNames}
-                     </p>
+                     <div className="gap-2 mt-1 text-xs truncate text-secondary">
+                        {currentSong?.artists?.length > 0 ? (
+                           <p>
+                              {currentSong?.artists.map((artist, index) => (
+                                 <span key={index}>
+                                    <Link
+                                       className="hover:text-dandelion-primary hover:underline"
+                                       to={artist?.link}
+                                    >
+                                       {artist?.name}
+                                    </Link>
+                                    {currentSong?.artists?.length - 1 !== index && ", "}
+                                 </span>
+                              ))}
+                           </p>
+                        ) : (
+                           currentSong?.artistsNames
+                        )}
+                     </div>
                   </div>
                </div>
                <SongOptions songInfo={currentSong} activeLike activeDots />

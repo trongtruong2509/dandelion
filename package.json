@@ -2,7 +2,7 @@
   "name": "dandelion",
   "version": "0.1.0",
   "private": true,
-  "proxy": "https://data.chiasenhac.com/down2",
+  "proxy": "http://localhost:5000",
   "dependencies": {
     "@material-tailwind/react": "^1.2.4",
     "@peculiar/webcrypto": "^1.4.0",

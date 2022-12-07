@@ -12,6 +12,7 @@ import SongItem from "../Song/SongItem";
 import Switch from "../Kits/Switch";
 import QueueMenu from "../Popers/QueueMenu";
 import { Link } from "react-router-dom";
+import { IoPlay } from "react-icons/io5";
 
 const PlayerQueue = () => {
    const dispatch = useDispatch();
@@ -26,11 +27,7 @@ const PlayerQueue = () => {
    const isMounted = useRef(false);
 
    useEffect(() => {
-      if (
-         playingPlaylist &&
-         playingPlaylist.songs?.length &&
-         playingTrack?.info
-      ) {
+      if (playingPlaylist && playingPlaylist.songs?.length && playingTrack?.info) {
          if (isMounted.current) {
             if (shuffle) {
                dispatch(
@@ -58,20 +55,17 @@ const PlayerQueue = () => {
    }, [playingTrack?.info]);
 
    const isInPlaylist = () => {
-      return playingPlaylist?.songs?.find(
-         (t) => t.id === playingTrack?.info.id
-      );
+      return playingPlaylist?.songs?.find((t) => t.id === playingTrack?.info.id);
    };
 
-   const user = () => {
-      return currentUser ?? nonUser;
-   };
+   const user = () => currentUser ?? nonUser;
+   const queueEmpty = () => !playqueue?.played.length && !playqueue?.next.length;
 
    return (
       <div
          className={`${queueState.hidden ? "hidden" : "block"} ${
             queueState.animate ? "right-0" : "-right-[320px]"
-         } 2xl:w-96 w-80 2xl:block flex-shrink-0 h-full bg-layout border-l border-secondary px-2 overflow-y-scroll overscroll-auto scrollbar
+         } 2xl:w-96 w-80 2xl:block flex-shrink-0 h-auto bg-layout border-l border-secondary px-2 overflow-y-scroll overscroll-auto scrollbar
             absolute top-0 2xl:right-0 2xl:relative z-[300]
             transition-all ease-out duration-500
             `}
@@ -90,89 +84,85 @@ const PlayerQueue = () => {
             </TabList>
 
             <TabPanel className="w-full">
-               <div className="">
-                  {playqueue?.played?.map((s) => (
-                     <SongItem
-                        key={s.id}
-                        info={s}
-                        fade
-                        isPlaylist={!!playingPlaylist}
-                     />
-                  ))}
-               </div>
-               {playqueue?.next.length > 0 && (
-                  <div className="mt-4">
-                     <div className="pl-2 mb-1">
-                        <h2 className="flex gap-2 font-semibold text-primary">
-                           Play next
-                        </h2>
-                        {isInPlaylist() && (
-                           <p className="text-sm text-secondary">
-                              From playlist{" "}
-                              <Link
-                                 className="font-semibold cursor-pointer text-dandelion-primary hover:underline"
-                                 to={playingPlaylist.link}
-                              >
-                                 {playingPlaylist?.title}
-                              </Link>
-                           </p>
-                        )}
-                     </div>
-                     <div>
-                        {playqueue?.next?.map((s) => (
-                           <SongItem
-                              key={s.id}
-                              info={s}
-                              isPlaylist={!!playingPlaylist}
-                           />
+               {queueEmpty() ? (
+                  <div className="flex-col w-full gap-3 h-[calc(100vh-72px)] flex-center text-primary">
+                     <p>Explore new releases of Dandelion</p>
+                     <button className="py-[6px] px-3 bg-dandelion-primary rounded-3xl text-white flex-center gap-2 text-sm">
+                        <IoPlay />
+                        Play New Uploaded
+                     </button>
+                  </div>
+               ) : (
+                  <>
+                     <div className="">
+                        {playqueue?.played?.map((s) => (
+                           <SongItem key={s.id} info={s} fade isPlaylist={!!playingPlaylist} />
                         ))}
                      </div>
-                  </div>
-               )}
-
-               {playqueue?.suggestion?.length > 0 && (
-                  <div
-                     className={`mt-4 ${
-                        playqueue?.autoplay ? "opacity-100" : "opacity-50"
-                     }`}
-                  >
-                     <div className="flex items-center justify-between pr-3">
-                        <div className="pl-2 mb-1">
-                           <h2 className="flex gap-2 font-semibold text-primary">
-                              Autoplay
-                           </h2>
-                           <p className="text-sm text-secondary">
-                              Suggestion based on playing
-                           </p>
+                     {playqueue?.next.length > 0 && (
+                        <div className="mt-4">
+                           <div className="pl-2 mb-1">
+                              <h2 className="flex gap-2 font-semibold text-primary">Play next</h2>
+                              {isInPlaylist() && (
+                                 <p className="text-sm text-secondary">
+                                    From playlist{" "}
+                                    <Link
+                                       className="font-semibold cursor-pointer text-dandelion-primary hover:underline"
+                                       to={playingPlaylist.link}
+                                    >
+                                       {playingPlaylist?.title}
+                                    </Link>
+                                 </p>
+                              )}
+                           </div>
+                           <div>
+                              {playqueue?.next?.map((s) => (
+                                 <SongItem key={s.id} info={s} isPlaylist={!!playingPlaylist} />
+                              ))}
+                           </div>
                         </div>
-                        <Switch
-                           init={playqueue?.autoplay}
-                           onSwitchChange={() => {
-                              dispatch(updateAutoplay(!playqueue?.autoplay));
-                           }}
-                        />
-                     </div>
-                     <div>
-                        {playqueue?.suggestion?.map((s) => (
-                           <SongItem
-                              key={s.id}
-                              info={s}
-                              addPlayQueue
-                              activeDots
-                              like={false}
-                              isPlaylist={!!playingPlaylist}
-                           />
-                        ))}
-                     </div>
-                  </div>
+                     )}
+
+                     {playqueue?.suggestion?.length > 0 && (
+                        <div
+                           className={`mt-4 ${playqueue?.autoplay ? "opacity-100" : "opacity-50"}`}
+                        >
+                           <div className="flex items-center justify-between pr-3">
+                              <div className="pl-2 mb-1">
+                                 <h2 className="flex gap-2 font-semibold text-primary">Autoplay</h2>
+                                 <p className="text-sm text-secondary">
+                                    Suggestion based on playing
+                                 </p>
+                              </div>
+                              <Switch
+                                 init={playqueue?.autoplay}
+                                 onSwitchChange={() => {
+                                    dispatch(updateAutoplay(!playqueue?.autoplay));
+                                 }}
+                              />
+                           </div>
+                           <div>
+                              {playqueue?.suggestion?.map((s) => (
+                                 <SongItem
+                                    key={s.id}
+                                    info={s}
+                                    addPlayQueue
+                                    activeDots
+                                    like={false}
+                                    isPlaylist={!!playingPlaylist}
+                                 />
+                              ))}
+                           </div>
+                        </div>
+                     )}
+                  </>
                )}
             </TabPanel>
             <TabPanel className="w-full">
                <div className="">
                   {user()?.recentPlayed?.map(
                      (s, index) =>
-                        (!playingTrack?.info ||
-                           playingTrack?.info?.id !== s?.id) && (
+                        (!playingTrack?.info || playingTrack?.info?.id !== s?.id) && (
                            <SongItem key={index} info={s} />
                         )
                   )}
