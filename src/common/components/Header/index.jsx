@@ -1,25 +1,29 @@
 import React, { useEffect, useState } from "react";
 import { MdEast, MdWest } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
-import defaultAvatar from "./../../../assets/default.jpg";
+import { IoCloudUploadOutline, IoColorPaletteOutline, IoSettingsOutline } from "react-icons/io5";
+
 import { updateUser, removeUser } from "../../slices/userSlice";
 import { getUserDb } from "../../utils/user";
+
+import defaultAvatar from "./../../../assets/default.jpg";
 import Search from "./Search";
 import ThemeModal from "../Modal/ThemeModal";
-import {
-   IoCloudUploadOutline,
-   IoColorPaletteOutline,
-   IoSettingsOutline,
-} from "react-icons/io5";
+import ConfirmModal from "../Modal/ConfirmModal";
 import Login from "./Login";
+import { paths } from "../../../app/routes";
 
 const Header = ({ active }) => {
-   const user = useSelector((state) => state.user.user);
    const dispatch = useDispatch();
+   const navigate = useNavigate();
+
+   const location = useLocation();
+   const user = useSelector((state) => state.user.user);
 
    const [show, setShow] = useState(false);
+   const [confirmShow, setConfirmShow] = useState(false);
 
    useEffect(() => {
       if (user) {
@@ -37,7 +41,12 @@ const Header = ({ active }) => {
    }, []);
 
    const handleLogout = () => {
+      setConfirmShow(false);
       dispatch(removeUser());
+
+      if (location.pathname == paths.mymusic) {
+         navigate(paths.home);
+      }
    };
 
    return (
@@ -47,6 +56,14 @@ const Header = ({ active }) => {
          }`}
       >
          <ThemeModal show={show} onClose={() => setShow(false)} />
+
+         <ConfirmModal
+            show={confirmShow}
+            onClose={() => setConfirmShow(false)}
+            modalTitle="Confirm"
+            content="Do you want to log out?"
+            onOK={handleLogout}
+         />
 
          <div className="gap-8 flex-center">
             <div className="gap-4 flex-center">
@@ -59,31 +76,31 @@ const Header = ({ active }) => {
             </div>
             <Search />
          </div>
-         <div className="gap-3 flex-center">
+         <div className="gap-3 text-xl flex-center text-primary">
             <div
-               className="w-10 h-10 rounded-full cursor-pointer text-primary flex-center bg-alpha hover:text-dandelion-primary"
+               className="w-10 h-10 rounded-full cursor-pointer flex-center bg-alpha hover:text-dandelion-primary"
                onClick={() => setShow(true)}
             >
-               <IoColorPaletteOutline className="text-xl" />
+               <IoColorPaletteOutline />
             </div>
             <Link
-               className="w-10 h-10 rounded-full cursor-pointer text-primary flex-center bg-alpha hover:text-dandelion-primary"
+               className="w-10 h-10 rounded-full cursor-pointer flex-center bg-alpha hover:text-dandelion-primary"
                to="/upload"
             >
-               <IoCloudUploadOutline className="text-xl" />
+               <IoCloudUploadOutline />
             </Link>
             <div
-               className="w-10 h-10 rounded-full cursor-pointer text-primary flex-center bg-alpha hover:text-dandelion-primary"
+               className="w-10 h-10 rounded-full cursor-pointer flex-center bg-alpha hover:text-dandelion-primary"
                // onClick={handleSettings}
             >
-               <IoSettingsOutline className="text-xl" />
+               <IoSettingsOutline />
             </div>
             <div className="cursor-pointer">
                {user ? (
                   <img
                      src={user?.avatar ? user.avatar : defaultAvatar}
                      alt={user?.name}
-                     onClick={handleLogout}
+                     onClick={() => setConfirmShow(true)}
                      className="object-cover w-10 h-10 rounded-full"
                   />
                ) : (

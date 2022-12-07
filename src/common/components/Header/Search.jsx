@@ -13,10 +13,10 @@ import { firebaseKeys } from "../../../dataTemplate";
 import { removeAccents } from "../../utils/common";
 
 const Search = () => {
-   const searchHistory = useSelector((state) => state.dandelion.searchHistory);
-
-   const params = useParams();
    const dispatch = useDispatch();
+   const params = useParams();
+
+   const searchHistory = useSelector((state) => state.dandelion.searchHistory);
 
    const [searchText, setSearchText] = useState("");
    const [searchResult, setSearchResult] = useState([]);
@@ -74,9 +74,7 @@ const Search = () => {
       // get matches artist
       const artistResults = artistsDb
          .filter((s) =>
-            removeAccents(s.name)
-               .toLowerCase()
-               .includes(removeAccents(searchText.toLowerCase()))
+            removeAccents(s.name).toLowerCase().includes(removeAccents(searchText.toLowerCase()))
          )
          .slice(0, 5);
 
@@ -99,9 +97,7 @@ const Search = () => {
 
    const getTop5Matches = (input, search) => {
       let matches = input.filter((s) =>
-         removeAccents(s.title)
-            .toLowerCase()
-            .includes(removeAccents(search.toLowerCase()))
+         removeAccents(s.title).toLowerCase().includes(removeAccents(search.toLowerCase()))
       );
 
       return matches.slice(0, 5);
@@ -173,9 +169,7 @@ const Search = () => {
                   <div className="pt-4 pb-2">
                      {searchText === "" ? (
                         <div className="flex-btw">
-                           <h2 className="font-semibold text-primary">
-                              Recent searches
-                           </h2>
+                           <h2 className="font-semibold text-primary">Recent searches</h2>
                            <button
                               className="px-3 text-xs text-secondary hover:text-primary"
                               onClick={() => dispatch(clearSearchHistory())}
@@ -193,7 +187,7 @@ const Search = () => {
                      {loading ? (
                         <div className="w-full h-60 flex-center">
                            <SyncLoader
-                              color="rgb(20, 184, 166)"
+                              color="var(--dandelion-primary)"
                               loading={loading}
                               cssOverride={override}
                               size={10}

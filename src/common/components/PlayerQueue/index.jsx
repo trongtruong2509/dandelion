@@ -1,13 +1,21 @@
 import React, { useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import ScaleLoader from "react-spinners/ScaleLoader";
 
-import { fetchSuggested, updateAutoplay, updateNoShuffle, updateShuffle } from "../../slices/playQueueSlice";
+import {
+   clearSuggestion,
+   fetchSuggested,
+   updateAutoplay,
+   updateNoShuffle,
+   updateShuffle,
+} from "../../slices/playQueueSlice";
 import SongItem from "../Song/SongItem";
 import Switch from "../Kits/Switch";
 import QueueMenu from "../Popers/QueueMenu";
 import { Link } from "react-router-dom";
 import { IoPlay } from "react-icons/io5";
+import { useState } from "react";
 
 const PlayerQueue = () => {
    const dispatch = useDispatch();
@@ -20,6 +28,8 @@ const PlayerQueue = () => {
    const currentUser = useSelector((state) => state.user.user);
    const nonUser = useSelector((state) => state.user.noLogged);
    const isMounted = useRef(false);
+
+   const [loading, setLoading] = useState(false);
 
    useEffect(() => {
       if (playingPlaylist && playingPlaylist.songs?.length && playingTrack?.info) {
@@ -46,13 +56,18 @@ const PlayerQueue = () => {
    }, [shuffle]);
 
    useEffect(() => {
-      dispatch(fetchSuggested(playingTrack.info));
-   }, [playingTrack?.info]);
+      if (playqueue.next.length < 25) {
+         dispatch(fetchSuggested(playingTrack.info));
+      } else {
+         dispatch(clearSuggestion());
+      }
+   }, [playingTrack?.info, dispatch]);
 
-   const isInPlaylist = () => {
-      return playingPlaylist?.songs?.find((t) => t.id === playingTrack?.info.id);
+   const onTriggerNewUpload = () => {
+      setLoading(true);
    };
 
+   const isInPlaylist = () => playingPlaylist?.songs?.find((t) => t.id === playingTrack?.info.id);
    const user = () => currentUser ?? nonUser;
    const queueEmpty = () => !playqueue?.played.length && !playqueue?.next.length;
 
@@ -65,7 +80,10 @@ const PlayerQueue = () => {
             transition-all ease-out duration-500
             `}
       >
-         <Tabs className="w-full Tabs" selectedTabClassName="text-item-hover bg-tab-active outline-none">
+         <Tabs
+            className="w-full Tabs"
+            selectedTabClassName="text-item-hover bg-tab-active outline-none"
+         >
             <TabList className="w-fit bg-alpha rounded-3xl p-[3px] flex-center mt-4 mb-5 lg:ml-0 -ml-3 2xl:ml-7">
                <Tab className="px-[10px] py-1 text-sm cursor-pointer 3xl:px-3 rounded-3xl text-navigation hover:text-item-hover outline-none">
                   Playing Queue
@@ -79,10 +97,30 @@ const PlayerQueue = () => {
                {queueEmpty() ? (
                   <div className="flex-col w-full gap-3 h-[calc(100vh-72px)] flex-center text-primary">
                      <p>Explore new releases of Dandelion</p>
-                     <button className="py-[6px] px-3 bg-dandelion-primary rounded-3xl text-white flex-center gap-2 text-sm">
-                        <IoPlay />
-                        Play New Uploaded
-                     </button>
+                     {loading ? (
+                        <div className="py-1 w-[170px] flex-center bg-dandelion-primary rounded-3xl">
+                           <ScaleLoader
+                              color="#fff"
+                              loading={loading}
+                              cssOverride={{
+                                 display: "block",
+                                 margin: "0 auto",
+                                 borderColor: "red",
+                                 marginTop: "1px",
+                                 marginBottom: "-2px",
+                              }}
+                              height={14}
+                           />
+                        </div>
+                     ) : (
+                        <button
+                           className="py-[6px] w-[170px] bg-dandelion-primary rounded-3xl text-white flex-center text-sm gap-2"
+                           onClick={onTriggerNewUpload}
+                        >
+                           <IoPlay className="text-lg" />
+                           Play New Upload
+                        </button>
+                     )}
                   </div>
                ) : (
                   <>
@@ -116,11 +154,15 @@ const PlayerQueue = () => {
                      )}
 
                      {playqueue?.suggestion?.length > 0 && (
-                        <div className={`mt-4 ${playqueue?.autoplay ? "opacity-100" : "opacity-50"}`}>
+                        <div
+                           className={`mt-4 ${playqueue?.autoplay ? "opacity-100" : "opacity-50"}`}
+                        >
                            <div className="flex items-center justify-between pr-3">
                               <div className="pl-2 mb-1">
                                  <h2 className="flex gap-2 font-semibold text-primary">Autoplay</h2>
-                                 <p className="text-sm text-secondary">Suggestion based on playing</p>
+                                 <p className="text-sm text-secondary">
+                                    Suggestion based on playing
+                                 </p>
                               </div>
                               <Switch
                                  init={playqueue?.autoplay}
@@ -150,7 +192,9 @@ const PlayerQueue = () => {
                <div className="">
                   {user()?.recentPlayed?.map(
                      (s, index) =>
-                        (!playingTrack?.info || playingTrack?.info?.id !== s?.id) && <SongItem key={index} info={s} />
+                        (!playingTrack?.info || playingTrack?.info?.id !== s?.id) && (
+                           <SongItem key={index} info={s} />
+                        )
                   )}
                </div>
             </TabPanel>

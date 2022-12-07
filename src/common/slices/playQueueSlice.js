@@ -4,12 +4,9 @@ import * as local from "../utils/localStorage";
 import { shuffleArray } from "../utils/common";
 import { getSuggestedSongs } from "../utils/songs";
 
-export const fetchSuggested = createAsyncThunk(
-   "/playqueue/fetchSuggested",
-   async (playing) => {
-      return await getSuggestedSongs(playing);
-   }
-);
+export const fetchSuggested = createAsyncThunk("/playqueue/fetchSuggested", async (playing) => {
+   return await getSuggestedSongs(playing);
+});
 
 const initialState = local.getQueue() ?? {
    played: [],
@@ -29,18 +26,14 @@ export const playQueue = createSlice({
          local.updateQueue(current(state));
       },
       updateQueue: (state, action) => {
-         const id = current(state.next).findIndex(
-            (s) => s.id === action.payload.id
-         );
+         const id = current(state.next).findIndex((s) => s.id === action.payload.id);
 
          if (id !== -1) {
             state.played.push(action.payload);
             state.next.splice(id, 1);
          } else {
             console.log("[updateQueue] enter here");
-            const playedId = current(state.played).findIndex(
-               (s) => s.id === action.payload.id
-            );
+            const playedId = current(state.played).findIndex((s) => s.id === action.payload.id);
 
             //add last element to next and remove last element of played if id is last latest play
             if (playedId === current(state.played).length - 2) {
@@ -65,9 +58,7 @@ export const playQueue = createSlice({
          local.updateQueue(current(state));
       },
       triggerFromSuggested: (state, action) => {
-         state.suggestion = current(state.suggestion).filter(
-            (t) => t.id !== action.payload.id
-         );
+         state.suggestion = current(state.suggestion).filter((t) => t.id !== action.payload.id);
          local.updateQueue(current(state));
       },
       getSuggestionToPlay: (state) => {
@@ -77,10 +68,11 @@ export const playQueue = createSlice({
       },
       addSuggestionToQueue: (state, action) => {
          state.next.push(action.payload);
-         state.suggestion = current(state.suggestion).filter(
-            (t) => t.id !== action.payload.id
-         );
+         state.suggestion = current(state.suggestion).filter((t) => t.id !== action.payload.id);
          local.updateQueue(current(state));
+      },
+      clearSuggestion: (state) => {
+         state.suggestion = [];
       },
 
       updateNoShuffle: (state, action) => {
@@ -151,6 +143,7 @@ export const {
    triggerFromSuggested,
    getSuggestionToPlay,
    addSuggestionToQueue,
+   clearSuggestion,
    updateQueue,
    updateNoShuffle,
    updateShuffle,

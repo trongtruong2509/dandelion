@@ -28,10 +28,7 @@ const CountryGenre = () => {
    useEffect(() => {
       const getTopic = async () => {
          setLoading(true);
-         const country = await getDocById(
-            firebaseKeys.countryGenres,
-            params?.id
-         );
+         const country = await getDocById(firebaseKeys.countryGenres, params?.id);
          setLoading(false);
 
          setCountry(country);
@@ -96,52 +93,35 @@ const CountryGenre = () => {
                      </>
                   ) : (
                      <>
-                        <PlaylistCoverCarousel
-                           playlist={country?.topPlaylist}
-                        />
+                        <PlaylistCoverCarousel playlist={country?.topPlaylist} />
 
                         <div className="pt-7">
-                           <h1 className="mb-5 text-xl font-bold text-primary">
-                              Top Songs
-                           </h1>
+                           <h1 className="mb-5 text-xl font-bold text-primary">Top Songs</h1>
                            <Swiper
                               slidesPerView={3}
                               spaceBetween={20}
                               className="flex w-full gap-3"
                            >
-                              {group(country?.topTracks, 4)?.map(
-                                 (songs, index) => (
-                                    <SwiperSlide key={index}>
-                                       {songs.map((s) => (
-                                          <div className="my-1" key={s.id}>
-                                             <SongItem
-                                                info={s}
-                                                size="13"
-                                                like={false}
-                                             />
-                                          </div>
-                                       ))}
-                                    </SwiperSlide>
-                                 )
-                              )}
+                              {group(country?.topTracks, 4)?.map((songs, index) => (
+                                 <SwiperSlide key={index}>
+                                    {songs.map((s) => (
+                                       <div className="my-1" key={s.id}>
+                                          <SongItem info={s} size="13" like={false} />
+                                       </div>
+                                    ))}
+                                 </SwiperSlide>
+                              ))}
                            </Swiper>
                         </div>
 
                         <div className="pt-7">
-                           <h1 className="mb-5 text-xl font-bold text-primary">
-                              Top Artist
-                           </h1>
-                           <PlaylistCoverCarousel
-                              playlist={country?.topArtist}
-                              artistMode
-                           />
+                           <h1 className="mb-5 text-xl font-bold text-primary">Top Artist</h1>
+                           <PlaylistCoverCarousel playlist={country?.topArtist} artistMode />
                         </div>
 
                         {country?.playlist?.map((row, index) => (
                            <div className="pt-7" key={index}>
-                              <h1 className="mb-5 text-xl font-bold text-primary">
-                                 {row.title}
-                              </h1>
+                              <h1 className="mb-5 text-xl font-bold text-primary">{row.title}</h1>
 
                               <div>
                                  <PlaylistCoverCarousel playlist={row?.list} />
