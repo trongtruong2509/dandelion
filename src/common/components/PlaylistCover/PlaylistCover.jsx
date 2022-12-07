@@ -6,7 +6,12 @@ import { FaPlay } from "react-icons/fa";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { IoHeartOutline, IoHeart, IoClose, IoPlay } from "react-icons/io5";
 
-import { updatePlaylists, updateRecentPlay, updateRecentPlaylist } from "../../slices/userSlice";
+import {
+   removeFromRecentPlaylist,
+   updatePlaylists,
+   updateRecentPlay,
+   updateRecentPlaylist,
+} from "../../slices/userSlice";
 import { updateCurrentPlaylist, updatePlayingPlaylist } from "../../slices/playlistSlice";
 
 import { adminPaths } from "../../../app/routes";
@@ -16,10 +21,12 @@ import { pause, play, update } from "../../slices/playingSlice";
 import { initQueue } from "../../slices/playQueueSlice";
 import { shuffleArray } from "../../utils/common";
 import Login from "../Header/Login";
+import { deleteDocById } from "../../utils/firebaseApi";
+import { firebaseKeys } from "../../../dataTemplate";
 
 const playingMixIcon = "https://zmp3-static.zmdcdn.me/skins/zmp3-v6.1/images/icons/icon-playing.gif";
 
-const PlaylistCover = ({ info, size = "md", editable = false, admin = false }) => {
+const PlaylistCover = ({ info, size = "md", canDelete = false, admin = false }) => {
    const navigate = useNavigate();
    const dispatch = useDispatch();
 
@@ -88,13 +95,19 @@ const PlaylistCover = ({ info, size = "md", editable = false, admin = false }) =
       console.log("[TODO] handleLogin");
    };
 
-   const likeIconOutline = () => (
+   const onDelete = async () => {
+      dispatch(updatePlaylists(info)); // remove from playlist
+      dispatch(removeFromRecentPlaylist(info.id)); // remove from recent playlist if have
+      await deleteDocById(firebaseKeys.playlists, info.id);
+   };
+
+   const LikeIconOutline = () => (
       <IoHeartOutline
          className={`${size === "sm" ? "text-[22px]" : "text-2xl"} text-white hover:text-dandelion-primary`}
       />
    );
 
-   const likeIcon = () => {
+   const LikeIcon = () => {
       return (
          <button
             className={`${
@@ -107,28 +120,30 @@ const PlaylistCover = ({ info, size = "md", editable = false, admin = false }) =
                   {currentUser?.playlists?.find((p) => p === info?.id) ? (
                      <IoHeart className={`${size === "sm" ? "text-[22px]" : "text-2xl"} text-dandelion-primary`} />
                   ) : (
-                     likeIconOutline()
+                     LikeIconOutline()
                   )}
                </>
             ) : (
-               <Login children={likeIconOutline()} />
+               <Login children={LikeIconOutline()} />
             )}
          </button>
       );
    };
 
-   const displayIcon = () => {
+   const DisplayIcon = () => {
       if (info?.createdBy === currentUser?.id) {
          return (
             <button
-               className="w-10 h-10 rounded-full cursor-pointer flex-center hover:bg-hover-tooltip"
-               onClick={() => dispatch(updatePlaylists(info))}
+               className={`w-10 h-10  rounded-full cursor-pointer flex-center hover:bg-hover-tooltip ${
+                  canDelete ? "opacity-100" : "opacity-0"
+               }`}
+               onClick={onDelete}
             >
-               <IoClose className="text-2xl text-white" />
+               <IoClose className="text-3xl text-white" />
             </button>
          );
       } else {
-         return likeIcon();
+         return LikeIcon();
       }
    };
 
@@ -149,7 +164,7 @@ const PlaylistCover = ({ info, size = "md", editable = false, admin = false }) =
                   className={`${size === "sm" ? "gap-4" : "gap-6"} text-white flex-center z-30`}
                   onClick={(e) => e.stopPropagation()}
                >
-                  <div>{displayIcon()}</div>
+                  <div>{DisplayIcon()}</div>
                   <button
                      className={`hover:text-dandelion-primary flex-center
                         ${thumbnailSizes[size]}`}

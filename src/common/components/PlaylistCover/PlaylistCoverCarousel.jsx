@@ -8,16 +8,12 @@ import { playlistBreakpoins } from "../../utils/common";
 import PlaylistCover from "./PlaylistCover";
 import ArtistCover from "../Artist/ArtistCover";
 
-const PlaylistCoverCarousel = ({ playlist, artistMode = false }) => {
+const PlaylistCoverCarousel = ({ playlist, artistMode = false, canDelete = false }) => {
    return (
       <Swiper className="w-full" breakpoints={playlistBreakpoins}>
          {playlist?.map((p, index) => (
             <SwiperSlide key={index}>
-               {artistMode ? (
-                  <ArtistCover info={p} />
-               ) : (
-                  <PlaylistCover info={p} />
-               )}
+               {artistMode ? <ArtistCover info={p} /> : <PlaylistCover info={p} canDelete={canDelete} />}
             </SwiperSlide>
          ))}
       </Swiper>

@@ -86,6 +86,15 @@ export const userSlice = createSlice({
             updateUserDb(current(state.user));
          }
       },
+      removeFromRecentPlaylist: (state, action) => {
+         const user = state.user ?? state.noLogged;
+
+         user.recentPlaylist = current(user.recentPlaylist).filter((t) => t !== action.payload);
+         if (state.user) {
+            updateUserLocal(current(state.user));
+            updateUserDb(current(state.user));
+         }
+      },
       updateLikeSong: (state, action) => {
          const idx = current(state.user.likedSongs).findIndex((t) => t.id === action.payload.id);
          if (idx === -1) {
@@ -150,6 +159,7 @@ export const {
    updateRecentPlay,
    updatePlaylists,
    updateRecentPlaylist,
+   removeFromRecentPlaylist,
    initPlaylist,
 } = userSlice.actions;
 
