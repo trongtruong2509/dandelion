@@ -10,12 +10,7 @@ import { IoCloudUploadOutline } from "react-icons/io5";
 
 import { adminPaths } from "../../../app/routes";
 import { update } from "../../../common/slices/playingSlice";
-import {
-   getPlaylistById,
-   initPlaylist,
-   resetUploadStatus,
-   uploadPlaylist,
-} from "../../slices/uploadSlice";
+import { getPlaylistById, initPlaylist, resetUploadStatus, uploadPlaylist } from "../../slices/uploadSlice";
 import AlbumDefault from "./../../../assets/album_default.png";
 
 import Filters from "../../components/Filter/Filters";
@@ -135,10 +130,7 @@ const SinglePlaylist = () => {
          return {
             onCreate() {
                instance.popper.addEventListener("click", (event) => {
-                  if (
-                     instance.props.hideOnInnerButtonPress &&
-                     event.target.getAttribute("hide-on-press") === "false"
-                  ) {
+                  if (instance.props.hideOnInnerButtonPress && event.target.getAttribute("hide-on-press") === "false") {
                      setTimeout(() => instance.hide(), 50);
                      console.log("[hideOnInnerButtonPress]", "pressed");
                      return event;
@@ -151,11 +143,7 @@ const SinglePlaylist = () => {
 
    return (
       <div className="w-full mt-10">
-         <AddLinkModal
-            show={show}
-            onClose={() => setShow(false)}
-            onUpdate={handleLoadLink}
-         />
+         <AddLinkModal show={show} onClose={() => setShow(false)} onUpdate={handleLoadLink} />
 
          <div className="grid w-full grid-cols-12 my-4">
             <div className="flex col-span-8 gap-5">
@@ -185,20 +173,13 @@ const SinglePlaylist = () => {
                                        className="px-3 py-[6px] rounded-lg hover:text-white hover:bg-dandelion-primary text-primary flex-center"
                                        hide-on-press="false"
                                     >
-                                       <label
-                                          className="flex-center"
-                                          hide-on-press="false"
-                                       >
+                                       <label className="flex-center" hide-on-press="false">
                                           Storage
                                           <input
                                              type="file"
                                              accept="image/*"
                                              className="w-0 h-0"
-                                             onChange={(e) =>
-                                                handleLoadFile(
-                                                   e.target.files[0]
-                                                )
-                                             }
+                                             onChange={(e) => handleLoadFile(e.target.files[0])}
                                           />
                                        </label>
                                     </button>
@@ -253,7 +234,6 @@ const SinglePlaylist = () => {
                                  <SongItem
                                     key={index}
                                     info={song}
-                                    // playlistMode
                                     like={false}
                                     canDetele
                                     onDelete={onRemove}
@@ -265,9 +245,7 @@ const SinglePlaylist = () => {
                      ) : (
                         <div className="flex flex-col items-center justify-center gap-2 py-4 rounded-lg bg-alpha text-secondary h-72">
                            <IoIosMusicalNote className="italic text-7xl" />
-                           <p className="text-lg">
-                              Currently no songs in your playlist
-                           </p>
+                           <p className="text-lg">Currently no songs in your playlist</p>
                         </div>
                      )}
                   </div>
@@ -290,13 +268,7 @@ const SinglePlaylist = () => {
                <div className="overflow-y-auto max-h-[650px] scrollbar">
                   {availableTracks?.map((s) => (
                      <div className="my-1" key={s.id}>
-                        <SongItem
-                           info={s}
-                           size="13"
-                           like={false}
-                           addPlaylist
-                           onAdd={onAddTrack}
-                        />
+                        <SongItem info={s} size="13" like={false} addPlaylist onAdd={onAddTrack} />
                      </div>
                   ))}
                </div>

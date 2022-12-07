@@ -1,7 +1,7 @@
 import { collection, getDocs, limit, orderBy, query } from "firebase/firestore";
 import { firestore } from "../../firebase.config";
 
-import { firebaseKeys } from "../../dataTemplate";
+import { firebaseKeys, playlistTemplate } from "../../dataTemplate";
 
 export const getLatestPlaylists = async () => {
    const q = query(
@@ -23,4 +23,8 @@ export const getLatestPlaylists = async () => {
       console.log(error);
       return null;
    }
+};
+
+export const initHiddenPlaylist = (songs) => {
+   return { ...playlistTemplate, id: "hidden", songs };
 };

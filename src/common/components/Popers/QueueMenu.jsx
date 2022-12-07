@@ -8,9 +8,16 @@ import { HiOutlineDotsHorizontal } from "react-icons/hi";
 
 import { emptyQueue } from "../../slices/playQueueSlice";
 import { emptyPlayingTrack } from "../../slices/playingSlice";
+import { emtpyPlayingPlaylist } from "../../slices/playlistSlice";
 
 const QueueMenu = () => {
    const dispatch = useDispatch();
+
+   const onEmptyQueue = () => {
+      dispatch(emptyQueue());
+      dispatch(emptyPlayingTrack());
+      dispatch(emtpyPlayingPlaylist());
+   };
 
    return (
       <Tippy
@@ -34,10 +41,7 @@ const QueueMenu = () => {
                   </button>
                   <button
                      className="w-full hover:bg-alpha rounded-lg hover:text-dandelion-primary py-[10px] text-secondary flex justify-between items-center px-4 text-sm"
-                     onClick={() => {
-                        dispatch(emptyQueue());
-                        dispatch(emptyPlayingTrack());
-                     }}
+                     onClick={onEmptyQueue}
                   >
                      <div className="flex items-center gap-3">
                         <IoTrashSharp className="text-xl" />

@@ -2,12 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 
-import {
-   fetchSuggested,
-   updateAutoplay,
-   updateNoShuffle,
-   updateShuffle,
-} from "../../slices/playQueueSlice";
+import { fetchSuggested, updateAutoplay, updateNoShuffle, updateShuffle } from "../../slices/playQueueSlice";
 import SongItem from "../Song/SongItem";
 import Switch from "../Kits/Switch";
 import QueueMenu from "../Popers/QueueMenu";
@@ -65,15 +60,12 @@ const PlayerQueue = () => {
       <div
          className={`${queueState.hidden ? "hidden" : "block"} ${
             queueState.animate ? "right-0" : "-right-[320px]"
-         } 2xl:w-96 w-80 2xl:block flex-shrink-0 h-auto bg-layout border-l border-secondary px-2 overflow-y-scroll overscroll-auto scrollbar
+         } 2xl:w-96 w-80 2xl:block flex-shrink-0 h-full bg-layout border-l border-secondary px-2 overflow-y-scroll overscroll-auto scrollbar
             absolute top-0 2xl:right-0 2xl:relative z-[300]
             transition-all ease-out duration-500
             `}
       >
-         <Tabs
-            className="w-full Tabs"
-            selectedTabClassName="text-item-hover bg-tab-active outline-none"
-         >
+         <Tabs className="w-full Tabs" selectedTabClassName="text-item-hover bg-tab-active outline-none">
             <TabList className="w-fit bg-alpha rounded-3xl p-[3px] flex-center mt-4 mb-5 lg:ml-0 -ml-3 2xl:ml-7">
                <Tab className="px-[10px] py-1 text-sm cursor-pointer 3xl:px-3 rounded-3xl text-navigation hover:text-item-hover outline-none">
                   Playing Queue
@@ -103,7 +95,7 @@ const PlayerQueue = () => {
                         <div className="mt-4">
                            <div className="pl-2 mb-1">
                               <h2 className="flex gap-2 font-semibold text-primary">Play next</h2>
-                              {isInPlaylist() && (
+                              {isInPlaylist() && playingPlaylist.id !== "hidden" && (
                                  <p className="text-sm text-secondary">
                                     From playlist{" "}
                                     <Link
@@ -124,15 +116,11 @@ const PlayerQueue = () => {
                      )}
 
                      {playqueue?.suggestion?.length > 0 && (
-                        <div
-                           className={`mt-4 ${playqueue?.autoplay ? "opacity-100" : "opacity-50"}`}
-                        >
+                        <div className={`mt-4 ${playqueue?.autoplay ? "opacity-100" : "opacity-50"}`}>
                            <div className="flex items-center justify-between pr-3">
                               <div className="pl-2 mb-1">
                                  <h2 className="flex gap-2 font-semibold text-primary">Autoplay</h2>
-                                 <p className="text-sm text-secondary">
-                                    Suggestion based on playing
-                                 </p>
+                                 <p className="text-sm text-secondary">Suggestion based on playing</p>
                               </div>
                               <Switch
                                  init={playqueue?.autoplay}
@@ -162,9 +150,7 @@ const PlayerQueue = () => {
                <div className="">
                   {user()?.recentPlayed?.map(
                      (s, index) =>
-                        (!playingTrack?.info || playingTrack?.info?.id !== s?.id) && (
-                           <SongItem key={index} info={s} />
-                        )
+                        (!playingTrack?.info || playingTrack?.info?.id !== s?.id) && <SongItem key={index} info={s} />
                   )}
                </div>
             </TabPanel>

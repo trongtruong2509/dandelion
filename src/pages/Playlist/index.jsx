@@ -92,9 +92,9 @@ const Playlist = () => {
                                  <SongItem
                                     key={index}
                                     info={song}
-                                    playlistMode
+                                    fullMode
                                     isPlaylist
-                                    inPlaylistPage
+                                    inPlaylist
                                     canDetele={currentPlaylist?.createdBy === user?.id ? true : false}
                                     onDelete={handeDelete}
                                     onClick={() => dispatch(update(song))}
@@ -106,7 +106,7 @@ const Playlist = () => {
                                        ? `${currentPlaylist?.songs.length} tracks`
                                        : "1 track"}
                                  </p>
-                                 <p className="-mt-[14px] text-2xl font-bold flex-center text-primary">.</p>
+                                 <p className="-mt-[14px] text-2xl font-bold flex-center text-secondary">.</p>
                                  <p>{calcTotalTime()}</p>
                               </div>
                            </>
@@ -131,13 +131,7 @@ const Playlist = () => {
                               </div>
                               <div className="mt-5">
                                  {suggestSongs?.map((s) => (
-                                    <SongItem
-                                       key={s.id}
-                                       info={s}
-                                       playlistMode
-                                       addPlaylist
-                                       onAdd={handleAddToPlaylist}
-                                    />
+                                    <SongItem key={s.id} info={s} fullMode addPlaylist onAdd={handleAddToPlaylist} />
                                  ))}
                               </div>
                            </div>

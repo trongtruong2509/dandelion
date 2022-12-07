@@ -63,9 +63,7 @@ const Artist = () => {
                </div>
             )}
             <div className="z-10 flex flex-col items-start">
-               <h1 className="py-12 font-bold text-7xl text-primary">
-                  {artist?.name}
-               </h1>
+               <h1 className="py-12 font-bold text-7xl text-primary">{artist?.name}</h1>
                <div className="gap-4 flex-center">
                   <button className="gap-2 px-6 py-2 rounded-full flex-center bg-dandelion-primary">
                      <FaPlay />
@@ -78,18 +76,11 @@ const Artist = () => {
                </div>
             </div>
             <div className="z-10 overflow-hidden rounded-full w-72 h-72 drop-shadow-sm">
-               <img
-                  src={artist?.thumbnail}
-                  alt={artist?.name}
-                  className="object-cover w-full rounded-full"
-               />
+               <img src={artist?.thumbnail} alt={artist?.name} className="object-cover w-full rounded-full" />
             </div>
          </header>
          <main className="w-full">
-            <Tabs
-               className="w-full Tabs"
-               selectedTabClassName="text-dandelion-primary bg-tab-active"
-            >
+            <Tabs className="w-full Tabs" selectedTabClassName="text-dandelion-primary bg-tab-active">
                <TabList className="w-fit bg-alpha rounded-3xl p-[3px] flex-center mx-auto mt-10 mb-5">
                   <Tab className={tabStyle}>OVERVIEW</Tab>
                   <Tab className={tabStyle}>SONGS</Tab>
@@ -111,12 +102,7 @@ const Artist = () => {
 
                         <div className="w-full h-[285px] overflow-auto scrollbar">
                            {topHits?.map((hit) => (
-                              <SongItem
-                                 key={hit.id}
-                                 info={hit}
-                                 playlistMode
-                                 isPlaylist
-                              />
+                              <SongItem key={hit.id} info={hit} fullMode isPlaylist />
                            ))}
                         </div>
                      </div>
@@ -124,9 +110,7 @@ const Artist = () => {
                   <section className="py-5">
                      <div className="pb-6 flex-btw">
                         <div className="flex items-center justify-start gap-4">
-                           <h1 className="text-2xl font-bold text-white">
-                              Albums
-                           </h1>
+                           <h1 className="text-2xl font-bold text-white">Albums</h1>
                         </div>
                         <button className="gap-2 flex-center text-secondary hover:text-primary">
                            View All
@@ -134,11 +118,7 @@ const Artist = () => {
                         </button>
                      </div>
 
-                     <Swiper
-                        slidesPerView={5}
-                        spaceBetween={30}
-                        className="w-full"
-                     >
+                     <Swiper slidesPerView={5} spaceBetween={30} className="w-full">
                         {tempPlaylists.map((p) => (
                            <SwiperSlide key={p.id}>
                               <PlaylistCover info={p} />
@@ -149,9 +129,7 @@ const Artist = () => {
                   <section className="py-5">
                      <div className="pb-6 flex-btw">
                         <div className="flex items-center justify-start gap-4">
-                           <h1 className="text-2xl font-bold text-white">
-                              Collections
-                           </h1>
+                           <h1 className="text-2xl font-bold text-white">Collections</h1>
                         </div>
                         <button className="gap-2 flex-center text-secondary hover:text-primary">
                            View All
@@ -159,11 +137,7 @@ const Artist = () => {
                         </button>
                      </div>
 
-                     <Swiper
-                        slidesPerView={5}
-                        spaceBetween={30}
-                        className="w-full"
-                     >
+                     <Swiper slidesPerView={5} spaceBetween={30} className="w-full">
                         {tempPlaylists.map((p) => (
                            <SwiperSlide key={p.id}>
                               <PlaylistCover info={p} />
@@ -174,9 +148,7 @@ const Artist = () => {
                   <section className="py-5">
                      <div className="pb-6 flex-btw">
                         <div className="flex items-center justify-start gap-4">
-                           <h1 className="text-2xl font-bold text-white">
-                              Appear On
-                           </h1>
+                           <h1 className="text-2xl font-bold text-white">Appear On</h1>
                         </div>
                         <button className="gap-2 flex-center text-secondary hover:text-primary">
                            View All
@@ -184,11 +156,7 @@ const Artist = () => {
                         </button>
                      </div>
 
-                     <Swiper
-                        slidesPerView={5}
-                        spaceBetween={30}
-                        className="w-full"
-                     >
+                     <Swiper slidesPerView={5} spaceBetween={30} className="w-full">
                         {tempPlaylists.map((p) => (
                            <SwiperSlide key={p.id}>
                               <PlaylistCover info={p} />
@@ -197,9 +165,7 @@ const Artist = () => {
                      </Swiper>
                   </section>
                   <section className="w-full h-32 py-5">
-                     <h1 className="text-2xl font-bold text-white">
-                        Maybe You Like
-                     </h1>
+                     <h1 className="text-2xl font-bold text-white">Maybe You Like</h1>
                   </section>
                </TabPanel>
                <TabPanel className="w-full">

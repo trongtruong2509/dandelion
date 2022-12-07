@@ -10,6 +10,8 @@ import SongItem from "../../common/components/Song/SongItem";
 import PlaylistModal from "../../common/components/Modal/PlaylistModal";
 import PlaylistCoverCarousel from "../../common/components/PlaylistCover/PlaylistCoverCarousel";
 import PlaylistCoverCarouselSkeleton from "../../common/components/PlaylistCover/PlaylistCoverCarouselSkeleton";
+import { updateCurrentPlaylist } from "../../common/slices/playlistSlice";
+import { initHiddenPlaylist } from "../../common/utils/playlist";
 
 const Mymusic = () => {
    const currentUser = useSelector((state) => state.user.user);
@@ -18,13 +20,16 @@ const Mymusic = () => {
 
    const [show, setShow] = useState(false);
 
-   useEffect(
-      () => {
-         dispatch(fetchUserPlaylist(currentUser));
-      },
-      [currentUser?.playlists],
-      currentUser
-   );
+   // init current playlist for liked songs
+   useEffect(() => {
+      if (currentUser?.likedSongs) {
+         dispatch(updateCurrentPlaylist(initHiddenPlaylist(currentUser.likedSongs)));
+      }
+   }, [currentUser?.likedSongs, currentUser]);
+
+   useEffect(() => {
+      dispatch(fetchUserPlaylist(currentUser));
+   }, [currentUser?.playlists]);
 
    return (
       <div className="w-full mt-20 mb-20 text-white ">
@@ -65,9 +70,7 @@ const Mymusic = () => {
                <p className="flex items-center justify-end col-span-1 text-sm text-secondary">TIME</p>
             </div>
             {currentUser?.likedSongs.length > 0 ? (
-               currentUser?.likedSongs.map((song, index) => (
-                  <SongItem key={index} info={song} playlistMode isPlaylist />
-               ))
+               currentUser?.likedSongs.map((song, index) => <SongItem key={index} info={song} fullMode inPlaylist />)
             ) : (
                <div className="flex-col w-full gap-6 flex-center h-96 text-secondary">
                   <h1 className="text-2xl font-semibold">Songs you like will appear here</h1>

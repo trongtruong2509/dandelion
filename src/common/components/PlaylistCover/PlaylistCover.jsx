@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -23,6 +23,7 @@ import { shuffleArray } from "../../utils/common";
 import Login from "../Header/Login";
 import { deleteDocById } from "../../utils/firebaseApi";
 import { firebaseKeys } from "../../../dataTemplate";
+import DeletePlaylistModal from "../Modal/DeletePlaylistModal";
 
 const playingMixIcon = "https://zmp3-static.zmdcdn.me/skins/zmp3-v6.1/images/icons/icon-playing.gif";
 
@@ -34,6 +35,8 @@ const PlaylistCover = ({ info, size = "md", canDelete = false, admin = false }) 
    const currentPlaylist = useSelector((state) => state.playlist.current);
    const playingSong = useSelector((state) => state.playing.value);
    const currentUser = useSelector((state) => state.user.user);
+
+   const [show, setShow] = useState(false);
 
    const currentPlaying = () => {
       return info?.id === playingPlaylist?.value?.id && playingSong?.playing;
@@ -95,12 +98,6 @@ const PlaylistCover = ({ info, size = "md", canDelete = false, admin = false }) 
       console.log("[TODO] handleLogin");
    };
 
-   const onDelete = async () => {
-      dispatch(updatePlaylists(info)); // remove from playlist
-      dispatch(removeFromRecentPlaylist(info.id)); // remove from recent playlist if have
-      await deleteDocById(firebaseKeys.playlists, info.id);
-   };
-
    const LikeIconOutline = () => (
       <IoHeartOutline
          className={`${size === "sm" ? "text-[22px]" : "text-2xl"} text-white hover:text-dandelion-primary`}
@@ -137,7 +134,7 @@ const PlaylistCover = ({ info, size = "md", canDelete = false, admin = false }) 
                className={`w-10 h-10  rounded-full cursor-pointer flex-center hover:bg-hover-tooltip ${
                   canDelete ? "opacity-100" : "opacity-0"
                }`}
-               onClick={onDelete}
+               onClick={() => setShow(true)}
             >
                <IoClose className="text-3xl text-white" />
             </button>
@@ -149,6 +146,8 @@ const PlaylistCover = ({ info, size = "md", canDelete = false, admin = false }) 
 
    return (
       <div className={`h-auto text-white ${widthSize[size]}`}>
+         <DeletePlaylistModal show={show} info={info} onClose={() => setShow(false)} />
+
          <div
             className={`group relative overflow-hidden rounded-md cursor-pointer ${widthSize[size]} z-10 aspect-square`}
             onClick={onNavigate}

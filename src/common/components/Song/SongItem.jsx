@@ -16,7 +16,7 @@ import {
    updateQueue,
 } from "../../slices/playQueueSlice";
 import { emtpyPlayingPlaylist, updateCurrentToPlaying } from "../../slices/playlistSlice";
-import { convertTimeToStr } from "../../utils/common";
+import { convertTimeToStr, shuffleArray } from "../../utils/common";
 
 const playingMixIcon = "https://zmp3-static.zmdcdn.me/skins/zmp3-v6.1/images/icons/icon-playing.gif";
 
@@ -25,8 +25,8 @@ const SongItem = ({
    size = "10",
    options = true,
    like = true,
-   playlistMode = false,
-   inPlaylistPage = false,
+   fullMode = false,
+   inPlaylist = false,
    addPlaylist = false,
    onAdd,
    addPlayQueue = false,
@@ -54,6 +54,18 @@ const SongItem = ({
       }
    }, [playingSong, info]);
 
+   const shuffleAndPlay = (songs, shuffle, chosen) => {
+      let shuffledSongs = [...songs];
+
+      if (shuffle) {
+         shuffleArray(shuffledSongs, chosen);
+      }
+
+      dispatch(update({ info: shuffledSongs[0], playing: true }));
+      dispatch(updateRecentPlay(shuffledSongs[0]));
+      dispatch(initQueue(shuffledSongs));
+   };
+
    const playSong = () => {
       if (current) {
          playingSong?.playing ? dispatch(pause()) : dispatch(play());
@@ -61,7 +73,7 @@ const SongItem = ({
          dispatch(update({ info, playing: true }));
          dispatch(updateRecentPlay(info));
 
-         if (playqueue?.suggestion.find((t) => t.id === info.id)) {
+         if (playqueue?.suggestion.find((t) => t.id === info.id) && !inPlaylist) {
             console.log("[playSong] is in suggestion");
             dispatch(addToPlay(info));
             dispatch(triggerFromSuggested(info));
@@ -70,16 +82,21 @@ const SongItem = ({
                const inPlaying = playingPlaylist.songs?.find((t) => t.id === info.id);
                const inCurrent = currentPlaylist?.songs?.find((t) => t.id === info.id);
 
-               if (!(inPlaying && inCurrent)) {
+               if (!inPlaying && !inCurrent) {
                   // trigger not from the playlist. treat as a single track
                   console.log("[playSong] triggered track not from the playlist. treat as a single track");
 
                   dispatch(emtpyPlayingPlaylist());
                   dispatch(initQueue([info]));
-               } else if (inCurrent && playingPlaylist.id !== currentPlaylist.id) {
+               } else if (inPlaylist && playingPlaylist.id !== currentPlaylist.id) {
                   // incase current playlist is not playing playlist even tho trigger song is in both current and playing => trigger new playlist
-                  dispatch(updateRecentPlaylist(currentPlaylist.id));
                   dispatch(updateCurrentToPlaying(info));
+                  shuffleAndPlay(currentPlaylist.songs, true, info);
+
+                  if (currentPlaylist?.id !== "hidden") {
+                     dispatch(updateRecentPlaylist(currentPlaylist.id));
+                  }
+
                   console.log(
                      "[playSong] incase current playlist is not playing playlist even tho trigger song is in both current and playing => trigger new playlist"
                   );
@@ -96,11 +113,15 @@ const SongItem = ({
                // in queue
                dispatch(updateQueue(info));
             } else {
-               if (currentPlaylist?.songs.includes(info.id)) {
+               if (inPlaylist) {
                   // trigger new playlist
                   console.log("[playSong] trigger new playlist");
-                  dispatch(updateRecentPlaylist(currentPlaylist.id));
+                  if (currentPlaylist?.id !== "hidden") {
+                     dispatch(updateRecentPlaylist(currentPlaylist.id));
+                  }
+
                   dispatch(updateCurrentToPlaying(info));
+                  shuffleAndPlay(currentPlaylist.songs, true, info);
                } else {
                   // trigger not from the playlist. treat as a single track
                   dispatch(emtpyPlayingPlaylist());
@@ -129,10 +150,10 @@ const SongItem = ({
       <div
          className={`w-full px-3 py-2 border-secondary grid grid-cols-12 relative rounded-md group
                          ${current ? "bg-alpha" : "hover:bg-alpha"} 
-                         ${playlistMode ? "border-b" : ""}
+                         ${fullMode ? "border-b" : ""}
                          ${fade && !current ? "opacity-50 hover:opacity-100" : ""}`}
       >
-         <div className={`${playlistMode ? "col-span-6" : "col-span-10"}`}>
+         <div className={`${fullMode ? "col-span-6" : "col-span-10"}`}>
             <SongInfo info={info} onClick={playSong} size={size} badges={badges} />
 
             <button
@@ -152,13 +173,13 @@ const SongItem = ({
             </button>
          </div>
 
-         {playlistMode && (
+         {fullMode && (
             <p className="flex items-center col-span-5 text-xs cursor-pointer text-secondary hover:text-dandelion-primary hover:underline">
                {info?.album?.title ?? ""}
             </p>
          )}
          <div className="flex items-center justify-end">
-            {playlistMode && (
+            {fullMode && (
                <p className="flex items-center justify-end col-span-1 text-xs text-right text-secondary group-hover:opacity-0">
                   {convertTimeToStr(info.duration)}
                </p>
@@ -172,7 +193,6 @@ const SongItem = ({
                      onAdd={onAdd}
                      addPlayQueue={addPlayQueue}
                      onAddPlayQueue={onAddQueue}
-                     inPlaylistPage={inPlaylistPage}
                      canDetele={canDetele}
                      activeLike={activeLike}
                      activeDots={activeDots}

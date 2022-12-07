@@ -17,9 +17,7 @@ const PlayHistory = () => {
    const params = useParams();
 
    const currentUser = useSelector((state) => state.user.user);
-   const userRecentPlaylist = useSelector(
-      (state) => state.user.recentPlaylists
-   );
+   const userRecentPlaylist = useSelector((state) => state.user.recentPlaylists);
    const fetchPending = useSelector((state) => state.user.pending);
 
    useEffect(() => {
@@ -32,7 +30,7 @@ const PlayHistory = () => {
 
    return (
       <div className="relative">
-         <header className="absolute left-0 w-full py-4 text-3xl font-bold top-3 text-primary -z-10">
+         <header className="absolute left-0 w-full py-4 text-[26px] font-bold top-3 text-primary -z-10">
             Recently Played
          </header>
          <Tabs
@@ -41,39 +39,25 @@ const PlayHistory = () => {
             defaultIndex={tabActive()}
          >
             <TabList className="w-fit bg-alpha rounded-3xl p-[3px] flex-center mx-auto mb-5">
-               <Tab
-                  className={tabStyle}
-                  onClick={() =>
-                     navigate(paths.playHistoryId.replace(":id", "songs"))
-                  }
-               >
+               <Tab className={tabStyle} onClick={() => navigate(paths.playHistoryId.replace(":id", "songs"))}>
                   SONGS
                </Tab>
-               <Tab
-                  className={tabStyle}
-                  onClick={() =>
-                     navigate(paths.playHistoryId.replace(":id", "playlists"))
-                  }
-               >
+               <Tab className={tabStyle} onClick={() => navigate(paths.playHistoryId.replace(":id", "playlists"))}>
                   PLAYLISTS
                </Tab>
             </TabList>
             <TabPanel className="w-full">
                <div className="mt-6">
                   {currentUser?.recentPlayed?.map((s) => (
-                     <SongItem info={s} playlistMode canDetele key={s.id} />
+                     <SongItem info={s} fullMode canDetele key={s.id} />
                   ))}
                </div>
             </TabPanel>
             <TabPanel className="w-full">
                <div className="grid w-full grid-cols-1 gap-6 py-2 my-6 xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3">
                   {fetchPending
-                     ? [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((loading) => (
-                          <PlaylistCoverSkeleton key={loading} />
-                       ))
-                     : userRecentPlaylist?.map((p, index) => (
-                          <PlaylistCover key={index} info={p} editable />
-                       ))}
+                     ? [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((loading) => <PlaylistCoverSkeleton key={loading} />)
+                     : userRecentPlaylist?.map((p, index) => <PlaylistCover key={index} info={p} editable />)}
                </div>
             </TabPanel>
          </Tabs>

@@ -1,16 +1,8 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import {
-   IoAddOutline,
-   IoEllipsisHorizontalSharp,
-   IoTrashOutline,
-} from "react-icons/io5";
-import {
-   MdFavorite,
-   MdFavoriteBorder,
-   MdOutlinePlaylistAdd,
-} from "react-icons/md";
+import { IoAddOutline, IoEllipsisHorizontalSharp, IoTrashOutline } from "react-icons/io5";
+import { MdFavorite, MdFavoriteBorder, MdOutlinePlaylistAdd } from "react-icons/md";
 
 import { updateLikeSong } from "../../slices/userSlice";
 import Login from "../Header/Login";
@@ -19,7 +11,6 @@ import SongMenu from "../Popers/SongMenu";
 const SongOptions = ({
    songInfo,
    like = true,
-   inPlaylistPage = false,
    addPlaylist = false,
    addPlayQueue = false,
    onAdd,
@@ -32,40 +23,26 @@ const SongOptions = ({
    const currentUser = useSelector((state) => state.user.user);
    const dispatch = useDispatch();
 
-   const notLiked =
-      !currentUser ||
-      currentUser?.likedSongs.findIndex((t) => t.id === songInfo?.id) === -1;
+   const notLiked = !currentUser || currentUser?.likedSongs.findIndex((t) => t.id === songInfo?.id) === -1;
 
    return (
       <div className="gap-1 text-lg text-primary flex-center group">
          {like && (
             <div
                className={`items-center justify-center w-10 h-10 p-2 rounded-full cursor-pointer hover:bg-alpha ${
-                  activeLike
-                     ? "flex"
-                     : notLiked
-                     ? "hidden group-hover:flex"
-                     : "flex"
+                  activeLike ? "flex" : notLiked ? "hidden group-hover:flex" : "flex"
                }`}
             >
                {currentUser ? (
                   <div onClick={() => dispatch(updateLikeSong(songInfo))}>
                      {notLiked ? (
-                        <MdFavoriteBorder
-                           className={`text-lg hover:text-dandelion-primary`}
-                        />
+                        <MdFavoriteBorder className={`text-lg hover:text-dandelion-primary`} />
                      ) : (
                         <MdFavorite className="text-lg text-dandelion-primary" />
                      )}
                   </div>
                ) : (
-                  <Login
-                     children={
-                        <MdFavoriteBorder
-                           className={`text-lg hover:text-dandelion-primary`}
-                        />
-                     }
-                  />
+                  <Login children={<MdFavoriteBorder className={`text-lg hover:text-dandelion-primary`} />} />
                )}
             </div>
          )}
@@ -99,9 +76,7 @@ const SongOptions = ({
             <SongMenu info={songInfo}>
                <div
                   className={`rounded-full text-primary hover:text-primary cursor-pointer flex-center hover:bg-alpha ${
-                     activeDots
-                        ? "w-8 h-8 p-[6px]"
-                        : "group-hover:opacity-100 opacity-0 w-10 h-10 p-2"
+                     activeDots ? "w-8 h-8 p-[6px]" : "group-hover:opacity-100 opacity-0 w-10 h-10 p-2"
                   }`}
                >
                   <IoEllipsisHorizontalSharp className="" />
