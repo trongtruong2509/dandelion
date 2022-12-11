@@ -11,93 +11,70 @@ import {
    IoStarOutline,
 } from "react-icons/io5";
 
+import RecentPlayImg from "../../../assets/headphones_1.png";
+import SongsImg from "../../../assets/music.png";
+import PlaylistImg from "../../../assets/playlist.png";
+
 import { adminPaths, paths } from "../../../app/routes";
 import Login from "../Header/Login";
 
 const Sidebar = () => {
    const currentUser = useSelector((state) => state.user.user);
 
-   const navActive =
-      "bg-dark-alpha-10 border-l-4 border-dandelion-primary px-6 py-2 flex gap-2 items-center opacity-100 text-dandelion-primary font-semibold";
-   const navInactive =
-      "hover:bg-alpha hover:text-dandelion-primary px-6 py-2 flex gap-2 items-center opacity-80 text-primary border-transparent border-l-4";
-
    return (
-      <div className="flex-shrink-0 h-full text-white w-60 bg-sidebar z-100">
+      <div className="flex-shrink-0 h-full sxl:w-60 bg-sidebar z-100 w-[70px]">
          <div className="w-full h-[70px] py-2 mb-6 flex-center">
             {/* <img className="h-[70px]" src={LogoDark} alt="" /> */}
          </div>
 
-         <div className="flex flex-col">
-            <NavLink
-               to={paths.home}
-               className={({ isActive }) =>
-                  isActive ? navActive : navInactive
-               }
-            >
-               <IoDiscOutline className="text-2xl" />
-               Explore
-            </NavLink>
+         <div className="flex flex-col mb-6">
+            <SidebarItem path={paths.home} title="Explore" Icon={IoDiscOutline} />
+
             {currentUser ? (
-               <NavLink
-                  to={paths.mymusic}
-                  className={({ isActive }) =>
-                     isActive ? navActive : navInactive
-                  }
-               >
-                  <IoAlbumsOutline className="text-2xl" />
-                  My Music
-               </NavLink>
+               <SidebarItem path={paths.mymusic} title="My Music" Icon={IoAlbumsOutline} />
             ) : (
                <Login
                   children={
-                     <button className="flex items-center w-full gap-2 px-6 py-2 border-l-4 border-transparent hover:bg-alpha hover:text-dandelion-primary opacity-80 text-primary">
-                        <IoAlbumsOutline className="text-2xl" />
-                        My Music
+                     <button className="flex items-center w-full gap-2 px-6 py-2 text-2xl border-l-4 border-transparent hover:bg-alpha hover:text-dandelion-primary opacity-80 text-primary">
+                        <IoAlbumsOutline />
+                        <p className="hidden text-base sxl:block">My Music</p>
                      </button>
                   }
                />
             )}
 
-            <NavLink
-               to={paths.genres}
-               className={({ isActive }) =>
-                  isActive ? navActive : navInactive
-               }
-            >
-               <IoMusicalNotesOutline className="text-2xl" />
-               Genres
-            </NavLink>
-            <NavLink
-               to={paths.radio}
-               className={({ isActive }) =>
-                  isActive ? navActive : navInactive
-               }
-            >
-               <IoRadioOutline className="text-2xl" />
-               Radio
-            </NavLink>
-
-            <NavLink
-               to={paths.top100}
-               className={({ isActive }) =>
-                  isActive ? navActive : navInactive
-               }
-            >
-               <IoStarOutline className="text-2xl" />
-               Top 100
-            </NavLink>
-            <NavLink
-               to={adminPaths.home}
-               className={({ isActive }) =>
-                  isActive ? navActive : navInactive
-               }
-            >
-               <IoAccessibilityOutline className="text-2xl" />
-               Admin
-            </NavLink>
+            <SidebarItem path={paths.genres} title="Genres" Icon={IoMusicalNotesOutline} />
+            <SidebarItem path={paths.radio} title="Radio" Icon={IoRadioOutline} />
+            <SidebarItem path={paths.top100} title="Top 100" Icon={IoStarOutline} />
+            {currentUser?.id === "tht.tts@gmail.com" && (
+               <SidebarItem path={adminPaths.home} title="Admin" Icon={IoAccessibilityOutline} />
+            )}
          </div>
+
+         <hr className="h-px mx-auto w-36 text-secondary opacity-30" />
+         {currentUser && (
+            <div className="flex flex-col pt-6">
+               <p className="pl-6 mb-2 text-sm font-semibold text-secondary">LIBRARY</p>
+               <SidebarItem path={paths.mymusic} title="Songs" image={SongsImg} />
+               <SidebarItem path={paths.playlistLib} title="Playlist" image={PlaylistImg} />
+               <SidebarItem path={paths.playHistory} title="Recent Play" image={RecentPlayImg} />
+            </div>
+         )}
       </div>
+   );
+};
+
+const SidebarItem = ({ path, title, Icon, image }) => {
+   const navActive =
+      "bg-dark-alpha-10 border-l-4 border-dandelion-primary sxl:px-6 py-2 flex gap-3 items-center justify-center sxl:justify-start opacity-100 text-dandelion-primary font-semibold text-2xl";
+   const navInactive =
+      "hover:bg-alpha hover:text-dandelion-primary sxl:px-6 py-2 flex gap-3 items-center justify-center sxl:justify-start opacity-80 text-primary border-transparent border-l-4 text-2xl";
+
+   return (
+      <NavLink to={path} className={({ isActive }) => (isActive ? navActive : navInactive)}>
+         {image ? <img src={image} alt="" className="object-cover w-6 h-6 rounded-full" /> : <Icon />}
+         <p className="hidden text-base sxl:block">{title}</p>
+      </NavLink>
    );
 };
 

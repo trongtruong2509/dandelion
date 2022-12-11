@@ -95,3 +95,17 @@ export const convertTimeToStr = (input, truncate = false) => {
 
    return output;
 };
+
+export const convertStrToTime = (time) => {
+   const times = time.split(":");
+
+   const seconds = parseInt(times[1]);
+   const minutes = parseInt(times[0]) * 60;
+   // let hour = 0;
+
+   // if (times.length === 2) {
+   //    hour = parseInt(times[1]) * 3600;
+   // }
+
+   return seconds + minutes;
+};

@@ -20,6 +20,7 @@ import CountryGenre from "../pages/Genres/CountryGenre";
 export const paths = {
    home: "/",
    mymusic: "/mymusic",
+   playlistLib: "/mymusic/playlist",
    playlist: "/playlist/:id",
    artist: "/artist/:id",
    genre: "/genres/:id",
@@ -50,7 +51,7 @@ const routes = [
    { path: "/login", component: Login },
    { path: "/upload", component: Upload },
    { path: "/mymusic", component: Mymusic },
-   { path: "/mymusic/playlist", component: PlaylistLib },
+   { path: paths.playlistLib, component: PlaylistLib },
    { path: paths.playHistory, component: PlayHistory },
    { path: paths.playHistoryId, component: PlayHistory },
    { path: paths.newRelease, component: NewRelease },

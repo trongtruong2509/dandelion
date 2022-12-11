@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { IoPlaySkipForward, IoPlaySkipBack, IoPlay, IoPause, IoShuffleOutline, IoRepeatOutline } from "react-icons/io5";
@@ -8,6 +8,7 @@ import { play, pause, updateAndPlay } from "../../slices/playingSlice";
 import { getSuggestionToPlay, initQueue, updateQueue } from "../../slices/playQueueSlice";
 import { updateRecentPlay } from "../../slices/userSlice";
 
+import useAudio from "../../hooks/useAudio";
 import { Progress } from "./Progress";
 import { updateRepeat, updateShuffle, updateVolume } from "../../slices/playbarSlice";
 import { shuffleArray } from "../../utils/common";
@@ -22,59 +23,12 @@ const Player = () => {
    const playqueueSlice = useSelector((state) => state.playqueue);
    const playbarSlice = useSelector((state) => state.playbar);
 
-   const [audio, setAudio] = useState(null);
    const [playing, setPlaying] = useState(false);
-   const [length, setLength] = useState(0);
-   const [time, setTime] = useState(0);
-   let [end, setEnd] = useState(0);
-
-   const [slider, setSlider] = useState(0);
    const [drag, setDrag] = useState(0);
-   const [volume, setVolume] = useState(1);
-
-   const [firstTime, setFirstTime] = useState(true);
+   const { audio, length, time, volume, slider, end, setVolume, setSlider } = useAudio(currentSong?.info);
+   const isMounted = useRef(false);
 
    const fmtMSS = (s) => new Date(1000 * s).toISOString().substr(15, 4);
-
-   useEffect(() => {
-      const _audio = new Audio(currentSong?.info?.audio);
-      _audio.currentTime = 0;
-
-      const setAudioData = () => {
-         setLength(_audio.duration);
-         setTime(_audio.currentTime);
-      };
-
-      const setAudioTime = () => {
-         const curTime = _audio.currentTime;
-         setTime(curTime);
-         setSlider(curTime ? ((curTime * 100) / _audio.duration).toFixed(1) : 0);
-      };
-
-      const setAudioVolume = () => setVolume(_audio.volume);
-
-      const setAudioEnd = () => {
-         setEnd((end += 1));
-      };
-
-      // events on audio object
-      _audio.addEventListener("loadeddata", setAudioData);
-      _audio.addEventListener("timeupdate", setAudioTime);
-      _audio.addEventListener("volumechange", setAudioVolume);
-      _audio.addEventListener("ended", setAudioEnd);
-
-      setAudio(_audio);
-      setSlider(0);
-      _audio.pause();
-
-      return () => {
-         _audio.pause();
-         _audio.removeEventListener("loadeddata", setAudioData);
-         _audio.removeEventListener("timeupdate", setAudioTime);
-         _audio.removeEventListener("volumechange", setAudioVolume);
-         _audio.removeEventListener("ended", setAudioEnd);
-      };
-   }, [currentSong?.info]);
 
    // start playing audio when audio src has been changed
    useEffect(() => {
@@ -90,9 +44,7 @@ const Player = () => {
 
    // update audio play/pause and update redux state
    useEffect(() => {
-      if (firstTime) {
-         setFirstTime(false);
-      } else {
+      if (isMounted.current) {
          if (playing) {
             audio?.play();
 
@@ -106,6 +58,8 @@ const Player = () => {
                dispatch(pause());
             }
          }
+      } else {
+         isMounted.current = true;
       }
    }, [playing, audio]);
 
@@ -158,8 +112,8 @@ const Player = () => {
             shuffleArray(newShuffe);
 
             dispatch(updateAndPlay(newShuffe[0]));
-            dispatch(updateRecentPlay(newShuffe[0]));
             dispatch(initQueue(newShuffe));
+            dispatch(updateRecentPlay(newShuffe[0]));
 
             setTimeout(() => {
                setPlaying(true);

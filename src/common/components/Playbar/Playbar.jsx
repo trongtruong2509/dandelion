@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import Player from "./Player";
 import SongOptions from "../Song/SongOptions";
 import { paths } from "../../../app/routes";
+import ArtistsDisplay from "../Song/ArtistsDisplay";
 
 const Playbar = () => {
    const navigate = useNavigate();
@@ -37,23 +38,10 @@ const Playbar = () => {
                         className="object-cover w-16 h-16 rounded-md"
                      />
                   </div>
-                  <div className="max-w-[240px] min-w-[120px] shrink-0">
+                  <div className="max-w-[200px] 2xl:max-w-[240px] min-w-[120px] shrink-0">
                      <h1 className="text-sm font-semibold truncate text-player">{currentSong?.title}</h1>
                      <div className="gap-2 mt-1 text-xs truncate text-secondary">
-                        {currentSong?.artists?.length > 0 ? (
-                           <p>
-                              {currentSong?.artists.map((artist, index) => (
-                                 <span key={index}>
-                                    <Link className="hover:text-dandelion-primary hover:underline" to={artist?.link}>
-                                       {artist?.name}
-                                    </Link>
-                                    {currentSong?.artists?.length - 1 !== index && ", "}
-                                 </span>
-                              ))}
-                           </p>
-                        ) : (
-                           currentSong?.artistsNames
-                        )}
+                        <ArtistsDisplay info={currentSong} />
                      </div>
                   </div>
                </div>

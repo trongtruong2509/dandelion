@@ -102,6 +102,9 @@ module.exports = withMT({
          lg: "1024px",
          // => @media (min-width: 1024px) { ... }
 
+         sxl: "1140px",
+         // => @media (min-width: 1140px) { ... }
+
          xl: "1280px",
          // => @media (min-width: 1280px) { ... }
 

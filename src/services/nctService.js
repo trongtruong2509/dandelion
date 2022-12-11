@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:5000/";
+const BASE_URL = "https://dandelion-api-two.vercel.app/";
 
 const nctRequest = axios.create({
    baseURL: BASE_URL,
@@ -16,8 +16,9 @@ const post = async (path, data) => {
    return response;
 };
 
-export const uploadSong = async (id) => {
-   return post("upload", { id, vendor: "nct" });
+export const fetchSong = async (id) => {
+   const res = await post("upload", { id, vendor: "nct" });
+   return res.status === 201 ? res.data : null;
 };
 
 // export const getSongInfo = async (id) => {

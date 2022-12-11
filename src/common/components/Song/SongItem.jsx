@@ -35,6 +35,7 @@ const SongItem = ({
    onDelete,
    badges = false,
    activeLike = false,
+   disableLike = false,
    activeDots = false,
 }) => {
    const dispatch = useDispatch();
@@ -111,6 +112,7 @@ const SongItem = ({
                playqueue?.played?.find((t) => t.id === info.id)
             ) {
                // in queue
+               console.log("[playSong] in queue");
                dispatch(updateQueue(info));
             } else {
                if (inPlaylist) {
@@ -124,6 +126,8 @@ const SongItem = ({
                   shuffleAndPlay(currentPlaylist.songs, true, info);
                } else {
                   // trigger not from the playlist. treat as a single track
+                  console.log("[playSong] trigger not from the playlist. treat as a single track");
+
                   dispatch(emtpyPlayingPlaylist());
                   dispatch(initQueue([info]));
                }
@@ -189,12 +193,14 @@ const SongItem = ({
                   <SongOptions
                      songInfo={info}
                      like={like}
+                     size={size}
                      addPlaylist={addPlaylist}
                      onAdd={onAdd}
                      addPlayQueue={addPlayQueue}
                      onAddPlayQueue={onAddQueue}
                      canDetele={canDetele}
                      activeLike={activeLike}
+                     disableLike={disableLike}
                      activeDots={activeDots}
                      onDelete={onDelete}
                   />

@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 
 import Modal from "../../../common/components/Modal/Modal";
-import { uploadSong } from "../../../services/nctService";
+import { fetchSong, uploadSong } from "../../../services/nctService";
 import { RankItem } from "../Rank/Rank";
 import { uploadZingById } from "../Upload/uploadZing";
+import { uploadNctById } from "../Upload/uploadNct";
 
 const UploadSingleModal = ({ ...props }) => {
    const [songId, setSongId] = useState("");
@@ -31,8 +32,21 @@ const UploadSingleModal = ({ ...props }) => {
             },
          });
       } else if (vendor === "nct") {
-         const res = await uploadSong(songId);
-         console.log("[onUpload] nct", res.data);
+         await toast.promise(uploadNctById(songId, rank), {
+            pending: `[NCT][${rank}] Uploading song ${songId}...`,
+            success: `[NCT][${rank}] Song ${songId} uploaded`,
+            error: {
+               render({ data }) {
+                  // When the promise reject, data will contains the error
+                  return (
+                     <div>
+                        <h2 className="text-sm">{`[NCT] Song ${songId} uploaded fail with error: `}</h2>
+                        <p className="mt-2 text-xs">{data.message}</p>
+                     </div>
+                  );
+               },
+            },
+         });
       } else {
          toast.error("Not supported vendor");
       }

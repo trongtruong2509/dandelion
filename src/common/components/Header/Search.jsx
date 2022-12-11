@@ -25,7 +25,6 @@ const Search = () => {
    // Workaround for search feature
    const [songsDb, setSongsDb] = useState([]);
    const [artistsDb, setArtistsDb] = useState([]);
-   const [albumsDb, setAlbumsDb] = useState([]);
    const [playlistsDb, setPlaylistsDb] = useState([]);
    const [firstTime, setFirstTime] = useState(true);
 
@@ -47,7 +46,6 @@ const Search = () => {
             .then(() => {
                getResults();
                setLoading(false);
-               console.log("[fetchDb]", songsDb);
             })
             .catch((err) => {
                console.log(err);
@@ -66,41 +64,33 @@ const Search = () => {
       let results = [];
 
       // get matches songs
-      results = [...getTop5Matches(songsDb, searchText), ...results];
-
-      // console.log("Result after songs: ");
-      // console.log(results);
+      results = getTopMatches(songsDb, searchText);
 
       // get matches artist
-      const artistResults = artistsDb
-         .filter((s) =>
-            removeAccents(s.name).toLowerCase().includes(removeAccents(searchText.toLowerCase()))
-         )
-         .slice(0, 5);
+      results = [...results, ...getTopMatches(artistsDb, searchText)];
 
-      // console.log("artistResults: ");
-      // console.log(artistResults);
+      // get song of artist
+      const matches = songsDb.filter((s) =>
+         removeAccents(s.artistsNames).toLowerCase().includes(removeAccents(searchText.toLowerCase()))
+      );
 
-      results = [...results, ...artistResults];
-
-      // console.log("Result after artists: ");
-      // console.log(results);
-
-      // get matches playlist
-      // results = [...getTop5Matches(playlistsDb, searchText), ...results];
-
-      // // get matches albums
-      // results = [...getTop5Matches(albumsDb, searchText), ...results];
+      matches.forEach((t) => {
+         if (!results.find((s) => s.id === t.id)) {
+            results.push(t);
+         }
+      });
 
       setSearchResult(results);
    };
 
-   const getTop5Matches = (input, search) => {
+   const getTopMatches = (input, search) => {
       let matches = input.filter((s) =>
-         removeAccents(s.title).toLowerCase().includes(removeAccents(search.toLowerCase()))
+         removeAccents(s.title || s.name)
+            .toLowerCase()
+            .includes(removeAccents(search.toLowerCase()))
       );
 
-      return matches.slice(0, 5);
+      return matches.slice(0, 10);
    };
 
    const fetchDb = async () => {
@@ -111,13 +101,7 @@ const Search = () => {
          const artists = await getAllDocs(firebaseKeys.artists);
          setArtistsDb(artists.filter((e) => e !== undefined));
 
-         const albums = await getAllDocs("Albums");
-         setAlbumsDb(albums.filter((e) => e !== undefined));
-
-         const playlists = await getAllDocs("playlists");
-         setPlaylistsDb(playlists.filter((e) => e !== undefined));
-
-         return [songs, artists, albums, playlists];
+         return [songs, artists];
       } catch (error) {
          console.log(error);
          return [];
@@ -137,10 +121,7 @@ const Search = () => {
          return {
             onCreate() {
                instance.popper.addEventListener("click", (event) => {
-                  if (
-                     instance.props.hideOnInnerButtonPress &&
-                     event.target.getAttribute("hide-on-press") === "false"
-                  ) {
+                  if (instance.props.hideOnInnerButtonPress && event.target.getAttribute("hide-on-press") === "false") {
                      setTimeout(() => instance.hide(), 50);
                      console.log("[hideOnInnerButtonPress]", "pressed");
                      return event;
@@ -161,7 +142,7 @@ const Search = () => {
          trigger="click"
          render={(attrs) => (
             <div
-               className="w-[500px] h-auto min-h-20 pb-3 bg-primary -mt-1 rounded-2xl shadow-md text-primary px-3"
+               className="w-[500px] h-auto max-h-[544px] overflow-y-scroll scrollbar min-h-20 pb-3 bg-primary -mt-1 rounded-2xl shadow-md text-primary pl-3 pr-2"
                tabIndex="-1"
                {...attrs}
             >
@@ -197,9 +178,7 @@ const Search = () => {
                         searchHistory.length ? (
                            <SearchItem infos={searchHistory} />
                         ) : (
-                           <div className="w-full h-28 flex-center text-secondary">
-                              No search history
-                           </div>
+                           <div className="w-full h-28 flex-center text-secondary">No search history</div>
                         )
                      ) : (
                         <SearchItem infos={searchResult} />

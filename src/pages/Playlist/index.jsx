@@ -20,12 +20,11 @@ import { convertTimeToStr } from "../../common/utils/common";
 
 const Playlist = () => {
    const params = useParams();
+
    const currentPlaylist = useSelector((state) => state.playlist.current.value);
    const loading = useSelector((state) => state.playlist.current.loading);
-   // const playingPlaylist = useSelector((state) => state.playlist.playing);
    const user = useSelector((state) => state.user.user);
    const nonUser = useSelector((state) => state.user.noLogged);
-   // const isMounted = useRef(false);
 
    const dispatch = useDispatch();
 

@@ -59,9 +59,9 @@ export const userTemplate = {
 
 export const artistTemplate = {
    id: "",
-   alias: "",
-   // link: "",
    name: "",
+   alias: "",
+   link: "",
    thumbnail: "",
    thumbnailM: "",
    playlistIds: [],

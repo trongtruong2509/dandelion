@@ -1,15 +1,9 @@
 import { firebaseKeys } from "../../dataTemplate";
 import { updateDocField } from "./firebaseApi";
 import { toast } from "react-toastify";
-import {
-   collection,
-   getDocs,
-   limit,
-   orderBy,
-   query,
-   where,
-} from "firebase/firestore";
+import { collection, getDocs, limit, orderBy, query, where } from "firebase/firestore";
 import { firestore } from "../../firebase.config";
+import { async } from "@firebase/util";
 
 export const updateRank = async (songInfo, newRank) => {
    console.log("[songInfo]", songInfo);
@@ -36,11 +30,7 @@ export const updateRank = async (songInfo, newRank) => {
 };
 
 export const getLatestSongs = async (genreId) => {
-   let q = query(
-      collection(firestore, firebaseKeys.songs),
-      orderBy("uploadDate", "desc"),
-      limit(20)
-   );
+   let q = query(collection(firestore, firebaseKeys.songs), orderBy("uploadDate", "desc"), limit(20));
 
    if (genreId && genreId !== "All") {
       console.log("[genreId]", genreId);
@@ -87,9 +77,7 @@ export const getSuggestedSongs = async (playing) => {
          result.push(doc.data());
       });
 
-      const genresFiltered = playing.genreIds.filter(
-         (g) => !["IWZ9Z08I", "IWZ9Z08O", "IWZ9Z08W"].includes(g)
-      );
+      const genresFiltered = playing.genreIds.filter((g) => !["IWZ9Z08I", "IWZ9Z08O", "IWZ9Z08W"].includes(g));
 
       console.log("[getSuggestedSongs]", playing.genreIds, genresFiltered);
 
@@ -113,6 +101,26 @@ export const getSuggestedSongs = async (playing) => {
       }
 
       // TODO: random before slice to 20
+      return result;
+   } catch (error) {
+      console.log(error);
+      return [];
+   }
+};
+
+export const getArtistTopHits = async (artist) => {
+   let q = query(collection(firestore, firebaseKeys.songs), where("artists", "array-contains", artist), limit(20));
+
+   try {
+      const querySnapshot = await getDocs(q);
+
+      let result = [];
+      querySnapshot.forEach((doc) => {
+         result.push(doc.data());
+      });
+
+      // console.log("[getArtistTopHits]", result);
+
       return result;
    } catch (error) {
       console.log(error);

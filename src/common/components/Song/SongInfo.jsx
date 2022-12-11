@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { RankMenu } from "../../../admin/components/Rank/Rank";
 import { updateRank } from "../../../common/utils/songs";
+import ArtistsDisplay from "./ArtistsDisplay";
 
 const SongInfo = ({ info, size = "10", onClick, badges = false }) => {
    const thumbnailSizes = {
@@ -21,9 +22,7 @@ const SongInfo = ({ info, size = "10", onClick, badges = false }) => {
    return (
       <div>
          <div className="relative flex items-center gap-3 text-white">
-            <div
-               className={`absolute group-hover:bg-dark-alpha-50 rounded-md ${thumbnailSizes[size]}`}
-            />
+            <div className={`absolute group-hover:bg-dark-alpha-50 rounded-md ${thumbnailSizes[size]}`} />
             <img
                src={info?.thumbnail}
                alt={info?.title}
@@ -31,39 +30,18 @@ const SongInfo = ({ info, size = "10", onClick, badges = false }) => {
             />
             <div className="max-w-[220px]">
                <div className="flex items-center gap-4">
-                  <h1
-                     className="w-full text-sm truncate cursor-pointer text-primary"
-                     onClick={onClick}
-                  >
+                  <h1 className="w-full mr-2 text-sm truncate cursor-pointer text-primary" onClick={onClick}>
                      {info?.title}
                   </h1>
                </div>
                <div className="flex items-center gap-2 mt-1 text-xs truncate text-secondary">
                   {badges && (
                      <div>
-                        <RankMenu
-                           rankInput={info?.rank}
-                           onRankChange={onRankUpdate}
-                        />
+                        <RankMenu rankInput={info?.rank} onRankChange={onRankUpdate} />
                      </div>
                   )}
-                  {info?.artists?.length > 0 ? (
-                     <p>
-                        {info?.artists.map((artist, index) => (
-                           <span key={index}>
-                              <Link
-                                 className="hover:text-dandelion-primary hover:underline"
-                                 to={artist?.link}
-                              >
-                                 {artist?.name}
-                              </Link>
-                              {info?.artists?.length - 1 !== index && ", "}
-                           </span>
-                        ))}
-                     </p>
-                  ) : (
-                     info?.artistsNames
-                  )}
+
+                  <ArtistsDisplay info={info} />
                </div>
             </div>
          </div>

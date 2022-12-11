@@ -1,31 +1,35 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
-import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import { Swiper, SwiperSlide } from "swiper/react";
+
+// import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+// import { Swiper, SwiperSlide } from "swiper/react";
 import { FaPlay, FaPlus } from "react-icons/fa";
-import { MdArrowForwardIos } from "react-icons/md";
+// import { MdArrowForwardIos } from "react-icons/md";
 
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
 
-import { getDocInList } from "../../common/utils/firebaseApi";
+// import { getDocInList } from "../../common/utils/firebaseApi";
 import { getArtistDb } from "../../common/utils/user";
-import AlbumDefault from "./../../assets/album_default.png";
-import PlaylistCover from "../../common/components/PlaylistCover/PlaylistCover";
+// import AlbumDefault from "./../../assets/album_default.png";
+// import PlaylistCover from "../../common/components/PlaylistCover/PlaylistCover";
 
-import { playlists as tempPlaylists } from "../../tempData/playlists";
 import SongItem from "../../common/components/Song/SongItem";
-import { firebaseKeys } from "../../dataTemplate";
+// import { firebaseKeys } from "../../dataTemplate";
+import { getArtistTopHits } from "../../common/utils/songs";
+import { updateCurrentPlaylist } from "../../common/slices/playlistSlice";
+import { initHiddenPlaylist } from "../../common/utils/playlist";
+import { updateAndPlay } from "../../common/slices/playingSlice";
+import { initQueue } from "../../common/slices/playQueueSlice";
 
 const Artist = () => {
+   const dispatch = useDispatch();
    const params = useParams();
 
    const [artist, setArtist] = useState(null);
    const [topHits, setTopHits] = useState(null);
-
-   const tabStyle = `3xl:px-3 px-2 py-[5px] w-32 text-sm rounded-3xl text-navigation 
-                     hover:text-dandelion-primary uppercase cursor-pointer text-center`;
 
    useEffect(() => {
       console.log(params.id);
@@ -41,10 +45,20 @@ const Artist = () => {
    }, [params.id]);
 
    useEffect(() => {
-      getDocInList(firebaseKeys.songs, artist?.topHits).then((result) => {
-         setTopHits(result);
-      });
+      const fetchTophits = async () => {
+         const hits = await getArtistTopHits(artist);
+         setTopHits(hits);
+         dispatch(updateCurrentPlaylist(initHiddenPlaylist(hits)));
+      };
+
+      fetchTophits();
    }, [artist]);
+
+   const onPlayTophits = () => {
+      const songs = [...topHits];
+      dispatch(updateAndPlay(songs[0]));
+      dispatch(initQueue(songs));
+   };
 
    return (
       <div className="relative w-full px-3 mt-8 text-white">
@@ -64,15 +78,18 @@ const Artist = () => {
             )}
             <div className="z-10 flex flex-col items-start">
                <h1 className="py-12 font-bold text-7xl text-primary">{artist?.name}</h1>
-               <div className="gap-4 flex-center">
-                  <button className="gap-2 px-6 py-2 rounded-full flex-center bg-dandelion-primary">
+               <div className="gap-6 flex-center">
+                  <button
+                     className="gap-2 px-6 py-2 transition-all duration-200 ease-in border rounded-full flex-center border-dandelion-primary hover:bg-dandelion-primary hover:text-white text-dandelion-primary"
+                     onClick={onPlayTophits}
+                  >
                      <FaPlay />
                      Play
                   </button>
-                  <button className="gap-2 px-6 py-2 rounded-full flex-center bg-dandelion-primary">
+                  {/* <button className="gap-2 px-6 py-2 border rounded-full flex-center border-dandelion-primary bg-dandelion-primary">
                      <FaPlus />
                      Follow
-                  </button>
+                  </button> */}
                </div>
             </div>
             <div className="z-10 overflow-hidden rounded-full w-72 h-72 drop-shadow-sm">
@@ -80,107 +97,16 @@ const Artist = () => {
             </div>
          </header>
          <main className="w-full">
-            <Tabs className="w-full Tabs" selectedTabClassName="text-dandelion-primary bg-tab-active">
-               <TabList className="w-fit bg-alpha rounded-3xl p-[3px] flex-center mx-auto mt-10 mb-5">
-                  <Tab className={tabStyle}>OVERVIEW</Tab>
-                  <Tab className={tabStyle}>SONGS</Tab>
-                  <Tab className={tabStyle}>ALBUM</Tab>
-                  <Tab className={tabStyle}>SINGLE & EP</Tab>
-                  <Tab className={tabStyle}>RADIO</Tab>
-               </TabList>
-               <TabPanel className="w-full">
-                  <section className="py-5">
-                     <h2 className="pb-6 text-2xl font-bold">Top Hits</h2>
-                     <div className="flex gap-8 ">
-                        <div className="flex-shrink-0 w-60">
-                           <img
-                              className="object-cover rounded-md w-60 h-60"
-                              src={AlbumDefault}
-                              alt="Album Thumbnail"
-                           />
-                        </div>
-
-                        <div className="w-full h-[285px] overflow-auto scrollbar">
-                           {topHits?.map((hit) => (
-                              <SongItem key={hit.id} info={hit} fullMode isPlaylist />
-                           ))}
-                        </div>
-                     </div>
-                  </section>
-                  <section className="py-5">
-                     <div className="pb-6 flex-btw">
-                        <div className="flex items-center justify-start gap-4">
-                           <h1 className="text-2xl font-bold text-white">Albums</h1>
-                        </div>
-                        <button className="gap-2 flex-center text-secondary hover:text-primary">
-                           View All
-                           <MdArrowForwardIos />
-                        </button>
-                     </div>
-
-                     <Swiper slidesPerView={5} spaceBetween={30} className="w-full">
-                        {tempPlaylists.map((p) => (
-                           <SwiperSlide key={p.id}>
-                              <PlaylistCover info={p} />
-                           </SwiperSlide>
-                        ))}
-                     </Swiper>
-                  </section>
-                  <section className="py-5">
-                     <div className="pb-6 flex-btw">
-                        <div className="flex items-center justify-start gap-4">
-                           <h1 className="text-2xl font-bold text-white">Collections</h1>
-                        </div>
-                        <button className="gap-2 flex-center text-secondary hover:text-primary">
-                           View All
-                           <MdArrowForwardIos />
-                        </button>
-                     </div>
-
-                     <Swiper slidesPerView={5} spaceBetween={30} className="w-full">
-                        {tempPlaylists.map((p) => (
-                           <SwiperSlide key={p.id}>
-                              <PlaylistCover info={p} />
-                           </SwiperSlide>
-                        ))}
-                     </Swiper>
-                  </section>
-                  <section className="py-5">
-                     <div className="pb-6 flex-btw">
-                        <div className="flex items-center justify-start gap-4">
-                           <h1 className="text-2xl font-bold text-white">Appear On</h1>
-                        </div>
-                        <button className="gap-2 flex-center text-secondary hover:text-primary">
-                           View All
-                           <MdArrowForwardIos />
-                        </button>
-                     </div>
-
-                     <Swiper slidesPerView={5} spaceBetween={30} className="w-full">
-                        {tempPlaylists.map((p) => (
-                           <SwiperSlide key={p.id}>
-                              <PlaylistCover info={p} />
-                           </SwiperSlide>
-                        ))}
-                     </Swiper>
-                  </section>
-                  <section className="w-full h-32 py-5">
-                     <h1 className="text-2xl font-bold text-white">Maybe You Like</h1>
-                  </section>
-               </TabPanel>
-               <TabPanel className="w-full">
-                  <p>Tab 2 works!</p>
-               </TabPanel>
-               <TabPanel className="w-full">
-                  <p>Tab 3 works!</p>
-               </TabPanel>
-               <TabPanel>
-                  <p>Tab 4 works!</p>
-               </TabPanel>
-               <TabPanel>
-                  <p>Tab 5 works!</p>
-               </TabPanel>
-            </Tabs>
+            <section className="py-5">
+               <h2 className="pb-3 text-2xl font-bold text-primary">Top Hits</h2>
+               <div className="flex gap-8">
+                  <div className="w-full h-[285px] overflow-auto scrollbar">
+                     {topHits?.map((hit) => (
+                        <SongItem key={hit.id} info={hit} fullMode inPlaylist />
+                     ))}
+                  </div>
+               </div>
+            </section>
          </main>
       </div>
    );

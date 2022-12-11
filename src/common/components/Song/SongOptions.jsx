@@ -10,6 +10,7 @@ import SongMenu from "../Popers/SongMenu";
 
 const SongOptions = ({
    songInfo,
+   size,
    like = true,
    addPlaylist = false,
    addPlayQueue = false,
@@ -17,20 +18,30 @@ const SongOptions = ({
    onAddPlayQueue,
    canDetele = false,
    activeLike = false,
+   disableLike = false,
    activeDots = false,
    onDelete,
 }) => {
-   const currentUser = useSelector((state) => state.user.user);
    const dispatch = useDispatch();
+   const currentUser = useSelector((state) => state.user.user);
 
    const notLiked = !currentUser || currentUser?.likedSongs.findIndex((t) => t.id === songInfo?.id) === -1;
+   const dotSize = size === "10" ? "w-8 h-8 p-[6px]" : "w-10 h-10 p-2";
 
    return (
       <div className="gap-1 text-lg text-primary flex-center group">
          {like && (
             <div
-               className={`items-center justify-center w-10 h-10 p-2 rounded-full cursor-pointer hover:bg-alpha ${
-                  activeLike ? "flex" : notLiked ? "hidden group-hover:flex" : "flex"
+               className={`items-center justify-center rounded-full cursor-pointer hover:bg-alpha 
+               ${dotSize}
+               ${
+                  activeLike
+                     ? "flex"
+                     : disableLike
+                     ? "hidden group-hover:flex"
+                     : notLiked
+                     ? "hidden group-hover:flex"
+                     : "flex"
                }`}
             >
                {currentUser ? (
@@ -75,9 +86,9 @@ const SongOptions = ({
          {!addPlaylist && (
             <SongMenu info={songInfo}>
                <div
-                  className={`rounded-full text-primary hover:text-primary cursor-pointer flex-center hover:bg-alpha ${
-                     activeDots ? "w-8 h-8 p-[6px]" : "group-hover:opacity-100 opacity-0 w-10 h-10 p-2"
-                  }`}
+                  className={`rounded-full text-primary hover:text-primary cursor-pointer flex-center hover:bg-alpha 
+                  ${dotSize}
+                  ${activeDots ? "" : "group-hover:opacity-100 opacity-0"}`}
                >
                   <IoEllipsisHorizontalSharp className="" />
                </div>
