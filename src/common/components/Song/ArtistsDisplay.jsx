@@ -23,7 +23,7 @@ const ArtistsDisplay = ({ info }) => {
                   {names.length - 1 !== index && ", "}
                </span>
             ) : (
-               <span>
+               <span key={index}>
                   {artist}
                   {names.length - 1 !== index && ", "}
                </span>

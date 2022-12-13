@@ -32,7 +32,7 @@ const PlaylistModal = ({ ...props }) => {
          description: desc,
          link: `/playlist/${id}`,
          thumbnail: "",
-         songs: [],
+         songs: props.initSong ? [...props.initSongs] : [],
          public: true,
          shuffle: true,
       };

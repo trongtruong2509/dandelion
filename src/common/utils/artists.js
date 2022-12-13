@@ -33,3 +33,42 @@ export const getArtistByName = async (artistName) => {
       return null;
    }
 };
+
+export const getPopularArtist = async () => {
+   const threshold = 3;
+   let qualified = [];
+
+   const tracks = await getAllDocs(firebaseKeys.songs);
+   const artists = await getAllDocs(firebaseKeys.artists);
+
+   artists.forEach((artist) => {
+      const songs = tracks.filter((t) => t.artistsNames.includes(artist.name));
+
+      if (songs.length >= threshold) {
+         qualified.push({ artist, songs });
+      }
+   });
+
+   qualified.sort((a, b) => {
+      if (a.songs.length < b.songs.length) {
+         return 1;
+      }
+      if (a.songs.length > b.songs.length) {
+         return -1;
+      }
+
+      // names must be equal
+      return 0;
+   });
+
+   qualified = qualified.slice(0, 50);
+   let shuffled = [...qualified].sort(() => 0.5 - Math.random());
+
+   shuffled = shuffled.slice(0, 10);
+   // console.log("[calcHotArtist] qualified");
+   // shuffled.forEach((q) => {
+   //    console.log(`[${q.artist.id}] ${q.artist.name} `, q.songs.length, q.songs);
+   // });
+
+   return shuffled.map((a) => a.artist);
+};

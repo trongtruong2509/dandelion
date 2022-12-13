@@ -1,33 +1,30 @@
 import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
 import _ from "lodash";
 import { toast } from "react-toastify";
-import { getSuggestedArtists } from "../utils/artists";
+import { getPopularArtist, getSuggestedArtists } from "../utils/artists";
 
 import * as local from "../utils/localStorage";
 import { getLatestPlaylists } from "../utils/playlist";
 import { getLatestSongs } from "../utils/songs";
 
-export const fetchHomepage = createAsyncThunk(
-   "/dandelion/fetchHomepage",
-   async () => {
-      try {
-         console.log("[fetchHomepage] enter", Date.now());
-         const songs = await getLatestSongs();
-         const playlists = await getLatestPlaylists();
-         const artists = await getSuggestedArtists();
-         console.log("[fetchHomepage] exit", Date.now());
+export const fetchHomepage = createAsyncThunk("/dandelion/fetchHomepage", async () => {
+   try {
+      console.log("[fetchHomepage] enter", Date.now());
+      const songs = await getLatestSongs();
+      const playlists = await getLatestPlaylists();
+      const artists = await getPopularArtist();
+      console.log("[fetchHomepage] exit", Date.now());
 
-         return {
-            newReleases: songs,
-            newPlaylists: playlists,
-            artists: artists,
-         };
-      } catch (error) {
-         toast.error("Get latest songs fail!");
-         return [];
-      }
+      return {
+         newReleases: songs,
+         newPlaylists: playlists,
+         artists: artists,
+      };
+   } catch (error) {
+      toast.error("Get latest songs fail!");
+      return [];
    }
-);
+});
 
 const initialState = {
    searchHistory: local.getSearchHistory() ?? [],

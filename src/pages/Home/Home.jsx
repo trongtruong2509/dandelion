@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
@@ -8,7 +8,7 @@ import "swiper/css/pagination";
 
 import PlaylistCover from "../../common/components/PlaylistCover/PlaylistCover";
 import SongItem from "../../common/components/Song/SongItem";
-import { getDocInList } from "../../common/utils/firebaseApi";
+import { getAllDocs, getDocInList } from "../../common/utils/firebaseApi";
 import { group } from "../../common/utils/common";
 import ArtistCover from "../../common/components/Artist/ArtistCover";
 import { fetchHomepage, updateRecentPlaylist } from "../../common/slices/dandelionSlice";
@@ -18,6 +18,11 @@ import { paths } from "../../app/routes";
 import { IoChevronForward } from "react-icons/io5";
 import { firebaseKeys } from "../../dataTemplate";
 import PlaylistCoverCarousel from "../../common/components/PlaylistCover/PlaylistCoverCarousel";
+import PlaylistCoverCarouselSkeleton from "../../common/components/PlaylistCover/PlaylistCoverCarouselSkeleton";
+import SectionTitleSkeleton from "../../common/components/SectionTitle/SectionTitleSkeleton";
+import { getPopularArtist } from "../../common/utils/artists";
+import { updateCurrentPlaylist } from "../../common/slices/playlistSlice";
+import { initHiddenPlaylist } from "../../common/utils/playlist";
 
 const Home = () => {
    const dispatch = useDispatch();
@@ -29,10 +34,39 @@ const Home = () => {
    const recentPlaylist = useSelector((state) => state.dandelion.homePage.recentPlaylist);
    const artists = useSelector((state) => state.dandelion.homePage.artists);
 
+   const [loading, setLoading] = useState(false);
+   const [topGenres, setTopGenres] = useState(null);
+
    useEffect(() => {
       if (!(newReleases.length && newPlaylists.length && artists.length)) {
          dispatch(fetchHomepage());
       }
+   }, []);
+
+   useEffect(() => {
+      if (newReleases) {
+         dispatch(updateCurrentPlaylist(initHiddenPlaylist(newReleases)));
+      }
+   }, [newReleases]);
+
+   useEffect(() => {
+      const fetchTopGenres = async () => {
+         setLoading(true);
+         const genres = await getAllDocs(firebaseKeys.topGenres);
+
+         const playlistIds = genres.map((g) => g.topPlaylist).flat();
+         const playlists = await getDocInList(firebaseKeys.playlists, playlistIds);
+
+         genres.forEach((genre) => {
+            const fullPlaylist = genre.topPlaylist.map((id) => playlists.find((p) => p.id === id));
+            genre.topPlaylist = fullPlaylist;
+         });
+
+         setTopGenres(genres);
+         setLoading(false);
+      };
+
+      fetchTopGenres();
    }, []);
 
    useEffect(() => {
@@ -118,7 +152,7 @@ const Home = () => {
                            <SwiperSlide key={index}>
                               {songs.map((s) => (
                                  <div className="my-1" key={s.id}>
-                                    <SongItem info={s} size="13" like={false} />
+                                    <SongItem info={s} size="13" like={false} inPlaylist />
                                  </div>
                               ))}
                            </SwiperSlide>
@@ -126,19 +160,44 @@ const Home = () => {
                      </Swiper>
                   </div>
                </div>
-               <div className="py-5 mb-10">
+               <div className="py-5">
                   <div className="mb-3 flex-btw">
                      <div className="flex items-center justify-start gap-4">
                         <p className="text-xl font-bold text-primary">Popular Artists</p>
                      </div>
                   </div>
-                  <div className="flex flex-wrap w-full gap-7">
-                     {artists?.map((s) => (
-                        <div className="my-1" key={s.id}>
-                           <ArtistCover info={s} />
-                        </div>
-                     ))}
+                  <div className="w-full">
+                     <Swiper slidesPerView={5} spaceBetween={30} className="w-full">
+                        {artists?.map((p, index) => (
+                           <SwiperSlide key={index}>
+                              <ArtistCover info={p} />
+                           </SwiperSlide>
+                        ))}
+                     </Swiper>
                   </div>
+               </div>
+
+               <div>
+                  {loading ? (
+                     [1, 2, 3, 4, 5].map((genre) => (
+                        <div className="pt-5" key={genre}>
+                           <SectionTitleSkeleton />
+                           <PlaylistCoverCarouselSkeleton />
+                        </div>
+                     ))
+                  ) : (
+                     <>
+                        {topGenres?.map((genre) => (
+                           <div className="pt-5" key={genre.id}>
+                              <h1 className="mb-5 text-xl font-bold text-primary">{genre.name}</h1>
+
+                              <div>
+                                 <PlaylistCoverCarousel playlist={genre?.topPlaylist} />
+                              </div>
+                           </div>
+                        ))}
+                     </>
+                  )}
                </div>
             </div>
          )}

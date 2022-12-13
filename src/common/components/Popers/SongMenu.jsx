@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Tippy from "@tippyjs/react/headless"; // different import path!
 
 import { BsDownload } from "react-icons/bs";
@@ -10,9 +10,14 @@ import { MdArrowForwardIos, MdBlock, MdQueueMusic } from "react-icons/md";
 
 import SongInfo from "../Song/SongInfo";
 import { deleteTrackById } from "../../../services/trackService";
+import AddPlaylistMenu from "./AddPlaylistMenu";
+import { useSelector } from "react-redux";
+import Login from "../Header/Login";
 
 const SongMenu = ({ children, info, canDetele = false }) => {
-   // const dispatch = useDispatch();
+   const currentUser = useSelector((state) => state.user.user);
+
+   const [open, setIsOpen] = useState(false);
 
    const deleteHandle = async (id) => {
       deleteTrackById(id)
@@ -22,12 +27,23 @@ const SongMenu = ({ children, info, canDetele = false }) => {
          .catch((err) => console.log(err));
    };
 
+   const AddPlaylistButton = (
+      <button className="w-full hover:bg-alpha rounded-lg hover:text-dandelion-primary py-[10px] text-secondary flex-btw px-4 text-sm">
+         <div className="flex items-center gap-3">
+            <IoMdAddCircleOutline className="text-xl" />
+            Add to playlist
+         </div>
+         <MdArrowForwardIos className="text-xl" />
+      </button>
+   );
+
    return (
       <Tippy
          interactive
          appendTo={() => document.body}
          delay={[0, 700]}
          trigger="click"
+         open={open}
          placement="auto-end"
          render={(attrs) => (
             <div
@@ -63,14 +79,18 @@ const SongMenu = ({ children, info, canDetele = false }) => {
                   </div>
                </div>
                <div className="w-full">
-                  <button className="w-full hover:bg-alpha rounded-lg hover:text-dandelion-primary py-[10px] text-secondary flex-btw px-4 text-sm">
-                     <div className="flex items-center gap-3">
-                        <IoMdAddCircleOutline className="text-xl" />
-                        Add to playlist
-                     </div>
-                     <MdArrowForwardIos className="text-xl" />
-                  </button>
-                  <button className="w-full hover:bg-alpha rounded-lg hover:text-dandelion-primary py-[10px] text-secondary flex-btw px-4 text-sm">
+                  {currentUser ? (
+                     <AddPlaylistMenu children={AddPlaylistButton} songInfo={info} />
+                  ) : (
+                     <Login children={AddPlaylistButton} />
+                  )}
+
+                  <button
+                     className="w-full hover:bg-alpha rounded-lg hover:text-dandelion-primary py-[10px] text-secondary flex-btw px-4 text-sm"
+                     onClick={() => {
+                        setIsOpen(false);
+                     }}
+                  >
                      <div className="flex items-center gap-3">
                         <GiMicrophone className="text-xl" />
                         Play with lyrics

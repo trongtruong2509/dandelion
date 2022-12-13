@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { IoCloudUploadOutline, IoColorPaletteOutline, IoSettingsOutline } from "react-icons/io5";
 
-import { updateUser, removeUser } from "../../slices/userSlice";
+import { updateUser, removeUser, fetchUserPlaylist } from "../../slices/userSlice";
 import { getUserDb } from "../../utils/user";
 
 import defaultAvatar from "./../../../assets/default.jpg";
@@ -40,6 +40,10 @@ const Header = ({ active }) => {
       }
    }, []);
 
+   useEffect(() => {
+      dispatch(fetchUserPlaylist(user));
+   }, [user?.playlists]);
+
    const handleLogout = () => {
       setConfirmShow(false);
       dispatch(removeUser());
@@ -50,11 +54,7 @@ const Header = ({ active }) => {
    };
 
    return (
-      <div
-         className={`w-full px-12 py-4 flex-btw ${
-            active ? "shadow-md bg-layout" : "bg-transparent"
-         }`}
-      >
+      <div className={`w-full px-12 py-4 flex-btw ${active ? "shadow-md bg-layout" : "bg-transparent"}`}>
          <ThemeModal show={show} onClose={() => setShow(false)} />
 
          <ConfirmModal
@@ -105,13 +105,7 @@ const Header = ({ active }) => {
                   />
                ) : (
                   <Login
-                     children={
-                        <img
-                           src={defaultAvatar}
-                           alt="Avatar"
-                           className="object-cover w-10 h-10 rounded-full"
-                        />
-                     }
+                     children={<img src={defaultAvatar} alt="Avatar" className="object-cover w-10 h-10 rounded-full" />}
                   />
                )}
             </div>

@@ -14,42 +14,6 @@ export const getTopic = async (id) => {
    return getDocById(firebaseKeys.topics, id);
 };
 
-export const calcHotArtist = async () => {
-   const threshold = 3;
-   let qualified = [];
-
-   const tracks = await getAllDocs(firebaseKeys.songs);
-   const artists = await getAllDocs(firebaseKeys.artists);
-
-   console.log("[calcHotArtist] tracks", tracks);
-   console.log("[calcHotArtist] artists", artists);
-
-   artists.forEach((artist) => {
-      const songs = tracks.filter((t) => t.artistsNames.includes(artist.name));
-
-      if (songs.length >= threshold) {
-         qualified.push({ artist, songs });
-      }
-   });
-
-   qualified.sort((a, b) => {
-      if (a.songs.length < b.songs.length) {
-         return 1;
-      }
-      if (a.songs.length > b.songs.length) {
-         return -1;
-      }
-
-      // names must be equal
-      return 0;
-   });
-
-   console.log("[calcHotArtist] qualified");
-   qualified.forEach((q) => {
-      console.log(`[${q.artist.id}] ${q.artist.name} `, q.songs.length);
-   });
-};
-
 const getTopSongs = async (countryId) => {
    let result = [];
 
@@ -74,10 +38,7 @@ const getTopSongs = async (countryId) => {
 };
 
 export const fetchCountryGenreInfo = async (genre) => {
-   genre.topPlaylist = await getDocInList(
-      firebaseKeys.playlists,
-      genre.topPlaylist
-   );
+   genre.topPlaylist = await getDocInList(firebaseKeys.playlists, genre.topPlaylist);
 
    // top songs
    genre.topTracks = await getTopSongs(genre.id);
