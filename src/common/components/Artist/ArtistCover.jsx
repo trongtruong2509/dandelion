@@ -1,13 +1,17 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
-import { FaPlay } from "react-icons/fa";
+import { IoShuffleOutline } from "react-icons/io5";
 
 import { updateCurrentPlaylist } from "../../slices/playlistSlice";
+import { initQueue } from "../../slices/playQueueSlice";
+import { updateAndPlay } from "../../slices/playingSlice";
 
 import DefaultThumbnail from "../../../assets/album_default.png";
 import { adminPaths } from "../../../app/routes";
+import { initHiddenPlaylist } from "../../utils/playlist";
+import { getArtistTopHits } from "../../utils/songs";
 
 const ArtistCover = ({ info, size = "md", admin = false }) => {
    const navigate = useNavigate();
@@ -22,12 +26,14 @@ const ArtistCover = ({ info, size = "md", admin = false }) => {
       }
    };
 
-   const onPlay = () => {
-      // onNavigate();
-      // if (playingPlaylist?.value?.id !== info?.id) {
-      //    dispatch(updateRecentPlaylist(info?.id));
-      //    dispatch(updatePlayingPlaylist(info));
-      // }
+   const onPlay = async () => {
+      const hits = await getArtistTopHits(info);
+      console.log("[onPlay] hits", hits);
+      let songs = [...hits];
+
+      dispatch(updateCurrentPlaylist(initHiddenPlaylist(songs)));
+      dispatch(updateAndPlay(songs[0]));
+      dispatch(initQueue(songs));
    };
 
    const thumbnailSizes = {
@@ -55,23 +61,17 @@ const ArtistCover = ({ info, size = "md", admin = false }) => {
             />
             <div className="absolute top-0 left-0 z-50 items-center justify-center hidden w-full h-full text-primary group-hover:flex bg-dark-alpha-50">
                <div
-                  className="gap-6 flex-center"
+                  className="gap-6 p-2 border border-white rounded-full flex-center"
                   onClick={(e) => e.stopPropagation()}
                >
-                  <button
-                     className="text-white hover:text-dandelion-primary"
-                     onClick={onPlay}
-                  >
-                     <FaPlay className="text-3xl cursor-pointer" />
+                  <button className="text-white hover:text-dandelion-primary" onClick={onPlay}>
+                     <IoShuffleOutline className="text-3xl cursor-pointer" />
                   </button>
                </div>
             </div>
          </div>
          <div className="w-full mt-3 text-center">
-            <Link
-               className="w-full font-semibold truncate text-primary hover:text-dandelion-primary"
-               to={info?.link}
-            >
+            <Link className="w-full font-semibold truncate text-primary hover:text-dandelion-primary" to={info?.link}>
                {info?.name}
             </Link>
          </div>

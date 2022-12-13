@@ -21,8 +21,10 @@ export const playQueue = createSlice({
    initialState,
    reducers: {
       initQueue: (state, action) => {
-         state.played = [action.payload.shift()];
-         state.next = action.payload; // already shift first element;
+         state.played.push(action.payload[0]);
+         let nexts = [...action.payload];
+         nexts.shift();
+         state.next = nexts; // already shift first element;
          local.updateQueue(current(state));
       },
       updateQueue: (state, action) => {

@@ -41,7 +41,9 @@ const Header = ({ active }) => {
    }, []);
 
    useEffect(() => {
-      dispatch(fetchUserPlaylist(user));
+      if (user) {
+         dispatch(fetchUserPlaylist(user));
+      }
    }, [user?.playlists]);
 
    const handleLogout = () => {

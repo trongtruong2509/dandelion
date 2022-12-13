@@ -2,8 +2,6 @@ import React, { Children } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import Tippy from "@tippyjs/react/headless"; // different import path!
-import { useEffect } from "react";
-import { fetchUserPlaylist } from "../../slices/userSlice";
 import SyncLoader from "react-spinners/SyncLoader";
 import { useState } from "react";
 import { MdOutlineAdd } from "react-icons/md";

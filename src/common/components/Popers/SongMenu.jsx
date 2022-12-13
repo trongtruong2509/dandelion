@@ -17,8 +17,6 @@ import Login from "../Header/Login";
 const SongMenu = ({ children, info, canDetele = false }) => {
    const currentUser = useSelector((state) => state.user.user);
 
-   const [open, setIsOpen] = useState(false);
-
    const deleteHandle = async (id) => {
       deleteTrackById(id)
          .then((res) => {
@@ -43,7 +41,6 @@ const SongMenu = ({ children, info, canDetele = false }) => {
          appendTo={() => document.body}
          delay={[0, 700]}
          trigger="click"
-         open={open}
          placement="auto-end"
          render={(attrs) => (
             <div
@@ -85,12 +82,7 @@ const SongMenu = ({ children, info, canDetele = false }) => {
                      <Login children={AddPlaylistButton} />
                   )}
 
-                  <button
-                     className="w-full hover:bg-alpha rounded-lg hover:text-dandelion-primary py-[10px] text-secondary flex-btw px-4 text-sm"
-                     onClick={() => {
-                        setIsOpen(false);
-                     }}
-                  >
+                  <button className="w-full hover:bg-alpha rounded-lg hover:text-dandelion-primary py-[10px] text-secondary flex-btw px-4 text-sm">
                      <div className="flex items-center gap-3">
                         <GiMicrophone className="text-xl" />
                         Play with lyrics
