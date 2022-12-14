@@ -82,11 +82,11 @@ const PlaylistCover = ({ info, size = "md", canDelete = false, admin = false }) 
       dispatch(initQueue(shuffledSongs));
    };
 
-   const thumbnailSizes = {
-      sm: "max-w-40 max-h-40",
-      md: "max-w-56 ",
-      lg: "max-w-[300px] h-[300px]",
-   };
+   // const thumbnailSizes = {
+   //    sm: "max-w-40 max-h-40",
+   //    md: "max-w-56 ",
+   //    lg: "max-w-[300px] h-[300px]",
+   // };
 
    const widthSize = {
       sm: "max-w-40",
@@ -165,8 +165,8 @@ const PlaylistCover = ({ info, size = "md", canDelete = false, admin = false }) 
                >
                   <div>{DisplayIcon()}</div>
                   <button
-                     className={`hover:text-dandelion-primary flex-center
-                        ${thumbnailSizes[size]}`}
+                     className={`hover:text-dandelion-primary flex-center aspect-square
+                        ${widthSize[size]}`}
                      onClick={onPlay}
                   >
                      {currentPlaying() ? (

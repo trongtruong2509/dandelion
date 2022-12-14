@@ -17,7 +17,7 @@ import HomeSkeleton from "./HomeSkeleton";
 import { paths } from "../../app/routes";
 import { IoChevronForward } from "react-icons/io5";
 import { firebaseKeys } from "../../dataTemplate";
-import PlaylistCoverCarousel from "../../common/components/PlaylistCover/PlaylistCoverCarousel";
+import CoverCarousel from "../../common/components/PlaylistCover/CoverCarousel";
 import PlaylistCoverCarouselSkeleton from "../../common/components/PlaylistCover/PlaylistCoverCarouselSkeleton";
 import SectionTitleSkeleton from "../../common/components/SectionTitle/SectionTitleSkeleton";
 import { getPopularArtist } from "../../common/utils/artists";
@@ -106,13 +106,7 @@ const Home = () => {
                         </Link>
                      </div>
                      <div className="w-full">
-                        <Swiper slidesPerView={6} spaceBetween={30} className="w-full">
-                           {recentPlaylist?.map((p, index) => (
-                              <SwiperSlide key={index}>
-                                 <PlaylistCover info={p} size="sm" />
-                              </SwiperSlide>
-                           ))}
-                        </Swiper>
+                        <CoverCarousel playlist={recentPlaylist} size="sm" />
                      </div>
                   </div>
                )}
@@ -130,7 +124,7 @@ const Home = () => {
                      </Link>
                   </div>
                   <div className="w-full">
-                     <PlaylistCoverCarousel playlist={newPlaylists} />
+                     <CoverCarousel playlist={newPlaylists} />
                   </div>
                </div>
                <div className="pt-5">
@@ -167,13 +161,7 @@ const Home = () => {
                      </div>
                   </div>
                   <div className="w-full">
-                     <Swiper slidesPerView={5} spaceBetween={30} className="w-full">
-                        {artists?.map((p, index) => (
-                           <SwiperSlide key={index}>
-                              <ArtistCover info={p} />
-                           </SwiperSlide>
-                        ))}
-                     </Swiper>
+                     <CoverCarousel playlist={artists} artistMode />
                   </div>
                </div>
 
@@ -190,9 +178,8 @@ const Home = () => {
                         {topGenres?.map((genre) => (
                            <div className="pt-5" key={genre.id}>
                               <h1 className="mb-5 text-xl font-bold text-primary">{genre.name}</h1>
-
                               <div>
-                                 <PlaylistCoverCarousel playlist={genre?.topPlaylist} />
+                                 <CoverCarousel playlist={genre?.topPlaylist} />
                               </div>
                            </div>
                         ))}

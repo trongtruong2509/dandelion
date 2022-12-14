@@ -108,8 +108,9 @@ module.exports = withMT({
          xl: "1280px",
          // => @media (min-width: 1280px) { ... }
 
-         "2xl": "1540px",
+         "2xl": "1536px",
          // => @media (min-width: 1536px) { ... }
+         1600: "1600px",
       },
    },
    plugins: [],

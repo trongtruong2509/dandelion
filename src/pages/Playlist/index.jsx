@@ -28,8 +28,14 @@ const Playlist = () => {
 
    const dispatch = useDispatch();
 
-   const [suggestSongs, setSuggestSongs] = useState(user?.recentPlayed || nonUser?.recentPlayed);
+   const [suggestSongs, setSuggestSongs] = useState([]);
    const [show, setShow] = useState(false);
+
+   useEffect(() => {
+      const initSuggested = user?.recentPlayed || nonUser?.recentPlayed;
+      initSuggested.shift();
+      setSuggestSongs(initSuggested);
+   }, []);
 
    useEffect(() => {
       let filtered = [...suggestSongs];
@@ -123,10 +129,10 @@ const Playlist = () => {
                                     <h2 className="text-xl font-semibold text-primary">Recommended</h2>
                                     <p className="text-sm text-secondary">Based on your recently played</p>
                                  </div>
-                                 <button className="px-5 py-[6px] rounded-2xl bg-teal-500 mr-2 flex-center text-sm gap-1">
+                                 {/* <button className="px-5 py-[6px] rounded-2xl bg-teal-500 mr-2 flex-center text-sm gap-1">
                                     <BiRefresh className="text-xl" />
                                     Refresh
-                                 </button>
+                                 </button> */}
                               </div>
                               <div className="mt-5">
                                  {suggestSongs?.map((s) => (

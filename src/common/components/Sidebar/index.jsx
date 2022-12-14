@@ -51,10 +51,10 @@ const Sidebar = () => {
             )}
          </div>
 
-         <hr className="h-px mx-auto w-36 text-secondary opacity-30" />
+         <hr className="w-6 h-px px-4 mx-auto sxl:w-36 text-secondary opacity-30" />
          {currentUser && (
             <div className="flex flex-col pt-6">
-               <p className="pl-6 mb-2 text-sm font-semibold text-secondary">LIBRARY</p>
+               <p className="hidden pl-6 mb-2 text-sm font-semibold text-secondary sxl:block">LIBRARY</p>
                <SidebarItem path={paths.mymusic} title="Songs" image={SongsImg} />
                <SidebarItem path={paths.playlistLib} title="Playlist" image={PlaylistImg} />
                <SidebarItem path={paths.playHistory} title="Recent Play" image={RecentPlayImg} />

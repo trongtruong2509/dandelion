@@ -13,7 +13,7 @@ const songInfo = async (id, rank) => {
 
       let artists = [];
 
-      raw.artists.forEach((a) => {
+      raw.artists?.forEach((a) => {
          artists.push({
             id: a.alias,
             name: a.name,

@@ -89,7 +89,6 @@ function Layout() {
                }`}
             >
                <Sidebar />
-               {/* <div className="relative flex flex-col items-stretch flex-grow h-full overflow-auto bg-dark-4"> */}
                <div className="relative items-stretch flex-grow w-full overflow-y-scroll scrollbar" ref={ref}>
                   <div className="w-full sticky top-0 left-0 z-[200]">
                      <Header active={active} />
@@ -99,7 +98,6 @@ function Layout() {
                      <Outlet />
                   </div>
                </div>
-               {/* </div> */}
 
                <PlayerQueue />
             </div>

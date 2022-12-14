@@ -1,25 +1,64 @@
-export const playlistBreakpoins = {
+export const getBreakpoints = (size) => {
+   switch (size) {
+      case "sm":
+         return playlistBreakpointsSmall;
+      case "lg":
+         return null; //TODO:
+      case "md":
+      default:
+         return playlistBreakpoints;
+   }
+};
+
+export const playlistBreakpointsSmall = {
    640: {
-      slidesPerView: 1,
-      spaceBetween: 10,
+      slidesPerView: 4,
+      spaceBetween: 20,
    },
    768: {
+      slidesPerView: 4,
+      spaceBetween: 30,
+   },
+   1024: {
+      slidesPerView: 5,
+      spaceBetween: 30,
+   },
+   1440: {
+      slidesPerView: 6,
+      spaceBetween: 30,
+   },
+   1600: {
+      slidesPerView: 6,
+      spaceBetween: 28,
+   },
+   1850: {
+      slidesPerView: 7,
+      spaceBetween: 24,
+   },
+};
+
+export const playlistBreakpoints = {
+   640: {
       slidesPerView: 2,
       spaceBetween: 20,
    },
+   // 768: {
+   //    slidesPerView: 2,
+   //    spaceBetween: 20,
+   // },
+   768: {
+      slidesPerView: 3,
+      spaceBetween: 30,
+   },
    1024: {
-      slidesPerView: 3,
-      spaceBetween: 40,
-   },
-   1320: {
       slidesPerView: 4,
-      spaceBetween: 40,
+      spaceBetween: 30,
    },
-   1540: {
-      slidesPerView: 3,
-      spaceBetween: 40,
+   1440: {
+      slidesPerView: 5,
+      spaceBetween: 30,
    },
-   1650: {
+   1600: {
       slidesPerView: 4,
       spaceBetween: 28,
    },

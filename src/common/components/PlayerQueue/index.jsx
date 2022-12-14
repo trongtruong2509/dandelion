@@ -83,13 +83,13 @@ const PlayerQueue = () => {
       <div
          className={`${queueState.hidden ? "hidden" : "block"} ${
             queueState.animate ? "right-0" : "-right-[320px]"
-         } 2xl:w-96 w-80 2xl:block flex-shrink-0 h-full bg-layout border-l border-secondary px-2 overflow-y-scroll overscroll-auto scrollbar
-            absolute top-0 2xl:right-0 2xl:relative z-[300]
+         } 1600:w-96 w-80 1600:block flex-shrink-0 h-full bg-layout border-l border-secondary px-2 overflow-y-scroll overscroll-auto scrollbar
+            absolute top-0 1600:right-0 1600:relative z-[300]
             transition-all ease-out duration-500
             `}
       >
          <Tabs className="w-full Tabs" selectedTabClassName="text-item-hover bg-tab-active outline-none">
-            <TabList className="w-fit bg-alpha rounded-3xl p-[3px] flex-center mt-4 mb-5 lg:ml-0 -ml-3 2xl:ml-7">
+            <TabList className="w-fit bg-alpha rounded-3xl p-[3px] flex-center mt-4 mb-5 lg:ml-0 -ml-3 1600:ml-7">
                <Tab className="px-[10px] py-1 text-sm cursor-pointer 3xl:px-3 rounded-3xl text-navigation hover:text-item-hover outline-none">
                   Playing Queue
                </Tab>
@@ -198,7 +198,7 @@ const PlayerQueue = () => {
                </div>
             </TabPanel>
          </Tabs>
-         <div className="absolute gap-2 flex-center 2xl:right-5 right-4 top-4">
+         <div className="absolute gap-2 flex-center 1600:right-5 right-4 top-4">
             <QueueMenu />
          </div>
       </div>

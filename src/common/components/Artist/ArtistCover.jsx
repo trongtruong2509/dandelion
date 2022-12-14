@@ -37,21 +37,21 @@ const ArtistCover = ({ info, size = "md", admin = false }) => {
    };
 
    const thumbnailSizes = {
-      sm: "w-40 h-40",
-      md: "w-52 h-52",
-      lg: "w-[300px] h-[300px]",
+      sm: "max-w-40 max-h-40",
+      md: "max-w-56 max-h-56",
+      lg: "max-w-[300px] max-h-[300px]",
    };
 
    const widthSize = {
-      sm: "w-40",
-      md: "w-52",
-      lg: "w-[300px]",
+      sm: "max-w-40",
+      md: "max-w-56",
+      lg: "max-w-[300px]",
    };
 
    return (
-      <div className={`h-auto text-white ${widthSize[size]}`}>
+      <div className={`h-auto text-white ${widthSize[size]} rounded-full`}>
          <div
-            className={`group relative overflow-hidden rounded-full cursor-pointer ${thumbnailSizes[size]} z-10`}
+            className={`group relative overflow-hidden rounded-full cursor-pointer ${widthSize[size]} z-10 aspect-square`}
             onClick={onNavigate}
          >
             <img

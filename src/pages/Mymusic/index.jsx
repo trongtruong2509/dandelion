@@ -8,7 +8,7 @@ import { fetchUserPlaylist } from "../../common/slices/userSlice";
 
 import SongItem from "../../common/components/Song/SongItem";
 import PlaylistModal from "../../common/components/Modal/PlaylistModal";
-import PlaylistCoverCarousel from "../../common/components/PlaylistCover/PlaylistCoverCarousel";
+import CoverCarousel from "../../common/components/PlaylistCover/CoverCarousel";
 import PlaylistCoverCarouselSkeleton from "../../common/components/PlaylistCover/PlaylistCoverCarouselSkeleton";
 import { updateCurrentPlaylist } from "../../common/slices/playlistSlice";
 import { initHiddenPlaylist } from "../../common/utils/playlist";
@@ -51,17 +51,14 @@ const Mymusic = () => {
                      <MdOutlineAdd className="text-xl" />
                   </button>
                </div>
-               <Link
-                  className="gap-2 flex-center text-secondary hover:text-primary"
-                  to="/mymusic/playlist"
-               >
+               <Link className="gap-2 flex-center text-secondary hover:text-primary" to="/mymusic/playlist">
                   View All
                   <MdArrowForwardIos />
                </Link>
             </div>
             <div className="flex w-full gap-8 py-2 my-6">
                {userPlaylist?.length > 0 ? (
-                  <PlaylistCoverCarousel canDelete playlist={userPlaylist} />
+                  <CoverCarousel canDelete playlist={userPlaylist} />
                ) : (
                   <PlaylistCoverCarouselSkeleton />
                )}
@@ -75,14 +72,10 @@ const Mymusic = () => {
             <div className="grid w-full grid-cols-12 p-3 border-b border-secondary">
                <p className="col-span-6 text-sm text-secondary">SONG</p>
                <p className="flex items-center col-span-5 text-sm text-secondary">ALBUM</p>
-               <p className="flex items-center justify-end col-span-1 text-sm text-secondary">
-                  TIME
-               </p>
+               <p className="flex items-center justify-end col-span-1 text-sm text-secondary">TIME</p>
             </div>
             {currentUser?.likedSongs.length > 0 ? (
-               currentUser?.likedSongs.map((song, index) => (
-                  <SongItem key={index} info={song} fullMode inPlaylist />
-               ))
+               currentUser?.likedSongs.map((song, index) => <SongItem key={index} info={song} fullMode inPlaylist />)
             ) : (
                <div className="flex-col w-full gap-6 flex-center h-96 text-secondary">
                   <h1 className="text-2xl font-semibold">Songs you like will appear here</h1>

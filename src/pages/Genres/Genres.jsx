@@ -7,7 +7,7 @@ import { firebaseKeys } from "../../dataTemplate";
 
 import TopicItem from "./TopicItem";
 import CountryItem from "./CountryItem";
-import PlaylistCoverCarousel from "../../common/components/PlaylistCover/PlaylistCoverCarousel";
+import CoverCarousel from "../../common/components/PlaylistCover/CoverCarousel";
 import SectionTitleSkeleton from "../../common/components/SectionTitle/SectionTitleSkeleton";
 import PlaylistCoverCarouselSkeleton from "../../common/components/PlaylistCover/PlaylistCoverCarouselSkeleton";
 
@@ -23,15 +23,10 @@ const Genres = () => {
          const genres = await getAllDocs(firebaseKeys.topGenres);
 
          const playlistIds = genres.map((g) => g.topPlaylist).flat();
-         const playlists = await getDocInList(
-            firebaseKeys.playlists,
-            playlistIds
-         );
+         const playlists = await getDocInList(firebaseKeys.playlists, playlistIds);
 
          genres.forEach((genre) => {
-            const fullPlaylist = genre.topPlaylist.map((id) =>
-               playlists.find((p) => p.id === id)
-            );
+            const fullPlaylist = genre.topPlaylist.map((id) => playlists.find((p) => p.id === id));
             genre.topPlaylist = fullPlaylist;
          });
 
@@ -47,9 +42,7 @@ const Genres = () => {
          <div className="py-5">
             <div className="mb-5 flex-btw">
                <div className="flex items-center justify-start gap-4">
-                  <h1 className="text-xl font-bold text-primary">
-                     Mood and Activity
-                  </h1>
+                  <h1 className="text-xl font-bold text-primary">Mood and Activity</h1>
                </div>
             </div>
             <div className="grid w-full grid-cols-4 gap-6">
@@ -117,12 +110,10 @@ const Genres = () => {
             <>
                {topGenres?.map((genre) => (
                   <div className="pt-7" key={genre.id}>
-                     <h1 className="mb-5 text-xl font-bold text-primary">
-                        {genre.name}
-                     </h1>
+                     <h1 className="mb-5 text-xl font-bold text-primary">{genre.name}</h1>
 
                      <div>
-                        <PlaylistCoverCarousel playlist={genre?.topPlaylist} />
+                        <CoverCarousel playlist={genre?.topPlaylist} />
                      </div>
                   </div>
                ))}

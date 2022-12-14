@@ -5,7 +5,7 @@ import SyncLoader from "react-spinners/SyncLoader";
 import { getDocById, getDocInList } from "../../common/utils/firebaseApi";
 import { firebaseKeys } from "../../dataTemplate";
 
-import { playlistBreakpoins } from "../../common/utils/common";
+import { playlistBreakpoints } from "../../common/utils/common";
 import PlaylistCover from "../../common/components/PlaylistCover/PlaylistCover";
 
 const Genre = () => {
@@ -72,10 +72,7 @@ const Genre = () => {
                   {loading ? (
                      <></>
                   ) : (
-                     <div
-                        className="grid w-full grid-cols-5 gap-6"
-                        breakpoints={playlistBreakpoins}
-                     >
+                     <div className="grid w-full grid-cols-5 gap-6" breakpoints={playlistBreakpoints}>
                         {playlists?.map((p, index) => (
                            <div key={index} className="mb-2">
                               <PlaylistCover info={p} editable />

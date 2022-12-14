@@ -11,7 +11,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 
 import { group } from "../../common/utils/common";
-import PlaylistCoverCarousel from "../../common/components/PlaylistCover/PlaylistCoverCarousel";
+import CoverCarousel from "../../common/components/PlaylistCover/CoverCarousel";
 import SectionTitleSkeleton from "../../common/components/SectionTitle/SectionTitleSkeleton";
 import PlaylistCoverCarouselSkeleton from "../../common/components/PlaylistCover/PlaylistCoverCarouselSkeleton";
 import SongItem from "../../common/components/Song/SongItem";
@@ -93,15 +93,11 @@ const CountryGenre = () => {
                      </>
                   ) : (
                      <>
-                        <PlaylistCoverCarousel playlist={country?.topPlaylist} />
+                        <CoverCarousel playlist={country?.topPlaylist} />
 
                         <div className="pt-7">
                            <h1 className="mb-5 text-xl font-bold text-primary">Top Songs</h1>
-                           <Swiper
-                              slidesPerView={3}
-                              spaceBetween={20}
-                              className="flex w-full gap-3"
-                           >
+                           <Swiper slidesPerView={3} spaceBetween={20} className="flex w-full gap-3">
                               {group(country?.topTracks, 4)?.map((songs, index) => (
                                  <SwiperSlide key={index}>
                                     {songs.map((s) => (
@@ -116,7 +112,7 @@ const CountryGenre = () => {
 
                         <div className="pt-7">
                            <h1 className="mb-5 text-xl font-bold text-primary">Top Artist</h1>
-                           <PlaylistCoverCarousel playlist={country?.topArtist} artistMode />
+                           <CoverCarousel playlist={country?.topArtist} artistMode />
                         </div>
 
                         {country?.playlist?.map((row, index) => (
@@ -124,7 +120,7 @@ const CountryGenre = () => {
                               <h1 className="mb-5 text-xl font-bold text-primary">{row.title}</h1>
 
                               <div>
-                                 <PlaylistCoverCarousel playlist={row?.list} />
+                                 <CoverCarousel playlist={row?.list} />
                               </div>
                            </div>
                         ))}
