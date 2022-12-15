@@ -36,12 +36,6 @@ const ArtistCover = ({ info, size = "md", admin = false }) => {
       dispatch(initQueue(songs));
    };
 
-   const thumbnailSizes = {
-      sm: "max-w-40 max-h-40",
-      md: "max-w-56 max-h-56",
-      lg: "max-w-[300px] max-h-[300px]",
-   };
-
    const widthSize = {
       sm: "max-w-40",
       md: "max-w-56",

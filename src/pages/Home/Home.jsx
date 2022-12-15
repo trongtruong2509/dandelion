@@ -6,11 +6,9 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 
-import PlaylistCover from "../../common/components/PlaylistCover/PlaylistCover";
 import SongItem from "../../common/components/Song/SongItem";
 import { getAllDocs, getDocInList } from "../../common/utils/firebaseApi";
 import { group } from "../../common/utils/common";
-import ArtistCover from "../../common/components/Artist/ArtistCover";
 import { fetchHomepage, updateRecentPlaylist } from "../../common/slices/dandelionSlice";
 
 import HomeSkeleton from "./HomeSkeleton";
@@ -20,7 +18,6 @@ import { firebaseKeys } from "../../dataTemplate";
 import CoverCarousel from "../../common/components/PlaylistCover/CoverCarousel";
 import PlaylistCoverCarouselSkeleton from "../../common/components/PlaylistCover/PlaylistCoverCarouselSkeleton";
 import SectionTitleSkeleton from "../../common/components/SectionTitle/SectionTitleSkeleton";
-import { getPopularArtist } from "../../common/utils/artists";
 import { updateCurrentPlaylist } from "../../common/slices/playlistSlice";
 import { initHiddenPlaylist } from "../../common/utils/playlist";
 

@@ -50,6 +50,7 @@ const Login = ({ children }) => {
                likedSongs: [],
                createdPlaylist: [],
                recentPlayed: [],
+               recentPlaylist: [],
                likedPlaylists: [],
                likedAlbums: [],
             })
