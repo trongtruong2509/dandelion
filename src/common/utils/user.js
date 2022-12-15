@@ -43,7 +43,8 @@ export const getNoLoggedUser = () => {
          avatar: "",
          uploaded: [],
          createdPlaylist: [],
-         recentPlayed: [], //ids of playlist
+         recentPlayed: [],
+         recentPlaylist: [],
          likedSongs: [],
          likedPlaylists: [],
          likedAlbums: [],

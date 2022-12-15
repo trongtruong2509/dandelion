@@ -16,7 +16,8 @@ import { shuffleArray } from "../../utils/common";
 import { useRef } from "react";
 import PlaylistModal from "../Modal/PlaylistModal";
 
-const playingMixIcon = "https://zmp3-static.zmdcdn.me/skins/zmp3-v6.1/images/icons/icon-playing.gif";
+const playingMixIcon =
+   "https://zmp3-static.zmdcdn.me/skins/zmp3-v6.1/images/icons/icon-playing.gif";
 
 const PlaylistHeader = () => {
    const dispatch = useDispatch();
@@ -68,10 +69,12 @@ const PlaylistHeader = () => {
          setThumbnailRotateOff(`${thumbnailRotateOff} animate-[spinoff_0.5s_ease_1]`);
       }
 
-      if (currentPlaylist?.id !== playingPlaylist?.value?.id) {
-         dispatch(updateCurrentToPlaying());
-      } else {
-         dispatch(play());
+      if (currentPlaylist.songs.length) {
+         if (currentPlaylist?.id !== playingPlaylist?.value?.id) {
+            dispatch(updateCurrentToPlaying());
+         } else {
+            dispatch(play());
+         }
       }
    };
 
@@ -129,7 +132,9 @@ const PlaylistHeader = () => {
 
          <div>
             <div className="relative gap-1 mt-4 flex-center">
-               <h1 className="text-2xl font-semibold text-center text-primary">{currentPlaylist?.title}</h1>
+               <h1 className="text-2xl font-semibold text-center text-primary">
+                  {currentPlaylist?.title}
+               </h1>
                {currentPlaylist?.createdBy === user?.id && (
                   <button
                      className="p-2 rounded-full text-secondary hover:text-primary hover:bg-alpha"
@@ -181,14 +186,20 @@ const PlaylistHeader = () => {
                   {user ? (
                      <div onClick={() => dispatch(updatePlaylists(currentPlaylist))}>
                         {notLiked ? (
-                           <MdFavoriteBorder className={`text-lg hover:text-dandelion-primary text-primary`} />
+                           <MdFavoriteBorder
+                              className={`text-lg hover:text-dandelion-primary text-primary`}
+                           />
                         ) : (
                            <MdFavorite className="text-lg text-dandelion-primary" />
                         )}
                      </div>
                   ) : (
                      <Login
-                        children={<MdFavoriteBorder className={`text-lg hover:text-dandelion-primary text-primary`} />}
+                        children={
+                           <MdFavoriteBorder
+                              className={`text-lg hover:text-dandelion-primary text-primary`}
+                           />
+                        }
                      />
                   )}
                   {/* <MdFavorite className="text-lg text-dandelion-primary" /> */}

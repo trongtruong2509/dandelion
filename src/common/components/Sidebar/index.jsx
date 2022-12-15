@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import {
@@ -14,6 +14,7 @@ import {
 import RecentPlayImg from "../../../assets/headphones_1.png";
 import SongsImg from "../../../assets/music.png";
 import PlaylistImg from "../../../assets/playlist.png";
+import Logo from "../../../assets/dandelion_music_edited.PNG";
 
 import { adminPaths, paths } from "../../../app/routes";
 import Login from "../Header/Login";
@@ -23,9 +24,9 @@ const Sidebar = () => {
 
    return (
       <div className="flex-shrink-0 h-full sxl:w-60 bg-sidebar z-100 w-[70px]">
-         <div className="w-full h-[70px] py-2 mb-6 flex-center">
-            {/* <img className="h-[70px]" src={LogoDark} alt="" /> */}
-         </div>
+         <Link className="w-full h-[70px] py-2 my-6 flex-center" to={paths.home}>
+            <img className="h-[70px]" src={Logo} alt="Dandelion" />
+         </Link>
 
          <div className="flex flex-col mb-6">
             <SidebarItem path={paths.home} title="Explore" Icon={IoDiscOutline} />
@@ -54,7 +55,9 @@ const Sidebar = () => {
          <hr className="w-6 h-px px-4 mx-auto sxl:w-36 text-secondary opacity-30" />
          {currentUser && (
             <div className="flex flex-col pt-6">
-               <p className="hidden pl-6 mb-2 text-sm font-semibold text-secondary sxl:block">LIBRARY</p>
+               <p className="hidden pl-6 mb-2 text-sm font-semibold text-secondary sxl:block">
+                  LIBRARY
+               </p>
                <SidebarItem path={paths.mymusic} title="Songs" image={SongsImg} />
                <SidebarItem path={paths.playlistLib} title="Playlist" image={PlaylistImg} />
                <SidebarItem path={paths.playHistory} title="Recent Play" image={RecentPlayImg} />
@@ -72,7 +75,11 @@ const SidebarItem = ({ path, title, Icon, image }) => {
 
    return (
       <NavLink to={path} className={({ isActive }) => (isActive ? navActive : navInactive)}>
-         {image ? <img src={image} alt="" className="object-cover w-6 h-6 rounded-full" /> : <Icon />}
+         {image ? (
+            <img src={image} alt="" className="object-cover w-6 h-6 rounded-full" />
+         ) : (
+            <Icon />
+         )}
          <p className="hidden text-base sxl:block">{title}</p>
       </NavLink>
    );
