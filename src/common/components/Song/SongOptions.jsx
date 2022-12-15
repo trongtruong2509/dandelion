@@ -25,7 +25,8 @@ const SongOptions = ({
    const dispatch = useDispatch();
    const currentUser = useSelector((state) => state.user.user);
 
-   const notLiked = !currentUser || currentUser?.likedSongs.findIndex((t) => t.id === songInfo?.id) === -1;
+   const notLiked =
+      !currentUser || currentUser?.likedSongs.findIndex((t) => t.id === songInfo?.id) === -1;
    const dotSize = size === "10" ? "w-8 h-8 p-[6px]" : "w-10 h-10 p-2";
 
    return (
@@ -45,7 +46,12 @@ const SongOptions = ({
                }`}
             >
                {currentUser ? (
-                  <div onClick={() => dispatch(updateLikeSong(songInfo))}>
+                  <div
+                     onClick={(e) => {
+                        dispatch(updateLikeSong(songInfo));
+                        e.stopPropagation();
+                     }}
+                  >
                      {notLiked ? (
                         <MdFavoriteBorder className={`text-lg hover:text-dandelion-primary`} />
                      ) : (
@@ -53,7 +59,11 @@ const SongOptions = ({
                      )}
                   </div>
                ) : (
-                  <Login children={<MdFavoriteBorder className={`text-lg hover:text-dandelion-primary`} />} />
+                  <Login
+                     children={
+                        <MdFavoriteBorder className={`text-lg hover:text-dandelion-primary`} />
+                     }
+                  />
                )}
             </div>
          )}
@@ -89,8 +99,9 @@ const SongOptions = ({
                   className={`rounded-full text-primary hover:text-primary cursor-pointer flex-center hover:bg-alpha 
                   ${dotSize}
                   ${activeDots ? "" : "group-hover:opacity-100 opacity-0"}`}
+                  onClick={(e) => e.stopPropagation()}
                >
-                  <IoEllipsisHorizontalSharp className="" />
+                  <IoEllipsisHorizontalSharp />
                </div>
             </SongMenu>
          )}

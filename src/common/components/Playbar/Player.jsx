@@ -1,7 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import { IoPlaySkipForward, IoPlaySkipBack, IoPlay, IoPause, IoShuffleOutline, IoRepeatOutline } from "react-icons/io5";
+import {
+   IoPlaySkipForward,
+   IoPlaySkipBack,
+   IoPlay,
+   IoPause,
+   IoShuffleOutline,
+   IoRepeatOutline,
+} from "react-icons/io5";
 import { MdRepeatOne } from "react-icons/md";
 
 import { play, pause, updateAndPlay } from "../../slices/playingSlice";
@@ -25,7 +32,9 @@ const Player = () => {
 
    const [playing, setPlaying] = useState(false);
    const [drag, setDrag] = useState(0);
-   const { audio, length, time, volume, slider, end, setVolume, setSlider } = useAudio(currentSong?.info);
+   const { audio, length, time, volume, slider, end, setVolume, setSlider } = useAudio(
+      currentSong?.info
+   );
    const isMounted = useRef(false);
 
    const fmtMSS = (s) => new Date(1000 * s).toISOString().substr(15, 4);
@@ -132,16 +141,9 @@ const Player = () => {
    };
 
    const prevSong = () => {
-      if (played.length === 1) {
-         dispatch(updateAndPlay(null));
-
-         setTimeout(() => {
-            dispatch(updateAndPlay(played[0]));
-         }, 200);
-      } else {
+      if (played.length > 1) {
          const lastPlay = played.at(-2);
          dispatch(updateAndPlay(lastPlay));
-
          dispatch(updateRecentPlay(lastPlay));
          dispatch(updateQueue(lastPlay));
       }
@@ -161,45 +163,80 @@ const Player = () => {
             <div className="flex items-center gap-4 text-xl text-player">
                <button
                   className={`p-2 hover:bg-alpha rounded-full ${
-                     playbarSlice?.shuffle ? "text-dandelion-primary" : "text-secondary hover:text-primary"
+                     playbarSlice?.shuffle
+                        ? "text-dandelion-primary"
+                        : "text-secondary hover:text-primary"
                   }`}
-                  onClick={() => {
+                  onClick={(e) => {
                      dispatch(updateShuffle(!playbarSlice?.shuffle));
+                     e.stopPropagation();
                   }}
                >
                   <IoShuffleOutline />
                </button>
 
-               <button className="p-2 text-xl rounded-full hover:bg-alpha" onClick={prevSong}>
+               <button
+                  className={`p-2 text-xl rounded-full hover:bg-alpha ${
+                     played.length <= 1 ? "opacity-20 cursor-not-allowed" : ""
+                  }`}
+                  onClick={(e) => {
+                     prevSong();
+                     e.stopPropagation();
+                  }}
+               >
                   <IoPlaySkipBack />
                </button>
 
-               <button onClick={() => setPlaying(!playing)}>
-                  {playing ? <IoPause className="text-[40px]" /> : <IoPlay className="text-[40px]" />}
+               <button
+                  onClick={(e) => {
+                     setPlaying(!playing);
+                     e.stopPropagation();
+                  }}
+               >
+                  {playing ? (
+                     <IoPause className="text-[40px]" />
+                  ) : (
+                     <IoPlay className="text-[40px]" />
+                  )}
                </button>
 
-               <button className="p-2 text-xl rounded-full hover:bg-alpha" onClick={nextSong}>
+               <button
+                  className="p-2 text-xl rounded-full hover:bg-alpha"
+                  onClick={(e) => {
+                     nextSong();
+                     e.stopPropagation();
+                  }}
+               >
                   <IoPlaySkipForward />
                </button>
 
                {playbarSlice.repeat === 2 ? (
                   <button
                      className="p-2 rounded-full hover:bg-alpha text-dandelion-primary"
-                     onClick={() => dispatch(updateRepeat(0))}
+                     onClick={(e) => {
+                        dispatch(updateRepeat(0));
+                        e.stopPropagation();
+                     }}
                   >
                      <MdRepeatOne />
                   </button>
                ) : playbarSlice.repeat === 1 ? (
                   <button
                      className="p-2 rounded-full hover:bg-alpha text-dandelion-primary"
-                     onClick={() => dispatch(updateRepeat(2))}
+                     onClick={(e) => {
+                        dispatch(updateRepeat(2));
+                        e.stopPropagation();
+                     }}
                   >
                      <IoRepeatOutline />
                   </button>
                ) : (
                   <button
                      className="p-2 rounded-full hover:bg-alpha opacity-70 hover:opacity-100"
-                     onClick={() => dispatch(updateRepeat(1))}
+                     onClick={(e) => {
+                        dispatch(updateRepeat(1));
+                        e.stopPropagation();
+                     }}
                   >
                      <IoRepeatOutline />
                   </button>
@@ -221,7 +258,13 @@ const Player = () => {
                <p className="w-8 text-xs text-right ">{!!length ? fmtMSS(length) : "0:00"}</p>
             </div>
          </div>
-         <PlaybarOptions volume={volume * 100} onVolChange={(e) => setVolume(e.target.value / 100)} />
+         <PlaybarOptions
+            volume={volume * 100}
+            onVolChange={(e) => {
+               setVolume(e.target.value / 100);
+               e.stopPropagation();
+            }}
+         />
       </div>
    );
 };

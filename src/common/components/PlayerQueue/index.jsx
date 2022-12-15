@@ -75,7 +75,7 @@ const PlayerQueue = () => {
       dispatch(initQueue(songs));
    };
 
-   const isInPlaylist = () => playingPlaylist?.songs?.find((t) => t.id === playingTrack?.info.id);
+   const isInPlaylist = () => playingPlaylist?.songs?.find((t) => t.id === playingTrack?.info?.id);
    const user = () => currentUser ?? nonUser;
    const queueEmpty = () => !playqueue?.played.length && !playqueue?.next.length;
 
@@ -88,7 +88,10 @@ const PlayerQueue = () => {
             transition-all ease-out duration-500
             `}
       >
-         <Tabs className="w-full Tabs" selectedTabClassName="text-item-hover bg-tab-active outline-none">
+         <Tabs
+            className="w-full Tabs"
+            selectedTabClassName="text-item-hover bg-tab-active outline-none"
+         >
             <TabList className="w-fit bg-alpha rounded-3xl p-[3px] flex-center mt-4 mb-5 lg:ml-0 -ml-3 1600:ml-7">
                <Tab className="px-[10px] py-1 text-sm cursor-pointer 3xl:px-3 rounded-3xl text-navigation hover:text-item-hover outline-none">
                   Playing Queue
@@ -131,7 +134,13 @@ const PlayerQueue = () => {
                   <>
                      <div className="">
                         {playqueue?.played?.map((s) => (
-                           <SongItem key={s.id} info={s} fade isPlaylist={!!playingPlaylist} disableLike />
+                           <SongItem
+                              key={s.id}
+                              info={s}
+                              fade
+                              isPlaylist={!!playingPlaylist}
+                              disableLike
+                           />
                         ))}
                      </div>
                      {playqueue?.next.length > 0 && (
@@ -152,18 +161,27 @@ const PlayerQueue = () => {
                            </div>
                            <div>
                               {playqueue?.next?.map((s) => (
-                                 <SongItem key={s.id} info={s} isPlaylist={!!playingPlaylist} disableLike />
+                                 <SongItem
+                                    key={s.id}
+                                    info={s}
+                                    isPlaylist={!!playingPlaylist}
+                                    disableLike
+                                 />
                               ))}
                            </div>
                         </div>
                      )}
 
                      {playqueue?.suggestion?.length > 0 && (
-                        <div className={`mt-4 ${playqueue?.autoplay ? "opacity-100" : "opacity-50"}`}>
+                        <div
+                           className={`mt-4 ${playqueue?.autoplay ? "opacity-100" : "opacity-50"}`}
+                        >
                            <div className="flex items-center justify-between pr-3">
                               <div className="pl-2 mb-1">
                                  <h2 className="flex gap-2 font-semibold text-primary">Autoplay</h2>
-                                 <p className="text-sm text-secondary">Suggestion based on playing</p>
+                                 <p className="text-sm text-secondary">
+                                    Suggestion based on playing
+                                 </p>
                               </div>
                               <Switch
                                  init={playqueue?.autoplay}
@@ -193,7 +211,9 @@ const PlayerQueue = () => {
                <div className="">
                   {user()?.recentPlayed?.map(
                      (s, index) =>
-                        (!playingTrack?.info || playingTrack?.info?.id !== s?.id) && <SongItem key={index} info={s} />
+                        (!playingTrack?.info || playingTrack?.info?.id !== s?.id) && (
+                           <SongItem key={index} info={s} />
+                        )
                   )}
                </div>
             </TabPanel>

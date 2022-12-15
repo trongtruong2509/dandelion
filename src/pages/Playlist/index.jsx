@@ -1,9 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
 import { IoIosMusicalNote } from "react-icons/io";
-import { BiRefresh } from "react-icons/bi";
 
 import { update } from "../../common/slices/playingSlice";
 import {
@@ -15,10 +14,10 @@ import {
 import PlaylistHeader from "../../common/components/Playlist/PlaylistHeader";
 import SongItem from "../../common/components/Song/SongItem";
 import PlaylistSkeleton from "./PlaylistSkeleton";
-import PlaylistModal from "../../common/components/Modal/PlaylistModal";
 import { convertTimeToStr } from "../../common/utils/common";
 
 const Playlist = () => {
+   const dispatch = useDispatch();
    const params = useParams();
 
    const currentPlaylist = useSelector((state) => state.playlist.current.value);
@@ -26,13 +25,10 @@ const Playlist = () => {
    const user = useSelector((state) => state.user.user);
    const nonUser = useSelector((state) => state.user.noLogged);
 
-   const dispatch = useDispatch();
-
    const [suggestSongs, setSuggestSongs] = useState([]);
-   const [show, setShow] = useState(false);
 
    useEffect(() => {
-      const initSuggested = user?.recentPlayed || nonUser?.recentPlayed;
+      let initSuggested = user?.recentPlayed || [];
       initSuggested.shift();
       setSuggestSongs(initSuggested);
    }, []);
@@ -89,8 +85,12 @@ const Playlist = () => {
                            <>
                               <div className="grid w-full grid-cols-12 p-3 border-b border-secondary">
                                  <p className="col-span-6 text-sm text-secondary">SONG</p>
-                                 <p className="flex items-center col-span-5 text-sm text-secondary">ALBUM</p>
-                                 <p className="flex items-center justify-end col-span-1 text-sm text-secondary">TIME</p>
+                                 <p className="flex items-center col-span-5 text-sm text-secondary">
+                                    ALBUM
+                                 </p>
+                                 <p className="flex items-center justify-end col-span-1 text-sm text-secondary">
+                                    TIME
+                                 </p>
                               </div>
 
                               {currentPlaylist?.songs?.map((song, index) => (
@@ -100,7 +100,9 @@ const Playlist = () => {
                                     fullMode
                                     isPlaylist
                                     inPlaylist
-                                    canDetele={currentPlaylist?.createdBy === user?.id ? true : false}
+                                    canDetele={
+                                       currentPlaylist?.createdBy === user?.id ? true : false
+                                    }
                                     onDelete={handeDelete}
                                     onClick={() => dispatch(update(song))}
                                  />
@@ -111,7 +113,9 @@ const Playlist = () => {
                                        ? `${currentPlaylist?.songs.length} tracks`
                                        : "1 track"}
                                  </p>
-                                 <p className="-mt-[14px] text-2xl font-bold flex-center text-secondary">.</p>
+                                 <p className="-mt-[14px] text-2xl font-bold flex-center text-secondary">
+                                    .
+                                 </p>
                                  <p>{calcTotalTime()}</p>
                               </div>
                            </>
@@ -122,25 +126,36 @@ const Playlist = () => {
                            </div>
                         )}
 
-                        {currentPlaylist?.createdBy === user?.id && currentPlaylist?.songs?.length < 20 && (
-                           <div className="mt-5">
-                              <div className="flex-btw">
-                                 <div>
-                                    <h2 className="text-xl font-semibold text-primary">Recommended</h2>
-                                    <p className="text-sm text-secondary">Based on your recently played</p>
-                                 </div>
-                                 {/* <button className="px-5 py-[6px] rounded-2xl bg-teal-500 mr-2 flex-center text-sm gap-1">
+                        {currentPlaylist?.createdBy === user?.id &&
+                           currentPlaylist?.songs?.length < 20 && (
+                              <div className="mt-5">
+                                 <div className="flex-btw">
+                                    <div>
+                                       <h2 className="text-xl font-semibold text-primary">
+                                          Recommended
+                                       </h2>
+                                       <p className="text-sm text-secondary">
+                                          Based on your recently played
+                                       </p>
+                                    </div>
+                                    {/* <button className="px-5 py-[6px] rounded-2xl bg-teal-500 mr-2 flex-center text-sm gap-1">
                                     <BiRefresh className="text-xl" />
                                     Refresh
                                  </button> */}
+                                 </div>
+                                 <div className="mt-5">
+                                    {suggestSongs?.map((s) => (
+                                       <SongItem
+                                          key={s.id}
+                                          info={s}
+                                          fullMode
+                                          addPlaylist
+                                          onAdd={handleAddToPlaylist}
+                                       />
+                                    ))}
+                                 </div>
                               </div>
-                              <div className="mt-5">
-                                 {suggestSongs?.map((s) => (
-                                    <SongItem key={s.id} info={s} fullMode addPlaylist onAdd={handleAddToPlaylist} />
-                                 ))}
-                              </div>
-                           </div>
-                        )}
+                           )}
                      </div>
                   </div>
                </>

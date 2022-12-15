@@ -6,7 +6,6 @@ import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { IoHeartOutline, IoHeart, IoClose, IoPlay } from "react-icons/io5";
 
 import { updatePlaylists, updateRecentPlay, updateRecentPlaylist } from "../../slices/userSlice";
-import { updatePlaylists, updateRecentPlay, updateRecentPlaylist } from "../../slices/userSlice";
 import { updateCurrentPlaylist, updatePlayingPlaylist } from "../../slices/playlistSlice";
 
 import { adminPaths } from "../../../app/routes";
@@ -19,7 +18,8 @@ import Login from "../Header/Login";
 import DeletePlaylistModal from "../Modal/DeletePlaylistModal";
 import useTriggerPlaylist from "../../hooks/useTriggerPlaylist";
 
-const playingMixIcon = "https://zmp3-static.zmdcdn.me/skins/zmp3-v6.1/images/icons/icon-playing.gif";
+const playingMixIcon =
+   "https://zmp3-static.zmdcdn.me/skins/zmp3-v6.1/images/icons/icon-playing.gif";
 
 const PlaylistCover = ({ info, size = "md", canDelete = false, admin = false }) => {
    const navigate = useNavigate();
@@ -97,7 +97,9 @@ const PlaylistCover = ({ info, size = "md", canDelete = false, admin = false }) 
 
    const LikeIconOutline = () => (
       <IoHeartOutline
-         className={`${size === "sm" ? "text-[22px]" : "text-2xl"} text-white hover:text-dandelion-primary`}
+         className={`${
+            size === "sm" ? "text-[22px]" : "text-2xl"
+         } text-white hover:text-dandelion-primary`}
       />
    );
 
@@ -112,7 +114,11 @@ const PlaylistCover = ({ info, size = "md", canDelete = false, admin = false }) 
             {currentUser ? (
                <>
                   {currentUser?.playlists?.find((p) => p === info?.id) ? (
-                     <IoHeart className={`${size === "sm" ? "text-[22px]" : "text-2xl"} text-dandelion-primary`} />
+                     <IoHeart
+                        className={`${
+                           size === "sm" ? "text-[22px]" : "text-2xl"
+                        } text-dandelion-primary`}
+                     />
                   ) : (
                      LikeIconOutline()
                   )}
@@ -172,8 +178,14 @@ const PlaylistCover = ({ info, size = "md", canDelete = false, admin = false }) 
                         <IoPlay className={size === "sm" ? "text-4xl" : "text-5xl"} />
                      )}
                   </button>
-                  <button className={`${size === "sm" ? "p-[6px]" : "p-2"} rounded-full hover:bg-hover-tooltip`}>
-                     <HiOutlineDotsHorizontal className={`${size === "sm" ? "text-xl" : "text-2xl"} cursor-pointer`} />
+                  <button
+                     className={`${
+                        size === "sm" ? "p-[6px]" : "p-2"
+                     } rounded-full hover:bg-hover-tooltip`}
+                  >
+                     <HiOutlineDotsHorizontal
+                        className={`${size === "sm" ? "text-xl" : "text-2xl"} cursor-pointer`}
+                     />
                   </button>
                </div>
             </div>

@@ -16,6 +16,7 @@ const ArtistsDisplay = ({ info }) => {
                   <Link
                      className="hover:text-dandelion-primary hover:underline"
                      to={info.artists.find((a) => a.name === artist)?.link}
+                     onClick={(e) => e.stopPropagation()}
                   >
                      {artist}
                   </Link>

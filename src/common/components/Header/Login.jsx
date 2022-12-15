@@ -58,7 +58,16 @@ const Login = ({ children }) => {
       }
    };
 
-   return <div onClick={() => handleLogin()}>{children}</div>;
+   return (
+      <div
+         onClick={(e) => {
+            handleLogin();
+            e.stopPropagation();
+         }}
+      >
+         {children}
+      </div>
+   );
 };
 
 export default Login;

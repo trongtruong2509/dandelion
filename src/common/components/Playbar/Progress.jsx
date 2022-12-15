@@ -1,6 +1,9 @@
 export const Progress = ({ value, onChange, onMouseUp, onTouchEnd }) => {
    return (
-      <div className="grid w-full h-full place-items-center progress-wrapper">
+      <div
+         className="grid w-full h-full place-items-center progress-wrapper"
+         onClick={(e) => e.stopPropagation()}
+      >
          <input
             type="range"
             min="1"
@@ -9,9 +12,12 @@ export const Progress = ({ value, onChange, onMouseUp, onTouchEnd }) => {
             value={value}
             className="w-full rounded-md appearance-none cursor-pointer progress"
             id="myRange"
-            onChange={onChange}
-            onMouseUp={onMouseUp}
-            onTouchEnd={onTouchEnd}
+            onChange={(e) => {
+               onChange(e);
+               e.stopPropagation();
+            }}
+            onMouseUp={(e) => e.stopPropagation()}
+            onTouchEnd={(e) => e.stopPropagation()}
             style={{
                background: `linear-gradient(90deg, var(--dandelion-primary) ${Math.floor(
                   value

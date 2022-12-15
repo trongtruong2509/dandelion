@@ -64,11 +64,14 @@ const PlaylistHeader = () => {
       }
    }, [playingPlaylist?.value]);
 
-   const onPlay = () => {
-      if (!thumbnailRotateOff.includes("animate-[spinoff_0.5s_ease_1]")) {
+   // special spinoff animation. only apply when a track already played
+   useEffect(() => {
+      if (playingTrack?.playing) {
          setThumbnailRotateOff(`${thumbnailRotateOff} animate-[spinoff_0.5s_ease_1]`);
       }
+   }, [playingTrack]);
 
+   const onPlay = () => {
       if (currentPlaylist.songs.length) {
          if (currentPlaylist?.id !== playingPlaylist?.value?.id) {
             dispatch(updateCurrentToPlaying());

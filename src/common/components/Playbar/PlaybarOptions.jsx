@@ -29,7 +29,7 @@ const PlaybarOptions = ({ volume, onVolChange }) => {
    };
 
    return (
-      <div className="flex-center">
+      <div className="relative z-40 flex-center">
          <div className="gap-4 pr-3 flex-center">
             <div className="gap-2 flex-center w-36 text-primary">
                <GiSpeaker className="text-3xl" />
@@ -39,13 +39,12 @@ const PlaybarOptions = ({ volume, onVolChange }) => {
          <div className="px-3 border-l 2xl:hidden border-secondary">
             <button
                className="p-[6px] rounded-md text-primary flex-center bg-alpha"
-               onClick={handleToggle}
+               onClick={(e) => {
+                  handleToggle();
+                  e.stopPropagation();
+               }}
             >
-               <MdQueueMusic
-                  className={`text-xl ${
-                     queueState.hidden ? "text-primary" : ""
-                  }`}
-               />
+               <MdQueueMusic className={`text-xl ${queueState.hidden ? "text-primary" : ""}`} />
             </button>
          </div>
       </div>
