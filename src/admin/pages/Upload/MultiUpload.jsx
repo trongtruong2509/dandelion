@@ -44,26 +44,17 @@ const MultiUpload = ({ id }) => {
          <div className="flex gap-3 my-6 text-xl text-primary">
             <p>From</p>
             <h2 className="">{upload?.current.category}</h2>
-            <h2 className="font-semibold text-dandelion-primary">
-               {upload?.current.id}
-            </h2>
+            <h2 className="semibold text-dandelion">{upload?.current.id}</h2>
          </div>
 
          <div className="mt-3">
             {upload?.tracks.map((track, index) => (
-               <UploadItem
-                  key={index}
-                  info={track}
-                  onDelete={() => onDelete(track)}
-               />
+               <UploadItem key={index} info={track} onDelete={() => onDelete(track)} />
             ))}
          </div>
 
          <div className="w-3/4 pb-20 mt-12 text-right">
-            <button
-               className="px-4 py-2 text-white bg-teal-500 rounded-xl"
-               onClick={onUpload}
-            >
+            <button className="px-4 py-2 text-white bg-teal-500 rounded-xl" onClick={onUpload}>
                Upload All
             </button>
          </div>

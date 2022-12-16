@@ -28,19 +28,19 @@ const QueueMenu = () => {
          placement="bottom-end"
          render={(attrs) => (
             <div
-               className="w-[200px] h-auto flex flex-col bg-primary py-2 shadow-md rounded-lg -mt-2"
+               className="w-[200px] h-auto flex-c bg-primary py-2 shadow-md rounded-lg -mt-2"
                tabIndex="-1"
                {...attrs}
             >
                <div className="w-full">
-                  <button className="w-full hover:bg-alpha rounded-lg hover:text-dandelion-primary py-[10px] text-secondary flex justify-between items-center px-4 text-sm">
+                  <button className="w-full hover:bg-alpha rounded-lg hover:text-dandelion py-[10px] text-secondary flex justify-between items-center px-4 text-sm">
                      <div className="flex items-center gap-3">
                         <IoMdAddCircleOutline className="text-xl" />
                         Add to playlist
                      </div>
                   </button>
                   <button
-                     className="w-full hover:bg-alpha rounded-lg hover:text-dandelion-primary py-[10px] text-secondary flex justify-between items-center px-4 text-sm"
+                     className="w-full hover:bg-alpha rounded-lg hover:text-dandelion py-[10px] text-secondary flex justify-between items-center px-4 text-sm"
                      onClick={onEmptyQueue}
                   >
                      <div className="flex items-center gap-3">
@@ -52,7 +52,7 @@ const QueueMenu = () => {
             </div>
          )}
       >
-         <button className="text-lg text-secondary p-[7px] rounded-full bg-alpha hover:text-dandelion-primary">
+         <button className="text-lg text-secondary p-[7px] rounded-full bg-alpha hover:text-dandelion">
             <HiOutlineDotsHorizontal />
          </button>
       </Tippy>

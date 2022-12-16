@@ -24,10 +24,10 @@ const UploadMultiModal = ({ ...props }) => {
 
    return (
       <Modal {...props} className="p-4 text-primary bg-layout w-96 rounded-xl">
-         <header className="flex items-center justify-center w-full py-1 header">
-            <h4 className="text-xl font-semibold">Add new song with Zing Id</h4>
+         <header className="w-full py-1 flex-center header">
+            <h4 className="text-xl semibold">Add new song with Zing Id</h4>
          </header>
-         <main className="flex flex-col w-full gap-4 py-3">
+         <main className="flex-c w-full gap-4 py-3">
             <select
                className="w-full px-4 py-[6px] border border-secondary rounded-lg outline-none bg-alpha text-primary"
                onChange={(e) => setCategory(e.target.value)}
@@ -48,15 +48,12 @@ const UploadMultiModal = ({ ...props }) => {
          </main>
          <div className="flex items-center justify-end w-full gap-6 px-4 pt-4 pb-2">
             <button
-               className="w-20 px-3 py-2 rounded-lg bg-hover-1 text-navigation hover:text-dandelion-primary hover:bg-alpha hover:opacity-100"
+               className="w-20 px-3 py-2 rounded-lg bg-hover-1 text-navigation hover:text-dandelion hover:bg-alpha hover:opacity-100"
                onClick={props.onClose}
             >
                Cancel
             </button>
-            <button
-               className="w-20 px-3 py-2 text-white bg-teal-500 rounded-lg"
-               onClick={onUpload}
-            >
+            <button className="w-20 px-3 py-2 text-white bg-teal-500 rounded-lg" onClick={onUpload}>
                Query
             </button>
          </div>

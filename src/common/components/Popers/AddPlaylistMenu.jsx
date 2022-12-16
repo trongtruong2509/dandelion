@@ -69,7 +69,7 @@ const AddPlaylistMenu = ({ children, songInfo }) => {
             plugins={[hideOnInnerButtonPress]}
             render={(attrs) => (
                <div
-                  className="w-[220px] h-[284px] flex flex-col bg-primary shadow-md rounded-xl -ml-5"
+                  className="w-[220px] h-[284px] flex-c bg-primary shadow-md rounded-xl -ml-5"
                   tabIndex="-1"
                   {...attrs}
                >
@@ -84,7 +84,7 @@ const AddPlaylistMenu = ({ children, songInfo }) => {
                            onChange={(e) => setSearchTerm(e.target.value)}
                         />
                         <button
-                           className="flex items-center w-full py-3 rounded-lg hover:text-dandelion-primary text-primary"
+                           className="flex items-center w-full py-3 rounded-lg hover:text-dandelion text-primary"
                            hide-on-press="false"
                            // onClick={() => setShow(true)}
                         >
@@ -98,7 +98,7 @@ const AddPlaylistMenu = ({ children, songInfo }) => {
                         {loading ? (
                            <div className="flex-center">
                               <SyncLoader
-                                 color="var(--dandelion-primary)"
+                                 color="var(--dandelion)"
                                  // loading={adminTrack?.fetching}
                                  cssOverride={{
                                     display: "block",

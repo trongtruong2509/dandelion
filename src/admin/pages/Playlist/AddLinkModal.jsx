@@ -6,20 +6,17 @@ const AddLinkModal = ({ ...props }) => {
    const [link, setLink] = useState("");
 
    return (
-      <Modal
-         {...props}
-         className="p-4 text-white bg-layout w-[600px] rounded-xl"
-      >
+      <Modal {...props} className="p-4 text-white bg-layout w-[600px] rounded-xl">
          <header className="relative flex items-center w-full pb-1 header text-primary">
             <h4 className="text-2xl font-bold">Add Link</h4>
             <button
-               className="absolute top-0 right-0 text-2xl text-right opacity-50 font-extralight text-secondary hover:text-dandelion-primary hover:opacity-100"
+               className="absolute top-0 right-0 text-2xl text-right opacity-50 font-extralight text-secondary hover:text-dandelion hover:opacity-100"
                onClick={props.onClose}
             >
                <IoCloseOutline />
             </button>
          </header>
-         <main className="flex flex-col w-full gap-4 py-3 text-primary">
+         <main className="flex-c w-full gap-4 py-3 text-primary">
             <input
                type="text"
                value={link}
@@ -36,7 +33,7 @@ const AddLinkModal = ({ ...props }) => {
                Cancel
             </button>
             <button
-               className="w-20 px-3 py-[6px] text-white bg-dandelion-primary rounded-lg"
+               className="w-20 px-3 py-[6px] text-white bg-dandelion rounded-lg"
                onClick={() => {
                   props.onUpdate(link);
                   props.onClose();

@@ -77,9 +77,9 @@ const PlaylistModal = ({ ...props }) => {
    return (
       <Modal {...props} className="p-3 text-white bg-layout w-96 rounded-xl">
          <header className="w-full py-1 flex-center header text-primary">
-            <h4 className="text-xl font-semibold">{props.update ? "Update playlist" : "Create New Playlist"}</h4>
+            <h4 className="text-xl semibold">{props.update ? "Update playlist" : "Create New Playlist"}</h4>
          </header>
-         <main className="flex flex-col w-full gap-4 py-3 text-primary">
+         <main className="flex-c w-full gap-4 py-3 text-primary">
             <input
                type="text"
                value={title}

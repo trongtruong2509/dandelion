@@ -150,7 +150,7 @@ const Search = () => {
                   <div className="pt-4 pb-2">
                      {searchText === "" ? (
                         <div className="flex-btw">
-                           <h2 className="font-semibold text-primary">Recent searches</h2>
+                           <h2 className="semibold text-primary">Recent searches</h2>
                            <button
                               className="px-3 text-xs text-secondary hover:text-primary"
                               onClick={() => dispatch(clearSearchHistory())}
@@ -160,19 +160,14 @@ const Search = () => {
                         </div>
                      ) : (
                         <>
-                           <h2 className="font-semibold">Top results</h2>
+                           <h2 className="semibold">Top results</h2>
                         </>
                      )}
                   </div>
                   <div>
                      {loading ? (
                         <div className="w-full h-60 flex-center">
-                           <SyncLoader
-                              color="var(--dandelion-primary)"
-                              loading={loading}
-                              cssOverride={override}
-                              size={10}
-                           />
+                           <SyncLoader color="var(--dandelion)" loading={loading} cssOverride={override} size={10} />
                         </div>
                      ) : searchText === "" ? (
                         searchHistory.length ? (
@@ -199,7 +194,7 @@ const Search = () => {
             <IoSearchOutline className="absolute text-xl text-placeholder top-[10px] left-3" />
             {searchText !== "" && (
                <button
-                  className="absolute text-xl text-placeholder top-[6px] right-3 hover:text-dandelion-primary cursor-pointer p-1 rounded-full"
+                  className="absolute text-xl text-placeholder top-[6px] right-3 hover:text-dandelion cursor-pointer p-1 rounded-full"
                   onClick={() => setSearchText("")}
                >
                   <IoCloseOutline className="" />

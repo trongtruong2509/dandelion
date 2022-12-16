@@ -71,7 +71,7 @@ const Genres = () => {
                      {!displayAll && (
                         <div className="w-full col-span-4 pb-3 flex-center">
                            <button
-                              className="px-5 py-[6px] transition-all duration-150 ease-out border rounded-3xl text-primary border-primary hover:text-dandelion-primary"
+                              className="px-5 py-[6px] transition-all duration-150 ease-out border rounded-3xl text-primary border-primary hover:text-dandelion"
                               onClick={() => setDisplayAll(true)}
                            >
                               Show All

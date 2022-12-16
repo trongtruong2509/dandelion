@@ -129,7 +129,7 @@ function AdminLayout() {
                }`}
             >
                <AdminSidebar />
-               <div className="relative flex flex-col items-stretch flex-grow h-full overflow-auto bg-dark-4">
+               <div className="relative flex-c items-stretch flex-grow h-full overflow-auto bg-dark-4">
                   <div className="w-full sticky top-0 left-0 z-[200] bg-dark-4 px-12">
                      <AdminHeader />
                   </div>

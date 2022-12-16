@@ -11,7 +11,7 @@ import { getLatestPlaylists } from "../../common/utils/playlist";
 import { getLatestSongs } from "../../common/utils/songs";
 
 const NewRelease = () => {
-   const tabStyle = `px-3 py-2 font-semibold
+   const tabStyle = `px-3 py-2 semibold
    text-navigation hover:text-item-hover uppercase cursor-pointer text-center outline-none`;
 
    const tabChildStyle = `px-4 py-1 text-navigation hover:text-item-hover text-xs rounded-full border
@@ -55,7 +55,7 @@ const NewRelease = () => {
          <header className="w-full py-4 text-3xl font-bold top-3 text-primary">New Release</header>
          <Tabs
             className="w-full pt-7 Tabs"
-            selectedTabClassName="text-tab-active border-b-2 border-dandelion-primary"
+            selectedTabClassName="text-tab-active border-b-2 border-dandelion"
             defaultIndex={tabActive()}
          >
             <TabList className="flex w-full gap-3 bg-transparent border-b border-primary">
@@ -69,7 +69,7 @@ const NewRelease = () => {
             <TabPanel className="w-full">
                <Tabs
                   className="w-full pt-5 Tabs"
-                  selectedTabClassName="text-[#fff] border-dandelion-primary bg-dandelion-primary"
+                  selectedTabClassName="text-[#fff] border-dandelion bg-dandelion"
                   defaultIndex={0}
                >
                   <TabList className="flex w-full gap-4 bg-transparent">

@@ -30,10 +30,10 @@ const AdminPlaylist = () => {
 
    return (
       <div className="w-full mt-10">
-         <div className="flex items-center justify-between gap-8">
+         <div className="gap-8 flex-btw">
             <Filters />
             <button
-               className="h-10 px-4 text-white rounded-xl bg-dandelion-primary"
+               className="h-10 px-4 text-white rounded-xl bg-dandelion"
                onClick={() => navigate(adminPaths.createPlaylist)}
             >
                Create Playlist

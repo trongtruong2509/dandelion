@@ -20,7 +20,7 @@ const PlaylistCoverSkeleton = ({ size = "md" }) => {
       <SkeletonTheme baseColor="var(--loading-bg)" highlightColor="var(--dark-alpha-10)" duration={2}>
          <div className={`h-auto text-white ${widthSize[size]} -mb-6`}>
             <Skeleton borderRadius="0.5rem" className={`overflow-hidden rounded-xl bg-alpha ${thumbnailSizes[size]}`} />
-            <div className="flex flex-col">
+            <div className="flex-c">
                <Skeleton className="mt-[10px]" />
                <Skeleton width={120} height={12} />
             </div>

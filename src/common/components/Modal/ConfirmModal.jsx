@@ -7,9 +7,9 @@ const ConfirmModal = ({ ...props }) => {
    return (
       <Modal {...props} className="w-auto min-w-[500px] p-4 text-primary bg-layout rounded-xl">
          <header className="w-full header text-primary">
-            <h4 className="text-lg font-semibold">{props.modalTitle}</h4>
+            <h4 className="text-lg semibold">{props.modalTitle}</h4>
          </header>
-         <main className="flex flex-col w-full gap-4 pt-2 text-primary">
+         <main className="flex-c w-full gap-4 pt-2 text-primary">
             <p>{props.content}</p>
          </main>
          <div className="flex items-center justify-end w-full gap-4 pt-4">
@@ -19,10 +19,7 @@ const ConfirmModal = ({ ...props }) => {
             >
                Cancel
             </button>
-            <button
-               className="w-20 px-4 py-1 rounded-xl text-primary bg-dandelion-primary"
-               onClick={props.onOK}
-            >
+            <button className="w-20 px-4 py-1 rounded-xl text-primary bg-dandelion" onClick={props.onOK}>
                OK
             </button>
          </div>

@@ -25,8 +25,7 @@ const SongOptions = ({
    const dispatch = useDispatch();
    const currentUser = useSelector((state) => state.user.user);
 
-   const notLiked =
-      !currentUser || currentUser?.likedSongs.findIndex((t) => t.id === songInfo?.id) === -1;
+   const notLiked = !currentUser || currentUser?.likedSongs.findIndex((t) => t.id === songInfo?.id) === -1;
    const dotSize = size === "10" ? "w-8 h-8 p-[6px]" : "w-10 h-10 p-2";
 
    return (
@@ -53,17 +52,13 @@ const SongOptions = ({
                      }}
                   >
                      {notLiked ? (
-                        <MdFavoriteBorder className={`text-lg hover:text-dandelion-primary`} />
+                        <MdFavoriteBorder className={`text-lg hover:text-dandelion`} />
                      ) : (
-                        <MdFavorite className="text-lg text-dandelion-primary" />
+                        <MdFavorite className="text-lg text-dandelion" />
                      )}
                   </div>
                ) : (
-                  <Login
-                     children={
-                        <MdFavoriteBorder className={`text-lg hover:text-dandelion-primary`} />
-                     }
-                  />
+                  <Login children={<MdFavoriteBorder className={`text-lg hover:text-dandelion`} />} />
                )}
             </div>
          )}

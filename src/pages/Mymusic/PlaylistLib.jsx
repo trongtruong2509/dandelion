@@ -9,7 +9,7 @@ import { fetchUserPlaylist } from "../../common/slices/userSlice";
 
 const PlaylistLib = () => {
    const tabStyle = `3xl:px-3 px-2 py-[5px] w-32 text-sm rounded-3xl text-navigation 
-      hover:text-dandelion-primary uppercase cursor-pointer text-center outline-none`;
+      hover:text-dandelion uppercase cursor-pointer text-center outline-none`;
 
    const currentUser = useSelector((state) => state.user.user);
    const userPlaylist = useSelector((state) => state.user.playlist);
@@ -25,13 +25,8 @@ const PlaylistLib = () => {
    return (
       <div>
          <PlaylistModal show={show} onClose={() => setShow(false)} />
-         <header className="w-full py-4 text-4xl font-bold text-primary">
-            Playlists
-         </header>
-         <Tabs
-            className="w-full Tabs"
-            selectedTabClassName="text-dandelion-primary bg-tab-active"
-         >
+         <header className="w-full py-4 text-4xl font-bold text-primary">Playlists</header>
+         <Tabs className="w-full Tabs" selectedTabClassName="text-dandelion bg-tab-active">
             <TabList className="w-fit bg-alpha rounded-3xl p-[3px] flex-center mx-auto mb-5">
                <Tab className={tabStyle}>ALL</Tab>
                <Tab className={tabStyle}>CREATED</Tab>
@@ -39,39 +34,31 @@ const PlaylistLib = () => {
             <TabPanel className="w-full">
                <div className="grid w-full grid-cols-1 gap-6 py-2 my-6 xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3">
                   <div
-                     className="flex-col col-span-1 gap-2 border rounded-md cursor-pointer border-primary flex-center hover:text-dandelion-primary text-primary min-w-[180px] min-h-[250px]"
+                     className="flex-col col-span-1 gap-2 border rounded-md cursor-pointer border-primary flex-center hover:text-dandelion text-primary min-w-[180px] min-h-[250px]"
                      onClick={() => setShow(true)}
                   >
                      <IoAddCircleOutline className="text-4xl" />
                      <p className="text-lg">Add new playlist</p>
                   </div>
                   {fetchPending
-                     ? [1, 2, 3, 4].map((loading) => (
-                          <PlaylistCoverSkeleton key={loading} />
-                       ))
-                     : userPlaylist?.map((p, index) => (
-                          <PlaylistCover key={index} info={p} editable />
-                       ))}
+                     ? [1, 2, 3, 4].map((loading) => <PlaylistCoverSkeleton key={loading} />)
+                     : userPlaylist?.map((p, index) => <PlaylistCover key={index} info={p} editable />)}
                </div>
             </TabPanel>
             <TabPanel className="w-full">
                <div className="grid w-full grid-cols-1 gap-6 py-2 my-6 xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3">
                   <div
-                     className="flex-col col-span-1 gap-2 border rounded-md cursor-pointer border-primary flex-center hover:text-dandelion-primary text-primary min-w-[180px] min-h-[250px]"
+                     className="flex-col col-span-1 gap-2 border rounded-md cursor-pointer border-primary flex-center hover:text-dandelion text-primary min-w-[180px] min-h-[250px]"
                      onClick={() => setShow(true)}
                   >
                      <IoAddCircleOutline className="text-4xl" />
                      <p className="text-lg">Add new playlist</p>
                   </div>
                   {fetchPending
-                     ? [1, 2, 3, 4].map((loading) => (
-                          <PlaylistCoverSkeleton key={loading} />
-                       ))
+                     ? [1, 2, 3, 4].map((loading) => <PlaylistCoverSkeleton key={loading} />)
                      : userPlaylist
                           ?.filter((p) => p?.createdBy === currentUser?.id)
-                          .map((p, index) => (
-                             <PlaylistCover key={index} info={p} editable />
-                          ))}
+                          .map((p, index) => <PlaylistCover key={index} info={p} editable />)}
                </div>
             </TabPanel>
          </Tabs>

@@ -26,7 +26,7 @@ const SongMenu = ({ children, info, canDetele = false }) => {
    };
 
    const AddPlaylistButton = (
-      <button className="w-full hover:bg-alpha rounded-lg hover:text-dandelion-primary py-[10px] text-secondary flex-btw px-4 text-sm">
+      <button className="w-full hover:bg-alpha rounded-lg hover:text-dandelion py-[10px] text-secondary flex-btw px-4 text-sm">
          <div className="flex items-center gap-3">
             <IoMdAddCircleOutline className="text-xl" />
             Add to playlist
@@ -44,7 +44,7 @@ const SongMenu = ({ children, info, canDetele = false }) => {
          placement="auto-end"
          render={(attrs) => (
             <div
-               className="w-[280px] h-[300px] flex flex-col bg-primary
+               className="w-[280px] h-[300px] flex-c bg-primary
                 py-4 shadow-md rounded-xl"
                tabIndex="-1"
                {...attrs}
@@ -53,21 +53,21 @@ const SongMenu = ({ children, info, canDetele = false }) => {
                   <SongInfo info={info} />
                   <div className="w-full my-4 text-xs flex-btw rounded-xl bg-alpha">
                      <button
-                        className="flex-center flex-col gap-1 py-2 text-primary hover:text-dandelion-primary rounded-xl w-[80px]
+                        className="flex-center flex-col gap-1 py-2 text-primary hover:text-dandelion rounded-xl w-[80px]
                   cursor-pointer hover:bg-alpha"
                      >
                         <BsDownload className="text-base " />
                         Download
                      </button>
                      <button
-                        className="flex-center flex-col gap-1 py-2 text-primary hover:text-dandelion-primary rounded-xl w-[80px]
+                        className="flex-center flex-col gap-1 py-2 text-primary hover:text-dandelion rounded-xl w-[80px]
                   cursor-pointer hover:bg-alpha"
                      >
                         <MdQueueMusic className="text-base " />
                         Lyrics
                      </button>
                      <button
-                        className="flex-center flex-col gap-1 py-2 text-primary hover:text-dandelion-primary rounded-xl w-[80px]
+                        className="flex-center flex-col gap-1 py-2 text-primary hover:text-dandelion rounded-xl w-[80px]
                   cursor-pointer hover:bg-alpha"
                      >
                         <MdBlock className="text-base " />
@@ -82,20 +82,20 @@ const SongMenu = ({ children, info, canDetele = false }) => {
                      <Login children={AddPlaylistButton} />
                   )}
 
-                  <button className="w-full hover:bg-alpha rounded-lg hover:text-dandelion-primary py-[10px] text-secondary flex-btw px-4 text-sm">
+                  <button className="w-full hover:bg-alpha rounded-lg hover:text-dandelion py-[10px] text-secondary flex-btw px-4 text-sm">
                      <div className="flex items-center gap-3">
                         <GiMicrophone className="text-xl" />
                         Play with lyrics
                      </div>
                      <MdArrowForwardIos className="text-xl" />
                   </button>
-                  <button className="w-full hover:bg-alpha rounded-lg hover:text-dandelion-primary py-[10px] text-secondary flex-btw px-4 text-sm">
+                  <button className="w-full hover:bg-alpha rounded-lg hover:text-dandelion py-[10px] text-secondary flex-btw px-4 text-sm">
                      <div className="flex items-center gap-3">
                         <AiOutlineComment className="text-xl" />
                         Comments
                      </div>
                   </button>
-                  {/* <button className="w-full hover:bg-alpha hover:text-dandelion-primary py-[10px] text-secondary flex-btw px-4 text-sm">
+                  {/* <button className="w-full hover:bg-alpha hover:text-dandelion py-[10px] text-secondary flex-btw px-4 text-sm">
                      <div className="flex items-center gap-3">
                         <BsShare className="text-xl" />
                         Share
@@ -103,7 +103,7 @@ const SongMenu = ({ children, info, canDetele = false }) => {
                      <MdArrowForwardIos className="text-lg" />
                   </button> */}
                   <button
-                     className="w-full hover:bg-alpha rounded-lg hover:text-dandelion-primary py-[10px] text-secondary flex justify-between items-center px-4 text-sm"
+                     className="w-full hover:bg-alpha rounded-lg hover:text-dandelion py-[10px] text-secondary flex justify-between items-center px-4 text-sm"
                      onClick={() => deleteHandle(info.id)}
                   >
                      <div className="flex items-center gap-3">

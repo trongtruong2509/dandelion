@@ -9,22 +9,19 @@ import themes from "../../../themes/themes";
 
 const ThemeModal = ({ ...props }) => {
    return (
-      <Modal
-         {...props}
-         className="p-6 text-white bg-layout w-[900px] rounded-xl"
-      >
+      <Modal {...props} className="p-6 text-white bg-layout w-[900px] rounded-xl">
          <header className="relative flex items-center w-full pb-1 header text-primary">
             <h4 className="text-2xl font-bold">Theme Display</h4>
             <button
-               className="absolute top-0 right-0 text-3xl text-right opacity-50 font-extralight text-secondary hover:text-dandelion-primary hover:opacity-100"
+               className="absolute top-0 right-0 text-3xl text-right opacity-50 font-extralight text-secondary hover:text-dandelion hover:opacity-100"
                onClick={props.onClose}
             >
                <IoCloseOutline />
             </button>
          </header>
-         <main className="flex flex-col w-full gap-4 py-3 text-primary">
+         <main className="flex-c w-full gap-4 py-3 text-primary">
             <div>
-               <p className="pb-2 font-semibold">Dark Themes</p>
+               <p className="pb-2 semibold">Dark Themes</p>
                <div className="flex flex-wrap gap-4">
                   <ThemeItem
                      img="https://zmp3-static.zmdcdn.me/skins/zmp3-v6.1/images/theme/dark.jpg"
@@ -71,7 +68,7 @@ const ThemeModal = ({ ...props }) => {
                </div>
             </div>
             <div className="mt-2">
-               <p className="pb-2 font-semibold">Light Themes</p>
+               <p className="pb-2 semibold">Light Themes</p>
                <div className="flex flex-wrap gap-4">
                   <ThemeItem
                      img="https://zmp3-static.zmdcdn.me/skins/zmp3-v6.1/images/theme/light.jpg"
@@ -108,7 +105,7 @@ const ThemeModal = ({ ...props }) => {
          </main>
          {/* <div className="flex items-center justify-end w-full gap-6 pt-4 pb-2">
             <button
-               className="w-20 px-3 py-[6px] -mb-2 text-white bg-dandelion-primary rounded-lg"
+               className="w-20 px-3 py-[6px] -mb-2 text-white bg-dandelion rounded-lg"
                onClick={props.update ? onUpdate : onCreate}
             >
                OK
@@ -125,13 +122,9 @@ const ThemeItem = ({ img, themeName, themeKey, onClose }) => {
    return (
       <div className="rounded-md group">
          <div className="relative">
-            <img
-               src={img}
-               alt={themeName}
-               className="w-[126px] h-[84px] rounded-md"
-            />
+            <img src={img} alt={themeName} className="w-[126px] h-[84px] rounded-md" />
             <button
-               className="absolute-center hidden px-5 py-[2px] text-sm text-white capitalize transition-all duration-100 ease-out opacity-100 rounded-3xl bg-dandelion-primary group-hover:block hover:opacity-90"
+               className="absolute-center hidden px-5 py-[2px] text-sm text-white capitalize transition-all duration-100 ease-out opacity-100 rounded-3xl bg-dandelion group-hover:block hover:opacity-90"
                onClick={() => {
                   onClose();
                   applyTheme(themes[themeKey]);
@@ -142,7 +135,7 @@ const ThemeItem = ({ img, themeName, themeKey, onClose }) => {
             </button>
             {themeKey === currentTheme?.theme && (
                <div className="absolute bottom-2 right-2">
-                  <IoCheckmarkCircle className="text-2xl text-dandelion-primary" />
+                  <IoCheckmarkCircle className="text-2xl text-dandelion" />
                </div>
             )}
          </div>

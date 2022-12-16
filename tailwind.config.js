@@ -39,7 +39,7 @@ module.exports = withMT({
             "dark-alpha-80": "var(--dark-alpha-80)",
             "contrast-color": "var(--contrast-color)",
             "hover-tooltip": "var(--hover-tooltip)",
-            "dandelion-primary": "var(--dandelion-primary)",
+            dandelion: "var(--dandelion)",
          },
          textColor: {
             primary: "var(--text-primary)",

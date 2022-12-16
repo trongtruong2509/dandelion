@@ -178,7 +178,7 @@ const SongItem = ({
          </div>
 
          {fullMode && (
-            <p className="flex items-center col-span-5 text-xs cursor-pointer text-secondary hover:text-dandelion-primary hover:underline">
+            <p className="flex items-center col-span-5 text-xs cursor-pointer text-secondary hover:text-dandelion hover:underline">
                {info?.album?.title ?? ""}
             </p>
          )}

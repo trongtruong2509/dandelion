@@ -13,6 +13,7 @@ import PlaylistCoverCarouselSkeleton from "../../common/components/PlaylistCover
 import { updateCurrentPlaylist } from "../../common/slices/playlistSlice";
 import { initHiddenPlaylist } from "../../common/utils/playlist";
 import { paths } from "../../app/routes";
+import PlaylistRowHeader from "../../common/components/Playlist/PlaylistRowHeader";
 
 const Mymusic = () => {
    const dispatch = useDispatch();
@@ -43,9 +44,9 @@ const Mymusic = () => {
          <div className="relative z-10 w-full">
             <div className="flex-btw">
                <div className="flex items-center justify-start gap-4">
-                  <h1 className="text-xl font-semibold text-primary">MY PLAYLIST</h1>
+                  <h1 className="text-xl semibold text-primary">MY PLAYLIST</h1>
                   <button
-                     className="p-2 rounded-full outline-none bg-alpha hover:text-dandelion-primary text-primary"
+                     className="p-2 rounded-full outline-none bg-alpha hover:text-dandelion text-primary"
                      onClick={() => setShow(!show)}
                   >
                      <MdOutlineAdd className="text-xl" />
@@ -67,18 +68,15 @@ const Mymusic = () => {
 
          <div className="w-full text-primary">
             <div className="w-full py-2 border-secondary">
-               <p className="text-lg font-semibold uppercase">Liked Songs</p>
+               <p className="text-lg uppercase semibold">Liked Songs</p>
             </div>
-            <div className="grid w-full grid-cols-12 p-3 border-b border-secondary">
-               <p className="col-span-6 text-sm text-secondary">SONG</p>
-               <p className="flex items-center col-span-5 text-sm text-secondary">ALBUM</p>
-               <p className="flex items-center justify-end col-span-1 text-sm text-secondary">TIME</p>
-            </div>
+            <PlaylistRowHeader />
+
             {currentUser?.likedSongs.length > 0 ? (
                currentUser?.likedSongs.map((song, index) => <SongItem key={index} info={song} fullMode inPlaylist />)
             ) : (
                <div className="flex-col w-full gap-6 flex-center h-96 text-secondary">
-                  <h1 className="text-2xl font-semibold">Songs you like will appear here</h1>
+                  <h1 className="text-2xl semibold">Songs you like will appear here</h1>
                   <p className="text-sm">Save songs by tapping the heart icon.</p>
                   <Link to="/" className="px-4 py-2 text-white bg-teal-500 rounded-full">
                      Explore Now

@@ -147,7 +147,7 @@ const SinglePlaylist = () => {
 
          <div className="grid w-full grid-cols-12 my-4">
             <div className="flex col-span-8 gap-5">
-               <div className="flex flex-col items-center">
+               <div className="items-center flex-c">
                   <div className="relative z-10 flex w-64 h-64 rounded-lg group">
                      <img
                         src={thumbnail ? thumbnail : AlbumDefault}
@@ -170,7 +170,7 @@ const SinglePlaylist = () => {
                               <div className="w-full text-sm">
                                  <div className="gap-3 flex-center">
                                     <button
-                                       className="px-3 py-[6px] rounded-lg hover:text-white hover:bg-dandelion-primary text-primary flex-center"
+                                       className="px-3 py-[6px] rounded-lg hover:text-white hover:bg-dandelion text-primary flex-center"
                                        hide-on-press="false"
                                     >
                                        <label className="flex-center" hide-on-press="false">
@@ -184,7 +184,7 @@ const SinglePlaylist = () => {
                                        </label>
                                     </button>
                                     <button
-                                       className="px-3 py-[6px] rounded-lg hover:text-white hover:bg-dandelion-primary text-primary"
+                                       className="px-3 py-[6px] rounded-lg hover:text-white hover:bg-dandelion text-primary"
                                        hide-on-press="false"
                                        onClick={() => setShow(true)}
                                     >
@@ -195,7 +195,7 @@ const SinglePlaylist = () => {
                            </div>
                         )}
                      >
-                        <label className="absolute top-0 left-0 z-20 items-center justify-center hidden w-full h-full text-2xl rounded-lg cursor-pointer text-dandelion-primary bg-dark-alpha-50 group-hover:flex">
+                        <label className="z-20 items-center justify-center hidden w-full h-full text-2xl rounded-lg cursor-pointer absolute-top text-dandelion bg-dark-alpha-50 group-hover:flex">
                            <IoCloudUploadOutline className="w-12 h-12" />
                         </label>
                      </Tippy>
@@ -216,10 +216,7 @@ const SinglePlaylist = () => {
                      >
                         Cancel
                      </button>
-                     <button
-                        className="py-[6px] px-4 rounded-lg bg-dandelion-primary mt-8 text-white"
-                        onClick={onUpdate}
-                     >
+                     <button className="py-[6px] px-4 rounded-lg bg-dandelion mt-8 text-white" onClick={onUpdate}>
                         Update
                      </button>
                   </div>
@@ -243,7 +240,7 @@ const SinglePlaylist = () => {
                            </div>
                         </>
                      ) : (
-                        <div className="flex flex-col items-center justify-center gap-2 py-4 rounded-lg bg-alpha text-secondary h-72">
+                        <div className="flex-col gap-2 py-4 rounded-lg flex-center bg-alpha text-secondary h-72">
                            <IoIosMusicalNote className="italic text-7xl" />
                            <p className="text-lg">Currently no songs in your playlist</p>
                         </div>

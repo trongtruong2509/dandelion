@@ -18,8 +18,7 @@ import Login from "../Header/Login";
 import DeletePlaylistModal from "../Modal/DeletePlaylistModal";
 import useTriggerPlaylist from "../../hooks/useTriggerPlaylist";
 
-const playingMixIcon =
-   "https://zmp3-static.zmdcdn.me/skins/zmp3-v6.1/images/icons/icon-playing.gif";
+const playingMixIcon = "https://zmp3-static.zmdcdn.me/skins/zmp3-v6.1/images/icons/icon-playing.gif";
 
 const PlaylistCover = ({ info, size = "md", canDelete = false, admin = false }) => {
    const navigate = useNavigate();
@@ -30,7 +29,7 @@ const PlaylistCover = ({ info, size = "md", canDelete = false, admin = false }) 
    const playingSong = useSelector((state) => state.playing.value);
    const currentUser = useSelector((state) => state.user.user);
 
-   const { trigger, setTrigger } = useTriggerPlaylist();
+   // const { trigger, setTrigger } = useTriggerPlaylist();
 
    const [show, setShow] = useState(false);
 
@@ -96,11 +95,7 @@ const PlaylistCover = ({ info, size = "md", canDelete = false, admin = false }) 
    };
 
    const LikeIconOutline = () => (
-      <IoHeartOutline
-         className={`${
-            size === "sm" ? "text-[22px]" : "text-2xl"
-         } text-white hover:text-dandelion-primary`}
-      />
+      <IoHeartOutline className={`${size === "sm" ? "text-[22px]" : "text-2xl"} text-white hover:text-dandelion`} />
    );
 
    const LikeIcon = () => {
@@ -114,11 +109,7 @@ const PlaylistCover = ({ info, size = "md", canDelete = false, admin = false }) 
             {currentUser ? (
                <>
                   {currentUser?.playlists?.find((p) => p === info?.id) ? (
-                     <IoHeart
-                        className={`${
-                           size === "sm" ? "text-[22px]" : "text-2xl"
-                        } text-dandelion-primary`}
-                     />
+                     <IoHeart className={`${size === "sm" ? "text-[22px]" : "text-2xl"} text-dandelion`} />
                   ) : (
                      LikeIconOutline()
                   )}
@@ -158,7 +149,7 @@ const PlaylistCover = ({ info, size = "md", canDelete = false, admin = false }) 
             <PlaylistThumbnail playlist={info} className="z-10" />
 
             <div
-               className={`z-40 items-center justify-center w-full h-full absolute-top-0 text-primary bg-dark-alpha-50 ${
+               className={`z-40 items-center justify-center w-full h-full absolute-top text-primary bg-dark-alpha-50 ${
                   currentPlaying() ? "flex" : "hidden group-hover:flex"
                }`}
             >
@@ -168,7 +159,7 @@ const PlaylistCover = ({ info, size = "md", canDelete = false, admin = false }) 
                >
                   <div>{DisplayIcon()}</div>
                   <button
-                     className={`hover:text-dandelion-primary flex-center aspect-square
+                     className={`hover:text-dandelion flex-center aspect-square
                         ${widthSize[size]}`}
                      onClick={onPlay}
                   >
@@ -178,14 +169,8 @@ const PlaylistCover = ({ info, size = "md", canDelete = false, admin = false }) 
                         <IoPlay className={size === "sm" ? "text-4xl" : "text-5xl"} />
                      )}
                   </button>
-                  <button
-                     className={`${
-                        size === "sm" ? "p-[6px]" : "p-2"
-                     } rounded-full hover:bg-hover-tooltip`}
-                  >
-                     <HiOutlineDotsHorizontal
-                        className={`${size === "sm" ? "text-xl" : "text-2xl"} cursor-pointer`}
-                     />
+                  <button className={`${size === "sm" ? "p-[6px]" : "p-2"} rounded-full hover:bg-hover-tooltip`}>
+                     <HiOutlineDotsHorizontal className={`${size === "sm" ? "text-xl" : "text-2xl"} cursor-pointer`} />
                   </button>
                </div>
             </div>
@@ -199,7 +184,7 @@ const PlaylistCover = ({ info, size = "md", canDelete = false, admin = false }) 
          </div>
          <div className="w-full">
             <div className="w-full mt-2 flex-btw">
-               <h1 className="w-40 font-semibold truncate text-primary">{info?.title}</h1>
+               <h1 className="w-40 semibold truncate text-primary">{info?.title}</h1>
                {/* {size === "md" && <p className="text-sm text-secondary">{info?.songs?.length} tracks</p>} */}
             </div>
             <p className="mt-1 text-xs text-secondary">{info?.user}</p>

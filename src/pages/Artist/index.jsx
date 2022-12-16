@@ -76,17 +76,17 @@ const Artist = () => {
                   <div className="h-full z-[1] absolute top-0 bottom-0 left-0 right-0 bg-artist-layout" />
                </div>
             )}
-            <div className="z-10 flex flex-col items-start">
+            <div className="z-10 flex-c items-start">
                <h1 className="py-12 font-bold text-7xl text-primary">{artist?.name}</h1>
                <div className="gap-6 flex-center">
                   <button
-                     className="gap-2 px-6 py-2 transition-all duration-200 ease-in border rounded-full flex-center border-dandelion-primary hover:bg-dandelion-primary hover:text-white text-dandelion-primary"
+                     className="gap-2 px-6 py-2 transition-all duration-200 ease-in border rounded-full flex-center border-dandelion hover:bg-dandelion hover:text-white text-dandelion"
                      onClick={onPlayTophits}
                   >
                      <FaPlay />
                      Play
                   </button>
-                  {/* <button className="gap-2 px-6 py-2 border rounded-full flex-center border-dandelion-primary bg-dandelion-primary">
+                  {/* <button className="gap-2 px-6 py-2 border rounded-full flex-center border-dandelion bg-dandelion">
                      <FaPlus />
                      Follow
                   </button> */}

@@ -4,51 +4,27 @@ import { useState } from "react";
 import { useEffect } from "react";
 
 const Splus = () => {
-   return (
-      <div className="rounded-md px-2 py-[1px] text-xs bg-[#D35400]/20 text-[#D35400] flex-center">
-         S+
-      </div>
-   );
+   return <div className="rounded-md px-2 py-[1px] text-xs bg-[#D35400]/20 text-[#D35400] flex-center">S+</div>;
 };
 
 const OnlyS = () => {
-   return (
-      <div className="rounded-md px-[10px] py-[1px] text-xs bg-[#3498DB]/20 text-[#3498DB] flex-center">
-         S
-      </div>
-   );
+   return <div className="rounded-md px-[10px] py-[1px] text-xs bg-[#3498DB]/20 text-[#3498DB] flex-center">S</div>;
 };
 
 const Aplus = () => {
-   return (
-      <div className="rounded-md px-2 py-[1px] text-xs bg-[#2ECC71]/20 text-[#2ECC71] flex-center">
-         A+
-      </div>
-   );
+   return <div className="rounded-md px-2 py-[1px] text-xs bg-[#2ECC71]/20 text-[#2ECC71] flex-center">A+</div>;
 };
 
 const OnlyA = () => {
-   return (
-      <div className="rounded-md px-[10px] py-[1px] text-xs bg-[#1ABC9C]/20 text-[#1ABC9C] flex-center">
-         A
-      </div>
-   );
+   return <div className="rounded-md px-[10px] py-[1px] text-xs bg-[#1ABC9C]/20 text-[#1ABC9C] flex-center">A</div>;
 };
 
 const OnlyB = () => {
-   return (
-      <div className="rounded-md px-[10px] py-[1px] text-xs bg-[#795548]/20 text-[#FFF] flex-center">
-         B
-      </div>
-   );
+   return <div className="rounded-md px-[10px] py-[1px] text-xs bg-[#795548]/20 text-[#FFF] flex-center">B</div>;
 };
 
 const Undefined = () => {
-   return (
-      <div className="rounded-md px-[10px] py-[1px] text-xs bg-[#CD6155]/20 text-[#ffffff] flex-center">
-         U
-      </div>
-   );
+   return <div className="rounded-md px-[10px] py-[1px] text-xs bg-[#CD6155]/20 text-[#ffffff] flex-center">U</div>;
 };
 
 export const RankNames = {
@@ -93,10 +69,7 @@ export const RankMenu = ({ rankInput, onRankChange }) => {
          return {
             onCreate() {
                instance.popper.addEventListener("click", (event) => {
-                  if (
-                     instance.props.hideOnInnerButtonPress &&
-                     event.target.getAttribute("hide-on-press") === "false"
-                  ) {
+                  if (instance.props.hideOnInnerButtonPress && event.target.getAttribute("hide-on-press") === "false") {
                      setTimeout(() => instance.hide(), 50);
                      console.log("[hideOnInnerButtonPress]", "pressed");
                      return event;
@@ -116,11 +89,7 @@ export const RankMenu = ({ rankInput, onRankChange }) => {
          plugins={[hideOnInnerButtonPress]}
          trigger="click"
          render={(attrs) => (
-            <div
-               className="flex flex-col w-20 gap-1 p-1 rounded-md shadow-md bg-layout"
-               tabIndex="-1"
-               {...attrs}
-            >
+            <div className="flex-c w-20 gap-1 p-1 rounded-md shadow-md bg-layout" tabIndex="-1" {...attrs}>
                <button
                   className="w-full opacity-70 hover:opacity-100"
                   hide-on-press="false"
@@ -161,10 +130,7 @@ export const RankMenu = ({ rankInput, onRankChange }) => {
                   hide-on-press="false"
                   onClick={() => onUpdate(RankNames.Undefined)}
                >
-                  <RankItem
-                     rankName={RankNames.Undefined}
-                     hide-on-press="false"
-                  />
+                  <RankItem rankName={RankNames.Undefined} hide-on-press="false" />
                </button>
             </div>
          )}

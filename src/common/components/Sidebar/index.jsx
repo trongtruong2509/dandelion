@@ -28,7 +28,7 @@ const Sidebar = () => {
             <img className="h-[70px]" src={Logo} alt="Dandelion" />
          </Link>
 
-         <div className="flex flex-col mb-6">
+         <div className="mb-6 flex-c">
             <SidebarItem path={paths.home} title="Explore" Icon={IoDiscOutline} />
 
             {currentUser ? (
@@ -36,7 +36,7 @@ const Sidebar = () => {
             ) : (
                <Login
                   children={
-                     <button className="flex items-center w-full gap-2 px-6 py-2 text-2xl border-l-4 border-transparent hover:bg-alpha hover:text-dandelion-primary opacity-80 text-primary">
+                     <button className="flex items-center w-full gap-2 px-6 py-2 text-2xl border-l-4 border-transparent hover:bg-alpha hover:text-dandelion opacity-80 text-primary">
                         <IoAlbumsOutline />
                         <p className="hidden text-base sxl:block">My Music</p>
                      </button>
@@ -54,10 +54,8 @@ const Sidebar = () => {
 
          <hr className="w-6 h-px px-4 mx-auto sxl:w-36 text-secondary opacity-30" />
          {currentUser && (
-            <div className="flex flex-col pt-6">
-               <p className="hidden pl-6 mb-2 text-sm font-semibold text-secondary sxl:block">
-                  LIBRARY
-               </p>
+            <div className="pt-6 flex-c">
+               <p className="hidden pl-6 mb-2 text-sm semibold text-secondary sxl:block">LIBRARY</p>
                <SidebarItem path={paths.mymusic} title="Songs" image={SongsImg} />
                <SidebarItem path={paths.playlistLib} title="Playlist" image={PlaylistImg} />
                <SidebarItem path={paths.playHistory} title="Recent Play" image={RecentPlayImg} />
@@ -69,17 +67,13 @@ const Sidebar = () => {
 
 const SidebarItem = ({ path, title, Icon, image }) => {
    const navActive =
-      "bg-dark-alpha-10 border-l-4 border-dandelion-primary sxl:px-6 py-2 flex gap-3 items-center justify-center sxl:justify-start opacity-100 text-dandelion-primary font-semibold text-2xl";
+      "bg-dark-alpha-10 border-l-4 border-dandelion sxl:px-6 py-2 flex-center gap-3 sxl:justify-start opacity-100 text-dandelion semibold text-2xl";
    const navInactive =
-      "hover:bg-alpha hover:text-dandelion-primary sxl:px-6 py-2 flex gap-3 items-center justify-center sxl:justify-start opacity-80 text-primary border-transparent border-l-4 text-2xl";
+      "hover:bg-alpha hover:text-dandelion sxl:px-6 py-2 flex-center gap-3 sxl:justify-start opacity-80 text-primary border-transparent border-l-4 text-2xl";
 
    return (
       <NavLink to={path} className={({ isActive }) => (isActive ? navActive : navInactive)}>
-         {image ? (
-            <img src={image} alt="" className="object-cover w-6 h-6 rounded-full" />
-         ) : (
-            <Icon />
-         )}
+         {image ? <img src={image} alt="" className="object-cover w-6 h-6 rounded-full" /> : <Icon />}
          <p className="hidden text-base sxl:block">{title}</p>
       </NavLink>
    );

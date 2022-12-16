@@ -12,7 +12,7 @@ const PlaylistThumbnail = ({ playlist, className = "" }) => {
       return <ThumbnailItem src={songs[0].thumbnailM} className={"w-full" + className + effect} />;
    } else if (songs?.length >= 4) {
       return (
-         <div className={"flex flex-col w-full h-full " + effect}>
+         <div className={"flex-c w-full h-full " + effect}>
             <div className="flex">
                <ThumbnailItem src={songs[0].thumbnailM} className={"w-1/2 " + className} />
                <ThumbnailItem src={songs[1].thumbnailM} className={"w-1/2 " + className} />

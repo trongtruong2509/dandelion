@@ -66,21 +66,15 @@ const AdminHeader = () => {
    };
 
    return (
-      <div className="flex items-center justify-between w-full py-4 bg-dark-4">
+      <div className="w-full py-4 flex-btw bg-dark-4">
          <ThemeModal show={themeShow} onClose={() => setThemeShow(false)} />
 
-         <UploadSingleModal
-            show={singleShow}
-            onClose={() => setSingleShow(false)}
-         />
+         <UploadSingleModal show={singleShow} onClose={() => setSingleShow(false)} />
 
-         <UploadMultiModal
-            show={multiShow}
-            onClose={() => setMultiShow(false)}
-         />
+         <UploadMultiModal show={multiShow} onClose={() => setMultiShow(false)} />
 
-         <div className="flex items-center justify-center gap-8">
-            <div className="flex items-center justify-center gap-4">
+         <div className="gap-8 flex-center">
+            <div className="gap-4 flex-center">
                <button>
                   <MdWest className="text-2xl text-primary" />
                </button>
@@ -90,27 +84,24 @@ const AdminHeader = () => {
             </div>
             <Search />
          </div>
-         <div className="flex items-center justify-center gap-5">
+         <div className="gap-5 flex-center">
             <div
-               className="w-10 h-10 rounded-full cursor-pointer text-primary flex-center bg-alpha hover:text-dandelion-primary"
+               className="w-10 h-10 rounded-full cursor-pointer text-primary flex-center bg-alpha hover:text-dandelion"
                onClick={() => setThemeShow(true)}
             >
                <IoColorPaletteOutline className="text-xl" />
             </div>
-            <div className="flex items-center justify-center w-10 h-10 rounded-full cursor-pointer text-primary bg-alpha">
+            <div className="w-10 h-10 rounded-full cursor-pointer flex-center text-primary bg-alpha">
                <FaUpload className="text-xl" />
             </div>
             <div
-               className="flex items-center justify-center w-10 h-10 rounded-full cursor-pointer text-primary bg-alpha"
+               className="w-10 h-10 rounded-full cursor-pointer flex-center text-primary bg-alpha"
                onClick={() => setSingleShow(true)}
             >
                <FiUploadCloud className="text-xl" />
             </div>
-            <div className="flex items-center justify-center w-10 h-10 rounded-full cursor-pointer text-primary bg-alpha">
-               <GiCloudUpload
-                  className="text-xl"
-                  onClick={() => setMultiShow(true)}
-               />
+            <div className="w-10 h-10 rounded-full cursor-pointer flex-center text-primary bg-alpha">
+               <GiCloudUpload className="text-xl" onClick={() => setMultiShow(true)} />
             </div>
             <div
                className="cursor-pointer"

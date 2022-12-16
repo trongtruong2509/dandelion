@@ -141,31 +141,22 @@ const Upload = () => {
          <div className="w-[500px] min-h-[500px] flex-center h-auto border border-secondary m-auto rounded-lg">
             {loading ? (
                <>
-                  <SyncLoader
-                     color="rgb(20, 184, 166)"
-                     loading={loading}
-                     cssOverride={override}
-                     size={10}
-                  />
+                  <SyncLoader color="rgb(20, 184, 166)" loading={loading} cssOverride={override} size={10} />
                </>
             ) : !!asset ? (
                <div className="w-full p-8 text-white">
                   <div className="flex items-center w-full h-40 mb-4">
                      <div className={`drop-shadow-lg w-40 h-40 flex-shrink-0`}>
-                        <img
-                           src={asset?.picture}
-                           className="object-cover w-full rounded-lg"
-                           alt="Thumbnail"
-                        />
+                        <img src={asset?.picture} className="object-cover w-full rounded-lg" alt="Thumbnail" />
                      </div>
                      <div className="w-full py-2 pl-6 bg-dark-2 rounded-r-xl">
-                        <p className="font-semibold">{asset?.title}</p>
+                        <p className="semibold">{asset?.title}</p>
                         <p className="mt-1 text-sm text-secondary">
                            {asset?.duration} / <span>{asset?.type}</span>
                         </p>
                      </div>
                   </div>
-                  <div className="flex flex-col gap-3 text-base">
+                  <div className="flex-c gap-3 text-base">
                      <div className="">
                         <label className="text-secondary">Title</label>
                         <input
@@ -212,17 +203,11 @@ const Upload = () => {
                         <MdCancel />
                         Cancel
                      </button>
-                     <button
-                        className="gap-1 px-3 py-2 rounded-full flex-center bg-amber-500"
-                        onClick={handleListen}
-                     >
+                     <button className="gap-1 px-3 py-2 rounded-full flex-center bg-amber-500" onClick={handleListen}>
                         <MdMusicNote />
                         Listen
                      </button>
-                     <button
-                        className="gap-1 px-3 py-2 bg-teal-500 rounded-full flex-center"
-                        onClick={uploadSongInfo}
-                     >
+                     <button className="gap-1 px-3 py-2 bg-teal-500 rounded-full flex-center" onClick={uploadSongInfo}>
                         <MdUpload />
                         Upload
                      </button>

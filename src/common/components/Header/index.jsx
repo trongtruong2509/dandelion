@@ -80,19 +80,19 @@ const Header = ({ active }) => {
          </div>
          <div className="gap-3 text-xl flex-center text-primary">
             <div
-               className="w-10 h-10 rounded-full cursor-pointer flex-center bg-alpha hover:text-dandelion-primary"
+               className="w-10 h-10 rounded-full cursor-pointer flex-center bg-alpha hover:text-dandelion"
                onClick={() => setShow(true)}
             >
                <IoColorPaletteOutline />
             </div>
             <Link
-               className="w-10 h-10 rounded-full cursor-pointer flex-center bg-alpha hover:text-dandelion-primary"
+               className="w-10 h-10 rounded-full cursor-pointer flex-center bg-alpha hover:text-dandelion"
                to="/upload"
             >
                <IoCloudUploadOutline />
             </Link>
             <div
-               className="w-10 h-10 rounded-full cursor-pointer flex-center bg-alpha hover:text-dandelion-primary"
+               className="w-10 h-10 rounded-full cursor-pointer flex-center bg-alpha hover:text-dandelion"
                // onClick={handleSettings}
             >
                <IoSettingsOutline />

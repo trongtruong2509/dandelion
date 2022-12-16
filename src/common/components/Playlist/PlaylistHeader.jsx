@@ -16,8 +16,7 @@ import { shuffleArray } from "../../utils/common";
 import { useRef } from "react";
 import PlaylistModal from "../Modal/PlaylistModal";
 
-const playingMixIcon =
-   "https://zmp3-static.zmdcdn.me/skins/zmp3-v6.1/images/icons/icon-playing.gif";
+const playingMixIcon = "https://zmp3-static.zmdcdn.me/skins/zmp3-v6.1/images/icons/icon-playing.gif";
 
 const PlaylistHeader = () => {
    const dispatch = useDispatch();
@@ -111,13 +110,13 @@ const PlaylistHeader = () => {
             >
                <PlaylistThumbnail playlist={currentPlaylist} size="playlist" />
                {currentPlaylist?.songs?.length && (
-                  <div className="absolute top-0 left-0 items-center justify-center hidden gap-6 text-white rounded-md w-72 h-72 group-hover:flex">
+                  <div className="items-center justify-center hidden gap-6 text-white rounded-md absolute-top w-72 h-72 group-hover:flex">
                      {isCurrentPlaying() ? (
-                        <button className="hover:text-dandelion-primary">
+                        <button className="hover:text-dandelion">
                            <IoMdPause className="text-4xl cursor-pointer" />
                         </button>
                      ) : (
-                        <button className="hover:text-dandelion-primary">
+                        <button className="hover:text-dandelion">
                            <FaPlay className="text-3xl cursor-pointer" />
                         </button>
                      )}
@@ -135,9 +134,7 @@ const PlaylistHeader = () => {
 
          <div>
             <div className="relative gap-1 mt-4 flex-center">
-               <h1 className="text-2xl font-semibold text-center text-primary">
-                  {currentPlaylist?.title}
-               </h1>
+               <h1 className="text-2xl semibold text-center text-primary">{currentPlaylist?.title}</h1>
                {currentPlaylist?.createdBy === user?.id && (
                   <button
                      className="p-2 rounded-full text-secondary hover:text-primary hover:bg-alpha"
@@ -149,16 +146,16 @@ const PlaylistHeader = () => {
             </div>
             <p className="mt-1 mb-5 text-xs text-center text-secondary">
                Created by{" "}
-               <span className="font-semibold cursor-pointer text-primary hover:text-dandelion-primary">
+               <span className="semibold cursor-pointer text-primary hover:text-dandelion">
                   {currentPlaylist?.user}
                </span>
             </p>
 
             {currentPlaylist?.songs?.length > 0 && (
-               <div className="flex items-center justify-center w-full">
+               <div className="w-full flex-center">
                   {currentPlaylist?.id !== playingPlaylist?.value?.id ? (
                      <button
-                        className="flex items-center gap-1 px-5 py-2 text-sm uppercase bg-dandelion-primary rounded-3xl"
+                        className="flex items-center gap-1 px-5 py-2 text-sm uppercase bg-dandelion rounded-3xl"
                         onClick={onPlay}
                      >
                         <IoIosShuffle className="text-lg" />
@@ -166,7 +163,7 @@ const PlaylistHeader = () => {
                      </button>
                   ) : playingTrack?.playing ? (
                      <button
-                        className="flex items-center gap-1 px-5 py-2 text-sm uppercase bg-dandelion-primary rounded-3xl"
+                        className="flex items-center gap-1 px-5 py-2 text-sm uppercase bg-dandelion rounded-3xl"
                         onClick={onPause}
                      >
                         <IoMdPause className="text-lg" />
@@ -174,7 +171,7 @@ const PlaylistHeader = () => {
                      </button>
                   ) : (
                      <button
-                        className="flex items-center gap-1 px-5 py-2 text-sm uppercase bg-dandelion-primary rounded-3xl"
+                        className="flex items-center gap-1 px-5 py-2 text-sm uppercase bg-dandelion rounded-3xl"
                         onClick={onPlay}
                      >
                         <IoMdPlay className="text-lg" />
@@ -184,28 +181,20 @@ const PlaylistHeader = () => {
                </div>
             )}
 
-            <div className="flex items-center justify-center gap-4 mt-5">
+            <div className="gap-4 mt-5 flex-center">
                <div className="p-2 rounded-full cursor-pointer flex-center bg-alpha">
                   {user ? (
                      <div onClick={() => dispatch(updatePlaylists(currentPlaylist))}>
                         {notLiked ? (
-                           <MdFavoriteBorder
-                              className={`text-lg hover:text-dandelion-primary text-primary`}
-                           />
+                           <MdFavoriteBorder className={`text-lg hover:text-dandelion text-primary`} />
                         ) : (
-                           <MdFavorite className="text-lg text-dandelion-primary" />
+                           <MdFavorite className="text-lg text-dandelion" />
                         )}
                      </div>
                   ) : (
-                     <Login
-                        children={
-                           <MdFavoriteBorder
-                              className={`text-lg hover:text-dandelion-primary text-primary`}
-                           />
-                        }
-                     />
+                     <Login children={<MdFavoriteBorder className={`text-lg hover:text-dandelion text-primary`} />} />
                   )}
-                  {/* <MdFavorite className="text-lg text-dandelion-primary" /> */}
+                  {/* <MdFavorite className="text-lg text-dandelion" /> */}
                </div>
                <button className="p-2 rounded-full cursor-pointer flex-center bg-alpha">
                   <HiOutlineDotsHorizontal className="text-lg text-primary" />

@@ -42,7 +42,7 @@ const Genre = () => {
          {loading ? (
             <div className="h-[600px] flex-center">
                <SyncLoader
-                  color="var(--dandelion-primary)"
+                  color="var(--dandelion)"
                   loading={loading}
                   cssOverride={{
                      display: "block",

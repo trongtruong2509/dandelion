@@ -3,15 +3,11 @@ import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 
 const SongSkeleton = ({ size = "10" }) => {
    return (
-      <SkeletonTheme
-         baseColor="var(--loading-bg)"
-         highlightColor="var(--dark-alpha-10)"
-         duration={2}
-      >
+      <SkeletonTheme baseColor="var(--loading-bg)" highlightColor="var(--dark-alpha-10)" duration={2}>
          <div className={`text-white flex gap-3 w-full justify-between`}>
             <div className="flex gap-3">
                <Skeleton width={40} height={40} className={`overflow-hidden rounded-md`} />
-               <div className="flex flex-col">
+               <div className="flex-c">
                   <Skeleton className="mt-2" height={14} width={350} />
                   <Skeleton width={180} height={10} />
                </div>

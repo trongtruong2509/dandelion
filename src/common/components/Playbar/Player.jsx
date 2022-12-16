@@ -1,14 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import {
-   IoPlaySkipForward,
-   IoPlaySkipBack,
-   IoPlay,
-   IoPause,
-   IoShuffleOutline,
-   IoRepeatOutline,
-} from "react-icons/io5";
+import { IoPlaySkipForward, IoPlaySkipBack, IoPlay, IoPause, IoShuffleOutline, IoRepeatOutline } from "react-icons/io5";
 import { MdRepeatOne } from "react-icons/md";
 
 import { play, pause, updateAndPlay } from "../../slices/playingSlice";
@@ -32,9 +25,7 @@ const Player = () => {
 
    const [playing, setPlaying] = useState(false);
    const [drag, setDrag] = useState(0);
-   const { audio, length, time, volume, slider, end, setVolume, setSlider } = useAudio(
-      currentSong?.info
-   );
+   const { audio, length, time, volume, slider, end, setVolume, setSlider } = useAudio(currentSong?.info);
    const isMounted = useRef(false);
 
    const fmtMSS = (s) => new Date(1000 * s).toISOString().substr(15, 4);
@@ -163,9 +154,7 @@ const Player = () => {
             <div className="flex items-center gap-4 text-xl text-player">
                <button
                   className={`p-2 hover:bg-alpha rounded-full ${
-                     playbarSlice?.shuffle
-                        ? "text-dandelion-primary"
-                        : "text-secondary hover:text-primary"
+                     playbarSlice?.shuffle ? "text-dandelion" : "text-secondary hover:text-primary"
                   }`}
                   onClick={(e) => {
                      dispatch(updateShuffle(!playbarSlice?.shuffle));
@@ -193,11 +182,7 @@ const Player = () => {
                      e.stopPropagation();
                   }}
                >
-                  {playing ? (
-                     <IoPause className="text-[40px]" />
-                  ) : (
-                     <IoPlay className="text-[40px]" />
-                  )}
+                  {playing ? <IoPause className="text-[40px]" /> : <IoPlay className="text-[40px]" />}
                </button>
 
                <button
@@ -212,7 +197,7 @@ const Player = () => {
 
                {playbarSlice.repeat === 2 ? (
                   <button
-                     className="p-2 rounded-full hover:bg-alpha text-dandelion-primary"
+                     className="p-2 rounded-full hover:bg-alpha text-dandelion"
                      onClick={(e) => {
                         dispatch(updateRepeat(0));
                         e.stopPropagation();
@@ -222,7 +207,7 @@ const Player = () => {
                   </button>
                ) : playbarSlice.repeat === 1 ? (
                   <button
-                     className="p-2 rounded-full hover:bg-alpha text-dandelion-primary"
+                     className="p-2 rounded-full hover:bg-alpha text-dandelion"
                      onClick={(e) => {
                         dispatch(updateRepeat(2));
                         e.stopPropagation();
@@ -242,7 +227,7 @@ const Player = () => {
                   </button>
                )}
             </div>
-            <div className="gap-2 font-semibold flex-center text-primary">
+            <div className="gap-2 semibold flex-center text-primary">
                <p className="w-8 text-xs text-secondary">{!time ? "0:00" : fmtMSS(time)}</p>
                <div className="w-[600px]">
                   <Progress

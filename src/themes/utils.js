@@ -22,7 +22,7 @@ export function createTheme(theme) {
       "--dark-alpha-80": theme.darkAlpha80,
       "--contrast-color": theme.contrastColor,
       "--hover-tooltip": theme.hoverTooltip,
-      "--dandelion-primary": theme.dandelionPrimary,
+      "--dandelion": theme.dandelionPrimary,
 
       "--primary-bg": theme.bgPrimary,
       "--layout-bg": theme.bgLayout,

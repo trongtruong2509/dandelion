@@ -12,10 +12,7 @@ const SearchItem = ({ infos }) => {
          {infos?.map((info, index) => {
             if (info.artistsNames) {
                return (
-                  <div
-                     key={info.id}
-                     onClick={() => dispatch(updateSearchHistory(info))}
-                  >
+                  <div key={info.id} onClick={() => dispatch(updateSearchHistory(info))}>
                      <SongItem info={info} size="13" options={false} />
                   </div>
                );
@@ -27,21 +24,12 @@ const SearchItem = ({ infos }) => {
                      key={info.id}
                      onClick={() => dispatch(updateSearchHistory(info))}
                   >
-                     <div
-                        className="absolute top-0 left-0 h-[60px] w-full"
-                        hide-on-press="false"
-                     ></div>
+                     <div className="absolute-top h-[60px] w-full" hide-on-press="false"></div>
                      <div className="w-[60px] h-[60px] rounded-full">
-                        <img
-                           src={info.thumbnail}
-                           alt=""
-                           className="object-cover w-full rounded-full"
-                        />
+                        <img src={info.thumbnail} alt="" className="object-cover w-full rounded-full" />
                      </div>
                      <div>
-                        <h2 className="font-semibold text-primary">
-                           {info.name}
-                        </h2>
+                        <h2 className="semibold text-primary">{info.name}</h2>
                         <p className="text-sm text-secondary">Artist</p>
                      </div>
                   </Link>

@@ -7,10 +7,10 @@ function Switch({ init = true, onSwitchChange }) {
 
    return (
       <>
-         <div className="flex flex-col items-center justify-center">
+         <div className="flex-col flex-center">
             <div
                className={`flex items-center w-10 h-[18px] p-1 rounded-full cursor-pointer
-                  ${toggle ? "bg-dandelion-primary" : "bg-contrast"}`}
+                  ${toggle ? "bg-dandelion" : "bg-contrast"}`}
                onClick={() => {
                   setToggle(!toggle);
                   onSwitchChange(!toggle);

@@ -52,8 +52,7 @@ export const themeDefault = {
    borderPlayer: "rgba(0,0,0,0.05)",
 
    shadowMainBox: "hsla(0,0%,81.2%,0.4)",
-   boxShadowQueue:
-      "0 1px 0 rgba(0,0,0,0.3),0 1px 6px rgba(0,0,0,0.3),inset 0 1px 1px hsla(0,0%,100%,0.3)",
+   boxShadowQueue: "0 1px 0 rgba(0,0,0,0.3),0 1px 6px rgba(0,0,0,0.3),inset 0 1px 1px hsla(0,0%,100%,0.3)",
 };
 
 const baseTheme = createTheme(themeDefault);
@@ -93,7 +92,7 @@ export default baseTheme;
     --alpha-layout-bg: rgba(12,3,3,0.8);
     --tab-active-bg: #fff;
     --queue-player-popup-bg: #fff;
-    --progressbar-active-bg: var(--dandelion-primary);
+    --progressbar-active-bg: var(--dandelion);
     --progressbar-player-bg: rgba(0,0,0,0.1);
     --kara-lyrics-bg: #9882bd;
     --kara-btn-bg: hsla(0,0%,100%,0.1);
@@ -102,7 +101,7 @@ export default baseTheme;
     --select-bg: rgba(0,0,0,0.15);
     --text-primary: #32323d;
     --text-secondary: rgba(0,0,0,0.6);
-    --dandelion-primary: #8d22c3;
+    --dandelion: #8d22c3;
     --text-item-hover: #8d22c3;
     --link-text-hover: #8d22c3;
     --player-text: #32323d;

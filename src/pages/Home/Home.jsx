@@ -95,7 +95,7 @@ const Home = () => {
                            <h1 className="text-xl font-bold text-primary">Recently Played</h1>
                         </div>
                         <Link
-                           className="gap-1 text-sm flex-center text-secondary hover:text-dandelion-primary"
+                           className="gap-1 text-sm flex-center text-secondary hover:text-dandelion"
                            to={paths.playHistory}
                         >
                            View All
@@ -113,7 +113,7 @@ const Home = () => {
                         <h1 className="text-xl font-bold text-primary">Your Top Mixes</h1>
                      </div>
                      <Link
-                        className="gap-1 text-sm flex-center text-secondary hover:text-dandelion-primary"
+                        className="gap-1 text-sm flex-center text-secondary hover:text-dandelion"
                         to={paths.newRelease.replace(":id", "playlist")}
                      >
                         View All
@@ -130,7 +130,7 @@ const Home = () => {
                         <button className="text-xl font-bold text-primary">New Uploaded</button>
                      </div>
                      <Link
-                        className="gap-1 text-sm flex-center text-secondary hover:text-dandelion-primary"
+                        className="gap-1 text-sm flex-center text-secondary hover:text-dandelion"
                         to={paths.newRelease.replace(":id", "song")}
                      >
                         View All

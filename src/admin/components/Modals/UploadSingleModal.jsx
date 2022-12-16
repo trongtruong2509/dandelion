@@ -60,10 +60,10 @@ const UploadSingleModal = ({ ...props }) => {
 
    return (
       <Modal {...props} className="p-4 text-primary bg-layout w-96 rounded-xl">
-         <header className="flex items-center justify-center w-full py-1 header">
-            <h4 className="text-xl font-semibold">Add new song with Zing Id</h4>
+         <header className="w-full py-1 flex-center header">
+            <h4 className="text-xl semibold">Add new song with Zing Id</h4>
          </header>
-         <main className="flex flex-col w-full gap-3 py-3">
+         <main className="flex-c w-full gap-3 py-3">
             <input
                type="text"
                value={songId}
@@ -97,7 +97,7 @@ const UploadSingleModal = ({ ...props }) => {
          </main>
          <div className="flex items-center justify-end w-full gap-6 px-4 pt-4 pb-2">
             <button
-               className="w-20 px-3 py-2 transition-all duration-150 ease-out rounded-lg bg-alpha text-navigation hover:text-dandelion-primary hover:bg-dark-alpha-10 hover:opacity-100"
+               className="w-20 px-3 py-2 transition-all duration-150 ease-out rounded-lg bg-alpha text-navigation hover:text-dandelion hover:bg-dark-alpha-10 hover:opacity-100"
                onClick={() => {
                   props.onClose();
                   cleanUp();
