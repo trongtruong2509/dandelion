@@ -1,4 +1,22 @@
 import * as mmb from "music-metadata-browser";
+// import * as jsm from "jsmediatags";
+
+// const parseLink = async (link) => {
+//    //    try {
+//    new jsm.Reader(link).read({
+//       onSuccess: function (tag) {
+//          console.log(tag);
+//       },
+//       onError: function (error) {
+//          console.log(":(", error.type, error.info);
+//       },
+//    });
+
+//    //    console.log("[metadata]", metadata);
+//    //    } catch (error) {
+//    //   console.error(error.message);
+//    //    }
+// };
 
 const parseFile = async (file) => {
    console.log(`Parsing file "${file.name}" of type ${file.type}`);
@@ -8,6 +26,11 @@ const parseFile = async (file) => {
       return metadata;
    });
 };
+
+// const parseLink = async (link) => {
+//    const metadata = await mmb.fetchFromUrl(link);
+//    console.log("[parseSteam] metadata", metadata);
+// };
 
 const fmtMSS = (s) => new Date(1000 * s).toISOString().substr(15, 4);
 
@@ -19,6 +42,7 @@ const extractAudio = async (src) => {
 
    try {
       const metadata = await parseFile(src);
+      // const metadata = await parseLink(src);
       data["album"] = metadata.common.album;
       data["artists"] = metadata.common.artists;
       data["title"] = metadata.common.title;

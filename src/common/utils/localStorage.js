@@ -18,7 +18,9 @@ const get = (key) => {
 };
 
 export const updatePlaying = (data) => {
-   write(localKeys.playingTrack, data);
+   if (data) {
+      write(localKeys.playingTrack, data);
+   }
 };
 
 export const getPlaying = () => {

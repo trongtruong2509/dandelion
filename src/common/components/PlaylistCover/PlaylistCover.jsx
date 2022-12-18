@@ -1,35 +1,32 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
+import { IoMdPause } from "react-icons/io";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { IoHeartOutline, IoHeart, IoClose, IoPlay } from "react-icons/io5";
 
-import { updatePlaylists, updateRecentPlay, updateRecentPlaylist } from "../../slices/userSlice";
-import { updateCurrentPlaylist, updatePlayingPlaylist } from "../../slices/playlistSlice";
+import useTriggerPlaylist from "../../hooks/useTriggerPlaylist";
+import { updatePlaylists } from "../../slices/userSlice";
+import { pause, play } from "../../slices/playingSlice";
 
 import { adminPaths } from "../../../app/routes";
-import PlaylistThumbnail from "../Playlist/PlaylistThumbnail";
-import { IoMdPause } from "react-icons/io";
-import { pause, play, update } from "../../slices/playingSlice";
-import { initQueue } from "../../slices/playQueueSlice";
-import { shuffleArray } from "../../utils/common";
 import Login from "../Header/Login";
+import PlaylistThumbnail from "../Playlist/PlaylistThumbnail";
 import DeletePlaylistModal from "../Modal/DeletePlaylistModal";
-import useTriggerPlaylist from "../../hooks/useTriggerPlaylist";
+import { updateCurrentPlaylist } from "../../slices/playlistSlice";
 
 const playingMixIcon = "https://zmp3-static.zmdcdn.me/skins/zmp3-v6.1/images/icons/icon-playing.gif";
 
 const PlaylistCover = ({ info, size = "md", canDelete = false, admin = false }) => {
    const navigate = useNavigate();
    const dispatch = useDispatch();
+   const triggerPlaylist = useTriggerPlaylist();
 
    const playingPlaylist = useSelector((state) => state.playlist.playing);
    const currentPlaylist = useSelector((state) => state.playlist.current);
    const playingSong = useSelector((state) => state.playing.value);
    const currentUser = useSelector((state) => state.user.user);
-
-   // const { trigger, setTrigger } = useTriggerPlaylist();
 
    const [show, setShow] = useState(false);
 
@@ -37,51 +34,26 @@ const PlaylistCover = ({ info, size = "md", canDelete = false, admin = false }) 
       return info?.id === playingPlaylist?.value?.id && playingSong?.playing;
    };
 
-   const onNavigate = (triggerPlay) => {
-      console.log("[onNavigate] clicked");
-      if (admin) {
-         navigate(adminPaths.playlistDetail.replace(":id", info.id));
-      } else {
-         navigate(info.link);
-
-         if (currentPlaylist?.value?.id !== info.id) {
-            dispatch(updateCurrentPlaylist(info));
-         }
+   const onNavigate = () => {
+      const path = admin ? adminPaths.playlistDetail.replace(":id", info.id) : info.link;
+      // pass playlist to current to avoid fetching data
+      if (currentPlaylist?.value?.id !== info.id) {
+         dispatch(updateCurrentPlaylist(info));
       }
+
+      navigate(path);
    };
 
    const onPlay = () => {
-      console.log("[onPlay] clicked");
-
       if (!playingPlaylist?.value || info.id !== playingPlaylist.value.id) {
          if (info?.songs.length) {
             // play new playlist
-            onNavigate(true);
-
-            dispatch(updateRecentPlaylist(info?.id));
-            dispatch(updatePlayingPlaylist(info));
-            shuffleAndPlay(info?.songs, playingSong.shuffle);
+            onNavigate();
+            triggerPlaylist(info);
          }
-
-         // dispatch(updateRecentPlaylist(info?.id));
-         // dispatch(updatePlayingPlaylist(info));
-         // shuffleAndPlay(info?.songs, playingSong.shuffle);
-         // setTrigger({ playlist: info, chosen: null });
       } else {
          playingSong?.playing ? dispatch(pause()) : dispatch(play());
       }
-   };
-
-   const shuffleAndPlay = (songs, shuffle, chosen) => {
-      let shuffledSongs = [...songs];
-
-      if (shuffle) {
-         shuffleArray(shuffledSongs, chosen);
-      }
-
-      dispatch(update({ info: shuffledSongs[0], playing: true }));
-      dispatch(updateRecentPlay(shuffledSongs[0]));
-      dispatch(initQueue(shuffledSongs));
    };
 
    const widthSize = {
@@ -90,34 +62,30 @@ const PlaylistCover = ({ info, size = "md", canDelete = false, admin = false }) 
       lg: "max-w-[300px]",
    };
 
-   const handleLogin = () => {
-      console.log("[TODO] handleLogin");
-   };
-
    const LikeIconOutline = () => (
       <IoHeartOutline className={`${size === "sm" ? "text-[22px]" : "text-2xl"} text-white hover:text-dandelion`} />
    );
 
    const LikeIcon = () => {
       return (
-         <button
-            className={`${
-               size === "sm" ? "p-[6px]" : "p-2"
-            } rounded-full cursor-pointer hover:bg-hover-tooltip flex-center"`}
-            onClick={() => (currentUser ? dispatch(updatePlaylists(info)) : handleLogin())}
-         >
+         <div>
             {currentUser ? (
-               <>
+               <button
+                  className={`${
+                     size === "sm" ? "p-[6px]" : "p-2"
+                  } rounded-full cursor-pointer hover:bg-hover-tooltip flex-center"`}
+                  onClick={() => dispatch(updatePlaylists(info))}
+               >
                   {currentUser?.playlists?.find((p) => p === info?.id) ? (
                      <IoHeart className={`${size === "sm" ? "text-[22px]" : "text-2xl"} text-dandelion`} />
                   ) : (
                      LikeIconOutline()
                   )}
-               </>
+               </button>
             ) : (
                <Login children={LikeIconOutline()} />
             )}
-         </button>
+         </div>
       );
    };
 
@@ -125,9 +93,11 @@ const PlaylistCover = ({ info, size = "md", canDelete = false, admin = false }) 
       if (info?.createdBy === currentUser?.id) {
          return (
             <button
-               className={`w-10 h-10  rounded-full cursor-pointer flex-center hover:bg-hover-tooltip ${
-                  canDelete ? "opacity-100" : "opacity-0"
-               }`}
+               className={
+                  "w-10 h-10 rounded-full cursor-pointer flex-center hover:bg-hover-tooltip " + canDelete
+                     ? "opacity-100"
+                     : "opacity-0"
+               }
                onClick={() => setShow(true)}
             >
                <IoClose className="text-3xl text-white" />
@@ -157,7 +127,8 @@ const PlaylistCover = ({ info, size = "md", canDelete = false, admin = false }) 
                   className={`${size === "sm" ? "gap-4" : "gap-6"} text-white flex-center z-30`}
                   onClick={(e) => e.stopPropagation()}
                >
-                  <div>{DisplayIcon()}</div>
+                  {DisplayIcon()}
+
                   <button
                      className={`hover:text-dandelion flex-center aspect-square
                         ${widthSize[size]}`}
@@ -184,8 +155,7 @@ const PlaylistCover = ({ info, size = "md", canDelete = false, admin = false }) 
          </div>
          <div className="w-full">
             <div className="w-full mt-2 flex-btw">
-               <h1 className="w-40 semibold truncate text-primary">{info?.title}</h1>
-               {/* {size === "md" && <p className="text-sm text-secondary">{info?.songs?.length} tracks</p>} */}
+               <h1 className="w-40 truncate semibold text-primary">{info?.title}</h1>
             </div>
             <p className="mt-1 text-xs text-secondary">{info?.user}</p>
          </div>

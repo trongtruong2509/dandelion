@@ -12,7 +12,7 @@ export const playingSlice = createSlice({
    name: "playing",
    initialState,
    reducers: {
-      update: (state, action) => {
+      updateTrack: (state, action) => {
          state.value = action.payload;
          local.updatePlaying(action.payload.info);
       },
@@ -40,7 +40,6 @@ export const playingSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { update, updateAndPlay, play, pause, emptyPlayingTrack } =
-   playingSlice.actions;
+export const { updateTrack, updateAndPlay, play, pause, emptyPlayingTrack } = playingSlice.actions;
 
 export default playingSlice.reducer;

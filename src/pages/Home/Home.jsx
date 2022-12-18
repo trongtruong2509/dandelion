@@ -88,7 +88,7 @@ const Home = () => {
             <HomeSkeleton />
          ) : (
             <div className="w-full text-primary">
-               {currentUser?.recentPlaylist.length > 0 && (
+               {currentUser?.recentPlaylist?.length > 0 && (
                   <div className="w-full mt-7">
                      <div className="mb-3 flex-btw">
                         <div className="flex items-center justify-start gap-4">

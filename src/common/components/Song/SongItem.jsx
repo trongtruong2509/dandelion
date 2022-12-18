@@ -3,20 +3,13 @@ import { IoPlay } from "react-icons/io5";
 import { IoMdPause } from "react-icons/io";
 import { useSelector, useDispatch } from "react-redux";
 
+import { play, pause } from "../../slices/playingSlice";
+import { addSuggestionToQueue } from "../../slices/playQueueSlice";
+import useTriggerTrack from "../../hooks/useTriggerTrack";
+import { convertTimeToStr } from "../../utils/common";
+
 import SongInfo from "../Song/SongInfo";
 import SongOptions from "../Song/SongOptions";
-
-import { play, pause, update } from "../../slices/playingSlice";
-import { updateRecentPlay, updateRecentPlaylist } from "../../slices/userSlice";
-import {
-   addSuggestionToQueue,
-   addToPlay,
-   initQueue,
-   triggerFromSuggested,
-   updateQueue,
-} from "../../slices/playQueueSlice";
-import { emtpyPlayingPlaylist, updateCurrentToPlaying } from "../../slices/playlistSlice";
-import { convertTimeToStr, shuffleArray } from "../../utils/common";
 
 const playingMixIcon = "https://zmp3-static.zmdcdn.me/skins/zmp3-v6.1/images/icons/icon-playing.gif";
 
@@ -39,12 +32,9 @@ const SongItem = ({
    activeDots = false,
 }) => {
    const dispatch = useDispatch();
+   const triggerTrack = useTriggerTrack();
 
    const playingSong = useSelector((state) => state.playing.value);
-   const playingPlaylist = useSelector((state) => state.playlist.playing.value);
-   const currentPlaylist = useSelector((state) => state.playlist.current.value);
-   const playqueue = useSelector((state) => state.playqueue);
-
    const [current, setCurrent] = useState(false);
 
    useEffect(() => {
@@ -55,84 +45,11 @@ const SongItem = ({
       }
    }, [playingSong, info]);
 
-   const shuffleAndPlay = (songs, shuffle, chosen) => {
-      let shuffledSongs = [...songs];
-
-      if (shuffle) {
-         shuffleArray(shuffledSongs, chosen);
-      }
-
-      dispatch(update({ info: shuffledSongs[0], playing: true }));
-      dispatch(updateRecentPlay(shuffledSongs[0]));
-      dispatch(initQueue(shuffledSongs));
-   };
-
    const playSong = () => {
       if (current) {
          playingSong?.playing ? dispatch(pause()) : dispatch(play());
       } else {
-         dispatch(update({ info, playing: true }));
-         dispatch(updateRecentPlay(info));
-
-         if (playqueue?.suggestion.find((t) => t.id === info.id) && !inPlaylist) {
-            console.log("[playSong] is in suggestion");
-            dispatch(addToPlay(info));
-            dispatch(triggerFromSuggested(info));
-         } else {
-            if (playingPlaylist) {
-               const inPlaying = playingPlaylist.songs?.find((t) => t.id === info.id);
-               const inCurrent = currentPlaylist?.songs?.find((t) => t.id === info.id);
-
-               if (!inPlaying && !inCurrent) {
-                  // trigger not from the playlist. treat as a single track
-                  console.log("[playSong] triggered track not from the playlist. treat as a single track");
-
-                  dispatch(emtpyPlayingPlaylist());
-                  dispatch(initQueue([info]));
-               } else if (inPlaylist && playingPlaylist.id !== currentPlaylist.id) {
-                  // incase current playlist is not playing playlist even tho trigger song is in both current and playing => trigger new playlist
-                  dispatch(updateCurrentToPlaying(info));
-                  shuffleAndPlay(currentPlaylist.songs, true, info);
-
-                  if (currentPlaylist?.id !== "hidden") {
-                     dispatch(updateRecentPlaylist(currentPlaylist.id));
-                  }
-
-                  console.log(
-                     "[playSong] incase current playlist is not playing playlist even tho trigger song is in both current and playing => trigger new playlist"
-                  );
-               } else if (inPlaying) {
-                  // track is in queue. simply update it to playing.
-                  console.log("[playSong] track is in queue. simply update it to playing.");
-
-                  dispatch(updateQueue(info));
-               }
-            } else if (
-               playqueue?.next?.find((t) => t.id === info.id) ||
-               playqueue?.played?.find((t) => t.id === info.id)
-            ) {
-               // in queue
-               console.log("[playSong] in queue");
-               dispatch(updateQueue(info));
-            } else {
-               if (inPlaylist) {
-                  // trigger new playlist
-                  console.log("[playSong] trigger new playlist");
-                  if (currentPlaylist?.id !== "hidden") {
-                     dispatch(updateRecentPlaylist(currentPlaylist.id));
-                  }
-
-                  dispatch(updateCurrentToPlaying(info));
-                  shuffleAndPlay(currentPlaylist.songs, true, info);
-               } else {
-                  // trigger not from the playlist. treat as a single track
-                  console.log("[playSong] trigger not from the playlist. treat as a single track");
-
-                  dispatch(emtpyPlayingPlaylist());
-                  dispatch(initQueue([info]));
-               }
-            }
-         }
+         triggerTrack(info, inPlaylist);
       }
    };
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { IoIosShuffle, IoMdPause, IoMdPlay } from "react-icons/io";
 import { FiEdit3 } from "react-icons/fi";
@@ -15,14 +15,16 @@ import { initQueue } from "../../slices/playQueueSlice";
 import { shuffleArray } from "../../utils/common";
 import { useRef } from "react";
 import PlaylistModal from "../Modal/PlaylistModal";
+import useTriggerPlaylist from "../../hooks/useTriggerPlaylist";
 
 const playingMixIcon = "https://zmp3-static.zmdcdn.me/skins/zmp3-v6.1/images/icons/icon-playing.gif";
 
-const PlaylistHeader = () => {
+const PlaylistHeader = ({ info }) => {
    const dispatch = useDispatch();
+   const triggerPlaylist = useTriggerPlaylist();
 
    const currentPlaylist = useSelector((state) => state.playlist.current.value);
-   const playingPlaylist = useSelector((state) => state.playlist.playing);
+   const playingPlaylistSlice = useSelector((state) => state.playlist.playing);
    const playingTrack = useSelector((state) => state.playing.value);
    const user = useSelector((state) => state.user.user);
    const isMounted = useRef(false);
@@ -32,47 +34,35 @@ const PlaylistHeader = () => {
       "rounded-md transition-[border-radius] duration-500 delay-500 ease-out"
    );
 
-   const shuffleAndPlay = (songs, shuffle, chosen) => {
-      let shuffledSongs = [...songs];
-
-      if (shuffle) {
-         shuffleArray(shuffledSongs, chosen);
-      }
-
-      dispatch(update({ info: shuffledSongs[0], playing: true }));
-      dispatch(updateRecentPlay(shuffledSongs[0]));
-      dispatch(initQueue(shuffledSongs));
-   };
-
    useEffect(() => {
-      const playing = playingPlaylist.value;
-      const track = playingPlaylist?.chosenTrack;
+      const playing = playingPlaylistSlice.value;
+      const track = playingPlaylistSlice?.chosenTrack;
 
       if (isMounted.current) {
          if (currentPlaylist?.id === playing?.id) {
             if (track) {
-               shuffleAndPlay(playing?.songs, playing.shuffle, track);
+               triggerPlaylist(playing, track);
             } else {
                if (playing?.songs.length > 0) {
-                  shuffleAndPlay(playing?.songs, playing.shuffle);
+                  triggerPlaylist(playing);
                }
             }
          }
       } else {
          isMounted.current = true;
       }
-   }, [playingPlaylist?.value]);
+   }, [playingPlaylistSlice?.value]);
 
    // special spinoff animation. only apply when a track already played
    useEffect(() => {
-      if (playingTrack?.playing) {
+      if (playingTrack?.playing && currentPlaylist.id === playingPlaylistSlice?.value?.id) {
          setThumbnailRotateOff(`${thumbnailRotateOff} animate-[spinoff_0.5s_ease_1]`);
       }
-   }, [playingTrack]);
+   }, [playingTrack, currentPlaylist, playingPlaylistSlice]);
 
    const onPlay = () => {
       if (currentPlaylist.songs.length) {
-         if (currentPlaylist?.id !== playingPlaylist?.value?.id) {
+         if (currentPlaylist?.id !== playingPlaylistSlice?.value?.id) {
             dispatch(updateCurrentToPlaying());
          } else {
             dispatch(play());
@@ -84,12 +74,13 @@ const PlaylistHeader = () => {
       if (isCurrentPlaying()) {
          dispatch(pause());
       } else {
+         // play new playlist
          onPlay();
       }
    };
 
    const isCurrentPlaying = () => {
-      return currentPlaylist?.id === playingPlaylist?.value?.id && playingTrack?.playing;
+      return currentPlaylist?.id === playingPlaylistSlice?.value?.id && playingTrack?.playing;
    };
 
    const notLiked = !user || !user?.playlists.find((t) => t === currentPlaylist?.id);
@@ -108,16 +99,16 @@ const PlaylistHeader = () => {
                }`}
                onClick={playingTrack?.playing ? onPause : onPlay}
             >
-               <PlaylistThumbnail playlist={currentPlaylist} size="playlist" />
+               <PlaylistThumbnail playlist={info} size="playlist" />
                {currentPlaylist?.songs?.length && (
                   <div className="items-center justify-center hidden gap-6 text-white rounded-md absolute-top w-72 h-72 group-hover:flex">
                      {isCurrentPlaying() ? (
-                        <button className="hover:text-dandelion">
-                           <IoMdPause className="text-4xl cursor-pointer" />
+                        <button className="text-4xl cursor-pointer hover:text-dandelion">
+                           <IoMdPause />
                         </button>
                      ) : (
-                        <button className="hover:text-dandelion">
-                           <FaPlay className="text-3xl cursor-pointer" />
+                        <button className="text-3xl cursor-pointer hover:text-dandelion">
+                           <FaPlay />
                         </button>
                      )}
                   </div>
@@ -134,7 +125,7 @@ const PlaylistHeader = () => {
 
          <div>
             <div className="relative gap-1 mt-4 flex-center">
-               <h1 className="text-2xl semibold text-center text-primary">{currentPlaylist?.title}</h1>
+               <h1 className="text-2xl text-center semibold text-primary">{currentPlaylist?.title}</h1>
                {currentPlaylist?.createdBy === user?.id && (
                   <button
                      className="p-2 rounded-full text-secondary hover:text-primary hover:bg-alpha"
@@ -146,14 +137,14 @@ const PlaylistHeader = () => {
             </div>
             <p className="mt-1 mb-5 text-xs text-center text-secondary">
                Created by{" "}
-               <span className="semibold cursor-pointer text-primary hover:text-dandelion">
+               <span className="cursor-pointer semibold text-primary hover:text-dandelion">
                   {currentPlaylist?.user}
                </span>
             </p>
 
             {currentPlaylist?.songs?.length > 0 && (
                <div className="w-full flex-center">
-                  {currentPlaylist?.id !== playingPlaylist?.value?.id ? (
+                  {currentPlaylist?.id !== playingPlaylistSlice?.value?.id ? (
                      <button
                         className="flex items-center gap-1 px-5 py-2 text-sm uppercase bg-dandelion rounded-3xl"
                         onClick={onPlay}

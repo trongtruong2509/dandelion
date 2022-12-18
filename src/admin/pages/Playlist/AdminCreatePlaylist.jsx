@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { IoIosMusicalNote } from "react-icons/io";
 import { MdSearch } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import { update } from "../../../common/slices/playingSlice";
+import { updateTrack } from "../../../common/slices/playingSlice";
 import SongItem from "../../../common/components/Song/SongItem";
 import Filters from "../../components/Filter/Filters";
 import Tippy from "@tippyjs/react/headless"; // different import path!
@@ -135,7 +135,7 @@ const AdminCreatePlaylist = () => {
 
          <div className="grid w-full grid-cols-12 my-4">
             <div className="flex col-span-8 gap-5">
-               <div className="flex-c items-center">
+               <div className="items-center flex-c">
                   <div className="relative z-10 flex w-64 h-64 rounded-lg group">
                      <img
                         src={thumbnail ? thumbnail : AlbumDefault}
@@ -221,7 +221,7 @@ const AdminCreatePlaylist = () => {
                                  like={false}
                                  canDetele
                                  onDelete={onRemove}
-                                 onClick={() => dispatch(update(song))}
+                                 onClick={() => dispatch(updateTrack(song))}
                               />
                            ))}
                         </>

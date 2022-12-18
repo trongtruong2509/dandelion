@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { IoIosMusicalNote } from "react-icons/io";
 
-import { update } from "../../common/slices/playingSlice";
+import { updateTrack } from "../../common/slices/playingSlice";
 import {
    fetchCurrentPlaylistInfo,
    addTrackToPlaylist,
@@ -29,9 +29,11 @@ const Playlist = () => {
    const [suggestSongs, setSuggestSongs] = useState([]);
 
    useEffect(() => {
-      let initSuggested = user?.recentPlayed || [];
-      initSuggested.shift();
-      setSuggestSongs(initSuggested);
+      if (user && currentPlaylist?.createdBy === user?.id) {
+         let initSuggested = [...user.recentPlayed];
+         initSuggested.shift();
+         setSuggestSongs(initSuggested);
+      }
    }, []);
 
    useEffect(() => {
@@ -45,6 +47,7 @@ const Playlist = () => {
    }, [user?.recentPlayed, nonUser?.recentPlayed, currentPlaylist?.songs]);
 
    useEffect(() => {
+      console.log("[params]", params?.id);
       // if currentPlaylist is empty or different id with current id, fetch playlist again.
       // mostly for reload page, change page
       if (!currentPlaylist || currentPlaylist.id !== params?.id) {
@@ -79,7 +82,7 @@ const Playlist = () => {
                <PlaylistSkeleton />
             ) : (
                <>
-                  <PlaylistHeader />
+                  <PlaylistHeader info={currentPlaylist} />
                   <div className="w-full">
                      <div>
                         {currentPlaylist?.songs?.length > 0 ? (
@@ -94,7 +97,7 @@ const Playlist = () => {
                                     inPlaylist
                                     canDetele={currentPlaylist?.createdBy === user?.id ? true : false}
                                     onDelete={handeDelete}
-                                    onClick={() => dispatch(update(song))}
+                                    onClick={() => dispatch(updateTrack(song))}
                                  />
                               ))}
                               <div className="flex w-full gap-2 mt-1 text-xs text-secondary">

@@ -7,7 +7,7 @@ import SyncLoader from "react-spinners/SyncLoader";
 import _ from "lodash";
 
 import extractAudio from "../../common/utils/extractAudio";
-import { update } from "./../../common/slices/playingSlice";
+import { updateTrack } from "./../../common/slices/playingSlice";
 import { addNewDoc } from "../../common/utils/firebaseApi";
 import { firebaseKeys } from "../../dataTemplate";
 
@@ -31,10 +31,12 @@ const Upload = () => {
    const [genres, setGenres] = useState([]);
 
    const handleLoadFile = async (src) => {
-      const data = await extractAudio(src);
-      const uploadStatus = uploadFile(src);
+      const src_local =
+         "https://data.chiasenhac.com/down2/2276/5/2275174-a66c2427/128/Nguoi%20Dang%20Thuong%20La%20Anh%20-%20OnlyC.mp3";
+      const data = await extractAudio(src_local);
+      console.log("[handleLoadFile]", data);
 
-      if (uploadStatus) {
+      if (true) {
          if (_.isEmpty(data)) {
             console.log("extracted data is empty");
             setAsset(null);
@@ -68,7 +70,7 @@ const Upload = () => {
    }, [asset, uploadedSrc, genres]);
 
    const handleListen = () => {
-      dispatch(update(uploadSong));
+      dispatch(updateTrack(uploadSong));
    };
 
    const uploadFile = (file) => {
@@ -156,7 +158,7 @@ const Upload = () => {
                         </p>
                      </div>
                   </div>
-                  <div className="flex-c gap-3 text-base">
+                  <div className="gap-3 text-base flex-c">
                      <div className="">
                         <label className="text-secondary">Title</label>
                         <input

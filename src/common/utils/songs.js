@@ -79,8 +79,6 @@ export const getSuggestedSongs = async (playing) => {
 
       const genresFiltered = playing.genreIds.filter((g) => !["IWZ9Z08I", "IWZ9Z08O", "IWZ9Z08W"].includes(g));
 
-      console.log("[getSuggestedSongs]", playing.genreIds, genresFiltered);
-
       if (genresFiltered.length) {
          const queryByGenres = query(
             collection(firestore, firebaseKeys.songs),

@@ -5,12 +5,11 @@ import Tippy from "@tippyjs/react/headless"; // different import path!
 
 import { IoIosMusicalNote } from "react-icons/io";
 import { MdSearch } from "react-icons/md";
-import { fetchAllTracks } from "../../slices/adminTrackSlice";
 import { IoCloudUploadOutline } from "react-icons/io5";
 
 import { adminPaths } from "../../../app/routes";
-import { update } from "../../../common/slices/playingSlice";
-import { getPlaylistById, initPlaylist, resetUploadStatus, uploadPlaylist } from "../../slices/uploadSlice";
+import { updateTrack } from "../../../common/slices/playingSlice";
+import { getPlaylistById, resetUploadStatus, uploadPlaylist } from "../../slices/uploadSlice";
 import AlbumDefault from "./../../../assets/album_default.png";
 
 import Filters from "../../components/Filter/Filters";
@@ -234,7 +233,7 @@ const SinglePlaylist = () => {
                                     like={false}
                                     canDetele
                                     onDelete={onRemove}
-                                    onClick={() => dispatch(update(song))}
+                                    onClick={() => dispatch(updateTrack(song))}
                                  />
                               ))}
                            </div>
