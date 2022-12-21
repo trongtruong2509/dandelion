@@ -31,7 +31,7 @@ const ArtistCover = ({ info, size = "md", admin = false }) => {
       console.log("[onPlay] hits", hits);
       let songs = [...hits];
 
-      dispatch(updateCurrentPlaylist(initHiddenPlaylist(songs)));
+      dispatch(updateCurrentPlaylist(initHiddenPlaylist(songs, "hidden_artist")));
       dispatch(updateAndPlay(songs[0]));
       dispatch(initQueue(songs));
    };

@@ -42,7 +42,7 @@ const Home = () => {
 
    useEffect(() => {
       if (newReleases) {
-         dispatch(updateCurrentPlaylist(initHiddenPlaylist(newReleases)));
+         dispatch(updateCurrentPlaylist(initHiddenPlaylist(newReleases, "hidden_home")));
       }
    }, [newReleases]);
 

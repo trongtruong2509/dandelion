@@ -138,11 +138,11 @@ const PlayerQueue = () => {
                         <div className="mt-4">
                            <div className="pl-2 mb-1">
                               <h2 className="flex gap-2 semibold text-primary">Play next</h2>
-                              {isInPlaylist() && playingPlaylist.id !== "hidden" && (
+                              {isInPlaylist() && !playingPlaylist.id.startsWith("hidden") && (
                                  <p className="text-sm text-secondary">
                                     From playlist{" "}
                                     <Link
-                                       className="semibold cursor-pointer text-dandelion hover:underline"
+                                       className="cursor-pointer semibold text-dandelion hover:underline"
                                        to={playingPlaylist.link}
                                     >
                                        {playingPlaylist?.title}

@@ -25,6 +25,6 @@ export const getLatestPlaylists = async () => {
    }
 };
 
-export const initHiddenPlaylist = (songs) => {
-   return { ...playlistTemplate, id: "hidden", songs };
+export const initHiddenPlaylist = (songs, id) => {
+   return { ...playlistTemplate, id, songs };
 };

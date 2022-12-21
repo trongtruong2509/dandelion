@@ -21,8 +21,8 @@ const DeletePlaylistModal = ({ ...props }) => {
          <header className="w-full header text-primary">
             <h4 className="text-lg semibold">Delete playlist</h4>
          </header>
-         <main className="flex-c w-full gap-4 pt-2 text-primary">
-            <p>{`Do you want to delete playlist ${props.info.title}? Click OK to continue`}</p>
+         <main className="w-full gap-4 pt-2 flex-c text-primary">
+            <p>{`Do you want to delete playlist ${props?.info?.title}? Click OK to continue`}</p>
          </main>
          <div className="flex items-center justify-end w-full gap-4 pt-4">
             <button

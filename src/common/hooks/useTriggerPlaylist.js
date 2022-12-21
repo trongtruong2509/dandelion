@@ -8,10 +8,6 @@ import { shuffleArray } from "../utils/common";
 const useTriggerPlaylist = () => {
    const dispatch = useDispatch();
 
-   // const playingPlaylist = useSelector((state) => state.playlist.playing);
-   // const playingTrack = useSelector((state) => state.playing.value);
-   // const user = useSelector((state) => state.user.user);
-   // const queue = useSelector((state) => state.queue);
    const shuffle = useSelector((state) => state.playbar.shuffle);
 
    return (playlist, chosen) => {

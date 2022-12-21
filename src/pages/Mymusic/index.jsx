@@ -29,7 +29,7 @@ const Mymusic = () => {
       if (!currentUser) {
          navigate(paths.home);
       } else if (currentUser?.likedSongs) {
-         dispatch(updateCurrentPlaylist(initHiddenPlaylist(currentUser.likedSongs)));
+         dispatch(updateCurrentPlaylist(initHiddenPlaylist(currentUser.likedSongs, "hidden_mymusic")));
       }
    }, [currentUser?.likedSongs, currentUser]);
 

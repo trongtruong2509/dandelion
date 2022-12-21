@@ -48,7 +48,7 @@ const Artist = () => {
       const fetchTophits = async () => {
          const hits = await getArtistTopHits(artist);
          setTopHits(hits);
-         dispatch(updateCurrentPlaylist(initHiddenPlaylist(hits)));
+         dispatch(updateCurrentPlaylist(initHiddenPlaylist(hits, "hidden_artistHits")));
       };
 
       fetchTophits();
@@ -76,7 +76,7 @@ const Artist = () => {
                   <div className="h-full z-[1] absolute top-0 bottom-0 left-0 right-0 bg-artist-layout" />
                </div>
             )}
-            <div className="z-10 flex-c items-start">
+            <div className="z-10 items-start flex-c">
                <h1 className="py-12 font-bold text-7xl text-primary">{artist?.name}</h1>
                <div className="gap-6 flex-center">
                   <button

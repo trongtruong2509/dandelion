@@ -13,7 +13,7 @@ const Playbar = () => {
    const currentSong = useSelector((state) => state.playing.value)?.info;
    const playingPlaylist = useSelector((state) => state.playlist.playing.value);
 
-   const inPlaylist = () => playingPlaylist && playingPlaylist?.id !== "hidden";
+   const inPlaylist = () => playingPlaylist && !playingPlaylist?.id.startsWith("hidden");
 
    const onClick = () => {
       if (inPlaylist()) {
@@ -39,7 +39,7 @@ const Playbar = () => {
                      />
                   </div>
                   <div className="max-w-[200px] 2xl:max-w-[240px] min-w-[120px] shrink-0">
-                     <h1 className="text-sm semibold truncate text-player">{currentSong?.title}</h1>
+                     <h1 className="text-sm truncate semibold text-player">{currentSong?.title}</h1>
                      <div className="gap-2 mt-1 text-xs truncate text-secondary">
                         <ArtistsDisplay info={currentSong} />
                      </div>
