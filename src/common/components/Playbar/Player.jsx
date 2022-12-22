@@ -13,6 +13,7 @@ import { Progress } from "./Progress";
 import { updateRepeat, updateShuffle, updateVolume } from "../../slices/playbarSlice";
 import { shuffleArray } from "../../utils/common";
 import PlaybarOptions from "./PlaybarOptions";
+import { LoadingSpinner } from "./../../../assets";
 
 const Player = () => {
    const dispatch = useDispatch();
@@ -25,7 +26,7 @@ const Player = () => {
 
    const [playing, setPlaying] = useState(false);
    const [drag, setDrag] = useState(0);
-   const { audio, length, time, volume, slider, end, setVolume, setSlider } = useAudio(currentSong?.info);
+   const { audio, length, time, volume, slider, end, readyState, setVolume, setSlider } = useAudio(currentSong?.info);
    const isMounted = useRef(false);
 
    const fmtMSS = (s) => new Date(1000 * s).toISOString().substr(15, 4);
@@ -176,14 +177,20 @@ const Player = () => {
                   <IoPlaySkipBack />
                </button>
 
-               <button
-                  onClick={(e) => {
-                     setPlaying(!playing);
-                     e.stopPropagation();
-                  }}
-               >
-                  {playing ? <IoPause className="text-[40px]" /> : <IoPlay className="text-[40px]" />}
-               </button>
+               {readyState === 4 ? (
+                  <button
+                     onClick={(e) => {
+                        setPlaying(!playing);
+                        e.stopPropagation();
+                     }}
+                  >
+                     {playing ? <IoPause className="text-[40px]" /> : <IoPlay className="text-[40px]" />}
+                  </button>
+               ) : (
+                  <div className="-m-1 flex-center">
+                     <LoadingSpinner />
+                  </div>
+               )}
 
                <button
                   className="p-2 text-xl rounded-full hover:bg-alpha"
@@ -238,6 +245,7 @@ const Player = () => {
                      }}
                      onMouseUp={() => setPlaying(true)}
                      onTouchEnd={() => setPlaying(true)}
+                     readyState={readyState}
                   />
                </div>
                <p className="w-8 text-xs text-right ">{!!length ? fmtMSS(length) : "0:00"}</p>

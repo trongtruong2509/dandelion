@@ -13,7 +13,7 @@ const Playbar = () => {
    const currentSong = useSelector((state) => state.playing.value)?.info;
    const playingPlaylist = useSelector((state) => state.playlist.playing.value);
 
-   const inPlaylist = () => playingPlaylist && !playingPlaylist?.id.startsWith("hidden");
+   const inPlaylist = () => playingPlaylist && !playingPlaylist?.id?.startsWith("hidden");
 
    const onClick = () => {
       if (inPlaylist()) {

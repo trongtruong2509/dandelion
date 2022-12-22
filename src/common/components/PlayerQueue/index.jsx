@@ -138,7 +138,7 @@ const PlayerQueue = () => {
                         <div className="mt-4">
                            <div className="pl-2 mb-1">
                               <h2 className="flex gap-2 semibold text-primary">Play next</h2>
-                              {isInPlaylist() && !playingPlaylist.id.startsWith("hidden") && (
+                              {isInPlaylist() && !playingPlaylist?.id?.startsWith("hidden") && (
                                  <p className="text-sm text-secondary">
                                     From playlist{" "}
                                     <Link

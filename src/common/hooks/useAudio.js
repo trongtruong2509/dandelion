@@ -6,15 +6,18 @@ const useAudio = (songInfo) => {
    const [time, setTime] = useState(0);
    const [volume, setVolume] = useState(1);
    const [slider, setSlider] = useState(0);
+   const [readyState, setReadyState] = useState(0);
    let [end, setEnd] = useState(0);
 
    useEffect(() => {
       const _audio = new Audio(songInfo?.audio);
       _audio.currentTime = 0;
+      setTime(0);
+      setReadyState(() => _audio?.readyState);
 
       const setAudioData = () => {
          setLength(_audio.duration);
-         setTime(_audio.currentTime);
+         setTime(() => _audio.currentTime);
       };
 
       const setAudioTime = () => {
@@ -48,6 +51,10 @@ const useAudio = (songInfo) => {
       };
    }, [songInfo]);
 
+   useEffect(() => {
+      setReadyState(() => audio?.readyState);
+   }, [audio?.readyState]);
+
    return {
       audio,
       time,
@@ -55,6 +62,7 @@ const useAudio = (songInfo) => {
       volume,
       slider,
       end,
+      readyState,
       setVolume,
       setSlider,
    };
