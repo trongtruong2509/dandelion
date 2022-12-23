@@ -15,8 +15,7 @@ import Login from "../Header/Login";
 import PlaylistThumbnail from "../Playlist/PlaylistThumbnail";
 import DeletePlaylistModal from "../Modal/DeletePlaylistModal";
 import { updateCurrentPlaylist } from "../../slices/playlistSlice";
-
-const playingMixIcon = "https://zmp3-static.zmdcdn.me/skins/zmp3-v6.1/images/icons/icon-playing.gif";
+import { playingMixIcon } from "../../../assets/index";
 
 const PlaylistCover = ({ info, size = "md", canDelete = false, admin = false }) => {
    const navigate = useNavigate();

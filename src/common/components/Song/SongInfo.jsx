@@ -1,8 +1,8 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { RankMenu } from "../../../admin/components/Rank/Rank";
 import { updateRank } from "../../../common/utils/songs";
 import ArtistsDisplay from "./ArtistsDisplay";
+import { SongThumbnailDefault } from "../../../assets/index";
 
 const SongInfo = ({ info, size = "10", onClick, badges = false }) => {
    const thumbnailSizes = {
@@ -27,6 +27,10 @@ const SongInfo = ({ info, size = "10", onClick, badges = false }) => {
                src={info?.thumbnail}
                alt={info?.title}
                className={`object-cover rounded-md ${thumbnailSizes[size]}`}
+               onError={({ currentTarget }) => {
+                  currentTarget.onerror = null; // prevents looping
+                  currentTarget.src = SongThumbnailDefault;
+               }}
             />
             <div className="max-w-[220px]">
                <div className="flex items-center gap-4">

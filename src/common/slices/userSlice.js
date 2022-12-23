@@ -77,7 +77,7 @@ export const userSlice = createSlice({
       updateRecentPlaylist: (state, action) => {
          const user = state.user ?? state.noLogged;
 
-         if (!action.payload?.id?.startsWith("hidden")) {
+         if (!action.payload?.startsWith("hidden")) {
             // remove first
             user.recentPlaylist = current(user.recentPlaylist).filter((t) => t !== action.payload);
             user.recentPlaylist.unshift(action.payload); // add to first position of array

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -12,28 +12,30 @@ import DefaultThumbnail from "../../../assets/album_default.png";
 import { adminPaths } from "../../../app/routes";
 import { initHiddenPlaylist } from "../../utils/playlist";
 import { getArtistTopHits } from "../../utils/songs";
+import useTriggerPlaylist from "../../hooks/useTriggerPlaylist";
+import { LoadingSpinner } from "./../../../assets";
 
 const ArtistCover = ({ info, size = "md", admin = false }) => {
    const navigate = useNavigate();
    const dispatch = useDispatch();
 
+   const triggerPlaylist = useTriggerPlaylist();
+   const [fetching, setFetching] = useState(false);
+
    const onNavigate = () => {
       if (admin) {
          navigate(adminPaths.playlistDetail.replace(":id", info.id));
       } else {
-         dispatch(updateCurrentPlaylist(info));
          navigate(info.link);
       }
    };
 
    const onPlay = async () => {
+      setFetching(true);
       const hits = await getArtistTopHits(info);
-      console.log("[onPlay] hits", hits);
-      let songs = [...hits];
+      setFetching(false);
 
-      dispatch(updateCurrentPlaylist(initHiddenPlaylist(songs, "hidden_artist")));
-      dispatch(updateAndPlay(songs[0]));
-      dispatch(initQueue(songs));
+      triggerPlaylist(initHiddenPlaylist(hits, "hidden_artist"));
    };
 
    const widthSize = {
@@ -55,12 +57,18 @@ const ArtistCover = ({ info, size = "md", admin = false }) => {
             />
             <div className="z-50 items-center justify-center hidden w-full h-full absolute-top text-primary group-hover:flex bg-dark-alpha-50">
                <div
-                  className="gap-6 p-2 border border-white rounded-full flex-center"
+                  className="w-12 gap-6 border border-white rounded-full aspect-square flex-center"
                   onClick={(e) => e.stopPropagation()}
                >
-                  <button className="text-3xl text-white cursor-pointer hover:text-dandelion" onClick={onPlay}>
-                     <IoShuffleOutline />
-                  </button>
+                  {fetching ? (
+                     <div className="-m-1">
+                        <LoadingSpinner />
+                     </div>
+                  ) : (
+                     <button className="text-3xl text-white cursor-pointer hover:text-dandelion" onClick={onPlay}>
+                        <IoShuffleOutline />
+                     </button>
+                  )}
                </div>
             </div>
          </div>

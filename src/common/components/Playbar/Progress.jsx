@@ -1,4 +1,4 @@
-export const Progress = ({ value, onChange, onMouseUp, onTouchEnd, readyState }) => {
+export const Progress = ({ value, onChange, onMouseUp, onTouchEnd, readyState = 1 }) => {
    return (
       <div className="grid w-full h-full place-items-center progress-wrapper" onClick={(e) => e.stopPropagation()}>
          <input

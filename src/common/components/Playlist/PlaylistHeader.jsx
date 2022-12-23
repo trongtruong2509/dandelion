@@ -16,8 +16,7 @@ import { shuffleArray } from "../../utils/common";
 import { useRef } from "react";
 import PlaylistModal from "../Modal/PlaylistModal";
 import useTriggerPlaylist from "../../hooks/useTriggerPlaylist";
-
-const playingMixIcon = "https://zmp3-static.zmdcdn.me/skins/zmp3-v6.1/images/icons/icon-playing.gif";
+import { playingMixIcon } from "../../../assets/index";
 
 const PlaylistHeader = ({ info }) => {
    const dispatch = useDispatch();

@@ -10,8 +10,7 @@ import { convertTimeToStr } from "../../utils/common";
 
 import SongInfo from "../Song/SongInfo";
 import SongOptions from "../Song/SongOptions";
-
-const playingMixIcon = "https://zmp3-static.zmdcdn.me/skins/zmp3-v6.1/images/icons/icon-playing.gif";
+import { playingMixIcon } from "../../../assets/index";
 
 const SongItem = ({
    info,
