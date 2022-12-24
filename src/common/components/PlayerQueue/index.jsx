@@ -1,7 +1,10 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import ScaleLoader from "react-spinners/ScaleLoader";
+
+import { IoPlay } from "react-icons/io5";
 
 import {
    clearSuggestion,
@@ -11,14 +14,12 @@ import {
    updateNoShuffle,
    updateShuffle,
 } from "../../slices/playQueueSlice";
-import SongItem from "../Song/SongItem";
-import Switch from "../Kits/Switch";
-import QueueMenu from "../Popers/QueueMenu";
-import { Link } from "react-router-dom";
-import { IoPlay } from "react-icons/io5";
-import { useState } from "react";
-import { getLatestSongs } from "../../utils/songs";
 import { updateAndPlay } from "../../slices/playingSlice";
+
+import Switch from "../Kits/Switch";
+import SongItem from "../Song/SongItem";
+import QueueMenu from "../Popers/QueueMenu";
+import { getLatestSongs } from "../../utils/songs";
 
 const PlayerQueue = () => {
    const dispatch = useDispatch();
@@ -81,15 +82,13 @@ const PlayerQueue = () => {
 
    return (
       <div
-         className={`${queueState.hidden ? "hidden" : "block"} ${
-            queueState.animate ? "right-0" : "-right-[320px]"
-         } 1600:w-96 w-80 1600:block flex-shrink-0 h-full bg-layout border-l border-secondary px-2 overflow-y-scroll overscroll-auto scrollbar
-            absolute top-0 1600:right-0 1600:relative z-[300]
-            transition-all ease-out duration-500
-            `}
+         className={`1600:w-96 w-80 1600:block flex-shrink-0 h-full bg-layout border-l border-secondary px-2 
+                     absolute top-0 1600:right-0 1600:relative z-[300] transition-all ease-out duration-500 
+                     ${queueState.hidden ? "hidden" : "block"} 
+                     ${queueState.animate ? "right-0" : "-right-[320px]"} `}
       >
-         <Tabs className="w-full Tabs" selectedTabClassName="text-item-hover bg-tab-active outline-none">
-            <TabList className="w-fit bg-alpha rounded-3xl p-[3px] flex-center mt-4 mb-5 lg:ml-0 -ml-3 1600:ml-7">
+         <Tabs className="w-full h-full Tabs" selectedTabClassName="text-item-hover bg-tab-active outline-none">
+            <TabList className="w-fit bg-alpha rounded-3xl p-[3px] flex-center mt-4 mb-5 1600:ml-9">
                <Tab className="px-[10px] py-1 text-sm cursor-pointer 3xl:px-3 rounded-3xl text-navigation hover:text-item-hover outline-none">
                   Playing Queue
                </Tab>
@@ -98,7 +97,7 @@ const PlayerQueue = () => {
                </Tab>
             </TabList>
 
-            <TabPanel className="w-full">
+            <TabPanel className="w-full h-full overflow-y-scroll overscroll-auto scrollbar">
                {queueEmpty() ? (
                   <div className="flex-col w-full gap-3 h-[calc(100vh-72px)] flex-center text-primary">
                      <p>Explore new releases of Dandelion</p>
@@ -189,7 +188,7 @@ const PlayerQueue = () => {
                   </>
                )}
             </TabPanel>
-            <TabPanel className="w-full">
+            <TabPanel className="w-full overflow-y-scroll overscroll-auto scrollbar">
                <div className="">
                   {user()?.recentPlayed?.map(
                      (s, index) =>

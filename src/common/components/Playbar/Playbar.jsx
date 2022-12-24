@@ -1,11 +1,11 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
+import { paths } from "../../../app/routes";
 import Player from "./Player";
 import SongOptions from "../Song/SongOptions";
-import { paths } from "../../../app/routes";
-import ArtistsDisplay from "../Song/ArtistsDisplay";
+import SongInfo from "../Song/SongInfo";
 
 const Playbar = () => {
    const navigate = useNavigate();
@@ -13,7 +13,7 @@ const Playbar = () => {
    const currentSong = useSelector((state) => state.playing.value)?.info;
    const playingPlaylist = useSelector((state) => state.playlist.playing.value);
 
-   const inPlaylist = () => playingPlaylist && !playingPlaylist?.id?.startsWith("hidden");
+   const inPlaylist = () => playingPlaylist && !playingPlaylist.id.startsWith("hidden");
 
    const onClick = () => {
       if (inPlaylist()) {
@@ -30,21 +30,7 @@ const Playbar = () => {
       >
          <div className="relative z-0 h-full flex-btw">
             <div className="gap-3 flex-center ">
-               <div className="flex items-center gap-3 text-white ">
-                  <div>
-                     <img
-                        src={currentSong?.thumbnail}
-                        alt={currentSong?.title}
-                        className="object-cover w-16 h-16 rounded-md"
-                     />
-                  </div>
-                  <div className="max-w-[200px] 2xl:max-w-[240px] min-w-[120px] shrink-0">
-                     <h1 className="text-sm truncate semibold text-player">{currentSong?.title}</h1>
-                     <div className="gap-2 mt-1 text-xs truncate text-secondary">
-                        <ArtistsDisplay info={currentSong} />
-                     </div>
-                  </div>
-               </div>
+               <SongInfo info={currentSong} size="16" />
                <SongOptions songInfo={currentSong} activeLike activeDots />
             </div>
             <Player />
