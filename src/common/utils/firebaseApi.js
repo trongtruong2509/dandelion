@@ -1,22 +1,12 @@
 // import { doc, setDoc } from "firebase/firestore";
 import { firestore } from "../../firebase.config";
-import {
-   doc,
-   getDoc,
-   getDocs,
-   query,
-   where,
-   setDoc,
-   collection,
-   deleteDoc,
-   updateDoc,
-} from "firebase/firestore";
+import { doc, getDoc, getDocs, query, where, setDoc, collection, deleteDoc, updateDoc } from "firebase/firestore";
 import { group } from "./common";
 import { firebaseKeys } from "../../dataTemplate";
 
 export const addNewDoc = async (collection, info, id = `${Date.now()}`) => {
    // console.log(id);
-   console.log("[addNewDoc]", info);
+   // console.log("[addNewDoc]", info);
    await setDoc(doc(firestore, collection, id), info, {
       merge: true,
    });
@@ -52,10 +42,7 @@ export const getDocInList = async (document, filter) => {
    try {
       for (const filter of filters) {
          // console.log(filter);
-         const q = query(
-            collection(firestore, document),
-            where("id", "in", filter)
-         );
+         const q = query(collection(firestore, document), where("id", "in", filter));
 
          const querySnapshot = await getDocs(q);
 
@@ -78,10 +65,7 @@ export const getDocInList = async (document, filter) => {
 
 export const getDocumentContains = async (document, property, subtext) => {
    console.log(document + " " + property + " " + subtext);
-   const q = query(
-      collection(firestore, document),
-      where(property, ">=", subtext)
-   );
+   const q = query(collection(firestore, document), where(property, ">=", subtext));
 
    try {
       const querySnapshot = await getDocs(q);

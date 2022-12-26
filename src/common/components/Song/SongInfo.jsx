@@ -24,7 +24,7 @@ const SongInfo = ({ info, size = "10", onClick, badges = false }) => {
          <div className="relative flex items-center gap-3 text-white">
             <div className={`absolute group-hover:bg-dark-alpha-50 rounded-md ${thumbnailSizes[size]}`} />
             <img
-               src={info?.thumbnail}
+               src={info?.thumbnail ?? SongThumbnailDefault}
                alt={info?.title}
                className={`object-cover rounded-md ${thumbnailSizes[size]}`}
                onError={({ currentTarget }) => {

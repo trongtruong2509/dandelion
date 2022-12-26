@@ -2,12 +2,12 @@ import { addNewDoc, getDocById } from "../../../common/utils/firebaseApi";
 import { firebaseKeys } from "../../../dataTemplate";
 import * as zing from "../../../services/zingApi";
 
-const songInfo = async (id, rank) => {
+const songInfo = async (id, rank, country) => {
    try {
       const raw = await zing.getSongInfo(id);
       console.log("[songInfo]", raw);
 
-      if (raw.streamingStatus == 2) {
+      if (raw.streamingStatus === 2) {
          return null;
       }
 
@@ -45,7 +45,6 @@ const songInfo = async (id, rank) => {
          duration: raw.duration,
          isPrivate: raw.isPrivate,
          releaseDate: raw.releaseDate,
-         uploadDate: Date.now().toString(),
          uploadDate: Date.now(),
          genreIds: raw.genreIds,
          radioId: raw.radioId ?? "",
@@ -53,6 +52,8 @@ const songInfo = async (id, rank) => {
          genres: raw.genres,
          album: raw.album ?? null,
          radio: raw.radio ?? null,
+         vendors: "zm3",
+         country,
          like: 0,
          listen: 0,
          liked: false,
@@ -66,8 +67,8 @@ const songInfo = async (id, rank) => {
    }
 };
 
-export const uploadZingById = async (id, rank) => {
-   const info = await songInfo(id, rank);
+export const uploadZingById = async (id, rank, country) => {
+   const info = await songInfo(id, rank, country);
 
    try {
       if (info) {
@@ -123,12 +124,7 @@ export const zing_getTracks = async (category, id) => {
 
          tracks = await getTracksFromArtist(id);
          return tracks;
-
-         break;
-
       default:
          return tracks;
-
-         break;
    }
 };

@@ -14,6 +14,7 @@ import ThemeModal from "../Modal/ThemeModal";
 import ConfirmModal from "../Modal/ConfirmModal";
 import Login from "./Login";
 import { paths } from "../../../app/routes";
+import { getTheme } from "../../utils/localStorage";
 
 const Header = ({ active }) => {
    const dispatch = useDispatch();
@@ -26,6 +27,11 @@ const Header = ({ active }) => {
    const [confirmShow, setConfirmShow] = useState(false);
 
    useEffect(() => {
+      const localTheme = getTheme();
+      if (!localTheme) {
+         setShow(true);
+      }
+
       if (user) {
          getUserDb(user.id)
             .then((userInfo) => {

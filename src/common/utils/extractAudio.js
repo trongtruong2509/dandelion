@@ -42,7 +42,6 @@ const extractAudio = async (src) => {
 
    try {
       const metadata = await parseFile(src);
-      // const metadata = await parseLink(src);
       data["album"] = metadata.common.album;
       data["artists"] = metadata.common.artists;
       data["title"] = metadata.common.title;
