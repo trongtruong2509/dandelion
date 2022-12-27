@@ -58,10 +58,21 @@ const Mymusic = () => {
                </Link>
             </div>
             <div className="flex w-full gap-8 py-2 my-6">
-               {userPlaylist?.length > 0 ? (
+               {currentUser.pending ? (
+                  <PlaylistCoverCarouselSkeleton />
+               ) : userPlaylist?.length > 0 ? (
                   <CoverCarousel canDelete playlist={userPlaylist} />
                ) : (
-                  <PlaylistCoverCarouselSkeleton />
+                  <div className="flex-col w-full h-40 gap-6 flex-center text-secondary">
+                     <h1 className="text-xl semibold">Playlist you like or create will appear here</h1>
+                     <button
+                        to="/"
+                        className="px-4 py-2 text-white bg-teal-500 rounded-full"
+                        onClick={() => setShow(!show)}
+                     >
+                        Create Your Playlist
+                     </button>
+                  </div>
                )}
             </div>
          </div>

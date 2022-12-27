@@ -56,23 +56,23 @@ const Sidebar = () => {
          {currentUser && (
             <div className="pt-6 flex-c">
                <p className="hidden pl-6 mb-2 text-sm semibold text-secondary sxl:block">LIBRARY</p>
-               <SidebarItem path={paths.mymusic} title="Songs" image={SongsImg} />
-               <SidebarItem path={paths.playlistLib} title="Playlist" image={PlaylistImg} />
-               <SidebarItem path={paths.playHistory} title="Recent Play" image={RecentPlayImg} />
+               <SidebarItem path={paths.mymusic} title="Songs" image={SongsImg} active={false} />
+               <SidebarItem path={paths.playlistLib} title="Playlist" image={PlaylistImg} active={false} />
+               <SidebarItem path={paths.playHistory} title="Recent Play" image={RecentPlayImg} active={false} />
             </div>
          )}
       </div>
    );
 };
 
-const SidebarItem = ({ path, title, Icon, image }) => {
+const SidebarItem = ({ path, title, Icon, image, active = true }) => {
    const navActive =
       "bg-dark-alpha-10 border-l-4 border-dandelion sxl:px-6 py-2 flex-center gap-3 sxl:justify-start opacity-100 text-dandelion semibold text-2xl";
    const navInactive =
       "hover:bg-alpha hover:text-dandelion sxl:px-6 py-2 flex-center gap-3 sxl:justify-start opacity-80 text-primary border-transparent border-l-4 text-2xl";
 
    return (
-      <NavLink to={path} className={({ isActive }) => (isActive ? navActive : navInactive)}>
+      <NavLink to={path} className={({ isActive }) => (isActive && active ? navActive : navInactive)}>
          {image ? <img src={image} alt="" className="object-cover w-6 h-6 rounded-full" /> : <Icon />}
          <p className="hidden text-base sxl:block">{title}</p>
       </NavLink>
