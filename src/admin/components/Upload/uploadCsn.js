@@ -57,7 +57,7 @@ const fetchSongInfoByLink = async (link, rank, country) => {
          title: raw.title,
          rank,
          alias: link,
-         audio: link,
+         audio: raw.audio,
          isOffical: true,
          username: "dandelion",
          artistsNames: raw.artists,

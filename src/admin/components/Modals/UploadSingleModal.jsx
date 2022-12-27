@@ -13,8 +13,48 @@ const UploadSingleModal = ({ ...props }) => {
    const [vendor, setVendor] = useState("csn");
    const [country, setCountry] = useState("IWZ9Z08I");
 
+   const list = [
+      "2pR7ueJaXn9x",
+      "VHb3WNnM02fQ",
+      "RRTxybROZblO",
+      "9CeePhklTJve",
+      "RJOR3FaWJISL",
+      "2UePVSCb5Q",
+      "Px4ubnmilH",
+      "kM48jbNK7chp",
+      "mrhZxsQBimot",
+      "bU4WN6aOwS",
+      "DF6aXrJ133KV",
+      "rftZlYbjWC5d",
+      "svYSFyC4gcZa",
+      "FYQHAmWEH6tE",
+      "1e2POtG4BX1j",
+      "PVn2t8uT7eHV",
+   ];
+
+   const uploadList = () => {
+      for (const track of list) {
+         toast.promise(uploadNctById(track, rank, "IWZ9Z08O"), {
+            pending: `[NCT][${rank}] Uploading song ${track}...`,
+            success: `[NCT][${rank}] Song ${track} uploaded`,
+            error: {
+               render({ data }) {
+                  // When the promise reject, data will contains the error
+                  return (
+                     <div>
+                        <h2 className="text-sm">{`[NCT] Song ${track} uploaded fail with error: `}</h2>
+                        <p className="mt-2 text-xs">{data.message}</p>
+                     </div>
+                  );
+               },
+            },
+         });
+      }
+   };
+
    const onUpload = async () => {
       props.onClose();
+      // uploadList();
 
       if (vendor === "zm3") {
          await toast.promise(uploadZingById(songId, rank, country), {
@@ -33,7 +73,7 @@ const UploadSingleModal = ({ ...props }) => {
             },
          });
       } else if (vendor === "nct") {
-         await toast.promise(uploadNctById(songId, rank), {
+         await toast.promise(uploadNctById(songId, rank, country), {
             pending: `[NCT][${rank}] Uploading song ${songId}...`,
             success: `[NCT][${rank}] Song ${songId} uploaded`,
             error: {

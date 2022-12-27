@@ -18,11 +18,11 @@ const AdminHome = () => {
    const adminTrack = useSelector((state) => state.adminTrack);
    // const allTracks = useSelector((state) => state.adminTrack.allTracks);
 
-   // useEffect(() => {
-   //    for (const track of adminTrack?.tracks) {
-   //       console.log(`${track.title} - ${track.artistsNames}`);
-   //    }
-   // }, [adminTrack?.tracks]);
+   useEffect(() => {
+      for (const track of adminTrack?.tracks) {
+         console.log(`${track.title} - ${track.artistsNames}`);
+      }
+   }, [adminTrack?.tracks]);
 
    const deleteSongById = async (songInfo) => {
       const result = await toast.promise(deleteDocById(firebaseKeys.songs, songInfo?.id), {

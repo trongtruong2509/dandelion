@@ -44,20 +44,22 @@ function App() {
    }, []);
 
    return (
-      <Router>
-         <Routes>
-            <Route exact path="/" element={<Layout />}>
-               {routes.map(({ component: Component, path }) => {
-                  return <Route exact key={path} path={path} element={<Component />} />;
-               })}
-            </Route>
-            <Route exact path={adminPaths.home} element={<AdminLayout />}>
-               {adminRoutes.map(({ component: Component, path }) => {
-                  return <Route exact key={path} path={path} element={<Component />} />;
-               })}
-            </Route>
-         </Routes>
-      </Router>
+      <React.StrictMode>
+         <Router>
+            <Routes>
+               <Route exact path="/" element={<Layout />}>
+                  {routes.map(({ component: Component, path }) => {
+                     return <Route exact key={path} path={path} element={<Component />} />;
+                  })}
+               </Route>
+               <Route exact path={adminPaths.home} element={<AdminLayout />}>
+                  {adminRoutes.map(({ component: Component, path }) => {
+                     return <Route exact key={path} path={path} element={<Component />} />;
+                  })}
+               </Route>
+            </Routes>
+         </Router>
+      </React.StrictMode>
    );
 }
 

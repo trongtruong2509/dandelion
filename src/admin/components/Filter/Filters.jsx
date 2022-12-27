@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllDocs } from "../../../common/utils/firebaseApi";
 import { updateDeleting, updateTracks } from "../../slices/adminTrackSlice";
-import { getTracksByCountry, getTracksByRank } from "./filterApi";
+import { getTracksByCountry, getTracksByRank, getTracksByVendor } from "./filterApi";
 
 const Content = {
    country: {
@@ -19,6 +19,23 @@ const Content = {
          {
             id: "IWZ9Z08W",
             title: "Kpop",
+         },
+      ],
+   },
+   vendor: {
+      category: "Vendor",
+      items: [
+         {
+            id: "zm3",
+            title: "ZingMp3",
+         },
+         {
+            id: "nct",
+            title: "NCT",
+         },
+         {
+            id: "csn",
+            title: "CSN",
          },
       ],
    },
@@ -85,6 +102,9 @@ const Filters = () => {
          case Content.rank.category:
             setCategoryItems(Content.rank.items);
             break;
+         case Content.vendor.category:
+            setCategoryItems(Content.vendor.items);
+            break;
          case Content.country.category:
          default:
             setCategoryItems(Content.country.items);
@@ -115,6 +135,9 @@ const Filters = () => {
          default:
             await fetchTracksByCountry(selectedItem);
             break;
+         case Content.vendor.category:
+            fetchTracksByVendor(selectedItem);
+            break;
          case Content.genre.category:
             fetchTracksByGenre(selectedItem);
             break;
@@ -131,6 +154,11 @@ const Filters = () => {
 
    const fetchTracksByRank = async (id) => {
       const tracks = await getTracksByRank(id);
+      dispatch(updateTracks(tracks));
+   };
+
+   const fetchTracksByVendor = async (id) => {
+      const tracks = await getTracksByVendor(id);
       dispatch(updateTracks(tracks));
    };
 
@@ -176,18 +204,11 @@ const Filters = () => {
                <option defaultValue value={Content.country.category}>
                   {Content.country.category}
                </option>
-               <option value={Content.genre.category}>
-                  {Content.genre.category}
-               </option>
-               <option value={Content.artist.category}>
-                  {Content.artist.category}
-               </option>
-               <option value={Content.rank.category}>
-                  {Content.rank.category}
-               </option>
-               <option value={Content.featured.category}>
-                  {Content.featured.category}
-               </option>
+               <option value={Content.vendor.category}>{Content.vendor.category}</option>
+               <option value={Content.genre.category}>{Content.genre.category}</option>
+               <option value={Content.artist.category}>{Content.artist.category}</option>
+               <option value={Content.rank.category}>{Content.rank.category}</option>
+               <option value={Content.featured.category}>{Content.featured.category}</option>
             </select>
             <select
                className="w-40 px-4 py-[6px] border rounded-lg outline-none bg-dark-4 text-primary"
