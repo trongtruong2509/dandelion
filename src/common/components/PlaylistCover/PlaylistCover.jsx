@@ -134,7 +134,10 @@ const PlaylistCover = ({ info, size = "md", canDelete = false, admin = false }) 
                      onClick={onPlay}
                   >
                      {currentPlaying() ? (
-                        <IoMdPause className="text-4xl opacity-0 group-hover:opacity-100" />
+                        <IoMdPause
+                           className={`text-4xl opacity-0 group-hover:opacity-100 
+                           ${size === "sm" ? "text-3xl" : "text-4xl"}`}
+                        />
                      ) : (
                         <IoPlay className={size === "sm" ? "text-4xl" : "text-5xl"} />
                      )}
