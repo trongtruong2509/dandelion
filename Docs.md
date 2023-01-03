@@ -25,3 +25,10 @@ https://github.com/napthedev/nhaccuatui-api-full
 https://github.com/CookieGMVN/csn.js
 
 https://free-mp3-download.net/
+
+zingmp3 clone ===== https://github.com/Mrtrieu69/zingmp3
+
+-  lyric realtime
+-  header scroll
+-  song item drag n drop
+-  scroll to playing track in playlist

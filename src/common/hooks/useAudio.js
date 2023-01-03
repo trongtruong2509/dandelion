@@ -7,6 +7,7 @@ const useAudio = (songInfo) => {
    const [volume, setVolume] = useState(1);
    const [slider, setSlider] = useState(0);
    const [readyState, setReadyState] = useState(0);
+   const [networkState, setNetworkState] = useState(0);
    let [end, setEnd] = useState(0);
 
    useEffect(() => {
@@ -14,6 +15,7 @@ const useAudio = (songInfo) => {
       _audio.currentTime = 0;
       setTime(0);
       setReadyState(() => _audio?.readyState);
+      setNetworkState(() => _audio?.networkState);
 
       const setAudioData = () => {
          setLength(_audio.duration);
@@ -55,6 +57,10 @@ const useAudio = (songInfo) => {
       setReadyState(() => audio?.readyState);
    }, [audio?.readyState]);
 
+   useEffect(() => {
+      setNetworkState(() => audio?.networkState);
+   }, [audio?.networkState]);
+
    return {
       audio,
       time,
@@ -63,6 +69,7 @@ const useAudio = (songInfo) => {
       slider,
       end,
       readyState,
+      networkState,
       setVolume,
       setSlider,
    };
