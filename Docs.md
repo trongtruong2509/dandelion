@@ -33,3 +33,17 @@ zingmp3 clone ===== https://github.com/Mrtrieu69/zingmp3
 -  song item drag n drop
 -  scroll to playing track in playlist
 -  toast theme
+
+==============================
+Generation Define - VN
+Bolero
+
+1. Pre-1975
+2. Post-1975
+
+Vpop/US-UK
+
+1. Gen1 (pre-2007~) === Pre-1975 + Gen-2 Artist
+2. Gen2 (2008-2013) === Post-1975 + Gen-2 Artist
+3. Gen3 (2013-2018) === Pre-1975 + Gen-4 Artist
+4. Gen4 (2019~) === Post-1975 + Gen-4 Artist

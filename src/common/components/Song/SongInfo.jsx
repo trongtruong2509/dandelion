@@ -1,8 +1,10 @@
 import React from "react";
 import { RankMenu } from "../../../admin/components/Rank/Rank";
-import { updateRank } from "../../../common/utils/songs";
+import { updateRank, updateTag } from "../../../common/utils/songs";
 import ArtistsDisplay from "./ArtistsDisplay";
 import { SongThumbnailDefault } from "../../../assets/index";
+import { GenMenu } from "../../../admin/components/Generation/Generation";
+import { StateMenu } from "../../../admin/components/State/State";
 
 const SongInfo = ({ info, size = "10", onClick, badges = false }) => {
    const thumbnailSizes = {
@@ -19,19 +21,25 @@ const SongInfo = ({ info, size = "10", onClick, badges = false }) => {
       updateRank(info, rank);
    };
 
+   const currentGen = info?.tags?.find((t) => t.startsWith("Gen")) || "Gen-0";
+   const currentState = info?.tags?.find((t) => t.startsWith("State")) || "Unknown";
+
    return (
       <div>
          <div className="relative flex items-center gap-3 text-white">
-            <div className={`absolute group-hover:bg-dark-alpha-50 rounded-md ${thumbnailSizes[size]}`} />
-            <img
-               src={info?.thumbnail ?? SongThumbnailDefault}
-               alt={info?.title}
-               className={`object-cover rounded-md ${thumbnailSizes[size]}`}
-               onError={({ currentTarget }) => {
-                  currentTarget.onerror = null; // prevents looping
-                  currentTarget.src = SongThumbnailDefault;
-               }}
-            />
+            <div className="relative">
+               <div className={`absolute-center group-hover:bg-dark-alpha-50 rounded-md ${thumbnailSizes[size]}`} />
+               <img
+                  src={info?.thumbnail ?? SongThumbnailDefault}
+                  alt={info?.title}
+                  className={`object-cover rounded-md ${thumbnailSizes[size]}`}
+                  onError={({ currentTarget }) => {
+                     currentTarget.onerror = null; // prevents looping
+                     currentTarget.src = SongThumbnailDefault;
+                  }}
+               />
+            </div>
+
             <div className="max-w-[220px]">
                <div className="flex items-center gap-4">
                   <h1 className="w-full mr-2 text-sm truncate cursor-pointer text-primary" onClick={onClick}>
@@ -47,6 +55,14 @@ const SongInfo = ({ info, size = "10", onClick, badges = false }) => {
 
                   <ArtistsDisplay info={info} />
                </div>
+               {badges && (
+                  <div className="flex items-center gap-2 mt-1 text-xs truncate text-secondary">
+                     <div className="flex gap-2">
+                        <GenMenu genInput={currentGen} onGenChange={(gen) => updateTag(info, gen)} />
+                        <StateMenu stateInput={currentState} onStateChange={(state) => updateTag(info, state)} />
+                     </div>
+                  </div>
+               )}
             </div>
          </div>
       </div>
