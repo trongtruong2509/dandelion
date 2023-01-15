@@ -83,7 +83,7 @@ const PlayerQueue = () => {
    return (
       <div
          className={`1600:w-96 w-80 1600:block flex-shrink-0 h-full bg-layout border-l border-secondary px-2 
-                     absolute top-0 1600:right-0 1600:relative z-[300] transition-all ease-out duration-500 
+                     absolute bottom-0 1600:right-0 1600:relative z-[300] transition-all ease-out duration-500 
                      ${queueState.hidden ? "hidden" : "block"} 
                      ${queueState.animate ? "right-0" : "-right-[320px]"} `}
       >

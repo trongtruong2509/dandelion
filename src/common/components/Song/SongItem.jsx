@@ -12,24 +12,27 @@ import SongInfo from "../Song/SongInfo";
 import SongOptions from "../Song/SongOptions";
 import { playingMixIcon } from "../../../assets/index";
 
-const SongItem = ({
-   info,
-   size = "10",
-   options = true,
-   like = true,
-   fullMode = false,
-   inPlaylist = false,
-   addPlaylist = false,
-   onAdd,
-   addPlayQueue = false,
-   fade = false,
-   canDetele = false,
-   onDelete,
-   badges = false,
-   activeLike = false,
-   disableLike = false,
-   activeDots = false,
-}) => {
+const SongItem = (
+   {
+      info,
+      size = "10",
+      options = true,
+      like = true,
+      fullMode = false,
+      inPlaylist = false,
+      addPlaylist = false,
+      onAdd,
+      addPlayQueue = false,
+      fade = false,
+      canDetele = false,
+      onDelete,
+      badges = false,
+      activeLike = false,
+      disableLike = false,
+      activeDots = false,
+   },
+   ref
+) => {
    const dispatch = useDispatch();
    const triggerTrack = useTriggerTrack();
 
@@ -72,6 +75,7 @@ const SongItem = ({
                          ${current ? "bg-alpha" : "hover:bg-alpha"} 
                          ${fullMode ? "border-b" : ""}
                          ${fade && !current ? "opacity-50 hover:opacity-100" : ""}`}
+         ref={ref}
       >
          <div className={`${fullMode ? "col-span-6" : "col-span-10"}`}>
             <SongInfo info={info} onClick={playSong} size={size} badges={badges} />
@@ -127,4 +131,4 @@ const SongItem = ({
    );
 };
 
-export default SongItem;
+export default React.forwardRef(SongItem);

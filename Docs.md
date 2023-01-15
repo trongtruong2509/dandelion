@@ -32,3 +32,4 @@ zingmp3 clone ===== https://github.com/Mrtrieu69/zingmp3
 -  header scroll
 -  song item drag n drop
 -  scroll to playing track in playlist
+-  toast theme

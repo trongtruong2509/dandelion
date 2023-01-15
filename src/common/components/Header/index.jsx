@@ -20,6 +20,7 @@ const Header = ({ active }) => {
    const dispatch = useDispatch();
    const navigate = useNavigate();
 
+   const history = window.history;
    const location = useLocation();
    const user = useSelector((state) => state.user.user);
 
@@ -56,9 +57,17 @@ const Header = ({ active }) => {
       setConfirmShow(false);
       dispatch(removeUser());
 
-      if (location.pathname == paths.mymusic) {
+      if (location.pathname === paths.mymusic) {
          navigate(paths.home);
       }
+   };
+
+   const handleBack = () => {
+      history.back();
+   };
+
+   const handleNext = () => {
+      history.forward();
    };
 
    return (
@@ -76,10 +85,10 @@ const Header = ({ active }) => {
          <div className="gap-8 flex-center">
             <div className="gap-4 flex-center">
                <button>
-                  <MdWest className="text-2xl text-primary" />
+                  <MdWest className="text-2xl text-primary" onClick={handleBack} />
                </button>
                <button>
-                  <MdEast className="text-2xl opacity-50 text-primary" />
+                  <MdEast className="text-2xl text-primary" onClick={handleNext} />
                </button>
             </div>
             <Search />
