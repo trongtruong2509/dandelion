@@ -4,7 +4,7 @@ import { addNewDoc, getDocById } from "../../../common/utils/firebaseApi";
 import { firebaseKeys } from "../../../dataTemplate";
 import * as nct from "../../../services/nctService";
 
-const fetchSongInfo = async (id, rank) => {
+const fetchSongInfo = async (id, rank, country) => {
    try {
       const raw = await nct.fetchSong(id);
       console.log("[fetchSongInfo] nct", raw);
@@ -52,6 +52,9 @@ const fetchSongInfo = async (id, rank) => {
          like: 0,
          listen: 0,
          liked: false,
+         vendor: "nct",
+         country,
+         tags: [],
       };
 
       return info;
@@ -88,9 +91,9 @@ const calcArtists = async (rawArtists) => {
    return artists.length ? artists : null;
 };
 
-export const uploadNctById = async (id, rank) => {
+export const uploadNctById = async (id, rank, country) => {
    try {
-      const info = await fetchSongInfo(id, rank);
+      const info = await fetchSongInfo(id, rank, country);
       console.log("[uploadNctById]", info);
       if (info) {
          const result = await addNewDoc(firebaseKeys.songs, info, info.id);

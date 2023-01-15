@@ -29,6 +29,52 @@ export const updateRank = async (songInfo, newRank) => {
    });
 };
 
+export const updateTag = async (songInfo, newTag) => {
+   console.log("[songInfo]", songInfo);
+   console.log("[newTag]", newTag);
+
+   const tagType = newTag.split("_")[0];
+   let newTags = [];
+
+   if (songInfo?.tags?.length > 0) {
+      newTags = [...songInfo.tags];
+
+      songInfo?.tags?.forEach((tag, index) => {
+         const type = tag.split("_")[0];
+
+         if (type === tagType) {
+            newTags.splice(index, 1, newTag);
+         } else {
+            newTags = [...newTags, newTag];
+         }
+      });
+   } else {
+      newTags.push(newTag);
+   }
+
+   console.log("[newTags]", newTags);
+
+   const data = {
+      tags: newTags,
+   };
+
+   await toast.promise(updateDocField(firebaseKeys.songs, songInfo.id, data), {
+      pending: `Adding newTag ${newTag} to ${songInfo.title}...`,
+      success: `${songInfo.title} tags is updated with newTag ${newTag}`,
+      error: {
+         render({ data }) {
+            // When the promise reject, data will contains the error
+            return (
+               <div>
+                  <h2 className="text-sm">{`${songInfo.title} tags updated fail with error: `}</h2>
+                  <p className="mt-2 text-xs">{data.message}</p>
+               </div>
+            );
+         },
+      },
+   });
+};
+
 export const getLatestSongs = async (genreId) => {
    let q = query(collection(firestore, firebaseKeys.songs), orderBy("uploadDate", "desc"), limit(20));
 

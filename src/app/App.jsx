@@ -44,6 +44,7 @@ function App() {
    }, []);
 
    return (
+      // <React.StrictMode>
       <Router>
          <Routes>
             <Route exact path="/" element={<Layout />}>
@@ -58,39 +59,31 @@ function App() {
             </Route>
          </Routes>
       </Router>
+      // {/* </React.StrictMode> */}
    );
 }
 
 function Layout() {
-   const Threshold = 40;
-
    const currentSong = useSelector((state) => state.playing.value)?.info;
    const ref = useRef();
 
-   const [y, setY] = useState(0);
+   // const [y, setY] = useState(0);
    const [active, setActive] = useState(false);
-
-   const handleScroll = useCallback(
-      (e) => {
-         if (y < Threshold) {
-            setActive(false);
-         } else {
-            setActive(true);
-         }
-
-         setY(ref.current.scrollTop);
-      },
-      [y]
-   );
 
    useEffect(() => {
       const div = ref.current;
-      setY(ref.current.scrollTop);
+      const handleScroll = (e) => {
+         setActive(!!e.target.scrollTop);
+      };
 
       if (div) {
          div.addEventListener("scroll", handleScroll);
       }
-   }, [handleScroll]);
+
+      return () => {
+         div.removeEventListener("scroll", handleScroll);
+      };
+   }, []);
 
    return (
       <>
@@ -106,7 +99,7 @@ function Layout() {
                      <Header active={active} />
                   </div>
 
-                  <div className="px-12">
+                  <div className="px-12" onScroll={(e) => e.stopPropagation()}>
                      <Outlet />
                   </div>
                </div>

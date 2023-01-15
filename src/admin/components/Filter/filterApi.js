@@ -5,10 +5,27 @@ import { firebaseKeys } from "../../../dataTemplate";
 import { firestore } from "../../../firebase.config";
 
 export const getTracksByCountry = async (country) => {
-   const q = query(
-      collection(firestore, firebaseKeys.songs),
-      where("genreIds", "array-contains", country)
-   );
+   const q = query(collection(firestore, firebaseKeys.songs), where("genreIds", "array-contains", country));
+
+   try {
+      const querySnapshot = await getDocs(q);
+
+      let reuturnDoc = [];
+      querySnapshot.forEach((doc) => {
+         // doc.data() is never undefined for query doc snapshots
+         // console.log(doc.id, " => ", doc.data());
+         reuturnDoc.push(doc.data());
+      });
+
+      return reuturnDoc;
+   } catch (error) {
+      console.log(error);
+      return null;
+   }
+};
+
+export const getTracksByVendor = async (vendor) => {
+   const q = query(collection(firestore, firebaseKeys.songs), where("vendor", "==", vendor));
 
    try {
       const querySnapshot = await getDocs(q);
@@ -28,10 +45,7 @@ export const getTracksByCountry = async (country) => {
 };
 
 export const getTracksByRank = async (rank) => {
-   const q = query(
-      collection(firestore, firebaseKeys.songs),
-      where("rank", "==", rank)
-   );
+   const q = query(collection(firestore, firebaseKeys.songs), where("rank", "==", rank));
 
    try {
       const querySnapshot = await getDocs(q);
@@ -51,10 +65,7 @@ export const getTracksByRank = async (rank) => {
 };
 
 export const getTracksByGenre = async (id) => {
-   const q = query(
-      collection(firestore, firebaseKeys.songs),
-      where("rank", "==", id)
-   );
+   const q = query(collection(firestore, firebaseKeys.songs), where("rank", "==", id));
 
    try {
       const querySnapshot = await getDocs(q);

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
@@ -22,11 +22,14 @@ const Playlist = () => {
    const params = useParams();
 
    const currentPlaylist = useSelector((state) => state.playlist.current.value);
+   const songs = currentPlaylist?.songs;
+   const currentSong = useSelector((state) => state.playing.value?.info);
    const loading = useSelector((state) => state.playlist.current.loading);
    const user = useSelector((state) => state.user.user);
    const nonUser = useSelector((state) => state.user.noLogged);
 
    const [suggestSongs, setSuggestSongs] = useState([]);
+   const songRefs = useRef([]);
 
    useEffect(() => {
       if (user && currentPlaylist?.createdBy === user?.id) {
@@ -65,6 +68,16 @@ const Playlist = () => {
       return convertTimeToStr(total, true);
    };
 
+   useEffect(() => {
+      if (songRefs.current.length > 0 && params.id === currentPlaylist.id) {
+         const currentIndex = songs.findIndex((s) => s.id === currentSong.id);
+
+         if (currentIndex !== -1) {
+            songRefs.current[currentIndex]?.scrollIntoView({ block: "end", behavior: "smooth" });
+         }
+      }
+   }, [currentSong?.id, songRefs, params?.id, currentPlaylist?.id, songs]);
+
    const handleAddToPlaylist = (track) => {
       setSuggestSongs([...suggestSongs].filter((t) => t.id !== track.id));
       dispatch(addTrackToPlaylist({ playlist: currentPlaylist, track }));
@@ -91,6 +104,7 @@ const Playlist = () => {
                               {currentPlaylist?.songs?.map((song, index) => (
                                  <SongItem
                                     key={index}
+                                    ref={(el) => (songRefs.current = [...songRefs.current, el])}
                                     info={song}
                                     fullMode
                                     isPlaylist

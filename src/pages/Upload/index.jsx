@@ -31,10 +31,7 @@ const Upload = () => {
    const [genres, setGenres] = useState([]);
 
    const handleLoadFile = async (src) => {
-      const src_local =
-         "https://data.chiasenhac.com/down2/2276/5/2275174-a66c2427/128/Nguoi%20Dang%20Thuong%20La%20Anh%20-%20OnlyC.mp3";
-      const data = await extractAudio(src_local);
-      console.log("[handleLoadFile]", data);
+      const data = await extractAudio(src);
 
       if (true) {
          if (_.isEmpty(data)) {

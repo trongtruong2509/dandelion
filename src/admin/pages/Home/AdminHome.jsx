@@ -18,9 +18,11 @@ const AdminHome = () => {
    const adminTrack = useSelector((state) => state.adminTrack);
    // const allTracks = useSelector((state) => state.adminTrack.allTracks);
 
-   // useEffect(() => {
-   //    uploadAllExistGenres();
-   // }, []);
+   useEffect(() => {
+      for (const track of adminTrack?.tracks) {
+         console.log(`${track.title} - ${track.artistsNames}`);
+      }
+   }, [adminTrack?.tracks]);
 
    const deleteSongById = async (songInfo) => {
       const result = await toast.promise(deleteDocById(firebaseKeys.songs, songInfo?.id), {
@@ -41,17 +43,6 @@ const AdminHome = () => {
 
       // fetch data after deleting a song
       dispatch(updateDeleting(true));
-   };
-
-   const fetchAllSongs = async () => {
-      getAllDocs("songs")
-         .then((result) => {
-            // dispatch(initTracks(result));
-            dispatch(updateTracks(result));
-         })
-         .catch((err) => {
-            toast.error(err);
-         });
    };
 
    return (

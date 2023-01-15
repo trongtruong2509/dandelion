@@ -75,8 +75,13 @@ const Player = () => {
    useEffect(() => {
       if (audio) {
          if (playbarSlice.repeat === 2) {
-            dispatch(play());
+            dispatch(pause());
+
+            setTimeout(() => {
+               dispatch(play());
+            }, 200);
          } else {
+            dispatch(pause());
             changeTrack();
          }
       }
@@ -158,7 +163,7 @@ const Player = () => {
                   <IoPlaySkipBack />
                </button>
 
-               {readyState === 4 ? (
+               {readyState >= 2 ? (
                   <button className="text-[40px]" onClick={() => dispatch(playing ? pause() : play())}>
                      {playing ? <IoPause /> : <IoPlay />}
                   </button>
