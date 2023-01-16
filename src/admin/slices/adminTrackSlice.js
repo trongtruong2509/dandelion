@@ -2,7 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
    tracks: [],
-   // allTracks: [],
+   currentGen: "All",
+   currentState: "All",
    fetching: false,
    deleting: false,
 };
@@ -17,8 +18,17 @@ export const adminTrackSlice = createSlice({
       updateTracks: (state, action) => {
          state.tracks = action.payload;
       },
+      updateFetching: (state, action) => {
+         state.fetching = action.payload;
+      },
       updateDeleting: (state, action) => {
          state.deleting = action.payload;
+      },
+      updateGen: (state, action) => {
+         state.currentGen = action.payload;
+      },
+      updateState: (state, action) => {
+         state.currentState = action.payload;
       },
    },
    extraReducers: (builder) => {
@@ -48,7 +58,10 @@ export const adminTrackSlice = createSlice({
 // Action creators are generated for each case reducer function
 export const {
    updateTracks,
+   updateFetching,
    updateDeleting,
+   updateGen,
+   updateState,
    // initTracks,
    //    deleteTrack,
    // updateQueue,
