@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
+import * as local from "../utils/localStorage";
 
 const useAudio = (songInfo) => {
+   initVol = local.getPlaybar()?.volume ?? 1;
+
    const [audio, setAudio] = useState(null);
    const [length, setLength] = useState(0);
    const [time, setTime] = useState(0);
-   const [volume, setVolume] = useState(1);
+   const [volume, setVolume] = useState(initVol);
    const [slider, setSlider] = useState(0);
    const [readyState, setReadyState] = useState(0);
    const [networkState, setNetworkState] = useState(0);
